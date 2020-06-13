@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Vet_Clinic.Web.Data.Entities.Doctor>
+
+    <section class="content-header">
+        <h1>
+            Doctors
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Doctors</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Manage Doctors</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>LastName</th>
+                                    <th>Specialty</th>
+                                    <th>MedicalLicense</th>
+                                    <th>TIN</th>
+                                    <th>PhoneNumber</th>
+                                    <th>Email</th>
+                                    <th>Schedule</th>
+                                    <th>ObsRoom</th>
+                                    <th>Address</th>
+                                    <th>DateOfBirth</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.DoctorID)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Specialty)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.MedicalLicense)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.TIN)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Schedule)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ObsRoom)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Address)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.DateOfBirth)</td>
+                                    <td><a href="Doctors/Update/@item.DoctorID">Update</a> | <a href="" onclick="Delete('@item.DoctorID')">Delete</a></td>
+                                </tr>
+                                }
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+
+    <!-- DataTables -->
+    <script src="~/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- page script -->
+    <script>
+    $(function () {
+        $('#example1').DataTable();
+    });
+    function Delete(DoctorID){
+        var txt;
+        var r = confirm("Are you sure you want to Delete?");
+        if (r == true) {
+
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("Delete", "Doctors")',
+                data: {
+                    DoctorID: DoctorID
+                },
+                error: function (result) {
+                    alert("error");
+                },
+                success: function (result) {
+                    if (result == true) {
+                        var baseUrl="/Doctors";
+                        window.location.reload();
+                    }
+                    else {
+                        alert("There is a problem, Try Later!");
+                    }
+                }
+            });
+        }
+    }
+    </script>

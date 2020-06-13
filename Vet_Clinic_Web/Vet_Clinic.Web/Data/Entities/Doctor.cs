@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Vet_Clinic.Web.Data.Entities
+{
+    public class Doctor
+    {
+        [Key]
+        public int DoctorID { get; set; }
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+       
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+
+        [Display(Name = "Specialty")]
+        public string Specialty { get; set; }
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+    
+        [DataType(DataType.Currency)]
+        [Display(Name = "Medical License nrº")]
+        public string MedicalLicense { get; set; }
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+
+        [DataType(DataType.Currency)]
+        public string TIN { get; set; }
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+  
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone nrº")]
+        public string PhoneNumber { get; set; }
+
+
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+  
+        public string Schedule { get; set; }
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+    
+        [Display(Name = "Observation Room")]
+        [DataType(DataType.Currency)]
+        public string ObsRoom { get; set; }
+
+       
+        [Required(ErrorMessage = "Must insert the {0}")]
+    
+        public string Address { get; set; }
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Date Of Birth")]
+        public DateTime? DateOfBirth { get; set; }
+
+    }
+}
