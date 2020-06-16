@@ -16,12 +16,12 @@ namespace Vet_Clinic.Web.Data.Entities
             _context = context;
         }
 
-        public IEnumerable<Doctor> GetDoctors() //vai buscar os produtos todos
+        public IEnumerable<Doctor> GetDoctors() //vai buscar os medicos todos
         {
             return _context.Doctors.OrderBy(p => p.Name);
         }
 
-        public Doctor GetDoctor(int id) // vai buscar so um produto
+        public Doctor GetDoctor(int id) // vai buscar so um medico
         {
             return _context.Doctors.Find(id);
         }
