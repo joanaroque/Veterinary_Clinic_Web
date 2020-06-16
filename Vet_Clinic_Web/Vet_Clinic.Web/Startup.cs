@@ -28,7 +28,8 @@ namespace Vet_Clinic.Web
 
 
             services.AddTransient<SeedDB>();
-
+            services.AddScoped<IDoctorRepository, DoctorRepository>();
+        
 
             services.Configure<CookiePolicyOptions>(options =>
             {

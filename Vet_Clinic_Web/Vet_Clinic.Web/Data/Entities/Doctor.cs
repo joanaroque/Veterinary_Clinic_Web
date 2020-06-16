@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Vet_Clinic.Web.Data.Entities
 {
-    public class Doctor
+    public class Doctor : IEntity
     {
         [Key]
         public int DoctorID { get; set; }
@@ -58,5 +58,6 @@ namespace Vet_Clinic.Web.Data.Entities
         [Display(Name = "Date Of Birth")]
         public DateTime? DateOfBirth { get; set; }
 
+        int IEntity.Id { get; set; }
     }
 }

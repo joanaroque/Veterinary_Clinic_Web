@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
 
@@ -12,17 +8,17 @@ namespace Vet_Clinic.Web.Controllers
 {
     public class DoctorsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IDoctorRepository _doctorRepository;
 
-        public DoctorsController(DataContext context)
+        public DoctorsController(IDoctorRepository doctorRepository)
         {
-            _context = context;
+            _doctorRepository = doctorRepository;
         }
 
         // GET: Doctors
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Doctors.ToListAsync());
+            return View(_doctorRepository.GetAll());
         }
 
         // GET: Doctors/Details/5
@@ -33,8 +29,8 @@ namespace Vet_Clinic.Web.Controllers
                 return NotFound();
             }
 
-            var doctor = await _context.Doctors
-                .FirstOrDefaultAsync(m => m.DoctorID == id);
+            var doctor = _doctorRepository.GetByIdAsync(id.Value);
+
             if (doctor == null)
             {
                 return NotFound();
@@ -58,8 +54,8 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(doctor);
-                await _context.SaveChangesAsync();
+                await _doctorRepository.CreateAsync(doctor);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(doctor);
@@ -73,7 +69,7 @@ namespace Vet_Clinic.Web.Controllers
                 return NotFound();
             }
 
-            var doctor = await _context.Doctors.FindAsync(id);
+            var doctor = await _doctorRepository.GetByIdAsync(id.Value);
             if (doctor == null)
             {
                 return NotFound();
@@ -97,12 +93,11 @@ namespace Vet_Clinic.Web.Controllers
             {
                 try
                 {
-                    _context.Update(doctor);
-                    await _context.SaveChangesAsync();
+                    await _doctorRepository.UpdateAsync(doctor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DoctorExists(doctor.DoctorID))
+                    if (!await _doctorRepository.ExistAsync(doctor.DoctorID))
                     {
                         return NotFound();
                     }
@@ -124,8 +119,7 @@ namespace Vet_Clinic.Web.Controllers
                 return NotFound();
             }
 
-            var doctor = await _context.Doctors
-                .FirstOrDefaultAsync(m => m.DoctorID == id);
+            var doctor = await _doctorRepository.GetByIdAsync(id.Value);
             if (doctor == null)
             {
                 return NotFound();
@@ -139,15 +133,10 @@ namespace Vet_Clinic.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var doctor = await _context.Doctors.FindAsync(id);
-            _context.Doctors.Remove(doctor);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            var doctor = await _doctorRepository.GetByIdAsync(id);
+            await _doctorRepository.DeleteAsync(doctor);
 
-        private bool DoctorExists(int id)
-        {
-            return _context.Doctors.Any(e => e.DoctorID == id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
