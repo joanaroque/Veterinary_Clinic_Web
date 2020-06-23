@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Vet_Clinic.Web.Data.Entities
 {
     public class Doctor : IEntity
     {
         [Key]
-        public int DoctorID { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Must insert the {0}")]
         public string Name { get; set; }
@@ -48,7 +45,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [DataType(DataType.Currency)]
         public string ObsRoom { get; set; }
 
-       
+
         [Required(ErrorMessage = "Must insert the {0}")]
         public string Address { get; set; }
 
@@ -58,6 +55,6 @@ namespace Vet_Clinic.Web.Data.Entities
         [Display(Name = "Date Of Birth")]
         public DateTime? DateOfBirth { get; set; }
 
-        int IEntity.Id { get; set; }
+        public User User { get; set; }
     }
 }

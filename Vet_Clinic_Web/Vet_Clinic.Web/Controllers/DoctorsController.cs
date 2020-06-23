@@ -3,16 +3,20 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
+using Vet_Clinic.Web.Helpers;
 
 namespace Vet_Clinic.Web.Controllers
 {
     public class DoctorsController : Controller
     {
         private readonly IDoctorRepository _doctorRepository;
+        private readonly IUserHelper _userHelper;
 
-        public DoctorsController(IDoctorRepository doctorRepository)
+
+        public DoctorsController(IDoctorRepository doctorRepository, IUserHelper userHelper)
         {
             _doctorRepository = doctorRepository;
+            _userHelper = userHelper;
         }
 
         // GET: Doctors
@@ -29,7 +33,7 @@ namespace Vet_Clinic.Web.Controllers
                 return NotFound();
             }
 
-            var doctor = _doctorRepository.GetByIdAsync(id.Value);
+            var doctor = await _doctorRepository.GetByIdAsync(id.Value);
 
             if (doctor == null)
             {
@@ -54,6 +58,8 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                doctor.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
+
                 await _doctorRepository.CreateAsync(doctor);
 
                 return RedirectToAction(nameof(Index));
@@ -84,7 +90,7 @@ namespace Vet_Clinic.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("DoctorID,Name,LastName,Specialty,MedicalLicense,TIN,PhoneNumber,Email,Schedule,ObsRoom,Address,DateOfBirth")] Doctor doctor)
         {
-            if (id != doctor.DoctorID)
+            if (id != doctor.Id)
             {
                 return NotFound();
             }
@@ -93,11 +99,13 @@ namespace Vet_Clinic.Web.Controllers
             {
                 try
                 {
+                    doctor.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
+
                     await _doctorRepository.UpdateAsync(doctor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _doctorRepository.ExistAsync(doctor.DoctorID))
+                    if (!await _doctorRepository.ExistAsync(doctor.Id))
                     {
                         return NotFound();
                     }

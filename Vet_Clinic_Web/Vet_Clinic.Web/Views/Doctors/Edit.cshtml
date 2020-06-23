@@ -87,12 +87,12 @@
                         <input type="text" class="form-control" value="@Model.DateOfBirth">
                     </div>
                 </div>
-                <input type="hidden" name="DoctorID" value="@Model.DoctorID" />
+                <input type="hidden" name="DoctorID" value="@Model.Id" />
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
                 <a asp-action="Index" class="btn btn-primary">Back to List</a>
-                <button type="submit" value="Save" class="btn btn-success pull-right">Save</button>
+                <input type="submit" value="Save" class="btn btn-success pull-right"/>
             </div>
             <!-- /.box-footer -->
         </form>

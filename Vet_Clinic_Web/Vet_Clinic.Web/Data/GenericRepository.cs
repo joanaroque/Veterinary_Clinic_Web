@@ -23,11 +23,7 @@ namespace Vet_Clinic.Web.Data
 
         private async Task<bool> SaveAllAsync()
         {
-            //vai á BD gravar todas as alteraçoes
-            //se este nr for maior que 0 retorna true
-            //ou seja se as mudanças foram 0, nao salva nada
             return await _context.SaveChangesAsync() > 0;
-
         }
 
         public async Task DeleteAsync(T entity)
@@ -43,7 +39,6 @@ namespace Vet_Clinic.Web.Data
 
         public IQueryable<T> GetAll()
         {
-            //vai buscar todos os registos da query e dps nao "deixa o rasto"!!
             return _context.Set<T>().AsNoTracking();
         }
 

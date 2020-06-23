@@ -3,10 +3,8 @@ using System.Threading.Tasks;
 
 namespace Vet_Clinic.Web.Data
 {
-    public interface IGenericRepository<T> where T : class //para qualquer class
+    public interface IGenericRepository<T> where T : class 
     {
-        //trabalha com os valores que vêm da tabela
-
         IQueryable<T> GetAll();
 
         Task<T> GetByIdAsync(int id);
