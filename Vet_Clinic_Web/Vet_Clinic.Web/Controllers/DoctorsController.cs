@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 using System.Threading.Tasks;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
+using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Controllers
 {
@@ -54,17 +56,58 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DoctorID,Name,LastName,Specialty,MedicalLicense,TIN,PhoneNumber,Email,Schedule,ObsRoom,Address,DateOfBirth")] Doctor doctor)
+        public async Task<IActionResult> Create(DoctorViewModel doctorViewModel)
         {
             if (ModelState.IsValid)
             {
+                var path = string.Empty;
+
+                if (doctorViewModel.ImageFile != null && doctorViewModel.ImageFile.Length > 0)
+                {
+                    path = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot\\images\\Doctors",
+                        doctorViewModel.ImageFile.FileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await doctorViewModel.ImageFile.CopyToAsync(stream);
+                    }
+
+                    path = $"~/images/Doctors/{doctorViewModel.ImageFile.FileName}";
+                }
+
+                var doctor = this.ToDoctor(doctorViewModel, path);
+
+                //TODO: change to the logged user
                 doctor.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
 
                 await _doctorRepository.CreateAsync(doctor);
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(doctor);
+            return View(doctorViewModel);
+        }
+
+        private Doctor ToDoctor(DoctorViewModel view, string path)
+        {
+            return new Doctor
+            {
+                Id = view.Id,
+                ImageUrl = path,
+                LastName = view.LastName,
+                Specialty = view.Specialty,
+                MedicalLicense = view.MedicalLicense,
+                Name = view.Name,
+                TIN = view.TIN,
+                PhoneNumber = view.PhoneNumber,
+                Email = view.Email,
+                Schedule = view.Schedule,
+                ObsRoom = view.ObsRoom,
+                Address = view.Address,
+                DateOfBirth = view.DateOfBirth,
+                User = view.User
+            };
         }
 
         // GET: Doctors/Edit/5
@@ -88,24 +131,38 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DoctorID,Name,LastName,Specialty,MedicalLicense,TIN,PhoneNumber,Email,Schedule,ObsRoom,Address,DateOfBirth")] Doctor doctor)
+        public async Task<IActionResult> Edit(DoctorViewModel model)
         {
-            if (id != doctor.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    doctor.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
+                    var path = model.ImageUrl;
 
+                    if (model.ImageFile != null && model.ImageFile.Length > 0)
+                    {
+                        path = Path.Combine(
+                            Directory.GetCurrentDirectory(),
+                            "wwwroot\\images\\Doctors",
+                            model.ImageFile.FileName);
+
+                        using (var stream = new FileStream(path, FileMode.Create))
+                        {
+                            await model.ImageFile.CopyToAsync(stream);
+                        }
+
+                        path = $"~/images/Doctors/{model.ImageFile.FileName}";
+                    }
+
+                    var doctor = this.ToDoctor(model, path);
+
+                    //TODO: Change to the logged user
+                    doctor.User = await _userHelper.GetUserByEmailAsync("rafaasfs@gmail.com");
                     await _doctorRepository.UpdateAsync(doctor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _doctorRepository.ExistAsync(doctor.Id))
+                    if (!await _doctorRepository.ExistAsync(model.Id))
                     {
                         return NotFound();
                     }
@@ -116,7 +173,7 @@ namespace Vet_Clinic.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(doctor);
+            return View(model);
         }
 
         // GET: Doctors/Delete/5

@@ -6685,4 +6685,8 @@
     <TypeScriptCompile Include="wwwroot\bower_components\moment\moment.d.ts" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\Doctors\" />
+  </ItemGroup>
+
 </Project>

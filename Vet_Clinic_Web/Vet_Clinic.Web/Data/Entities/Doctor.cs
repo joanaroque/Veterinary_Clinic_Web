@@ -33,6 +33,8 @@ namespace Vet_Clinic.Web.Data.Entities
         [Display(Name = "Phone nrº")]
         public string PhoneNumber { get; set; }
 
+        [Display(Name = "Image")]
+        public string ImageUrl { get; set; }
 
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }

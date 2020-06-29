@@ -1,4 +1,4 @@
-﻿@model Vet_Clinic.Web.Data.Entities.Doctor
+﻿@model Vet_Clinic.Web.Models.DoctorViewModel
 
 
 @{
@@ -19,83 +19,120 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form class="form-horizontal" method="post" asp-action="Edit">
+        <form class="form-horizontal" method="post" asp-action="Edit" enctype="multipart/form-data">
             <div class="box-body">
                 <div class="form-group">
-                    <label asp-for="Name" class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" value="@Model.Name">
+                    <div class="form-group">
+                        <label asp-for="Name" class="col-sm-2 control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LastName" class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" value="@Model.LastName">
+                    <div class="form-group">
+                        <label asp-for="LastName" class="col-sm-2 control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Specialty" class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" value="@Model.Specialty">
+                    <div class="form-group">
+                        <label asp-for="Specialty" class="col-sm-2 control-label"></label>
+                        <input asp-for="Specialty" class="form-control" />
+                        <span asp-validation-for="Specialty" class="text-danger"></span>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="MedicalLicense" class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <input type="number" class="form-control" value="@Model.MedicalLicense">
+                    <div class="form-group">
+                        <label asp-for="MedicalLicense" class="col-sm-2 control-label"></label>
+                        <input asp-for="MedicalLicense" class="form-control" />
+                        <span asp-validation-for="MedicalLicense" class="text-danger"></span>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="TIN" class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" value="@Model.TIN">
+                    <div class="form-group">
+                        <label asp-for="ImageFile" class="col-sm-2 control-label"></label>
+                        <input asp-for="ImageFile" class="form-control" />
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PhoneNumber" class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" value="@Model.PhoneNumber">
+                    <div class="form-group">
+                        <label asp-for="TIN" class="col-sm-2 control-label"></label>
+                        <input asp-for="TIN" class="form-control" />
+                        <span asp-validation-for="TIN" class="text-danger"></span>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <input type="email" class="form-control" value="@Model.Email">
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="col-sm-2 control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Schedule" class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" value="@Model.Schedule">
+                    <div class="form-group">
+                        <label asp-for="Email" class="col-sm-2 control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <div class="col-sm-3">
+                            <input type="Email" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ObsRoom" class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <input type="number" class="form-control" value="@Model.ObsRoom">
+                    <div class="form-group">
+                        <label asp-for="Schedule" class="col-sm-2 control-label"></label>
+                        <input asp-for="Schedule" class="form-control" />
+                        <span asp-validation-for="Schedule" class="text-danger"></span>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Address" class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" value="@Model.Address">
+                    <div class="form-group">
+                        <label asp-for="ObsRoom" class="col-sm-2 control-label"></label>
+                        <input asp-for="ObsRoom" class="form-control" />
+                        <span asp-validation-for="ObsRoom" class="text-danger"></span>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DateOfBirth" class="col-sm-2 control-label"></label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" value="@Model.DateOfBirth">
+                    <div class="form-group">
+                        <label asp-for="Address" class="col-sm-2 control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control">
+                        </div>
                     </div>
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth" class="col-sm-2 control-label"></label>
+                        <input asp-for="DateOfBirth" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                        <div class="col-sm-3">
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                        <input type="submit" value="Save" class="btn btn-success pull-right" />
+                    </div>
+                    <!-- /.box-footer -->
                 </div>
-                <input type="hidden" name="DoctorID" value="@Model.Id" />
             </div>
-            <!-- /.box-body -->
-            <div class="box-footer">
-                <a asp-action="Index" class="btn btn-primary">Back to List</a>
-                <input type="submit" value="Save" class="btn btn-success pull-right"/>
-            </div>
-            <!-- /.box-footer -->
         </form>
+        <div>
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
+            }
+        </div>
     </div>
     <!-- /.box -->
 </section>

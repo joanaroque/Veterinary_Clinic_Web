@@ -1,48 +1,49 @@
 ﻿@model IEnumerable<Vet_Clinic.Web.Data.Entities.Doctor>
 
-    <section class="content-header">
-        <h1>
-            Doctors
-        </h1>
+<section class="content-header">
+    <h1>
+        Doctors
+    </h1>
 
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
-        <ol class="breadcrumb">
-            <li><a asp-controller="Home"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Doctors</li>
-        </ol>
-    </section>
-    <!-- Main content -->
-    <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Manage Doctors</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Last Name</th>
-                                    <th>Specialty</th>
-                                    <th>Medical License</th>
-                                    <th>TIN</th>
-                                    <th>Phone Number</th>
-                                    <th>Email</th>
-                                    <th>Schedule</th>
-                                    <th>Observation Room</th>
-                                    <th>Address</th>
-                                    <th>Date Of Birth</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Doctors</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Manage Doctors</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Last Name</th>
+                                <th>Specialty</th>
+                                <th>Medical License</th>
+                                <th>TIN</th>
+                                <th>Phone Number</th>
+                                <th>Image</th>
+                                <th>Email</th>
+                                <th>Schedule</th>
+                                <th>Observation Room</th>
+                                <th>Address</th>
+                                <th>Date Of Birth</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
                                 <tr>
                                     <td>@Html.DisplayFor(modelItem => item.Id)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
@@ -51,6 +52,12 @@
                                     <td>@Html.DisplayFor(modelItem => item.MedicalLicense)</td>
                                     <td>@Html.DisplayFor(modelItem => item.TIN)</td>
                                     <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                        {
+                                            <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
+                                        }
+                                    </td>
                                     <td>@Html.DisplayFor(modelItem => item.Email)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Schedule)</td>
                                     <td>@Html.DisplayFor(modelItem => item.ObsRoom)</td>
@@ -61,27 +68,27 @@
                                         <a href="" onclick="Delete('@item.Id')">Delete</a>
                                     </td>
                                 </tr>
-                                }
-                        </table>
-                    </div>
-                    <!-- /.box-body -->
+                            }
+                    </table>
                 </div>
-                <!-- /.box -->
+                <!-- /.box-body -->
             </div>
-            <!-- /.col -->
+            <!-- /.box -->
         </div>
-        <!-- /.row -->
-    </section>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
 
-    <!-- DataTables -->
-    <script src="~/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <!-- page script -->
-    <script>
+<!-- DataTables -->
+<script src="~/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<!-- page script -->
+@*<script>
     $(function () {
         $('#example1').DataTable();
     });
-    function Delete(DoctorID){
+    function Delete(Id){
         var txt;
         var r = confirm("Are you sure you want to Delete?");
         if (r == true) {
@@ -91,7 +98,7 @@
                 type: "POST",
                 url: '@Url.Action("Delete", "Doctors")',
                 data: {
-                    DoctorID: DoctorID
+                    Id: Id
                 },
                 error: function (result) {
                     alert("error");
@@ -108,4 +115,4 @@
             });
         }
     }
-    </script>
+</script>*@
