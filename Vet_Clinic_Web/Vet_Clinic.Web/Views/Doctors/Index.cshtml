@@ -26,31 +26,24 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Id</th>
                                 <th>Name</th>
                                 <th>Last Name</th>
                                 <th>Specialty</th>
                                 <th>Medical License</th>
-                                <th>TIN</th>
                                 <th>Phone Number</th>
-                                <th>Image</th>
-                                <th>Email</th>
+                                <th>Photo</th>
                                 <th>Schedule</th>
                                 <th>Observation Room</th>
-                                <th>Address</th>
-                                <th>Date Of Birth</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
                                     <td>@Html.DisplayFor(modelItem => item.LastName)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Specialty)</td>
                                     <td>@Html.DisplayFor(modelItem => item.MedicalLicense)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.TIN)</td>
                                     <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
                                     <td>
                                         @if (!string.IsNullOrEmpty(item.ImageUrl))
@@ -58,11 +51,8 @@
                                             <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
                                         }
                                     </td>
-                                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
                                     <td>@Html.DisplayFor(modelItem => item.Schedule)</td>
                                     <td>@Html.DisplayFor(modelItem => item.ObsRoom)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Address)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.DateOfBirth)</td>
                                     <td>
                                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                         <a href="" onclick="Delete('@item.Id')">Delete</a>
