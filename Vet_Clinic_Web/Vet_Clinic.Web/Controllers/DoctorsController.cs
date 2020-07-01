@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
@@ -24,7 +26,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Doctors
         public IActionResult Index()
         {
-            return View(_doctorRepository.GetAll());
+            return View(_doctorRepository.GetAll().OrderBy(p => p.Name));
         }
 
         // GET: Doctors/Details/5
@@ -64,17 +66,20 @@ namespace Vet_Clinic.Web.Controllers
 
                 if (doctorViewModel.ImageFile != null && doctorViewModel.ImageFile.Length > 0)
                 {
+                    var guid = Guid.NewGuid().ToString();
+                    var file = $"{guid}.jpg";
+
                     path = Path.Combine(
                         Directory.GetCurrentDirectory(),
                         "wwwroot\\images\\Doctors",
-                        doctorViewModel.ImageFile.FileName);
+                        file);
 
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
                         await doctorViewModel.ImageFile.CopyToAsync(stream);
                     }
 
-                    path = $"~/images/Doctors/{doctorViewModel.ImageFile.FileName}";
+                    path = $"~/images/Doctors/{file}";
                 }
 
                 var doctor = this.ToDoctor(doctorViewModel, path);
@@ -123,7 +128,31 @@ namespace Vet_Clinic.Web.Controllers
             {
                 return NotFound();
             }
-            return View(doctor);
+
+            var view = this.ToDoctorViewModel(doctor);
+
+            return View(view);
+        }
+
+        private DoctorViewModel ToDoctorViewModel(Doctor doctor)
+        {
+            return new DoctorViewModel
+            {
+                Id = doctor.Id,
+                ImageUrl = doctor.ImageUrl,
+                LastName = doctor.LastName,
+                Specialty = doctor.Specialty,
+                MedicalLicense = doctor.MedicalLicense,
+                Name = doctor.Name,
+                TIN = doctor.TIN,
+                PhoneNumber = doctor.PhoneNumber,
+                Email = doctor.Email,
+                Schedule = doctor.Schedule,
+                ObsRoom = doctor.ObsRoom,
+                Address = doctor.Address,
+                DateOfBirth = doctor.DateOfBirth,
+                User = doctor.User
+            };
         }
 
         // POST: Doctors/Edit/5
@@ -141,17 +170,21 @@ namespace Vet_Clinic.Web.Controllers
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
+
+                        var guid = Guid.NewGuid().ToString();
+                        var file = $"{guid}.jpg";
+
                         path = Path.Combine(
                             Directory.GetCurrentDirectory(),
                             "wwwroot\\images\\Doctors",
-                            model.ImageFile.FileName);
+                            file);
 
                         using (var stream = new FileStream(path, FileMode.Create))
                         {
                             await model.ImageFile.CopyToAsync(stream);
                         }
 
-                        path = $"~/images/Doctors/{model.ImageFile.FileName}";
+                        path = $"~/images/Doctors/{file}";
                     }
 
                     var doctor = this.ToDoctor(model, path);

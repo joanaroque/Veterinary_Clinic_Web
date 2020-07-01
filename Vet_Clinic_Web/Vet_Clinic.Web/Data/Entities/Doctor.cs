@@ -58,5 +58,17 @@ namespace Vet_Clinic.Web.Data.Entities
         public DateTime? DateOfBirth { get; set; }
 
         public User User { get; set; }
+
+        public string ImageFullPath
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(this.ImageUrl))
+                {
+                    return null;
+                }
+                return $"https://webvetclinicjoana.azurewebsites.net{this.ImageUrl.Substring(1)}";
+            }
+        }
     }
 }
