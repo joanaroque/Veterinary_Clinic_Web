@@ -209,29 +209,18 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        // GET: Doctors/Delete/5
+        // POST: Doctors/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
             }
 
             var doctor = await _doctorRepository.GetByIdAsync(id.Value);
-            if (doctor == null)
-            {
-                return NotFound();
-            }
-
-            return View(doctor);
-        }
-
-        // POST: Doctors/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var doctor = await _doctorRepository.GetByIdAsync(id);
             await _doctorRepository.DeleteAsync(doctor);
 
             return RedirectToAction(nameof(Index));
