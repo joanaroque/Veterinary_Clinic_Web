@@ -98,6 +98,7 @@ namespace Vet_Clinic.Web.Controllers
             return new Animal
             {
                 Id = view.Id,
+                Name = view.Name,
                 Breed = view.Breed,
                 Gender = view.Gender,
                 Weight = view.Weight,
@@ -132,6 +133,7 @@ namespace Vet_Clinic.Web.Controllers
             return new AnimalViewModel
             {
                 Id = animal.Id,
+                Name = animal.Name,
                 Breed = animal.Breed,
                 Gender = animal.Gender,
                 Weight = animal.Weight,

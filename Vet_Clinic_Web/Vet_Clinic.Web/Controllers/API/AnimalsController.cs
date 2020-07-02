@@ -18,6 +18,7 @@ namespace Vet_Clinic.Web.Controllers.API
         public IActionResult GetAnimal()
         {
             return Ok(_animalRepository.GetAll());
+
         }
 
     }

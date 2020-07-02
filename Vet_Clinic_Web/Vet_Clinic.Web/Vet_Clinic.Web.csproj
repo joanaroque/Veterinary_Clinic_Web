@@ -6688,7 +6688,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\Doctors\" />
-    <Folder Include="wwwroot\images\Animals\" />
   </ItemGroup>
 
 </Project>
