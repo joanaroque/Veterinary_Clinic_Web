@@ -4,17 +4,18 @@ using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Data
 {
-    public class DoctorRepository : GenericRepository<Doctor>, IDoctorRepository
+    public class AnimalRepository : GenericRepository<Animal>, IAnimalRepository
     {
         private readonly DataContext _context;
 
-        public DoctorRepository(DataContext context) : base(context)
+        public AnimalRepository(DataContext context) : base(context)
         {
             _context = context;
         }
+
         public IQueryable GetAllWithUsers()
         {
-            return _context.Doctors.Include(p => p.User);
+            return _context.Animals.Include(p => p.User);
         }
     }
 }
