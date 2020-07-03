@@ -46,6 +46,7 @@ namespace Vet_Clinic.Web
             services.AddScoped<IUserHelper, UserHelper>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();
             services.AddScoped<IAnimalRepository, AnimalRepository>();
+            services.AddScoped<IAppointmentRepository, AppointmentRepository>();
         
 
             services.Configure<CookiePolicyOptions>(options =>

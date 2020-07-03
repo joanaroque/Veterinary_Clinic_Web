@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Vet_Clinic.Web.Data.Entities
 {
-    public class Appoitment
+    public class Appoitment : IEntity
     {
         [Key]
         public int Id { get; set; }
@@ -15,9 +15,9 @@ namespace Vet_Clinic.Web.Data.Entities
         [Display(Name = "Doctor")]
         public Doctor DoctorName { get; set; }
 
-        //[Required(ErrorMessage = "Must insert the {0}")]
-        //[Display(Name = "Animal")]
-        // public Animal AnimalName { get; set; } ***************************************** FALTA CLASS ANIMAL
+        [Required(ErrorMessage = "Must insert the {0}")]
+        [Display(Name = "Animal")]
+        public Animal AnimalName { get; set; }                                    //***************************************** FALTA CLASS ANIMAL
 
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.DateTime)]
@@ -31,9 +31,9 @@ namespace Vet_Clinic.Web.Data.Entities
         [Display(Name = "Appointment Hour")]
         public DateTime AppointmentHour { get; set; }
 
-        //[Required(ErrorMessage = "Must insert the {0}")]
-        //[Display(Name = "Customer")]
-        //public Customer CostumerName { get; set; }***************************************** FALTA CLASS CLIENTE
+        [Required(ErrorMessage = "Must insert the {0}")]
+        [Display(Name = "Customer")]
+        public Customer CostumerName { get; set; }                                        //***************************************** FALTA CLASS CLIENTE
 
         [Display(Name = "Observations")]
         public string AppointmentObs { get; set; }

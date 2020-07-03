@@ -1,0 +1,42 @@
+﻿@model Vet_Clinic.Web.Data.Entities.Appoitment
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Appoitment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Treatment)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Treatment)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentDay)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentDay)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentHour)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentHour)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentObs)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentObs)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
