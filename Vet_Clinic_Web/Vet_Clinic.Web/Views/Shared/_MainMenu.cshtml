@@ -24,13 +24,19 @@
 
     <li class="treeview">
         <a href="#">
-            <i class="fa fa-female" aria-hidden="true"></i><span> Customers</span>
+            <i class="fa fa-female" aria-hidden="true"></i><i class="fa fa-male" aria-hidden="true"></i><span> Customers</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>
         </a>
         <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-female" aria-hidden="true"></i><i class="fa fa-male" aria-hidden="true"></i> Customers</a></li>
+            <li class="active">
+                <a asp-controller="Customers" asp-action="Index">
+                    <i class="fa fa-female" aria-hidden="true"></i>
+                    <i class="fa fa-male" aria-hidden="true">
+                    </i> Customers
+                </a>
+            </li>
         </ul>
     </li>
 </ul>

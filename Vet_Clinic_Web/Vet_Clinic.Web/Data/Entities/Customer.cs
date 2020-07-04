@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Vet_Clinic.Web.Data.Entities;
 
-namespace Vet_Clinic.Web.Data
+namespace Vet_Clinic.Web.Data.Entities
 {
     public class Customer : IEntity
     {

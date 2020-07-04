@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Vet_Clinic.Web.Data;
+using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
 
@@ -72,7 +71,7 @@ namespace Vet_Clinic.Web.Controllers
 
                     path = Path.Combine(
                         Directory.GetCurrentDirectory(),
-                        "wwwroot\\images\\Costumers",
+                        "wwwroot\\images\\Customers",
                         file);
 
                     using (var stream = new FileStream(path, FileMode.Create))
@@ -80,7 +79,7 @@ namespace Vet_Clinic.Web.Controllers
                         await customerViewModel.ImageFile.CopyToAsync(stream);
                     }
 
-                    path = $"~/images/Costumers/{file}";
+                    path = $"~/images/Customers/{file}";
                 }
 
                 var doctor = this.ToCustomer(customerViewModel, path);
@@ -127,7 +126,7 @@ namespace Vet_Clinic.Web.Controllers
             }
             var view = this.ToCustomerViewModel(customer);
 
-            return View(customer);
+            return View(view);
         }
 
         private CustomerViewModel ToCustomerViewModel(Customer customer)
@@ -204,7 +203,7 @@ namespace Vet_Clinic.Web.Controllers
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -217,6 +216,6 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-       
+
     }
 }
