@@ -201,17 +201,19 @@ namespace Vet_Clinic.Web.Migrations
                     b.ToTable("Animals");
                 });
 
-            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appoitment", b =>
+            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appointment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("AppointmentDay");
-
-                    b.Property<DateTime>("AppointmentHour");
+                    b.Property<int>("AnimalNameId");
 
                     b.Property<string>("AppointmentObs");
+
+                    b.Property<DateTime>("AppointmentSchedule");
+
+                    b.Property<int>("CostumerNameId");
 
                     b.Property<int>("DoctorNameId");
 
@@ -222,11 +224,15 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AnimalNameId");
+
+                    b.HasIndex("CostumerNameId");
+
                     b.HasIndex("DoctorNameId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Appoitments");
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Doctor", b =>
@@ -392,8 +398,18 @@ namespace Vet_Clinic.Web.Migrations
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appoitment", b =>
+            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appointment", b =>
                 {
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.Animal", "AnimalName")
+                        .WithMany()
+                        .HasForeignKey("AnimalNameId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Vet_Clinic.Web.Data.Customer", "CostumerName")
+                        .WithMany()
+                        .HasForeignKey("CostumerNameId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("Vet_Clinic.Web.Data.Entities.Doctor", "DoctorName")
                         .WithMany()
                         .HasForeignKey("DoctorNameId")

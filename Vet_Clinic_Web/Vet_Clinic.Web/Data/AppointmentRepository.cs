@@ -4,7 +4,7 @@ using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Data
 {
-    public class AppointmentRepository : GenericRepository<Appoitment>, IAppointmentRepository
+    public class AppointmentRepository : GenericRepository<Appointment>, IAppointmentRepository
     {
         private readonly DataContext _context;
 
@@ -15,7 +15,7 @@ namespace Vet_Clinic.Web.Data
 
         public IQueryable GetAllWithUsers()
         {
-            return _context.Appoitments.Include(p => p.User);
+            return _context.Appointments.Include(p => p.User);
         }
     }
 }

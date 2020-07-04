@@ -4,20 +4,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Vet_Clinic.Web.Migrations
 {
-    public partial class AddUser : Migration
+    public partial class Appointments : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "DoctorID",
-                table: "Doctors",
-                newName: "Id");
-
-            migrationBuilder.AddColumn<string>(
-                name: "UserId",
-                table: "Doctors",
-                nullable: true);
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -78,6 +68,32 @@ namespace Vet_Clinic.Web.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Animals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 30, nullable: false),
+                    Breed = table.Column<string>(maxLength: 30, nullable: false),
+                    Gender = table.Column<string>(maxLength: 10, nullable: false),
+                    Weight = table.Column<double>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Sterilization = table.Column<bool>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Animals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Animals_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,9 +181,130 @@ namespace Vet_Clinic.Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    TIN = table.Column<string>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customers_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Doctors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    Specialty = table.Column<string>(nullable: false),
+                    MedicalLicense = table.Column<string>(nullable: false),
+                    TIN = table.Column<string>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Schedule = table.Column<string>(nullable: false),
+                    ObsRoom = table.Column<string>(nullable: false),
+                    Address = table.Column<string>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doctors", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Doctors_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Appointments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Treatment = table.Column<string>(nullable: false),
+                    DoctorNameId = table.Column<int>(nullable: false),
+                    AnimalNameId = table.Column<int>(nullable: false),
+                    AppointmentSchedule = table.Column<DateTime>(nullable: false),
+                    CostumerNameId = table.Column<int>(nullable: false),
+                    AppointmentObs = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Animals_AnimalNameId",
+                        column: x => x.AnimalNameId,
+                        principalTable: "Animals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Customers_CostumerNameId",
+                        column: x => x.CostumerNameId,
+                        principalTable: "Customers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Doctors_DoctorNameId",
+                        column: x => x.DoctorNameId,
+                        principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Appointments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Doctors_UserId",
-                table: "Doctors",
+                name: "IX_Animals_UserId",
+                table: "Animals",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_AnimalNameId",
+                table: "Appointments",
+                column: "AnimalNameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_CostumerNameId",
+                table: "Appointments",
+                column: "CostumerNameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_DoctorNameId",
+                table: "Appointments",
+                column: "DoctorNameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_UserId",
+                table: "Appointments",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -209,20 +346,21 @@ namespace Vet_Clinic.Web.Migrations
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Doctors_AspNetUsers_UserId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Customers_UserId",
+                table: "Customers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Doctors_UserId",
                 table: "Doctors",
-                column: "UserId",
-                principalTable: "AspNetUsers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Doctors_AspNetUsers_UserId",
-                table: "Doctors");
+            migrationBuilder.DropTable(
+                name: "Appointments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -240,23 +378,19 @@ namespace Vet_Clinic.Web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Animals");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "Doctors");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Doctors_UserId",
-                table: "Doctors");
-
-            migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "Doctors");
-
-            migrationBuilder.RenameColumn(
-                name: "Id",
-                table: "Doctors",
-                newName: "DoctorID");
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Vet_Clinic.Web.Data
     public class DataContext : IdentityDbContext<User>
     {
         public DbSet<Doctor> Doctors { get; set; }
-        public DbSet<Appoitment> Appoitments { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
@@ -16,6 +16,12 @@ namespace Vet_Clinic.Web.Data
         {
 
         }
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    //quando o modelo for criado, vou desativar a Cascade delete rule
+        //    modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+        //}
 
     }
 }

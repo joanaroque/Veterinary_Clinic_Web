@@ -92,7 +92,6 @@
                         <label asp-for="DateOfBirth" class="col-sm-2 control-label"></label>
                         <input asp-for="DateOfBirth" class="form-control" />
                         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-
                     </div>
                     <div>
                         @if (!string.IsNullOrEmpty(Model.ImageUrl))
@@ -106,8 +105,7 @@
                         <input type="submit" value="Save" class="btn btn-success " />
                     </div>
                     <!-- /.box-footer -->
-                </div>
-               
+                </div>    
             </div>
         </form>
        

@@ -10,8 +10,8 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200629204709_doctor")]
-    partial class doctor
+    [Migration("20200704093738_Appointments")]
+    partial class Appointments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -129,6 +129,112 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Vet_Clinic.Web.Data.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired();
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .IsRequired();
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<string>("LastName")
+                        .IsRequired();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired();
+
+                    b.Property<string>("TIN")
+                        .IsRequired();
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Animal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Breed")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<DateTime>("DateOfBirth");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasMaxLength(10);
+
+                    b.Property<string>("ImageUrl");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30);
+
+                    b.Property<bool>("Sterilization");
+
+                    b.Property<string>("UserId");
+
+                    b.Property<double>("Weight");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Animals");
+                });
+
+            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AnimalNameId");
+
+                    b.Property<string>("AppointmentObs");
+
+                    b.Property<DateTime>("AppointmentSchedule");
+
+                    b.Property<int>("CostumerNameId");
+
+                    b.Property<int>("DoctorNameId");
+
+                    b.Property<string>("Treatment")
+                        .IsRequired();
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalNameId");
+
+                    b.HasIndex("CostumerNameId");
+
+                    b.HasIndex("DoctorNameId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Doctor", b =>
@@ -278,6 +384,42 @@ namespace Vet_Clinic.Web.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Vet_Clinic.Web.Data.Customer", b =>
+                {
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Animal", b =>
+                {
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appointment", b =>
+                {
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.Animal", "AnimalName")
+                        .WithMany()
+                        .HasForeignKey("AnimalNameId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Vet_Clinic.Web.Data.Customer", "CostumerName")
+                        .WithMany()
+                        .HasForeignKey("CostumerNameId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.Doctor", "DoctorName")
+                        .WithMany()
+                        .HasForeignKey("DoctorNameId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Doctor", b =>

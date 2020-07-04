@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Vet_Clinic.Web.Data.Entities
 {
-    public class Appoitment : IEntity
+    public class Appointment : IEntity
     {
         [Key]
         public int Id { get; set; }
@@ -22,14 +22,8 @@ namespace Vet_Clinic.Web.Data.Entities
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Appointment Day")]
-        public DateTime AppointmentDay { get; set; }
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{H:mm:ss.F}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Appointment Hour")]
-        public DateTime AppointmentHour { get; set; }
+        [Display(Name = "Appointment Schedule")]
+        public DateTime AppointmentSchedule { get; set; }
 
         [Required(ErrorMessage = "Must insert the {0}")]
         [Display(Name = "Customer")]

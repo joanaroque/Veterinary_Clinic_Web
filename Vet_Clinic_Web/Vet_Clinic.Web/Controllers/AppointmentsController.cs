@@ -9,24 +9,25 @@ using Vet_Clinic.Web.Helpers;
 
 namespace Vet_Clinic.Web.Controllers
 {
-    public class AppoitmentsController : Controller
+    public class AppointmentsController : Controller
     {
         private readonly IAppointmentRepository _appointmentRepository;
 
         private readonly IUserHelper _userHelper;
 
-        public AppoitmentsController(IAppointmentRepository appointmentRepository, IUserHelper userHelper)
+        public AppointmentsController(IAppointmentRepository appointmentRepository, IUserHelper userHelper)
         {
             _appointmentRepository = appointmentRepository;
+            _userHelper = userHelper;
         }
 
-        // GET: Appoitments
+        // GET: Appointments
         public IActionResult Index()
         {
             return View(_appointmentRepository.GetAll().OrderBy(p => p.Treatment));
         }
 
-        // GET: Appoitments/Details/5
+        // GET: Appointments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,40 +35,40 @@ namespace Vet_Clinic.Web.Controllers
                 return NotFound();
             }
 
-            var appoitment = await _appointmentRepository.GetByIdAsync(id.Value);
+            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
 
-            if (appoitment == null)
+            if (appointment == null)
             {
                 return NotFound();
             }
 
-            return View(appoitment);
+            return View(appointment);
         }
 
-        // GET: Appoitments/Create
+        // GET: Appointments/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Appoitments/Create
+        // POST: Appointments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Appoitment appoitment)
+        public async Task<IActionResult> Create(Appointment appointment)
         {
             if (ModelState.IsValid)
             {
-                appoitment.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
+                appointment.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
 
-                await _appointmentRepository.CreateAsync(appoitment);
+                await _appointmentRepository.CreateAsync(appointment);
                 return RedirectToAction(nameof(Index));
             }
-            return View(appoitment);
+            return View(appointment);
         }
 
-        // GET: Appoitments/Edit/5
+        // GET: Appointments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,34 +76,33 @@ namespace Vet_Clinic.Web.Controllers
                 return NotFound();
             }
 
-            var appoitment = await _appointmentRepository.GetByIdAsync(id.Value);
-            if (appoitment == null)
+            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
+            if (appointment == null)
             {
                 return NotFound();
             }
-            return View(appoitment);
+            return View(appointment);
         }
 
-        // POST: Appoitments/Edit/5
+        // POST: Appointments/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Appoitment appoitment)
+        public async Task<IActionResult> Edit(Appointment appointment)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    appointment.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
 
-                    appoitment.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
-
-                    await _appointmentRepository.UpdateAsync(appoitment);
+                    await _appointmentRepository.UpdateAsync(appointment);
 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _appointmentRepository.ExistAsync(appoitment.Id))
+                    if (!await _appointmentRepository.ExistAsync(appointment.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace Vet_Clinic.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(appoitment);
+            return View(appointment);
         }
 
-        // GET: Appoitments/Delete/5
+        // GET: Appoitnments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +134,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(appointment);
         }
 
-        // POST: Appoitments/Delete/5
+        // POST: Appointments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

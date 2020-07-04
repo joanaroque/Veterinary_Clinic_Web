@@ -3,7 +3,7 @@ using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Data
 {
-    public interface IAppointmentRepository : IGenericRepository<Appoitment>
+    public interface IAppointmentRepository : IGenericRepository<Appointment>
     {
         IQueryable GetAllWithUsers();
     }

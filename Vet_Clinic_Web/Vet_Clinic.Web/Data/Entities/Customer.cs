@@ -4,7 +4,7 @@ using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Data
 {
-    public class Customer
+    public class Customer : IEntity
     {
         [Key]
         public int Id { get; set; }
