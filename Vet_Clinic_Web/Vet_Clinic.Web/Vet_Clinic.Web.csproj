@@ -248,8 +248,6 @@
     <Content Include="wwwroot\bower_components\ckeditor\plugins\forms\icons\textfield-rtl.png" />
     <Content Include="wwwroot\bower_components\ckeditor\plugins\forms\icons\textfield.png" />
     <Content Include="wwwroot\bower_components\ckeditor\plugins\forms\images\hiddenfield.gif" />
-    <Content Include="wwwroot\bower_components\ckeditor\plugins\icons.png" />
-    <Content Include="wwwroot\bower_components\ckeditor\plugins\icons_hidpi.png" />
     <Content Include="wwwroot\bower_components\ckeditor\plugins\iframe\icons\hidpi\iframe.png" />
     <Content Include="wwwroot\bower_components\ckeditor\plugins\iframe\icons\iframe.png" />
     <Content Include="wwwroot\bower_components\ckeditor\plugins\iframe\images\placeholder.png" />

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
@@ -54,6 +55,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Animals/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -87,6 +89,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Animals/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -146,6 +149,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Animals/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

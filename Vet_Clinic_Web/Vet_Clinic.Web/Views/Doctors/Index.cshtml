@@ -9,7 +9,7 @@
         @Html.ActionLink("Create New", "Create")
     </p>
     <ol class="breadcrumb">
-        <li><a asp-controller="Home"><i class="fas fa-clinic-medical"></i> Home</a></li>
+        <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
         <li class="active">Doctors</li>
     </ol>
 </section>
@@ -57,8 +57,8 @@
                                         <td>@Html.DisplayFor(modelItem => item.ObsRoom)</td>
                                         <td>
                                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                            <input type="submit" value="Delete" 
-                                            onclick="return confirm('Are you sure you want to delete Doctor @item.Name?')"/>
+                                            <input type="submit" value="Delete"
+                                                   onclick="return confirm('Are you sure you want to delete Doctor @item.Name?')" />
                                         </td>
                                     </tr>
                                 }
@@ -75,7 +75,7 @@
 </section>
 
 <!-- DataTables -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script src="~/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <!-- page script -->
-

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Appointments/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -60,7 +62,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                appointment.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
+                appointment.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 await _appointmentRepository.CreateAsync(appointment);
                 return RedirectToAction(nameof(Index));
@@ -69,6 +71,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Appointments/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,7 +98,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 try
                 {
-                    appointment.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
+                    appointment.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                     await _appointmentRepository.UpdateAsync(appointment);
 
@@ -117,6 +120,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Appoitnments/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
@@ -53,6 +54,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Doctors/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -86,6 +88,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Doctors/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -144,6 +147,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // POST: Doctors/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
