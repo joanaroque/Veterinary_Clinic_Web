@@ -3,13 +3,11 @@ using Vet_Clinic.Web.Data;
 
 namespace Vet_Clinic.Web.Controllers.API
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CustomerController : Controller
+    public class CustomersController : Controller
     {
         private readonly ICustomerRepository _customerRepository;
 
-        public CustomerController(ICustomerRepository customerRepository)
+        public CustomersController(ICustomerRepository customerRepository)
         {
             _customerRepository = customerRepository;
         }

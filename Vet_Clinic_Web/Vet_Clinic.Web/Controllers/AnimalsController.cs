@@ -14,13 +14,19 @@ namespace Vet_Clinic.Web.Controllers
     public class AnimalsController : Controller
     {
         private readonly IAnimalRepository _animalRepository;
-
         private readonly IUserHelper _userHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IConverterHelper _converterHelper;
 
-        public AnimalsController(IAnimalRepository animalRepository, IUserHelper userHelper)
+        public AnimalsController(IAnimalRepository animalRepository,
+            IUserHelper userHelper,
+            IImageHelper imageHelper,
+            IConverterHelper converterHelper)
         {
             _animalRepository = animalRepository;
             _userHelper = userHelper;
+            _imageHelper = imageHelper;
+            _converterHelper = converterHelper;
         }
 
         // GET: Animals
@@ -66,46 +72,18 @@ namespace Vet_Clinic.Web.Controllers
 
                 if (animalViewModel.ImageFile != null && animalViewModel.ImageFile.Length > 0)
                 {
-                    var guid = Guid.NewGuid().ToString();
-                    var file = $"{guid}.jpg";
-
-                    path = Path.Combine(
-                        Directory.GetCurrentDirectory(),
-                        "wwwroot\\images\\Animals",
-                        file);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await animalViewModel.ImageFile.CopyToAsync(stream);
-                    }
-
-                    path = $"~/images/Animals/{file}";
+                    path = await _imageHelper.UploadImageAsync(animalViewModel.ImageFile, "Animals");
                 }
 
-                var animal = this.ToAnimal(animalViewModel, path);
+                var animal = _converterHelper.ToAnimal(animalViewModel, path, true);
 
-                animal.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
+                animal.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 await _animalRepository.CreateAsync(animal);
 
                 return RedirectToAction(nameof(Index));
             }
             return View(animalViewModel);
-        }
-
-        private Animal ToAnimal(AnimalViewModel view, string path)
-        {
-            return new Animal
-            {
-                Id = view.Id,
-                Name = view.Name,
-                Breed = view.Breed,
-                Gender = view.Gender,
-                Weight = view.Weight,
-                ImageUrl = path,
-                Sterilization = view.Sterilization,
-                User = view.User
-            };
         }
 
         // GET: Animals/Edit/5
@@ -123,24 +101,9 @@ namespace Vet_Clinic.Web.Controllers
                 return NotFound();
             }
 
-            var view = this.ToAnimalViewModel(animal);
+            var view = _converterHelper.ToAnimalViewModel(animal);
 
             return View(view);
-        }
-
-        private object ToAnimalViewModel(Animal animal)
-        {
-            return new AnimalViewModel
-            {
-                Id = animal.Id,
-                Name = animal.Name,
-                Breed = animal.Breed,
-                Gender = animal.Gender,
-                Weight = animal.Weight,
-                ImageUrl = animal.ImageUrl,
-                Sterilization = animal.Sterilization,
-                User = animal.User
-            };
         }
 
         // POST: Animals/Edit/5
@@ -158,26 +121,12 @@ namespace Vet_Clinic.Web.Controllers
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-                        var guid = Guid.NewGuid().ToString();
-                        var file = $"{guid}.jpg";
-
-                        path = Path.Combine(
-                            Directory.GetCurrentDirectory(),
-                            "wwwroot\\images\\Animals",
-                            file);
-
-                        using (var stream = new FileStream(path, FileMode.Create))
-                        {
-                            await model.ImageFile.CopyToAsync(stream);
-                        }
-
-                        path = $"~/images/Animals/{file}";
+                        var doctor = _converterHelper.ToAnimal(model, path, false);
                     }
 
-                    var product = this.ToAnimal(model, path);
+                    var product = _converterHelper.ToAnimal(model, path, false);
 
-                    //TODO: Change to the logged user
-                    product.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
+                    product.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
                     await _animalRepository.UpdateAsync(product);
                 }
                 catch (DbUpdateConcurrencyException)

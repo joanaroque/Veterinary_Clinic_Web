@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Vet_Clinic.Web.Data;
-using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
 
@@ -15,12 +14,18 @@ namespace Vet_Clinic.Web.Controllers
     {
         private readonly IDoctorRepository _doctorRepository;
         private readonly IUserHelper _userHelper;
+        private readonly IImageHelper _imageHelper;
+        private readonly IConverterHelper _converterHelper;
 
-
-        public DoctorsController(IDoctorRepository doctorRepository, IUserHelper userHelper)
+        public DoctorsController(IDoctorRepository doctorRepository,
+            IUserHelper userHelper,
+            IImageHelper imageHelper,
+            IConverterHelper converterHelper)
         {
             _doctorRepository = doctorRepository;
+            _imageHelper = imageHelper;
             _userHelper = userHelper;
+            _converterHelper = converterHelper;
         }
 
         // GET: Doctors
@@ -66,53 +71,18 @@ namespace Vet_Clinic.Web.Controllers
 
                 if (doctorViewModel.ImageFile != null && doctorViewModel.ImageFile.Length > 0)
                 {
-                    var guid = Guid.NewGuid().ToString();
-                    var file = $"{guid}.jpg";
-
-                    path = Path.Combine(
-                        Directory.GetCurrentDirectory(),
-                        "wwwroot\\images\\Doctors",
-                        file);
-
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await doctorViewModel.ImageFile.CopyToAsync(stream);
-                    }
-
-                    path = $"~/images/Doctors/{file}";
+                    path = await _imageHelper.UploadImageAsync(doctorViewModel.ImageFile, "Products");
                 }
 
-                var doctor = this.ToDoctor(doctorViewModel, path);
-
-                //TODO: change to the logged user
-                doctor.User = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
+                var doctor = _converterHelper.ToDoctor(doctorViewModel, path, true);
+ 
+                doctor.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 await _doctorRepository.CreateAsync(doctor);
 
                 return RedirectToAction(nameof(Index));
             }
             return View(doctorViewModel);
-        }
-
-        private Doctor ToDoctor(DoctorViewModel view, string path)
-        {
-            return new Doctor
-            {
-                Id = view.Id,
-                ImageUrl = path,
-                LastName = view.LastName,
-                Specialty = view.Specialty,
-                MedicalLicense = view.MedicalLicense,
-                Name = view.Name,
-                TIN = view.TIN,
-                PhoneNumber = view.PhoneNumber,
-                Email = view.Email,
-                Schedule = view.Schedule,
-                ObsRoom = view.ObsRoom,
-                Address = view.Address,
-                DateOfBirth = view.DateOfBirth,
-                User = view.User
-            };
         }
 
         // GET: Doctors/Edit/5
@@ -129,30 +99,9 @@ namespace Vet_Clinic.Web.Controllers
                 return NotFound();
             }
 
-            var view = this.ToDoctorViewModel(doctor);
+            var view = _converterHelper.ToDoctorViewModel(doctor);
 
             return View(view);
-        }
-
-        private DoctorViewModel ToDoctorViewModel(Doctor doctor)
-        {
-            return new DoctorViewModel
-            {
-                Id = doctor.Id,
-                ImageUrl = doctor.ImageUrl,
-                LastName = doctor.LastName,
-                Specialty = doctor.Specialty,
-                MedicalLicense = doctor.MedicalLicense,
-                Name = doctor.Name,
-                TIN = doctor.TIN,
-                PhoneNumber = doctor.PhoneNumber,
-                Email = doctor.Email,
-                Schedule = doctor.Schedule,
-                ObsRoom = doctor.ObsRoom,
-                Address = doctor.Address,
-                DateOfBirth = doctor.DateOfBirth,
-                User = doctor.User
-            };
         }
 
         // POST: Doctors/Edit/5
@@ -170,27 +119,12 @@ namespace Vet_Clinic.Web.Controllers
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
-
-                        var guid = Guid.NewGuid().ToString();
-                        var file = $"{guid}.jpg";
-
-                        path = Path.Combine(
-                            Directory.GetCurrentDirectory(),
-                            "wwwroot\\images\\Doctors",
-                            file);
-
-                        using (var stream = new FileStream(path, FileMode.Create))
-                        {
-                            await model.ImageFile.CopyToAsync(stream);
-                        }
-
-                        path = $"~/images/Doctors/{file}";
+                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "Doctors");
                     }
 
-                    var doctor = this.ToDoctor(model, path);
+                    var doctor = _converterHelper.ToDoctor(model, path, false);
 
-                    //TODO: Change to the logged user
-                    doctor.User = await _userHelper.GetUserByEmailAsync("rafaasfs@gmail.com");
+                    doctor.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
                     await _doctorRepository.UpdateAsync(doctor);
                 }
                 catch (DbUpdateConcurrencyException)
