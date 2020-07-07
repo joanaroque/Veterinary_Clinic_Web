@@ -41,9 +41,10 @@ namespace Vet_Clinic.Web
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-
             services.AddTransient<SeedDB>();
             services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<IImageHelper, ImageHelper>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();
             services.AddScoped<IAnimalRepository, AnimalRepository>();
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
@@ -76,6 +77,7 @@ namespace Vet_Clinic.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Data
@@ -17,11 +18,18 @@ namespace Vet_Clinic.Web.Data
 
         }
 
-        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        //{
-        //    //quando o modelo for criado, vou desativar a Cascade delete rule
-        //    modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-        //}
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            var cascadeFKs = modelBuilder.Model.GetEntityTypes()
+                .SelectMany(t => t.GetForeignKeys().Where(fk => fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade));
+
+            foreach (var fk in cascadeFKs)
+            {
+                fk.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            base.OnModelCreating(modelBuilder);
+        }
 
     }
 }
