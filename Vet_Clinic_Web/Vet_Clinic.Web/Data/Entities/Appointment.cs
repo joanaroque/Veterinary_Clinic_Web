@@ -11,11 +11,11 @@ namespace Vet_Clinic.Web.Data.Entities
         [Required(ErrorMessage = "Must insert the {0}")]
         public string Treatment { get; set; }
 
-        [Required(ErrorMessage = "Must insert the {0}")]
+        //[Required(ErrorMessage = "Must insert the {0}")]
         [Display(Name = "Doctor")]
         public Doctor DoctorName { get; set; }
 
-        [Required(ErrorMessage = "Must insert the {0}")]
+        //[Required(ErrorMessage = "Must insert the {0}")]
         [Display(Name = "Animal")]
         public Animal AnimalName { get; set; }                                    //***************************************** FALTA CLASS ANIMAL
 
@@ -25,7 +25,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [Display(Name = "Appointment Schedule")]
         public DateTime AppointmentSchedule { get; set; }
 
-        [Required(ErrorMessage = "Must insert the {0}")]
+        //[Required(ErrorMessage = "Must insert the {0}")]
         [Display(Name = "Customer")]
         public Customer CostumerName { get; set; }                                        //***************************************** FALTA CLASS CLIENTE
 
