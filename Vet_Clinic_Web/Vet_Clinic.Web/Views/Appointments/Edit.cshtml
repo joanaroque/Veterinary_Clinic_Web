@@ -18,30 +18,32 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form class="form-horizontal" method="post" asp-action="Edit" enctype="multipart/form-data">
-            <div class="box-body">
-                <div class="form-group">
-                    <label asp-for="Treatment" class="control-label"></label>
-                    <input asp-for="Treatment" class="form-control" />
-                    <span asp-validation-for="Treatment" class="text-danger"></span>
+        <div class="col-md-6 offset-md-6">
+            <form class="form-horizontal" method="post" asp-action="Edit" enctype="multipart/form-data">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label asp-for="Treatment" ></label>
+                        <input asp-for="Treatment" class="form-control" />
+                        <span asp-validation-for="Treatment" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AppointmentSchedule" ></label>
+                        <input asp-for="AppointmentSchedule" class="form-control" />
+                        <span asp-validation-for="AppointmentSchedule" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AppointmentObs"></label>
+                        <input asp-for="AppointmentObs" class="form-control" />
+                        <span asp-validation-for="AppointmentObs" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <a asp-action="Index" class="btn btn-warning pull-right">Back to List</a>
+                        <input type="submit" value="Save" class="btn btn-success " />
+                    </div>
+                    <!-- /.box-footer -->
                 </div>
-                <div class="form-group">
-                    <label asp-for="AppointmentSchedule" class="control-label"></label>
-                    <input asp-for="AppointmentSchedule" class="form-control" />
-                    <span asp-validation-for="AppointmentSchedule" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="AppointmentObs" class="control-label"></label>
-                    <input asp-for="AppointmentObs" class="form-control" />
-                    <span asp-validation-for="AppointmentObs" class="text-danger"></span>
-                </div>
-                <div class="box-footer">
-                    <a asp-action="Index" class="btn btn-warning pull-right">Back to List</a>
-                    <input type="submit" value="Save" class="btn btn-success " />
-                </div>
-                <!-- /.box-footer -->
+            </form>
             </div>
-        </form>
-    </div>
-    <!-- /.box -->
+        </div>
+        <!-- /.box -->
 </section>
