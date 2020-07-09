@@ -47,7 +47,7 @@
                                 <!-- The user image in the navbar-->
                                 <img src="~/dist/img/if2.jpg" class="user-image" alt="User Image">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs">Sign In</span>
+                                <span class="hidden-xs">Login</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
@@ -61,12 +61,11 @@
                                 <!-- Menu Body -->
                                 <li class="user-body">
                                     <div class="row">
-                                        <div class="col-xs-4 text-center">
-                                            <ul class="nav navbar-nav navbar-right">
+                                        <div class="col-xs-4 text-bold ">
+                                            <ul class="nav navbar-nav ">
                                                 @if (this.User.Identity.IsAuthenticated)
                                                 {
-                                                    <li><a asp-controller="Account" asp-action="ChangeUser">@this.User.Identity.Name</a></li>
-                                                    <li><a asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                                    <li><a asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name</a></li>
                                                 }
                                                 else
                                                 {
@@ -83,7 +82,7 @@
                                         <a href="#" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a class="btn btn-default btn-flat">Sign out</a>
+                                        <a asp-controller="Account" asp-action="Logout" class="btn btn-default btn-flat">Logout</a>
                                     </div>
                                 </li>
                             </ul>

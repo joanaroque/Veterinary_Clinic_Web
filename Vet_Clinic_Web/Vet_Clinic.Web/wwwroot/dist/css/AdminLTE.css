@@ -23,6 +23,7 @@ body {
   overflow-x: hidden;
   overflow-y: auto;
 }
+
 /* Layout */
 .wrapper {
   height: 100%;
@@ -549,9 +550,9 @@ a:focus {
   -o-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-.sidebar-menu .active > .treeview-menu {
-  display: block;
-}
+    .sidebar-menu .active > .treeview-menu {
+        display: block;
+    }
 /*
  * Component: Sidebar Mini
  */
