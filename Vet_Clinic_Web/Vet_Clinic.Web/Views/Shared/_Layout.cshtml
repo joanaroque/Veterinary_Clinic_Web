@@ -129,12 +129,40 @@
                         </a>
                     </li>
 
+
+                    @*****************************************************************************************************************************************@
+                    @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-controller="" asp-action="">Users</a></li>
+                                <li><a asp-controller="" asp-action="">Roles</a></li>
+                            </ul>
+                        </li>
+                    }
+                    @*****************************************************************************************************************************************@
+
                     <li class="active">
                         <a asp-controller="Appointments" asp-action="Index">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             <span>Appointments</span>
                         </a>
                     </li>
+
+                    @*****************************************************************************************************************************************@
+                    @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-controller="" asp-action="">Users</a></li>
+                                <li><a asp-controller="" asp-action="">Roles</a></li>
+                            </ul>
+                        </li>
+                    }
+                    @*****************************************************************************************************************************************@
+
 
                     <li class="active">
                         <a asp-controller="Animals" asp-action="Index">
@@ -143,6 +171,21 @@
                         </a>
                     </li>
 
+
+                    @*****************************************************************************************************************************************@
+                    @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-controller="" asp-action="">Users</a></li>
+                                <li><a asp-controller="" asp-action="">Roles</a></li>
+                            </ul>
+                        </li>
+                    }
+                    @*****************************************************************************************************************************************@
+
+                 
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-female" aria-hidden="true"></i><i class="fa fa-male" aria-hidden="true"></i><span> Customers</span>
@@ -158,6 +201,23 @@
                                     </i> Customers
                                 </a>
                             </li>
+
+
+                            @*****************************************************************************************************************************************@
+                            @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a asp-controller="" asp-action="">Users</a></li>
+                                        <li><a asp-controller="" asp-action="">Roles</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            @*****************************************************************************************************************************************@
+
+                 
+                        
                         </ul>
                     </li>
                 </ul>
