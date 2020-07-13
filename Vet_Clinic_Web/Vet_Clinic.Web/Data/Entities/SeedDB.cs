@@ -27,6 +27,9 @@ namespace Vet_Clinic.Web.Data
         {
             await _context.Database.EnsureCreatedAsync();
 
+            await _userHelper.ChecRoleAsync("Admin");
+            await _userHelper.ChecRoleAsync("Customer");
+
             var user = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
 
             if (user == null)
@@ -47,7 +50,18 @@ namespace Vet_Clinic.Web.Data
                     throw new InvalidOperationException("Could not create the user in seeder.");
                 }
 
+                var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                await _userHelper.ConfirmEmailAsync(user, token);
+
+
+                var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
+
+                if (!isInRole)
+                {
+                    await _userHelper.AddUSerToRoleAsync(user, "Admin");
+                }
             }
         }
     }
 }
+

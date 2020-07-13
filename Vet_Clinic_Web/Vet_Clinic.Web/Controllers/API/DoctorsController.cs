@@ -4,6 +4,7 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Controllers.API
 {
     [Route("api/[controller]")]
+    // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] // para entrar na api é preciso ter um token deste tipo
     [ApiController]
     public class DoctorsController : Controller
     {
