@@ -26,11 +26,8 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                <th>Treatment</th>
-                                <th>Doctor Name</th>
-                                <th>Animal Name</th>
                                 <th>Schedule</th>
-                                <th>Appointment Obs</th>
+                                <th>Appointment Observations</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -39,9 +36,6 @@
                                 @using (Html.BeginForm("Delete", "Appointments", new { id = item.Id }))
                                 {
                                     <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.Treatment)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.DoctorName)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.AnimalName)</td>
                                         <td>@Html.DisplayFor(modelItem => item.AppointmentSchedule)</td>
                                         <td>@Html.DisplayFor(modelItem => item.AppointmentObs)</td>
                                         <td>

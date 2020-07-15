@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Vet_Clinic.Web.Data;
+using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
@@ -41,14 +41,14 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AnimalNotFound");
             }
 
             var animal = await _animalRepository.GetByIdAsync(id.Value);
 
             if (animal == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AnimalNotFound");
             }
 
             return View(animal);
@@ -94,14 +94,14 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AnimalNotFound");
             }
 
             var animal = await _animalRepository.GetByIdAsync(id.Value);
 
             if (animal == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AnimalNotFound");
             }
 
             var view = _converterHelper.ToAnimalViewModel(animal);
@@ -136,7 +136,7 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     if (!await _animalRepository.ExistAsync(model.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("AnimalNotFound");
                     }
                     else
                     {
@@ -148,34 +148,26 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        // GET: Animals/Delete/5
+        // POST: Animals/Delete/5
         [Authorize]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AnimalNotFound");
             }
 
             var animal = await _animalRepository.GetByIdAsync(id.Value);
-
-            if (animal == null)
-            {
-                return NotFound();
-            }
-
-            return View(animal);
-        }
-
-        // POST: Animals/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var animal = await _animalRepository.GetByIdAsync(id);
             await _animalRepository.DeleteAsync(animal);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult NotAuthorized()
+        {
+            return View();
         }
     }
 }

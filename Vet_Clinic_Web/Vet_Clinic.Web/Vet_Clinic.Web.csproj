@@ -2254,7 +2254,6 @@
     <None Include="wwwroot\bower_components\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="wwwroot\bower_components\bootstrap\Gemfile" />
     <None Include="wwwroot\bower_components\bootstrap\Gemfile.lock" />
-    <None Include="wwwroot\bower_components\bootstrap\Gruntfile.js" />
     <None Include="wwwroot\bower_components\bootstrap\grunt\.jshintrc" />
     <None Include="wwwroot\bower_components\bootstrap\grunt\bs-commonjs-generator.js" />
     <None Include="wwwroot\bower_components\bootstrap\grunt\bs-glyphicons-data-generator.js" />
@@ -2262,7 +2261,6 @@
     <None Include="wwwroot\bower_components\bootstrap\grunt\bs-raw-files-generator.js" />
     <None Include="wwwroot\bower_components\bootstrap\grunt\change-version.js" />
     <None Include="wwwroot\bower_components\bootstrap\grunt\sauce_browsers.yml" />
-    <None Include="wwwroot\bower_components\bootstrap\ISSUE_TEMPLATE.md" />
     <None Include="wwwroot\bower_components\bootstrap\js\.jscsrc" />
     <None Include="wwwroot\bower_components\bootstrap\js\.jshintrc" />
     <None Include="wwwroot\bower_components\bootstrap\js\affix.js" />

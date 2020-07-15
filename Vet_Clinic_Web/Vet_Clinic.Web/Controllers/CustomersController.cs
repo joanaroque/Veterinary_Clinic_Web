@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Vet_Clinic.Web.Data;
+using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
@@ -41,14 +41,14 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("CustomerNotFound");
             }
 
             var customer = await _customerRepository.GetByIdAsync(id.Value);
 
             if (customer == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("CustomerNotFound");
             }
 
             return View(customer);
@@ -95,13 +95,13 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("CustomerNotFound");
             }
 
             var customer = await _customerRepository.GetByIdAsync(id.Value);
             if (customer == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("CustomerNotFound");
             }
             var view = _converterHelper.ToCustomerViewModel(customer);
 
@@ -135,7 +135,7 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     if (!await _customerRepository.ExistAsync(model.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("CustomerNotFound");
                     }
                     else
                     {
@@ -155,7 +155,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("CustomerNotFound");
             }
 
             var customer = await _customerRepository.GetByIdAsync(id.Value);
@@ -164,6 +164,9 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
+        public IActionResult NotAuthorized()
+        {
+            return View();
+        }
     }
 }

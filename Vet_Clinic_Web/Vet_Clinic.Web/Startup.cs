@@ -8,9 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Vet_Clinic.Web.Data;
+using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
+using Vet_Clinic.Web.Data;
 
 namespace Vet_Clinic.Web
 {
@@ -94,6 +95,7 @@ namespace Vet_Clinic.Web
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseAuthentication();

@@ -1,49 +1,35 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Vet_Clinic.Web.Data;
-using Vet_Clinic.Web.Data.Entities;
-using Vet_Clinic.Web.Helpers;
+using Vet_Clinic.Web.Data.Repositories;
+using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Controllers
 {
     public class AppointmentsController : Controller
     {
         private readonly IAppointmentRepository _appointmentRepository;
+        private readonly IDoctorRepository _doctorRepository;
+        private readonly IAnimalRepository _animalRepository;
+        private readonly ICustomerRepository _customerRepository;
 
-        private readonly IUserHelper _userHelper;
 
-        public AppointmentsController(IAppointmentRepository appointmentRepository, IUserHelper userHelper)
+        public AppointmentsController(IAppointmentRepository appointmentRepository,
+            IDoctorRepository doctorRepository,
+            IAnimalRepository animalRepository,
+            ICustomerRepository customerRepository)
         {
             _appointmentRepository = appointmentRepository;
-            _userHelper = userHelper;
+            _doctorRepository = doctorRepository;
+            _animalRepository = animalRepository;
+            _customerRepository = customerRepository;
         }
 
         // GET: Appointments
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_appointmentRepository.GetAll().OrderBy(p => p.Treatment));
-        }
-
-        // GET: Appointments/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
-
-            if (appointment == null)
-            {
-                return NotFound();
-            }
-
-            return View(appointment);
+            var model = await _appointmentRepository.GetAppointmentsAsync(User.Identity.Name);
+            return View(model);
         }
 
         // GET: Appointments/Create
@@ -53,100 +39,30 @@ namespace Vet_Clinic.Web.Controllers
             return View();
         }
 
-        // POST: Appointments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        public IActionResult AddDoctorAnimalCustomer()
+        {
+            var model = new AddItemViewModel
+            {
+                Quantity = 1,
+                Doctors = _doctorRepository.GetComboDoctors(),
+                Animals = _animalRepository.GetComboAnimals(),
+                Customers = _customerRepository.GetComboCustomers()
+
+            };
+
+            return View(model);
+        }
+
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Appointment appointment)
+        public async Task<IActionResult> AddDoctorAnimalCustomer(AddItemViewModel model)
         {
             if (ModelState.IsValid)
             {
-                appointment.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
-                await _appointmentRepository.CreateAsync(appointment);
-                return RedirectToAction(nameof(Index));
+                await _appointmentRepository.AddItemToAppointmentAsync(model, User.Identity.Name);
+                return RedirectToAction("Create");
             }
-            return View(appointment);
-        }
-
-        // GET: Appointments/Edit/5
-        [Authorize]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
-            if (appointment == null)
-            {
-                return NotFound();
-            }
-            return View(appointment);
-        }
-
-        // POST: Appointments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Appointment appointment)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    appointment.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
-                    await _appointmentRepository.UpdateAsync(appointment);
-
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await _appointmentRepository.ExistAsync(appointment.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(appointment);
-        }
-
-        // GET: Appoitnments/Delete/5
-        [Authorize]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
-
-            if (appointment == null)
-            {
-                return NotFound();
-            }
-
-            return View(appointment);
-        }
-
-        // POST: Appointments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var appointment = await _appointmentRepository.GetByIdAsync(id);
-            await _appointmentRepository.DeleteAsync(appointment);
-
-            return RedirectToAction(nameof(Index));
+            return View(model);
         }
 
     }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Vet_Clinic.Web.Data;
+using Vet_Clinic.Web.Data.Repositories;
 
 namespace Vet_Clinic.Web.Controllers.API
 {

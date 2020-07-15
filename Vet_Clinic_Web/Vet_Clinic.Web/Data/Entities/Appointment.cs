@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Vet_Clinic.Web.Data.Entities
@@ -8,16 +9,6 @@ namespace Vet_Clinic.Web.Data.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Must insert the {0}")]
-        public string Treatment { get; set; }
-
-        //[Required(ErrorMessage = "Must insert the {0}")]
-        [Display(Name = "Doctor")]
-        public Doctor DoctorName { get; set; }
-
-        //[Required(ErrorMessage = "Must insert the {0}")]
-        [Display(Name = "Animal")]
-        public Animal AnimalName { get; set; }                                    //***************************************** FALTA CLASS ANIMAL
 
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.DateTime)]
@@ -25,14 +16,15 @@ namespace Vet_Clinic.Web.Data.Entities
         [Display(Name = "Appointment Schedule")]
         public DateTime AppointmentSchedule { get; set; }
 
-        //[Required(ErrorMessage = "Must insert the {0}")]
-        [Display(Name = "Customer")]
-        public Customer CostumerName { get; set; }                                        //***************************************** FALTA CLASS CLIENTE
 
         [Display(Name = "Observations")]
         public string AppointmentObs { get; set; }
 
+        [Required]
         public User User { get; set; }
+
+
+        public IEnumerable<AppointmentDetail> Procedures { get; set; }
 
     }
 }

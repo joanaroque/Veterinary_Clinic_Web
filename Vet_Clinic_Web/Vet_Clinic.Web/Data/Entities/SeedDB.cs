@@ -30,7 +30,7 @@ namespace Vet_Clinic.Web.Data
             await _userHelper.ChecRoleAsync("Admin");
             await _userHelper.ChecRoleAsync("Customer");
 
-            var user = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
+            var user = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com");
 
             if (user == null)
             {
@@ -38,8 +38,8 @@ namespace Vet_Clinic.Web.Data
                 {
                     FirstName = "Joana",
                     LastName = "Roque",
-                    Email = "joana.ramos.roque@formandos.cinel.pt",
-                    UserName = "joana.ramos.roque@formandos.cinel.pt",
+                    Email = "joanatpsi@gmail.com",
+                    UserName = "joanatpsi@gmail.com",
                     PhoneNumber = "156456456"
                 };
 

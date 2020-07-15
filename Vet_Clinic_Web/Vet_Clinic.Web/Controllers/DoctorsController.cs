@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Vet_Clinic.Web.Data;
+using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
 
@@ -40,21 +40,21 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("DoctorNotFound");
             }
 
             var doctor = await _doctorRepository.GetByIdAsync(id.Value);
 
             if (doctor == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("DoctorNotFound");
             }
 
             return View(doctor);
         }
 
         // GET: Doctors/Create
-        [Authorize]
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -73,7 +73,7 @@ namespace Vet_Clinic.Web.Controllers
 
                 if (doctorViewModel.ImageFile != null && doctorViewModel.ImageFile.Length > 0)
                 {
-                    path = await _imageHelper.UploadImageAsync(doctorViewModel.ImageFile, "Products");
+                    path = await _imageHelper.UploadImageAsync(doctorViewModel.ImageFile, "Doctors");
                 }
 
                 var doctor = _converterHelper.ToDoctor(doctorViewModel, path, true);
@@ -93,13 +93,13 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("DoctorNotFound");
             }
 
             var doctor = await _doctorRepository.GetByIdAsync(id.Value);
             if (doctor == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("DoctorNotFound");
             }
 
             var view = _converterHelper.ToDoctorViewModel(doctor);
@@ -134,7 +134,7 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     if (!await _doctorRepository.ExistAsync(model.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("DoctorNotFound");
                     }
                     else
                     {
@@ -155,13 +155,19 @@ namespace Vet_Clinic.Web.Controllers
 
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("DoctorNotFound");
             }
 
             var doctor = await _doctorRepository.GetByIdAsync(id.Value);
             await _doctorRepository.DeleteAsync(doctor);
 
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public IActionResult NotAuthorized()
+        {
+            return View();
         }
     }
 }

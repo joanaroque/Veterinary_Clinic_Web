@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Vet_Clinic.Web.Data.Entities
 {
@@ -8,6 +9,8 @@ namespace Vet_Clinic.Web.Data.Entities
 
         public string LastName { get; set; }
 
+        [Display(Name = "Full Name")]
+        public string FullName { get { return $"{FirstName} {LastName}"; } }
 
     }
 }

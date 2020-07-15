@@ -9,6 +9,8 @@ namespace Vet_Clinic.Web.Data
     {
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<AppointmentDetail> AppointmentDetails { get; set; }
+        public DbSet<AppointmentDetailTemp> AppointmentDetailsTemp { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
