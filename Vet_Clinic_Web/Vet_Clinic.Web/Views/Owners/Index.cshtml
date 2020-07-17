@@ -1,12 +1,8 @@
-﻿@model IEnumerable<Vet_Clinic.Web.Data.Entities.Appointment>
+﻿@model IEnumerable<Vet_Clinic.Web.Data.Entities.Owner>
 
-@{
-    ViewData["Title"] = "Index";
-
-}
 <section class="content-header">
     <h1>
-        Appointment
+        Owners
     </h1>
 
     <p>
@@ -14,7 +10,7 @@
     </p>
     <ol class="breadcrumb">
         <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
-        <li class="active">Appointment</li>
+        <li class="active">Owners</li>
     </ol>
 </section>
 <!-- Main content -->
@@ -23,50 +19,41 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Manage Appointments</h3>
+                    <h3 class="box-title">Manage Owners</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
-                                @if (this.User.IsInRole("Admin"))
-                                {
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.User.FullName)
-                                    </th>
-                                }
-                                <th>
-                                    @Html.DisplayNameFor(model => model.AppointmentSchedule)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.AppointmentObs)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.IsAvailable)
-                                </th>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Last Name</th>
+                                <th>Pet/s</th>
+                                <th>Email</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                @using (Html.BeginForm("Delete", "Appointments", new { id = item.Id }))
+                                @using (Html.BeginForm("Delete", "Owners", new { id = item.Id }))
                                 {
                             <tr>
-                                @if (this.User.IsInRole("Admin"))
-                                {
-                                    <th>
-                                        @Html.DisplayFor(modelItem => item.User.FullName)
-                                    </th>
-                                }
-                                <td>@Html.DisplayFor(modelItem => item.AppointmentSchedule)</td>
-                                <td>@Html.DisplayFor(modelItem => item.AppointmentObs)</td>
-                                <td>@Html.DisplayFor(modelItem => item.IsAvailable)</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
+                                    }
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                                <td>@Html.DisplayFor(modelItem => item.LastName)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Pets)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Email)</td>
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                                     <input type="submit" value="Delete"
-                                           onclick="return confirm('Are you sure you want to delete Appointment @item.Id?')" />
+                                           onclick="return confirm('Are you sure you want to delete Owner @item.Name?')" />
                                 </td>
                             </tr>
                                 }

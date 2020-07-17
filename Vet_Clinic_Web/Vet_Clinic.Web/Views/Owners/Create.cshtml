@@ -1,14 +1,13 @@
-﻿@model Vet_Clinic.Web.Models.DoctorViewModel
+﻿@model Vet_Clinic.Web.Models.OwnerViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
 
-
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Doctor
+        Owner
     </h1>
 </section>
 <!-- Main content -->
@@ -16,7 +15,7 @@
     <!-- Horizontal Form -->
     <div class="box box-info">
         <div class="box-header with-border">
-            <h3 class="box-title">Add Doctor</h3>
+            <h3 class="box-title">Add Owner</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
@@ -35,21 +34,6 @@
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Specialty"></label>
-                        <input asp-for="Specialty" class="form-control" />
-                        <span asp-validation-for="Specialty" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="MedicalLicense"></label>
-                        <input asp-for="MedicalLicense" class="form-control" />
-                        <span asp-validation-for="MedicalLicense" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="ImageFile"></label>
-                        <input asp-for="ImageFile" class="form-control" />
-                        <span asp-validation-for="ImageFile" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
                         <label asp-for="TIN"></label>
                         <input asp-for="TIN" class="form-control" />
                         <span asp-validation-for="TIN" class="text-danger"></span>
@@ -60,19 +44,19 @@
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="ImageFile"></label>
+                        <input asp-for="ImageFile" class="form-control" />
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="Email"></label>
                         <input asp-for="Email" class="form-control" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Schedule"></label>
-                        <input asp-for="Schedule" class="form-control" />
-                        <span asp-validation-for="Schedule" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="ObsRoom"></label>
-                        <input asp-for="ObsRoom" class="form-control" />
-                        <span asp-validation-for="ObsRoom" class="text-danger"></span>
+                        <label asp-for="Pets"></label>
+                        <input asp-for="Pets" class="form-control" />
+                        <span asp-validation-for="Pets" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Address"></label>
@@ -84,7 +68,6 @@
                         <input asp-for="DateOfBirth" class="form-control" />
                         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                     </div>
-
                     <!-- /.box-body -->
                     <div class="form-group">
                         <a asp-action="Index" class="btn btn-warning pull-right">Back to List</a>
@@ -94,14 +77,12 @@
                 <!-- /.box-footer -->
             </form>
         </div>
-
     </div>
     <!-- /.box -->
 </section>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @{await Html.RenderPartialAsync("_ValidationCurrencyPartial");}
 
 }
-
-

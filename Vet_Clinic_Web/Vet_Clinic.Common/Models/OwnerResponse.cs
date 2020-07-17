@@ -1,6 +1,6 @@
 ﻿namespace Vet_Clinic.Common.Models
 {
-    public class DoctorResponse
+    class OwnerResponse
     {
         public int Id { get; set; }
 
@@ -9,12 +9,6 @@
 
 
         public string LastName { get; set; }
-
-
-        public string Specialty { get; set; }
-
-
-        public string MedicalLicense { get; set; }
 
 
         public string TIN { get; set; }
@@ -29,10 +23,7 @@
         public string Email { get; set; }
 
 
-        public string Schedule { get; set; }
-
-
-        public string ObsRoom { get; set; }
+        //Pet ???
 
 
         public string Address { get; set; }

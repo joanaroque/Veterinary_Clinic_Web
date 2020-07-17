@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Vet_Clinic.Web.Data.Entities;
@@ -21,6 +22,48 @@ namespace Vet_Clinic.Web.Data.Repositories
 
         }
 
+        public async Task AddDaysAsync(int days)
+        {
+            DateTime initialDate;
+
+            if (!_context.Appointments.Any())
+            {
+                initialDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
+            }
+            else
+            {
+                var agenda = _context.Appointments.LastOrDefault();
+                initialDate = new DateTime(agenda.AppointmentSchedule.Year, agenda.AppointmentSchedule.Month, agenda.AppointmentSchedule.AddDays(1).Day, 8, 0, 0);
+            }
+
+            var finalDate = initialDate.AddDays(days);
+            while (initialDate < finalDate)
+            {
+                if (initialDate.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    var finalDate2 = initialDate.AddHours(10);
+                    while (initialDate < finalDate2)
+                    {
+                        _context.Appointments.Add(new Appointment
+                        {
+                            AppointmentSchedule = initialDate.ToUniversalTime(),
+                        });
+
+
+                        initialDate = initialDate.AddMinutes(30);
+                    }
+
+                    initialDate = initialDate.AddHours(14);
+                }
+                else
+                {
+                    initialDate = initialDate.AddDays(1);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task AddItemToAppointmentAsync(AddItemViewModel model, string userName)
         {
             var user = await _userHelper.GetUserByEmailAsync(userName);
@@ -35,39 +78,37 @@ namespace Vet_Clinic.Web.Data.Repositories
                 return;
             }
 
-            var animal = await _context.Animals.FindAsync(model.AnimalId);
-            if (animal == null)
+            var Pet = await _context.Pets.FindAsync(model.PetId);
+            if (Pet == null)
             {
                 return;
             }
 
-            var customer = await _context.Customers.FindAsync(model.CustomerId);
-            if (customer == null)
+            var Owner = await _context.Owners.FindAsync(model.OwnerId);
+            if (Owner == null)
             {
                 return;
             }
 
-            var appointmentDetailTemp = await _context.AppointmentDetailsTemp
-              .Where(adt => adt.User == user && adt.Doctor == doctor && adt.Animal == animal && adt.Customer == customer)
+            var appointment = await _context.Appointments
+              .Where(adt => adt.User == user && adt.Doctor == doctor && adt.Pet == Pet && adt.Owner == Owner)
               .FirstOrDefaultAsync();
 
-            if (appointmentDetailTemp == null)
+            if (appointment == null)
             {
-                appointmentDetailTemp = new AppointmentDetailTemp
+                appointment = new Appointment
                 {
                     Doctor = doctor,
-                    Animal = animal,
-                    Customer = customer,
-                    Quantity = model.Quantity,
+                    Pet = Pet,
+                    Owner = Owner,
                     User = user,
                 };
 
-                _context.AppointmentDetailsTemp.Add(appointmentDetailTemp);
+                _context.Appointments.Add(appointment);
             }
             else
             {
-                appointmentDetailTemp.Quantity += model.Quantity;
-                _context.AppointmentDetailsTemp.Update(appointmentDetailTemp);
+                _context.Appointments.Update(appointment);
             }
 
 
@@ -86,19 +127,19 @@ namespace Vet_Clinic.Web.Data.Repositories
             if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
             {
                 return _context.Appointments
-                    .Include(o => o.Procedures)
-                    .ThenInclude(d => d.Animal)
+                    .Include(o => o.Owner)
+                    .Include(p => p.Pet)
                     .OrderByDescending(o => o.AppointmentSchedule);
             }
 
             return _context.Appointments
-                    .Include(o => o.Procedures)
-                    .ThenInclude(d => d.Animal)
+                    .Include(o => o.Owner)
+                    .Include(p => p.Pet)
                     .Where(o => o.User == user)
                     .OrderByDescending(o => o.AppointmentSchedule);
         }
 
-        public async Task<IQueryable<AppointmentDetailTemp>> GetDetailTempsAsync(string userName)
+        public async Task<IQueryable<Appointment>> GetDetailTempsAsync(string userName)
         {
             var user = await _userHelper.GetUserByEmailAsync(userName);
 
@@ -107,30 +148,27 @@ namespace Vet_Clinic.Web.Data.Repositories
                 return null;
             }
 
-            return _context.AppointmentDetailsTemp
+            return _context.Appointments
                     .Include(a => a.Doctor)
-                    .Include(a => a.Animal)
-                    .Include(a => a.Customer)
+                    .Include(a => a.Pet)
+                    .Include(a => a.Owner)
                     .Where(a => a.User == user)
-                    .OrderByDescending(o => o.Animal.Name);
+                    .OrderByDescending(o => o.Pet.Name);
         }
 
-        public async Task ModifyAppointmentDetailTempQuantityAsync(int id, double quantity)
+        public async Task ModifyAppointmentAsync(int id, double quantity)
         {
-            var appointmentDetailTemp = await _context.AppointmentDetailsTemp.FindAsync(id);
+            var appointment = await _context.Appointments.FindAsync(id);
 
-            if (appointmentDetailTemp == null)
+            if (appointment == null)
             {
                 return;
             }
 
-            appointmentDetailTemp.Quantity += quantity;
+            _context.Appointments.Update(appointment);
+            await _context.SaveChangesAsync();
 
-            if (appointmentDetailTemp.Quantity > 0)
-            {
-                _context.AppointmentDetailsTemp.Update(appointmentDetailTemp);
-                await _context.SaveChangesAsync();
-            }
         }
+
     }
 }

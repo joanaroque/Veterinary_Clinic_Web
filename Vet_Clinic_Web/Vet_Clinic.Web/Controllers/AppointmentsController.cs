@@ -10,19 +10,19 @@ namespace Vet_Clinic.Web.Controllers
     {
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IDoctorRepository _doctorRepository;
-        private readonly IAnimalRepository _animalRepository;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly IPetRepository _PetRepository;
+        private readonly IOwnerRepository _OwnerRepository;
 
 
         public AppointmentsController(IAppointmentRepository appointmentRepository,
             IDoctorRepository doctorRepository,
-            IAnimalRepository animalRepository,
-            ICustomerRepository customerRepository)
+            IPetRepository PetRepository,
+            IOwnerRepository OwnerRepository)
         {
             _appointmentRepository = appointmentRepository;
             _doctorRepository = doctorRepository;
-            _animalRepository = animalRepository;
-            _customerRepository = customerRepository;
+            _PetRepository = PetRepository;
+            _OwnerRepository = OwnerRepository;
         }
 
         // GET: Appointments
@@ -39,14 +39,13 @@ namespace Vet_Clinic.Web.Controllers
             return View();
         }
 
-        public IActionResult AddDoctorAnimalCustomer()
+        public IActionResult AddDoctorPetOwner()
         {
             var model = new AddItemViewModel
             {
-                Quantity = 1,
                 Doctors = _doctorRepository.GetComboDoctors(),
-                Animals = _animalRepository.GetComboAnimals(),
-                Customers = _customerRepository.GetComboCustomers()
+                Pets = _PetRepository.GetComboPets(),
+                Owners = _OwnerRepository.GetComboOwners()
 
             };
 
@@ -55,7 +54,7 @@ namespace Vet_Clinic.Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddDoctorAnimalCustomer(AddItemViewModel model)
+        public async Task<IActionResult> AddDoctorPetOwner(AddItemViewModel model)
         {
             if (ModelState.IsValid)
             {

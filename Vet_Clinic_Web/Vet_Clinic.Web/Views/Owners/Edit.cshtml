@@ -1,5 +1,4 @@
-﻿@model Vet_Clinic.Web.Models.DoctorViewModel
-
+﻿@model Vet_Clinic.Web.Models.OwnerViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -7,7 +6,7 @@
 
 <section class="content-header">
     <h1>
-        Doctor
+        Owner
     </h1>
 </section>
 <!-- Main content -->
@@ -15,12 +14,11 @@
     <!-- Horizontal Form -->
     <div class="box box-info">
         <div class="box-header with-border">
-            <h3 class="box-title">Update Doctor</h3>
+            <h3 class="box-title">Update Owner</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
         <div class="col-md-6 offset-md-6">
-
             <form class="form-horizontal" method="post" asp-action="Edit" enctype="multipart/form-data">
                 <div class="box-body">
                     <div class="form-group">
@@ -28,67 +26,36 @@
                             <label asp-for="Name"></label>
                             <input asp-for="Name" class="form-control" />
                             <span asp-validation-for="Name" class="text-danger"></span>
-
                         </div>
                         <div class="form-group">
                             <label asp-for="LastName"></label>
                             <input asp-for="LastName" class="form-control" />
                             <span asp-validation-for="LastName" class="text-danger"></span>
-
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Specialty"></label>
-                            <input asp-for="Specialty" class="form-control" />
-                            <span asp-validation-for="Specialty" class="text-danger"></span>
-
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="MedicalLicense"></label>
-                            <input asp-for="MedicalLicense" class="form-control" />
-                            <span asp-validation-for="MedicalLicense" class="text-danger"></span>
-
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="ImageFile"></label>
-                            <input asp-for="ImageFile" class="form-control" />
-                            <span asp-validation-for="ImageFile" class="text-danger"></span>
-
                         </div>
                         <div class="form-group">
                             <label asp-for="TIN"></label>
                             <input asp-for="TIN" class="form-control" />
                             <span asp-validation-for="TIN" class="text-danger"></span>
-
                         </div>
                         <div class="form-group">
                             <label asp-for="PhoneNumber"></label>
                             <input asp-for="PhoneNumber" class="form-control" />
                             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ImageFile"></label>
+                            <input asp-for="ImageFile" class="form-control" />
+                            <span asp-validation-for="ImageFile" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="Email"></label>
                             <input asp-for="Email" class="form-control" />
                             <span asp-validation-for="Email" class="text-danger"></span>
-
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Schedule"></label>
-                            <input asp-for="Schedule" class="form-control" />
-                            <span asp-validation-for="Schedule" class="text-danger"></span>
-
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="ObsRoom"></label>
-                            <input asp-for="ObsRoom" class="form-control" />
-                            <span asp-validation-for="ObsRoom" class="text-danger"></span>
-
                         </div>
                         <div class="form-group">
                             <label asp-for="Address"></label>
                             <input asp-for="Address" class="form-control" />
                             <span asp-validation-for="Address" class="text-danger"></span>
-
                         </div>
                         <div class="form-group">
                             <label asp-for="DateOfBirth"></label>
@@ -101,7 +68,6 @@
                                 <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
                             }
                         </div>
-                        <!-- /.box-body -->
                         <div class="form-group">
                             <a asp-action="Index" class="btn btn-warning pull-right">Back to List</a>
                             <input type="submit" value="Save" class="btn btn-success " />
@@ -114,7 +80,6 @@
     </div>
     <!-- /.box -->
 </section>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @{await Html.RenderPartialAsync("_ValidationCurrencyPartial");}

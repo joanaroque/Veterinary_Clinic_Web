@@ -14,6 +14,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
     <!-- Theme style -->
+    <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="~/dist/css/skins/skin-blue.min.css">
     <!-- Google Font -->
@@ -61,7 +62,10 @@
                                 <!-- Menu Body -->
                                 <li class="user-body">
                                     <div class="row">
-                                        <div class="col-xs-4 text-bold ">
+                                        <div class="navbar-collapse collapse">
+                                           
+
+
                                             <ul class="nav navbar-nav ">
                                                 @if (this.User.Identity.IsAuthenticated)
                                                 {
@@ -79,7 +83,21 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <ul class="nav navbar-nav">
+
+
+                                            @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                                            {
+                                                <li class="dropdown">
+                                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a asp-area="" asp-controller="" asp-action="">Users</a></li>
+                                                        <li><a asp-area="" asp-controller="" asp-action="">Roles</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+                                        </ul>
+                                        @*<a href="#" class="btn btn-default btn-flat">Profile</a>*@
                                     </div>
                                     <div class="pull-right">
                                         <a asp-controller="Account" asp-action="Logout" class="btn btn-default btn-flat">Logout</a>
@@ -121,16 +139,7 @@
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">Menu</li>
-                    @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-area="" asp-controller="" asp-action="">Users</a></li>
-                                <li><a asp-area="" asp-controller="" asp-action="">Roles</a></li>
-                            </ul>
-                        </li>
-                    }
+
                     <!-- Optionally, you can add icons to the links -->
                     <li class="active">
                         <a asp-controller="Doctors" asp-action="Index">
@@ -138,60 +147,33 @@
                             <span>Doctors</span>
                         </a>
                     </li>
-
-
-                    @*****************************************************************************************************************************************@
-
-                    @*****************************************************************************************************************************************@
-
                     <li class="active">
                         <a asp-controller="Appointments" asp-action="Index">
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             <span>Appointments</span>
                         </a>
                     </li>
-
-                    @*****************************************************************************************************************************************@
-
-                    @*****************************************************************************************************************************************@
-
-
                     <li class="active">
-                        <a asp-controller="Animals" asp-action="Index">
+                        <a asp-controller="Pets" asp-action="Index">
                             <i class="fa fa-paw" aria-hidden="true"></i>
-                            <span> Animals</span>
+                            <span> Pets</span>
                         </a>
                     </li>
-
-
-                    @*****************************************************************************************************************************************@
-
-                    @*****************************************************************************************************************************************@
-
-
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-female" aria-hidden="true"></i><i class="fa fa-male" aria-hidden="true"></i><span> Customers</span>
+                            <i class="fa fa-female" aria-hidden="true"></i><i class="fa fa-male" aria-hidden="true"></i><span> Owners</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
                             <li class="active">
-                                <a asp-controller="Customers" asp-action="Index">
+                                <a asp-controller="Owners" asp-action="Index">
                                     <i class="fa fa-female" aria-hidden="true"></i>
                                     <i class="fa fa-male" aria-hidden="true">
-                                    </i> Customers
+                                    </i> Owners
                                 </a>
                             </li>
-
-
-                            @*****************************************************************************************************************************************@
-
-                            @*****************************************************************************************************************************************@
-
-
-
                         </ul>
 
                     </li>
@@ -224,6 +206,8 @@
     <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/dist/js/adminlte.min.js"></script>
+
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>

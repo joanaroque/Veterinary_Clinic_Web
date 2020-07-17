@@ -9,13 +9,13 @@ namespace Vet_Clinic.Web.Helpers
 
         DoctorViewModel ToDoctorViewModel(Doctor doctor);
 
-        Animal ToAnimal(AnimalViewModel model, string path, bool isNew);
+        Pet ToPet(PetViewModel model, string path, bool isNew);
 
-        AnimalViewModel ToAnimalViewModel(Animal animal);
+        PetViewModel ToPetViewModel(Pet Pet);
 
-        Customer ToCustomer(CustomerViewModel model, string path, bool isNew);
+        Owner ToOwner(OwnerViewModel model, string path, bool isNew);
 
-        CustomerViewModel ToCustomerViewModel(Customer customer);
+        OwnerViewModel ToOwnerViewModel(Owner Owner);
 
     }
 }

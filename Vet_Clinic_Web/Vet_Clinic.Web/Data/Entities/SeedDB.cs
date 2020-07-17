@@ -28,7 +28,7 @@ namespace Vet_Clinic.Web.Data
             await _context.Database.EnsureCreatedAsync();
 
             await _userHelper.ChecRoleAsync("Admin");
-            await _userHelper.ChecRoleAsync("Customer");
+            await _userHelper.ChecRoleAsync("Owner");
 
             var user = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com");
 
