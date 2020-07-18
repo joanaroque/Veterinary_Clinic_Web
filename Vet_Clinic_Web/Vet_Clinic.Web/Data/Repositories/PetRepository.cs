@@ -15,13 +15,13 @@ namespace Vet_Clinic.Web.Data.Repositories
         }
 
 
-        public IEnumerable<SelectListItem> GetComboPets()
+        public IEnumerable<SelectListItem> GetComboPets(int ownerId)
         {
-            var list = _context.Pets.Select(p => new SelectListItem
+            var list = _context.Pets.Where(p => p.Owner.Id == ownerId).Select(p => new SelectListItem
             {
                 Text = p.Name,
                 Value = p.Id.ToString()
-            }).ToList();
+            }).OrderBy(p => p.Text).ToList();
 
             list.Insert(0, new SelectListItem
             {

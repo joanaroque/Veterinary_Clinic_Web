@@ -10,7 +10,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         Task<IQueryable<Appointment>> GetAppointmentsAsync(string userName);
 
 
-        Task AddItemToAppointmentAsync(AddItemViewModel model, string userName);
+        Task AddAppointmentAsync(AppointmentViewModel model, string userName);
 
 
         Task ModifyAppointmentAsync(int id, double quantity);

@@ -8,7 +8,7 @@ namespace Vet_Clinic.Web.Controllers.API
     [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] // para entrar na api é preciso ter um token deste tipo
     [ApiController]
-    public class DoctorsController : Controller
+    public class DoctorsController : ControllerBase
     {
         private readonly IDoctorRepository _doctorRepository;
 

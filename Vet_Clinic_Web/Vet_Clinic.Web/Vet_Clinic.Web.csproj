@@ -6667,4 +6667,8 @@
     <Folder Include="wwwroot\images\Doctors\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Vet_Clinic.Common\Vet_Clinic.Common.csproj" />
+  </ItemGroup>
+
 </Project>

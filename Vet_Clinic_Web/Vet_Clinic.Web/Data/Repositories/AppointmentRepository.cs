@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,7 +40,7 @@ namespace Vet_Clinic.Web.Data.Repositories
             var finalDate = initialDate.AddDays(days);
             while (initialDate < finalDate)
             {
-                if (initialDate.DayOfWeek != DayOfWeek.Sunday)
+                if (initialDate.DayOfWeek != DayOfWeek.Saturday && initialDate.DayOfWeek != DayOfWeek.Sunday)
                 {
                     var finalDate2 = initialDate.AddHours(10);
                     while (initialDate < finalDate2)
@@ -64,7 +65,7 @@ namespace Vet_Clinic.Web.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddItemToAppointmentAsync(AddItemViewModel model, string userName)
+        public async Task AddAppointmentAsync(AppointmentViewModel model, string userName)
         {
             var user = await _userHelper.GetUserByEmailAsync(userName);
             if (user == null)
@@ -72,47 +73,32 @@ namespace Vet_Clinic.Web.Data.Repositories
                 return;
             }
 
-            var doctor = await _context.Doctors.FindAsync(model.DoctorId);
-            if (doctor == null)
-            {
-                return;
-            }
+            var appointment = await _context.Appointments.FindAsync(model.Id);
 
-            var Pet = await _context.Pets.FindAsync(model.PetId);
-            if (Pet == null)
+            if (appointment != null)
             {
-                return;
-            }
-
-            var Owner = await _context.Owners.FindAsync(model.OwnerId);
-            if (Owner == null)
-            {
-                return;
-            }
-
-            var appointment = await _context.Appointments
-              .Where(adt => adt.User == user && adt.Doctor == doctor && adt.Pet == Pet && adt.Owner == Owner)
-              .FirstOrDefaultAsync();
-
-            if (appointment == null)
-            {
-                appointment = new Appointment
-                {
-                    Doctor = doctor,
-                    Pet = Pet,
-                    Owner = Owner,
-                    User = user,
-                };
-
-                _context.Appointments.Add(appointment);
-            }
-            else
-            {
+                appointment.IsAvailable = false;
+                appointment.Owner = await _context.Owners.FindAsync(model.OwnerId);
+                appointment.Pet = await _context.Pets.FindAsync(model.PetId);
+                appointment.AppointmentObs = model.AppointmentObs;
                 _context.Appointments.Update(appointment);
+                await _context.SaveChangesAsync();
             }
 
 
-            await _context.SaveChangesAsync();
+            //appointment = new Appointment
+            //{
+            //    Doctor = doctor,
+            //    Pet = Pet,
+            //    Owner = Owner,
+            //    User = user,
+            //};
+
+            //_context.Appointments.Add(appointment);
+
+
+            
+
         }
 
         public async Task<IQueryable<Appointment>> GetAppointmentsAsync(string userName)
@@ -167,8 +153,6 @@ namespace Vet_Clinic.Web.Data.Repositories
 
             _context.Appointments.Update(appointment);
             await _context.SaveChangesAsync();
-
         }
-
     }
 }

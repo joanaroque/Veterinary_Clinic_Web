@@ -8,7 +8,7 @@ namespace Vet_Clinic.Web.Data.Repositories
    public interface IPetRepository : IGenericRepository<Pet>
     {
 
-        IEnumerable<SelectListItem> GetComboPets();
+        IEnumerable<SelectListItem> GetComboPets(int ownerID);
 
     }
 }

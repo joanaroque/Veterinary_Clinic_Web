@@ -25,7 +25,7 @@ namespace Vet_Clinic.Web.Data.Repositories
             {
                 Text = p.Name,
                 Value = p.Id.ToString()
-            }).ToList();
+            }).OrderBy(p => p.Text).ToList();
 
             list.Insert(0, new SelectListItem
             {

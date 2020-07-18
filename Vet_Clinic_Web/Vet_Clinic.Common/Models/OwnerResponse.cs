@@ -1,6 +1,8 @@
-﻿namespace Vet_Clinic.Common.Models
+﻿using System.Collections.Generic;
+
+namespace Vet_Clinic.Common.Models
 {
-    class OwnerResponse
+   public  class OwnerResponse
     {
         public int Id { get; set; }
 
@@ -23,7 +25,7 @@
         public string Email { get; set; }
 
 
-        //Pet ???
+        public ICollection<PetResponse> Pets { get; set; }
 
 
         public string Address { get; set; }

@@ -11,14 +11,12 @@ namespace Vet_Clinic.Web.Data
     public class SeedDB
     {
         private readonly DataContext _context;
-        //private Random _random;
         private readonly IUserHelper _userHelper;
 
 
         public SeedDB(DataContext context, IUserHelper userHelper)
         {
             _context = context;
-            //_random = new Random();
             _userHelper = userHelper;
 
         }
@@ -28,7 +26,7 @@ namespace Vet_Clinic.Web.Data
             await _context.Database.EnsureCreatedAsync();
 
             await _userHelper.ChecRoleAsync("Admin");
-            await _userHelper.ChecRoleAsync("Owner");
+            await _userHelper.ChecRoleAsync("Customer");
 
             var user = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com");
 

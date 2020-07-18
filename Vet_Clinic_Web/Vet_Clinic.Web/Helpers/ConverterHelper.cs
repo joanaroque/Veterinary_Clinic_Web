@@ -1,10 +1,22 @@
-﻿using Vet_Clinic.Web.Data.Entities;
+﻿using System.Threading.Tasks;
+using Vet_Clinic.Common.Models;
+using Vet_Clinic.Web.Data;
+using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Helpers
 {
     public class ConverterHelper : IConverterHelper
     {
+        private readonly DataContext _context;
+
+        public ConverterHelper(
+           DataContext dataContext)
+        {
+            _context = dataContext;
+        }
+
+
         public Pet ToPet(PetViewModel model, string path, bool isNew)
         {
             return new Pet
@@ -104,6 +116,65 @@ namespace Vet_Clinic.Web.Helpers
                 Address = doctor.Address,
                 DateOfBirth = doctor.DateOfBirth,
                 User = doctor.User
+            };
+        }
+
+        public async Task<History> ToHistoryAsync(HistoryViewModel model, bool isNew)
+        {
+            return new History
+            {
+                Date = model.Date.ToUniversalTime(),
+                Description = model.Description,
+                Id = isNew ? 0 : model.Id,
+                Pet = await _context.Pets.FindAsync(model.PetId),
+                ServiceType = await _context.ServiceTypes.FindAsync(model.ServiceTypeId)
+            };
+        }
+
+        public HistoryViewModel ToHistoryViewModel(History history)
+        {
+            return new HistoryViewModel
+            {
+                Date = history.Date,
+                Description = history.Description,
+                Id = history.Id,
+                PetId = history.Pet.Id,
+                ServiceTypeId = history.ServiceType.Id,
+              //TODO:  ServiceTypes = _combosHelper.GetComboServiceTypes()
+            };
+        }
+
+        public PetResponse ToPetResponse(Pet pet)
+        {
+            if (pet == null)
+            {
+                return null;
+            }
+
+            return new PetResponse
+            {
+                DateOfBirth = pet.DateOfBirth,
+                Id = pet.Id,
+                ImageUrl = pet.ImageFullPath,
+                Name = pet.Name,
+                Breed = pet.Breed,
+            };
+        }
+
+        public OwnerResponse ToOwnerResposne(Owner owner)
+        {
+            if (owner == null)
+            {
+                return null;
+            }
+
+            return new OwnerResponse
+            {
+                Address = owner.Address,
+                Email = owner.User.Email,
+                Name = owner.User.FirstName,
+                LastName = owner.User.LastName,
+                PhoneNumber = owner.User.PhoneNumber
             };
         }
     }
