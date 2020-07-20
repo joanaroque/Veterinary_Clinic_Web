@@ -8,11 +8,20 @@ namespace Vet_Clinic.Web.Data
     public class DataContext : IdentityDbContext<User>
     {
         public DbSet<Doctor> Doctors { get; set; }
+
         public DbSet<Appointment> Appointments { get; set; }
+
         public DbSet<Pet> Pets { get; set; }
+
         public DbSet<Owner> Owners { get; set; }
+
         public DbSet<History> Histories { get; set; }
+
         public DbSet<ServiceType> ServiceTypes { get; set; }
+
+        public DbSet<Admin> Admins { get; set; }
+
+        public DbSet<Administrative__Assistant> Assistants { get; set; }
 
 
 

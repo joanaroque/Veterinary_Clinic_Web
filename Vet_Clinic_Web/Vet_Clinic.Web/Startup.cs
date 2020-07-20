@@ -32,11 +32,11 @@ namespace Vet_Clinic.Web
                 cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
                 cfg.SignIn.RequireConfirmedEmail = true;
                 cfg.User.RequireUniqueEmail = true;
-                cfg.Password.RequireDigit = false; // qnd for a serio é True
+                cfg.Password.RequireDigit = false; 
                 cfg.Password.RequiredUniqueChars = 0;
-                cfg.Password.RequireLowercase = false;  // =
-                cfg.Password.RequireNonAlphanumeric = false;  // =
-                cfg.Password.RequireUppercase = false;  // =
+                cfg.Password.RequireLowercase = false;  
+                cfg.Password.RequireNonAlphanumeric = false;  
+                cfg.Password.RequireUppercase = false;  
                 cfg.Password.RequiredLength = 6;
             })
                 .AddDefaultTokenProviders()
@@ -69,7 +69,7 @@ namespace Vet_Clinic.Web
             services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
-
+            services.AddScoped<IServiceTypesRepository, ServiceTypesRepository>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

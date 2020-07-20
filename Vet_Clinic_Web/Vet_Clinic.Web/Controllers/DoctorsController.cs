@@ -32,7 +32,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Doctors
         public IActionResult Index()
         {
-            return View(_doctorRepository.GetAll().OrderBy(p => p.Name));
+            return View(_doctorRepository.GetAll().OrderBy(p => p.User.FirstName));
         }
 
         // GET: Doctors/Details/5
@@ -118,7 +118,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 try
                 {
-                    var path = model.ImageUrl;
+                    var path = model.User.ImageUrl;
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {

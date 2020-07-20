@@ -35,7 +35,7 @@ namespace Vet_Clinic.Web.Helpers
             return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
         }
 
-        public async Task ChecRoleAsync(string roleName)
+        public async Task CheckRoleAsync(string roleName)
         {
             var roleExists = await _roleManager.RoleExistsAsync(roleName);
             if (!roleExists)

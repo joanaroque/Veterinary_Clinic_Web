@@ -25,7 +25,11 @@ namespace Vet_Clinic.Web.Helpers
 
         PetResponse ToPetResponse(Pet pet);
 
-
         OwnerResponse ToOwnerResposne(Owner owner);
+
+        Administrative__Assistant ToAssistant(AssistantViewModel model, string path, bool isNew);
+
+        AssistantViewModel ToAssistantViewModel(Administrative__Assistant assistant);
+
     }
 }

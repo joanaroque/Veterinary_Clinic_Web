@@ -21,7 +21,7 @@ namespace Vet_Clinic.Web.Helpers
 
         Task<SignInResult> ValidatePasswordAsync(User user, string password); // ve se o user ta certo com a pass que ele disse
 
-        Task ChecRoleAsync(string roleName);
+        Task CheckRoleAsync(string roleName);
 
         Task<bool> IsUserInRoleAsync(User user, string roleName);
 

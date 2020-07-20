@@ -23,7 +23,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         {
             var list = _context.Doctors.Select(p => new SelectListItem
             {
-                Text = p.Name,
+                Text = p.User.FirstName,
                 Value = p.Id.ToString()
             }).OrderBy(p => p.Text).ToList();
 

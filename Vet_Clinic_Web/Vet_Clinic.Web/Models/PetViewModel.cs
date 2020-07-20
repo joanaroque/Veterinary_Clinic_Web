@@ -6,6 +6,8 @@ namespace Vet_Clinic.Web.Models
 {
     public class PetViewModel : Pet
     {
+        public int OwnerId { get; set; }
+
         [Display(Name = "Image")]
         public IFormFile ImageFile { get; set; }
     }

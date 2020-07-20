@@ -9,31 +9,38 @@ using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
+using Vet_Clinic.Web.Data;
 
 namespace Vet_Clinic.Web.Controllers
 {
     public class OwnersController : Controller
     {
-        private IOwnerRepository _OwnerRepository;
+        private readonly IOwnerRepository _ownerRepository;
         private readonly IUserHelper _userHelper;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly DataContext _context;
+        private readonly IServiceTypesRepository _serviceTypesRepository;
 
         public OwnersController(IOwnerRepository OwnerRepository,
             IUserHelper userHelper,
             IImageHelper imageHelper,
-            IConverterHelper converterHelper)
+            IConverterHelper converterHelper,
+            DataContext context,
+            IServiceTypesRepository serviceTypesRepository)
         {
-            _OwnerRepository = OwnerRepository;
+            _ownerRepository = OwnerRepository;
             _userHelper = userHelper;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
+            _context = context;
+            _serviceTypesRepository = serviceTypesRepository;
         }
 
         // GET: Owners
         public IActionResult Index()
         {
-            return View(_OwnerRepository.GetAll().OrderBy(p => p.Name));
+            return View(_ownerRepository.GetAll().OrderBy(p => p.User.FirstName));
         }
 
         // GET: Owners/Details/5
@@ -44,7 +51,7 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("OwnerNotFound");
             }
 
-            var Owner = await _OwnerRepository.GetByIdAsync(id.Value);
+            var Owner = await _ownerRepository.GetByIdAsync(id.Value);
 
             if (Owner == null)
             {
@@ -82,7 +89,7 @@ namespace Vet_Clinic.Web.Controllers
 
                 Owner.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _OwnerRepository.CreateAsync(Owner);
+                await _ownerRepository.CreateAsync(Owner);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -98,7 +105,7 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("OwnerNotFound");
             }
 
-            var Owner = await _OwnerRepository.GetByIdAsync(id.Value);
+            var Owner = await _ownerRepository.GetByIdAsync(id.Value);
             if (Owner == null)
             {
                 return new NotFoundViewResult("OwnerNotFound");
@@ -119,21 +126,21 @@ namespace Vet_Clinic.Web.Controllers
             {
                 try
                 {
-                    var path = model.ImageUrl;
+                    var path = model.User.ImageUrl;
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
                         path = await _imageHelper.UploadImageAsync(model.ImageFile, "Owners");
                     }
 
-                    var Owner = _converterHelper.ToOwner(model, path, false);
+                    var owner = _converterHelper.ToOwner(model, path, false);
 
-                    Owner.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-                    await _OwnerRepository.UpdateAsync(Owner);
+                    owner.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    await _ownerRepository.UpdateAsync(owner);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _OwnerRepository.ExistAsync(model.Id))
+                    if (!await _ownerRepository.ExistAsync(model.Id))
                     {
                         return new NotFoundViewResult("OwnerNotFound");
                     }
@@ -158,8 +165,8 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("OwnerNotFound");
             }
 
-            var Owner = await _OwnerRepository.GetByIdAsync(id.Value);
-            await _OwnerRepository.DeleteAsync(Owner);
+            var Owner = await _ownerRepository.GetByIdAsync(id.Value);
+            await _ownerRepository.DeleteAsync(Owner);
 
             return RedirectToAction(nameof(Index));
         }
@@ -168,5 +175,160 @@ namespace Vet_Clinic.Web.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> AddHistory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pet = await _context.Pets.FindAsync(id.Value);
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            var model = new HistoryViewModel
+            {
+                Date = DateTime.Now,
+                PetId = pet.Id,
+                ServiceTypes = _serviceTypesRepository.GetComboServiceTypes(),
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddHistory(HistoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var history = await _converterHelper.ToHistoryAsync(model, true);
+                _context.Histories.Add(history);
+                await _context.SaveChangesAsync();
+                return RedirectToAction($"{nameof(DetailsPet)}/{model.PetId}");
+            }
+
+            model.ServiceTypes = _serviceTypesRepository.GetComboServiceTypes();
+            return View(model);
+        }
+
+        public async Task<IActionResult> DetailsPet(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pet = await _context.Pets
+                .Include(p => p.Owner)
+                .ThenInclude(o => o.User)
+                .Include(p => p.Histories)
+                .ThenInclude(h => h.ServiceType)
+                .FirstOrDefaultAsync(o => o.Id == id.Value);
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            return View(pet);
+        }
+
+        private bool OwnerExists(int id)
+        {
+            return _context.Owners.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> AddPet(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var owner = await _context.Owners.FindAsync(id.Value);
+            if (owner == null)
+            {
+                return NotFound();
+            }
+
+            var model = new PetViewModel
+            {
+                DateOfBirth = DateTime.Today,
+                OwnerId = owner.Id,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPet(PetViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var path = string.Empty;
+
+                if (model.ImageFile != null)
+                {
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, path);
+                }
+
+                var pet =  _converterHelper.ToPet(model, path, true);
+                _context.Pets.Add(pet);
+                await _context.SaveChangesAsync();
+                return RedirectToAction($"Details/{model.OwnerId}");
+            }
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> DeletePet(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pet = await _context.Pets
+                .Include(p => p.Owner)
+                .Include(p => p.Histories)
+                .FirstOrDefaultAsync(p => p.Id == id.Value);
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            if (pet.Histories.Count > 0)
+            {
+                ModelState.AddModelError(string.Empty, "The pet can't be deleted because it has related records.");
+                return RedirectToAction($"{nameof(Details)}/{pet.Owner.Id}");
+            }
+
+            _context.Pets.Remove(pet);
+            await _context.SaveChangesAsync();
+            return RedirectToAction($"{nameof(Details)}/{pet.Owner.Id}");
+        }
+
+        public async Task<IActionResult> DeleteHistory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var history = await _context.Histories
+                .Include(h => h.Pet)
+                .FirstOrDefaultAsync(h => h.Id == id.Value);
+            if (history == null)
+            {
+                return NotFound();
+            }
+
+            _context.Histories.Remove(history);
+            await _context.SaveChangesAsync();
+            return RedirectToAction($"{nameof(DetailsPet)}/{history.Pet.Id}");
+        }
+
     }
 }

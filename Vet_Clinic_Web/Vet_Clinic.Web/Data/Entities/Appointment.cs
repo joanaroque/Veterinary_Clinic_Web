@@ -22,6 +22,8 @@ namespace Vet_Clinic.Web.Data.Entities
         public User User { get; set; }
 
 
+
+
         [Display(Name = "Is Available?")]
         public bool IsAvailable { get; set; }
 

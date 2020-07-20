@@ -21,10 +21,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
-
-        [Display(Name = "Date")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
-        public DateTime DateLocal => Date.ToLocalTime();
+        public User User { get; set; }
 
 
         public ServiceType ServiceType { get; set; }

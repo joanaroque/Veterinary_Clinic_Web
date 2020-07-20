@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Pets\Create.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\bower_components\bootstrap-colorpicker\.bower.json" />
     <Content Include="wwwroot\bower_components\bootstrap-colorpicker\bower.json" />
     <Content Include="wwwroot\bower_components\bootstrap-colorpicker\dist\css\bootstrap-colorpicker.css" />
@@ -6665,6 +6669,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\Doctors\" />
+    <Folder Include="wwwroot\images\Assistant\" />
   </ItemGroup>
 
   <ItemGroup>

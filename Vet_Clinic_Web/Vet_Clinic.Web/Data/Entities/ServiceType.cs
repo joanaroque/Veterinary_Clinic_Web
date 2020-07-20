@@ -12,6 +12,10 @@ namespace Vet_Clinic.Web.Data.Entities
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         public string Name { get; set; }
 
+
+        public User User { get; set; }
+
+
         public ICollection<History> Histories { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace Vet_Clinic.Web
         {
             //Design Pattern / serviço 
             var scopeFactory = host.Services.GetService<IServiceScopeFactory>();
-            using (var scope = scopeFactory.CreateScope())// precisamos de criar um IOC pro seedDB
+            using (var scope = scopeFactory.CreateScope())
             {
 
                 var seeder = scope.ServiceProvider.GetService<SeedDB>();

@@ -4,73 +4,192 @@
     ViewData["Title"] = "Details";
 }
 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+<h2>Owner</h2>
+
 <div>
-    <section class="content-header">
-        <h1>
-            Owners
-        </h1>
-        <ol class="breadcrumb">
-            <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
-            <li class="active">Owners</li>
-        </ol>
-    </section>
-    <!-- Main content -->
-    <section class="content">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Details</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Photo</th>
-                                    <th>Name</th>
-                                    <th>Last Name</th>
-                                    <th>TIN</th>
-                                    <th>Phone Number</th>
-                                    <th>Email</th>
-                                    <th>Pets</th>
-                                    <th>Address</th>
-                                    <th>Date Of Birth</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
-                                        {
-                                            <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
-                                        }
-                                    </td>
-                                    <td>@Html.DisplayFor(model => model.Name)</td>
-                                    <td>@Html.DisplayFor(model => model.LastName)</td>
-                                    <td>@Html.DisplayFor(model => model.TIN)</td>
-                                    <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
-                                    <td>@Html.DisplayFor(model => model.Email)</td>
-                                    <td>@Html.DisplayFor(model => model.Pets)</td>
-                                    <td>@Html.DisplayFor(model => model.Address)</td>
-                                    <td>@Html.DisplayFor(model => model.DateOfBirth)</td>
-
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                                        <a asp-action="Index">Back to List</a>
-                                    </td>
-                                </tr>
-                        </table>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-                <!-- /.box -->
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </section>
+    <h4>Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.PhoneNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.TIN)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.TIN)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.ImageUrl)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.ImageUrl)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.DateOfBirth)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.DateOfBirth)
+        </dd>
+        <dt>
+            # Pets
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Pets.Count)
+        </dd>
+    </dl>
 </div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+    <a asp-action="AddPet" asp-route-id="@Model.Id" class="btn btn-primary">Add Pet</a>
+    <a asp-action="Index" class="btn btn-success">Back to List</a>
+</div>
+<hr />
+@if (Model.Pets.Count == 0)
+{
+    <h4>Not pets added yet.</h4>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Pets</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover table-responsive table-striped" id="MyTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().ImageUrl)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Breed)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Weight)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().DateOfBirth)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Gender)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().DateOfBirth)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Sterilization)
+                                </th>
+                                <th>
+                                    # Histories
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Histories)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Pets)
+                            {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                    {
+                                        <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Breed)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Weight)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Histories.Count)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Gender)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Sterilization)
+                                </td>
+                                <td>
+                                    <a asp-action="EditPet" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                    <a asp-action="DetailsPet" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-list"> </i> </a>
+                                    <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-trash"></i></button>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
+<partial name="_DeleteDialog" />
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MyTable').DataTable();
+
+            // Delete item
+            var item_to_delete;
+
+            $('.deleteItem').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+            });
+
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Owners/DeletePet/' + item_to_delete;
+            });
+        });
+    </script>
+}
 

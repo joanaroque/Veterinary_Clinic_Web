@@ -16,6 +16,7 @@ namespace Vet_Clinic.Common.Models
         public string TIN { get; set; }
 
 
+
         public string PhoneNumber { get; set; }
 
 
@@ -33,7 +34,5 @@ namespace Vet_Clinic.Common.Models
 
         public object DateOfBirth { get; set; }
 
-
-        public UserResponse User { get; set; }
     }
 }

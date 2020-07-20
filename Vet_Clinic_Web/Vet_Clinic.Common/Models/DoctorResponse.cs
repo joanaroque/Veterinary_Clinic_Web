@@ -1,4 +1,6 @@
-﻿namespace Vet_Clinic.Common.Models
+﻿using System;
+
+namespace Vet_Clinic.Common.Models
 {
     public class DoctorResponse
     {
@@ -38,9 +40,7 @@
         public string Address { get; set; }
 
 
-        public object DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
-
-        public UserResponse User { get; set; }
     }
 }

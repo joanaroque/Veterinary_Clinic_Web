@@ -2,6 +2,7 @@
 using Vet_Clinic.Common.Models;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
+using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Helpers
@@ -9,11 +10,14 @@ namespace Vet_Clinic.Web.Helpers
     public class ConverterHelper : IConverterHelper
     {
         private readonly DataContext _context;
+        private readonly IServiceTypesRepository _serviceTypesRepository;
 
         public ConverterHelper(
-           DataContext dataContext)
+           DataContext dataContext,
+           IServiceTypesRepository serviceTypesRepository)
         {
             _context = dataContext;
+            _serviceTypesRepository = serviceTypesRepository;
         }
 
 
@@ -50,31 +54,31 @@ namespace Vet_Clinic.Web.Helpers
             return new Owner
             {
                 Id = isNew ? 0 : model.Id,
-                ImageUrl = path,
-                LastName = model.LastName,
-                Name = model.Name,
-                TIN = model.TIN,
-                PhoneNumber = model.PhoneNumber,
-                Email = model.Email,
-                Address = model.Address,
-                DateOfBirth = model.DateOfBirth,
+                //ImageUrl = path,
+                //LastName = model.LastName,
+                //Name = model.Name,
+                //TIN = model.TIN,
+                //PhoneNumber = model.PhoneNumber,
+                //Email = model.Email,
+                //Address = model.Address,
+                //DateOfBirth = model.DateOfBirth,
             };
         }
 
-        public OwnerViewModel ToOwnerViewModel(Owner Owner)
+        public OwnerViewModel ToOwnerViewModel(Owner owner)
         {
             return new OwnerViewModel
             {
-                Id = Owner.Id,
-                ImageUrl = Owner.ImageUrl,
-                LastName = Owner.LastName,
-                Name = Owner.Name,
-                TIN = Owner.TIN,
-                PhoneNumber = Owner.PhoneNumber,
-                Email = Owner.Email,
-                Address = Owner.Address,
-                DateOfBirth = Owner.DateOfBirth,
-                User = Owner.User
+                Id = owner.Id,
+                //ImageUrl = Owner.ImageUrl,
+                //LastName = Owner.LastName,
+                //Name = Owner.Name,
+                //TIN = Owner.TIN,
+                //PhoneNumber = Owner.PhoneNumber,
+                //Email = Owner.Email,
+                //Address = Owner.Address,
+                //DateOfBirth = Owner.DateOfBirth,
+                User = owner.User
             };
         }
 
@@ -83,18 +87,18 @@ namespace Vet_Clinic.Web.Helpers
             return new Doctor
             {
                 Id = isNew ? 0 : model.Id,
-                ImageUrl = path,
-                LastName = model.LastName,
+                //ImageUrl = path,
+                //LastName = model.LastName,
                 Specialty = model.Specialty,
                 MedicalLicense = model.MedicalLicense,
-                Name = model.Name,
-                TIN = model.TIN,
-                PhoneNumber = model.PhoneNumber,
-                Email = model.Email,
+                //Name = model.Name,
+                //TIN = model.TIN,
+                //PhoneNumber = model.PhoneNumber,
+                //Email = model.Email,
                 Schedule = model.Schedule,
                 ObsRoom = model.ObsRoom,
-                Address = model.Address,
-                DateOfBirth = model.DateOfBirth,
+                //Address = model.Address,
+                //DateOfBirth = model.DateOfBirth,
             };
         }
 
@@ -103,18 +107,18 @@ namespace Vet_Clinic.Web.Helpers
             return new DoctorViewModel
             {
                 Id = doctor.Id,
-                ImageUrl = doctor.ImageUrl,
-                LastName = doctor.LastName,
+                //ImageUrl = doctor.ImageUrl,
+                //LastName = doctor.LastName,
                 Specialty = doctor.Specialty,
                 MedicalLicense = doctor.MedicalLicense,
-                Name = doctor.Name,
-                TIN = doctor.TIN,
-                PhoneNumber = doctor.PhoneNumber,
-                Email = doctor.Email,
+                //Name = doctor.Name,
+                //TIN = doctor.TIN,
+                //PhoneNumber = doctor.PhoneNumber,
+                //Email = doctor.Email,
                 Schedule = doctor.Schedule,
                 ObsRoom = doctor.ObsRoom,
-                Address = doctor.Address,
-                DateOfBirth = doctor.DateOfBirth,
+                //Address = doctor.Address,
+                //DateOfBirth = doctor.DateOfBirth,
                 User = doctor.User
             };
         }
@@ -140,7 +144,7 @@ namespace Vet_Clinic.Web.Helpers
                 Id = history.Id,
                 PetId = history.Pet.Id,
                 ServiceTypeId = history.ServiceType.Id,
-              //TODO:  ServiceTypes = _combosHelper.GetComboServiceTypes()
+                ServiceTypes = _serviceTypesRepository.GetComboServiceTypes()
             };
         }
 
@@ -170,12 +174,47 @@ namespace Vet_Clinic.Web.Helpers
 
             return new OwnerResponse
             {
-                Address = owner.Address,
+                Address = owner.User.Address,
                 Email = owner.User.Email,
                 Name = owner.User.FirstName,
                 LastName = owner.User.LastName,
                 PhoneNumber = owner.User.PhoneNumber
             };
         }
+
+        public Administrative__Assistant ToAssistant(AssistantViewModel model, string path, bool isNew)
+        {
+            return new Administrative__Assistant
+            {
+                Id = isNew ? 0 : model.Id,
+                //ImageUrl = path,
+                //LastName = model.LastName,
+                //Name = model.Name,
+                //TIN = model.TIN,
+                //PhoneNumber = model.PhoneNumber,
+                //Email = model.Email,
+                //Address = model.Address,
+                //DateOfBirth = model.DateOfBirth,
+            };
+        }
+
+        public AssistantViewModel ToAssistantViewModel(Administrative__Assistant assistant)
+        {
+            return new AssistantViewModel
+            {
+                Id = assistant.Id,
+                //ImageUrl = Owner.ImageUrl,
+                //LastName = Owner.LastName,
+                //Name = Owner.Name,
+                //TIN = Owner.TIN,
+                //PhoneNumber = Owner.PhoneNumber,
+                //Email = Owner.Email,
+                //Address = Owner.Address,
+                //DateOfBirth = Owner.DateOfBirth,
+                User = assistant.User
+            };
+        }
     }
 }
+
+
