@@ -63,13 +63,11 @@
                                 <li class="user-body">
                                     <div class="row">
                                         <div class="navbar-collapse collapse">
-                                           
-
-
                                             <ul class="nav navbar-nav ">
-                                                @if (this.User.Identity.IsAuthenticated)
+                                                @if (User.Identity.IsAuthenticated)
                                                 {
-                                                    <li><a asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name</a></li>
+                                                    <li><a asp-area="" asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name</a></li>
+                                                    <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
                                                 }
                                                 else
                                                 {
@@ -86,7 +84,7 @@
                                         <ul class="nav navbar-nav">
 
 
-                                            @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+                                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                                             {
                                                 <li class="dropdown">
                                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
@@ -100,7 +98,7 @@
                                         @*<a href="#" class="btn btn-default btn-flat">Profile</a>*@
                                     </div>
                                     <div class="pull-right">
-                                        <a asp-controller="Account" asp-action="Logout" class="btn btn-default btn-flat">Logout</a>
+                                        @*<a asp-controller="Account" asp-action="Logout" class="btn btn-default btn-flat">Logout</a>*@
                                     </div>
                                 </li>
                             </ul>
@@ -188,6 +186,8 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
+            <partial name="_CookieConsentPartial" />
+
             @RenderBody()
             <!-- /.content -->
         </div>

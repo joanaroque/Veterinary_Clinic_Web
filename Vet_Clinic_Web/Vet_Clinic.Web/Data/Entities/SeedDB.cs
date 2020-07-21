@@ -26,22 +26,67 @@ namespace Vet_Clinic.Web.Data
             await _context.Database.EnsureCreatedAsync();
 
             await CheckRoles();
-            var admin = await CheckUserAsync("Joana", "Roque", "joanatpsi@gmail.com", "123456789", "Admin");
-            var customer = await CheckUserAsync("Joana", "Ramos", "joana.ramos.roque@formandos.cinel.pt", "123456789", "Customer");
+
+            var admin = await CheckUserAsync("Joana", "Roque", "joanatpsi@gmail.com", "123456789", "Rua Ola", "Admin");
+            var customer = await CheckUserAsync("Joana", "Ramos", "joana.ramos.roque@formandos.cinel.pt", "123456789", "Rua Adeus", "Customer");
+            await CheckSpeciesAsync();
             await CheckServiceTypesAsync();
             await CheckOwnerAsync(customer);
             await CheckDoctorAsync(customer);
             await CheckAssistantAsync(customer);
             await CheckAdminAsync(admin);
             await CheckAgendasAsync();
+            await CheckPetsAsync();
 
+        }
+
+        private async Task CheckPetsAsync()
+        {
+            if (!_context.Pets.Any())
+            {
+                var owner = _context.Owners.FirstOrDefault();
+                var petType = _context.Species.FirstOrDefault();
+                AddPet("If", owner, petType, "Rafeiro");
+                AddPet("Else", owner, petType, "Berner Sennenhund");
+                await _context.SaveChangesAsync();
+            }
+        }
+
+
+        private void AddPet(string name, Owner owner, Specie specie, string breed)
+        {
+            _context.Pets.Add(new Pet
+            {
+                DateOfBirth = DateTime.Now.AddYears(-2),
+                Name = name,
+                Owner = owner,
+                Specie = specie,
+                Breed = breed
+
+            });
+        }
+
+
+        private async Task CheckSpeciesAsync()
+        {
+            if (!_context.Species.Any())
+            {
+                _context.Species.Add(new Specie { Description = "Dog" });
+                _context.Species.Add(new Specie { Description = "Cat" });
+                _context.Species.Add(new Specie { Description = "Ferret" });
+                _context.Species.Add(new Specie { Description = "Dragon" });
+                _context.Species.Add(new Specie { Description = "Mermaid" });
+                _context.Species.Add(new Specie { Description = "Rhinopithecus" });
+                _context.Species.Add(new Specie { Description = "CGrimpoteuthis" });
+                await _context.SaveChangesAsync();
+            }
         }
 
         private async Task CheckAssistantAsync(User user)
         {
             if (!_context.Assistants.Any())
             {
-                _context.Assistants.Add(new Administrative__Assistant { User = user });
+                _context.Assistants.Add(new Assistant { User = user });
                 await _context.SaveChangesAsync();
             }
         }
@@ -66,6 +111,7 @@ namespace Vet_Clinic.Web.Data
            string lastName,
            string email,
            string phone,
+           string address,
            string role)
         {
             var user = await _userHelper.GetUserByEmailAsync(email);
@@ -77,7 +123,8 @@ namespace Vet_Clinic.Web.Data
                     LastName = lastName,
                     Email = email,
                     UserName = email,
-                    PhoneNumber = phone
+                    PhoneNumber = phone,
+                    Address = address
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");
@@ -119,17 +166,6 @@ namespace Vet_Clinic.Web.Data
             }
         }
 
-        private void AddPet(string name, Owner owner, string breed)
-        {
-            _context.Pets.Add(new Pet
-            {
-                DateOfBirth = DateTime.Now.AddYears(-2),
-                Name = name,
-                Owner = owner,
-                Breed = breed
-            });
-
-        }
         private async Task CheckAgendasAsync()
         {
             if (!_context.Appointments.Any())

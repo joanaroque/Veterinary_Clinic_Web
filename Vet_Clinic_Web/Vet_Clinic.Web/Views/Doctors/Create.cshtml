@@ -25,7 +25,27 @@
             <form class="form-horizontal" method="post" asp-action="Create" enctype="multipart/form-data">
                 <div class="box-body">
 
-                    <partial name="_User" />
+                    <div class="form-group">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImageFile"></label>
+                        <input asp-for="ImageFile" class="form-control" />
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
 
                     <div class="form-group">
                         <label asp-for="Specialty"></label>
@@ -38,20 +58,39 @@
                         <span asp-validation-for="MedicalLicense" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="ImageFile"></label>
-                        <input asp-for="ImageFile" class="form-control" />
-                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                        <label asp-for="Email"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                   
+
                     <div class="form-group">
                         <label asp-for="Schedule"></label>
                         <input asp-for="Schedule" class="form-control" />
                         <span asp-validation-for="Schedule" class="text-danger"></span>
                     </div>
+
+                    <div class="form-group">
+                        <label asp-for="TIN"></label>
+                        <input asp-for="TIN" class="form-control" />
+                        <span asp-validation-for="TIN" class="text-danger"></span>
+                    </div>
+
                     <div class="form-group">
                         <label asp-for="ObsRoom"></label>
                         <input asp-for="ObsRoom" class="form-control" />
                         <span asp-validation-for="ObsRoom" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Address"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth"></label>
+                        <input asp-for="DateOfBirth" class="form-control" />
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                     </div>
 
                     <!-- /.box-body -->

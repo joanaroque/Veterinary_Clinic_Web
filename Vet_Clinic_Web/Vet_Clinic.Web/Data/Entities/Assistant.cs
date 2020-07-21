@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Vet_Clinic.Web.Data.Entities
 {
-    public class Doctor : IEntity
+    public class Assistant : IEntity
     {
+
         [Key]
         public int Id { get; set; }
-
 
         [Required(ErrorMessage = "Must insert the {0}")]
         public string Name { get; set; }
@@ -29,28 +32,6 @@ namespace Vet_Clinic.Web.Data.Entities
         public string Email { get; set; }
 
 
-        [Required(ErrorMessage = "Must insert the {0}")]
-        [Display(Name = "Specialty")]
-        public string Specialty { get; set; }
-
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        [DataType(DataType.Currency)]
-        [Display(Name = "Medical License nrº")]
-        public string MedicalLicense { get; set; }
-
-     
-
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        public string Schedule { get; set; }
-
-
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        [Display(Name = "Observation Room")]
-        [DataType(DataType.Currency)]
-        public string ObsRoom { get; set; }
 
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.Currency)]
@@ -91,6 +72,6 @@ namespace Vet_Clinic.Web.Data.Entities
 
         public User User { get; set; }
 
-      
+     
     }
 }

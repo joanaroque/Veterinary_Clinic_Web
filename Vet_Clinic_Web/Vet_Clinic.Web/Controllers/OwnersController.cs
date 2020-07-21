@@ -126,7 +126,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 try
                 {
-                    var path = model.User.ImageUrl;
+                    var path = model.ImageUrl;
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
@@ -274,8 +274,8 @@ namespace Vet_Clinic.Web.Controllers
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, path);
                 }
 
-                var pet =  _converterHelper.ToPet(model, path, true);
-                _context.Pets.Add(pet);
+                var pet =  _converterHelper.ToPetAsync(model, path, true);
+                _context.Pets.Add(model);
                 await _context.SaveChangesAsync();
                 return RedirectToAction($"Details/{model.OwnerId}");
             }

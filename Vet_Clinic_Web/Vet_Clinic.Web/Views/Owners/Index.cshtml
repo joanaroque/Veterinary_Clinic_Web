@@ -22,22 +22,35 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.User.FirstName)
+                                @Html.DisplayNameFor(model => model.Name)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.User.LastName)
+                                @Html.DisplayNameFor(model => model.LastName)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.TIN)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.User.Email)
+                                @Html.DisplayNameFor(model => model.ImageUrl)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.User.Address)
+                                @Html.DisplayNameFor(model => model.Email)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.User.PhoneNumber)
+                                @Html.DisplayNameFor(model => model.DateOfBirth)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Address)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PhoneNumber)
                             </th>
                             <th>
                                 # Pets
+                            </th>
+                            <th>
+                                # Appointments
                             </th>
                             <th></th>
                         </tr>
@@ -48,31 +61,34 @@
                         <tr>
 
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.FirstName)
+                                @Html.DisplayFor(modelItem => item.Name)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.LastName)
+                                @Html.DisplayFor(modelItem => item.LastName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.Email)
+                                @Html.DisplayFor(modelItem => item.Email)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.Address)
+                                @Html.DisplayFor(modelItem => item.TIN)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+                                @Html.DisplayFor(modelItem => item.ImageUrl)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.TIN)
+                                @Html.DisplayFor(modelItem => item.Email)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.ImageUrl)
+                                @Html.DisplayFor(modelItem => item.DateOfBirth)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.DateOfBirth)
+                                @Html.DisplayFor(modelItem => item.Address)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Pets.Count)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Appointments.Count)
                             </td>
                             <td>
                                 <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>

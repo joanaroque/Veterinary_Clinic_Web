@@ -7,41 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
-using Vet_Clinic.Web.Data.Repositories;
-using Vet_Clinic.Web.Helpers;
 
 namespace Vet_Clinic.Web.Controllers
 {
-    public class ServiceTypesController : Controller
+    public class SpeciesController : Controller
     {
-        private readonly IImageHelper _imageHelper;
-        private readonly IConverterHelper _converterHelper;
-        private readonly IServiceTypesRepository _serviceTypesRepository;
-        private readonly IUserHelper _userHelper;
         private readonly DataContext _context;
 
-
-        public ServiceTypesController(IImageHelper imageHelper,
-            IServiceTypesRepository serviceTypesRepository,
-                        IUserHelper userHelper,
-                        IConverterHelper converterHelper,
-                        DataContext context)
+        public SpeciesController(DataContext context)
         {
-            _serviceTypesRepository = serviceTypesRepository;
-            _userHelper = userHelper;
-            _imageHelper = imageHelper;
-            _converterHelper = converterHelper;
             _context = context;
-
         }
 
-        // GET: ServiceTypes
-        public IActionResult Index()
+        // GET: Species
+        public async Task<IActionResult> Index()
         {
-            return View(_serviceTypesRepository.GetAll().OrderBy(s => s.User.FirstName));
+            return View(await _context.Species.ToListAsync());
         }
 
-        // GET: ServiceTypes/Details/5
+        // GET: Species/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,37 +33,39 @@ namespace Vet_Clinic.Web.Controllers
                 return NotFound();
             }
 
-            var serviceType = await _context.ServiceTypes
+            var specie = await _context.Species
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (serviceType == null)
+            if (specie == null)
             {
                 return NotFound();
             }
 
-            return View(serviceType);
+            return View(specie);
         }
 
-        // GET: ServiceTypes/Create
+        // GET: Species/Create
         public IActionResult Create()
         {
             return View();
         }
-        // POST: ServiceTypes/Create
+
+        // POST: Species/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] ServiceType serviceType)
+        public async Task<IActionResult> Create([Bind("Id,Description")] Specie specie)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(serviceType);
+                _context.Add(specie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(serviceType);
+            return View(specie);
         }
-        // GET: ServiceTypes/Edit/5
+
+        // GET: Species/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,22 +73,22 @@ namespace Vet_Clinic.Web.Controllers
                 return NotFound();
             }
 
-            var serviceType = await _context.ServiceTypes.FindAsync(id);
-            if (serviceType == null)
+            var specie = await _context.Species.FindAsync(id);
+            if (specie == null)
             {
                 return NotFound();
             }
-            return View(serviceType);
+            return View(specie);
         }
 
-        // POST: ServiceTypes/Edit/5
+        // POST: Species/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] ServiceType serviceType)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description")] Specie specie)
         {
-            if (id != serviceType.Id)
+            if (id != specie.Id)
             {
                 return NotFound();
             }
@@ -111,12 +97,12 @@ namespace Vet_Clinic.Web.Controllers
             {
                 try
                 {
-                    _context.Update(serviceType);
+                    _context.Update(specie);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ServiceTypeExists(serviceType.Id))
+                    if (!SpecieExists(specie.Id))
                     {
                         return NotFound();
                     }
@@ -127,31 +113,42 @@ namespace Vet_Clinic.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(serviceType);
+            return View(specie);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+
+        // POST: Species/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var serviceType = await _context.ServiceTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (serviceType == null)
+            var species = await _context.Species
+                .Include(pt => pt.Pets)
+                .FirstOrDefaultAsync(pt => pt.Id == id);
+            if (species == null)
             {
                 return NotFound();
             }
 
-            _context.ServiceTypes.Remove(serviceType);
+            if (species.Pets.Count > 0)
+            {
+                ModelState.AddModelError(string.Empty, "The pet type can't be removed.");
+                return RedirectToAction(nameof(Index));
+            }
+
+            _context.Species.Remove(species);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ServiceTypeExists(int id)
+        private bool SpecieExists(int id)
         {
-            return _context.ServiceTypes.Any(e => e.Id == id);
+            return _context.Species.Any(e => e.Id == id);
         }
     }
 }

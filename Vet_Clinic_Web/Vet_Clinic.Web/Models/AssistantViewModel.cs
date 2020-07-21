@@ -6,7 +6,7 @@ using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Models
 {
-    public class AssistantViewModel : Administrative__Assistant
+    public class AssistantViewModel : Assistant
     {
 
         [Display(Name = "Image")]

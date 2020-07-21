@@ -118,7 +118,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 try
                 {
-                    var path = model.User.ImageUrl;
+                    var path = model.ImageUrl;
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {

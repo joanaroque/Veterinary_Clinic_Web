@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Threading.Tasks;
-using Vet_Clinic.Common.Models;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
+using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Controllers.API
 {
@@ -38,7 +38,7 @@ namespace Vet_Clinic.Web.Controllers.API
 
         }
         [HttpPost]
-        public async Task<IActionResult> PostPet([FromBody] PetRequest request)
+        public async Task<IActionResult> PostPet([FromBody] PetViewModel request)
         {
             if (!ModelState.IsValid)
             {
@@ -62,11 +62,11 @@ namespace Vet_Clinic.Web.Controllers.API
 
             _context.Pets.Add(pet);
             await _context.SaveChangesAsync();
-            return Ok(_converterHelper.ToPetResponse(pet));
+            return Ok(_converterHelper.ToPetViewModel(pet));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPet([FromRoute] int id, [FromBody] PetRequest request)
+        public async Task<IActionResult> PutPet([FromRoute] int id, [FromBody] PetViewModel request)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace Vet_Clinic.Web.Controllers.API
 
             _context.Pets.Update(oldPet);
             await _context.SaveChangesAsync();
-            return Ok(_converterHelper.ToPetResponse(oldPet));
+            return Ok(_converterHelper.ToPetViewModel(oldPet));
         }
 
         [HttpDelete("{id}")]

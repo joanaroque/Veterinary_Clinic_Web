@@ -48,6 +48,10 @@ namespace Vet_Clinic.Web.Data.Entities
         public DateTime DateOfBirth { get; set; }
 
 
+        public Specie Specie { get; set; }
+
+
+
         public Owner Owner { get; set; }
 
 

@@ -6672,8 +6672,4 @@
     <Folder Include="wwwroot\images\Assistant\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Vet_Clinic.Common\Vet_Clinic.Common.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -44,22 +44,22 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        @if (!string.IsNullOrEmpty(Model.User.ImageUrl))
+                                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
                                         {
-                                            <img src="@Url.Content(Model.User.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
+                                            <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
                                         }
                                     </td>
-                                    <td>@Html.DisplayFor(model => model.User.FirstName)</td>
-                                    <td>@Html.DisplayFor(model => model.User.LastName)</td>
+                                    <td>@Html.DisplayFor(model => model.Name)</td>
+                                    <td>@Html.DisplayFor(model => model.LastName)</td>
                                     <td>@Html.DisplayFor(model => model.Specialty)</td>
                                     <td>@Html.DisplayFor(model => model.MedicalLicense)</td>
-                                    <td>@Html.DisplayFor(model => model.User.TIN)</td>
-                                    <td>@Html.DisplayFor(model => model.User.PhoneNumber)</td>
-                                    <td>@Html.DisplayFor(model => model.User.Email)</td>
+                                    <td>@Html.DisplayFor(model => model.TIN)</td>
+                                    <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
+                                    <td>@Html.DisplayFor(model => model.Email)</td>
                                     <td>@Html.DisplayFor(model => model.Schedule)</td>
                                     <td>@Html.DisplayFor(model => model.ObsRoom)</td>
-                                    <td>@Html.DisplayFor(model => model.User.Address)</td>
-                                    <td>@Html.DisplayFor(model => model.User.DateOfBirth)</td>
+                                    <td>@Html.DisplayFor(model => model.Address)</td>
+                                    <td>@Html.DisplayFor(model => model.DateOfBirth)</td>
 
                                     <td>
                                         @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

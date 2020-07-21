@@ -63,24 +63,24 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PetViewModel PetViewModel)
+        public async Task<IActionResult> Create(PetViewModel view)
         {
             if (ModelState.IsValid)
             {
                 var path = string.Empty;
 
-                if (PetViewModel.ImageFile != null && PetViewModel.ImageFile.Length > 0)
+                if (view.ImageFile != null && view.ImageFile.Length > 0)
                 {
-                    path = await _imageHelper.UploadImageAsync(PetViewModel.ImageFile, "Pets");
+                    path = await _imageHelper.UploadImageAsync(view.ImageFile, "Pets");
                 }
 
-                var Pet = _converterHelper.ToPet(PetViewModel, path, true);
+                var Pet = _converterHelper.ToPetAsync(view, path, true);
 
-                await _PetRepository.CreateAsync(Pet);
+                await _PetRepository.CreateAsync(view);
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(PetViewModel);
+            return View(view);
         }
 
         // GET: Pets/Edit/5
@@ -122,9 +122,9 @@ namespace Vet_Clinic.Web.Controllers
                         path = await _imageHelper.UploadImageAsync(model.ImageFile, "Pets");
                     }
 
-                    var pet = _converterHelper.ToPet(model, path, false);
+                    var pet = _converterHelper.ToPetAsync(model, path, false);
 
-                    await _PetRepository.UpdateAsync(pet);
+                    await _PetRepository.UpdateAsync(model);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -13,5 +13,7 @@ namespace Vet_Clinic.Web.Data.Repositories
 
         IEnumerable<SelectListItem> GetComboOwners();
 
+        Task<Owner> GetOwnersWithPetsAsync(int id);
+
     }
 }

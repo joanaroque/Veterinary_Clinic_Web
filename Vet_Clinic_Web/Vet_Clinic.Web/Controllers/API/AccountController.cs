@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Vet_Clinic.Common.Models;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
@@ -33,7 +32,7 @@ namespace Vet_Clinic.Web.Controllers.API
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] UserResponse request)
+        public async Task<IActionResult> PostUser([FromBody] User user)
         {
             if (!ModelState.IsValid)
             {
@@ -44,8 +43,8 @@ namespace Vet_Clinic.Web.Controllers.API
                 });
             }
 
-            var user = await _userHelper.GetUserByEmailAsync(request.Email);
-            if (user != null)
+            var userHelper = await _userHelper.GetUserByEmailAsync(user.Email);
+            if (userHelper != null)
             {
                 return BadRequest(new Response
                 {
@@ -54,21 +53,21 @@ namespace Vet_Clinic.Web.Controllers.API
                 });
             }
 
-            user = new User
+            userHelper = new User
             {
-                Email = request.Email,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                UserName = request.Email
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                UserName = user.Email
             };
 
-            var result = await _userHelper.AddUserAsync(user, request.PasswordHash);
+            var result = await _userHelper.AddUserAsync(userHelper, user.PasswordHash);
             if (result != IdentityResult.Success)
             {
                 return BadRequest(result.Errors.FirstOrDefault().Description);
             }
 
-            var userNew = await _userHelper.GetUserByEmailAsync(request.Email);
+            var userNew = await _userHelper.GetUserByEmailAsync(user.Email);
             await _userHelper.AddUSerToRoleAsync(userNew, "Customer");
             _context.Owners.Add(new Owner { User = userNew });
             await _context.SaveChangesAsync();
@@ -80,7 +79,7 @@ namespace Vet_Clinic.Web.Controllers.API
                 token = myToken
             }, protocol: HttpContext.Request.Scheme);
 
-            _mailHelper.SendMail(request.Email, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+            _mailHelper.SendMail(user.Email, "Email confirmation", $"<h1>Email Confirmation</h1>" +
                 $"To allow the user, " +
                 $"please click on this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
 
@@ -91,9 +90,46 @@ namespace Vet_Clinic.Web.Controllers.API
             });
         }
 
+        [HttpPost]
+        [Route("RecoverPassword")]
+        public async Task<IActionResult> RecoverPassword([FromBody] User email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new Response
+                {
+                    IsSuccess = false,
+                    Message = "Bad request"
+                });
+            }
+
+            var user = await _userHelper.GetUserByEmailAsync(email.Email);
+            if (user == null)
+            {
+                return BadRequest(new Response
+                {
+                    IsSuccess = false,
+                    Message = "This email is not assigned to any user."
+                });
+            }
+
+            var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+            var link = Url.Action("ResetPassword", "Account", new { token = myToken }, protocol: HttpContext.Request.Scheme);
+            _mailHelper.SendMail(email.Email, "Password Reset", $"<h1>Recover Password</h1>" +
+                $"To reset the password click in this link:</br></br>" +
+                $"<a href = \"{link}\">Reset Password</a>");
+
+            return Ok(new Response
+            {
+                IsSuccess = true,
+                Message = "An email with instructions to change the password was sent."
+            });
+        }
+
+
         [HttpPut]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> PutUser([FromBody] UserResponse request)
+        public async Task<IActionResult> PutUser([FromBody] User request)
         {
             if (!ModelState.IsValid)
             {

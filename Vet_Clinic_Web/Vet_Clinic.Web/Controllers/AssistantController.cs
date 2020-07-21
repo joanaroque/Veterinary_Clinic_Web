@@ -13,13 +13,13 @@ using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Controllers
 {
-    public class Administrative__AssistantController : Controller
+    public class AssistantController : Controller
     {
         private readonly IAssistantRepository _assistantRepository;
         private readonly IUserHelper _userHelper;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
-        public Administrative__AssistantController(IAssistantRepository assistantRepository,
+        public AssistantController(IAssistantRepository assistantRepository,
             IUserHelper userHelper,
             IImageHelper imageHelper,
             IConverterHelper converterHelper)
@@ -30,13 +30,13 @@ namespace Vet_Clinic.Web.Controllers
             _converterHelper = converterHelper;
         }
 
-        // GET: Administrative__Assistant
+        // GET: Assistant
         public IActionResult Index()
         {
             return View(_assistantRepository.GetAll().OrderBy(a => a.User.FirstName));
         }
 
-        // GET: Administrative__Assistant/Details/5
+        // GET: Assistant/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -54,14 +54,14 @@ namespace Vet_Clinic.Web.Controllers
             return View(assistant);
         }
 
-        // GET: Administrative__Assistant/Create
+        // GET: Assistant/Create
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Administrative__Assistant/Create
+        // POST: Assistant/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -88,7 +88,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        // GET: Administrative__Assistant/Edit/5
+        // GET: Assistant/Edit/5
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -108,7 +108,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(view);
         }
 
-        // POST: Administrative__Assistant/Edit/5
+        // POST: Assistant/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -119,7 +119,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 try
                 {
-                    var path = model.User.ImageUrl;
+                    var path = model.ImageUrl;
 
                     if (model.ImageFile != null && model.ImageFile.Length > 0)
                     {
@@ -147,7 +147,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        // POST: Administrative__Assistant/Delete/5
+        // POST: Assistant/Delete/5
         [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

@@ -8,7 +8,7 @@ using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Data.Repositories
 {
-    public class AssistantRepository : GenericRepository<Administrative__Assistant>, IAssistantRepository
+    public class AssistantRepository : GenericRepository<Assistant>, IAssistantRepository
     {
         private readonly DataContext _context;
 

@@ -85,7 +85,7 @@ namespace Vet_Clinic.Web.Controllers
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.UserName,
-                        UserName = model.UserName,
+                        UserName = model.UserName
                     };
 
                     var result = await _userHelper.AddUserAsync(user, model.Password);
@@ -97,21 +97,18 @@ namespace Vet_Clinic.Web.Controllers
 
                     }
 
-                    var login = new LoginViewModel
+                    var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
+                    var tokenLink = this.Url.Action("ConfirmEmail", "Account", new
                     {
-                        Password = model.Password,
-                        RememberMe = false,
-                        UserName = model.UserName,
-                    };
+                        userid = user.Id,
+                        token = myToken
+                    }, protocol: HttpContext.Request.Scheme);
 
-                    var result2 = await _userHelper.LoginAsync(login);
+                    _mailHelper.SendMail(model.UserName, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                        $"To allow the user, " +
+                        $"please click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+                    this.ViewBag.Message = "The instructions to allow your user has been sent to email.";
 
-                    if (result2.Succeeded)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-
-                    ModelState.AddModelError(string.Empty, "User couldn't be login.");
                     return View(model);
                 }
 
@@ -189,6 +186,7 @@ namespace Vet_Clinic.Web.Controllers
             }
             return View(model);
         }
+
         public IActionResult ChangePassword()
         {
             return View();
@@ -223,6 +221,8 @@ namespace Vet_Clinic.Web.Controllers
             }
             return View(model);
         }
+
+
         [HttpPost]
         public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
         {
@@ -293,6 +293,7 @@ namespace Vet_Clinic.Web.Controllers
                 $"To reset the password click in this link:</br></br>" +
                 $"<a href = \"{link}\">Reset Password</a>");
                 this.ViewBag.Message = "The instructions to recover your password has been sent to email.";
+               
                 return this.View();
 
             }

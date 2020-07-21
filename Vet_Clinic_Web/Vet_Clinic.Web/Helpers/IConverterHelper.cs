@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Vet_Clinic.Common.Models;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Models;
 
@@ -11,9 +10,9 @@ namespace Vet_Clinic.Web.Helpers
 
         DoctorViewModel ToDoctorViewModel(Doctor doctor);
 
-        Pet ToPet(PetViewModel model, string path, bool isNew);
+        Task<Pet> ToPetAsync(PetViewModel model, string path, bool isNew);
 
-        PetViewModel ToPetViewModel(Pet Pet);
+        PetViewModel ToPetViewModel( Pet pet);
 
         Owner ToOwner(OwnerViewModel model, string path, bool isNew);
 
@@ -23,13 +22,9 @@ namespace Vet_Clinic.Web.Helpers
 
         HistoryViewModel ToHistoryViewModel(History history);
 
-        PetResponse ToPetResponse(Pet pet);
+        Assistant ToAssistant(AssistantViewModel model, string path, bool isNew);
 
-        OwnerResponse ToOwnerResposne(Owner owner);
-
-        Administrative__Assistant ToAssistant(AssistantViewModel model, string path, bool isNew);
-
-        AssistantViewModel ToAssistantViewModel(Administrative__Assistant assistant);
+        AssistantViewModel ToAssistantViewModel( Assistant assistant);
 
     }
 }

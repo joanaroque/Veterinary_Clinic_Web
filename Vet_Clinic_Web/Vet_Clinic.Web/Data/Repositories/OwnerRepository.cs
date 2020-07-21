@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Data.Repositories
@@ -35,6 +36,14 @@ namespace Vet_Clinic.Web.Data.Repositories
             });
 
             return list;
+        }
+
+        public async Task<Owner> GetOwnersWithPetsAsync(int id)
+        {
+            return await _context.Owners
+                        .Include(p => p.Pets)
+                        .Where(p => p.Id == id)
+                        .FirstOrDefaultAsync();
         }
     }
 

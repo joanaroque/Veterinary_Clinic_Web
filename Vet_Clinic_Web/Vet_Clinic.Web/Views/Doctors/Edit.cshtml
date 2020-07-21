@@ -24,7 +24,26 @@
             <form class="form-horizontal" method="post" asp-action="Edit" enctype="multipart/form-data">
                 <div class="box-body">
                     <div class="form-group">
-                        <partial name="_User" />
+
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="LastName" class="control-label"></label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber" class="control-label"></label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
 
                         <div class="form-group">
                             <label asp-for="Specialty"></label>
@@ -44,7 +63,7 @@
                             <span asp-validation-for="ImageFile" class="text-danger"></span>
 
                         </div>
-                        
+
                         <div class="form-group">
                             <label asp-for="Schedule"></label>
                             <input asp-for="Schedule" class="form-control" />
@@ -52,16 +71,39 @@
 
                         </div>
                         <div class="form-group">
+                            <label asp-for="TIN"></label>
+                            <input asp-for="TIN" class="form-control" />
+                            <span asp-validation-for="TIN" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group">
                             <label asp-for="ObsRoom"></label>
                             <input asp-for="ObsRoom" class="form-control" />
                             <span asp-validation-for="ObsRoom" class="text-danger"></span>
+                        </div>
 
+                        <div class="form-group">
+                            <label asp-for="Address"></label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="DateOfBirth"></label>
+                            <input asp-for="DateOfBirth" class="form-control" />
+                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
                         </div>
 
                         <div>
-                            @if (!string.IsNullOrEmpty(Model.User.ImageUrl))
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
                             {
-                                <img src="@Url.Content(Model.User.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
+                                <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
                             }
                         </div>
                         <!-- /.box-body -->

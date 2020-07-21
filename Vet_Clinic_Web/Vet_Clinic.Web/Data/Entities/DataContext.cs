@@ -13,6 +13,8 @@ namespace Vet_Clinic.Web.Data
 
         public DbSet<Pet> Pets { get; set; }
 
+        public DbSet<Specie> Species { get; set; }
+
         public DbSet<Owner> Owners { get; set; }
 
         public DbSet<History> Histories { get; set; }
@@ -21,7 +23,7 @@ namespace Vet_Clinic.Web.Data
 
         public DbSet<Admin> Admins { get; set; }
 
-        public DbSet<Administrative__Assistant> Assistants { get; set; }
+        public DbSet<Assistant> Assistants { get; set; }
 
 
 

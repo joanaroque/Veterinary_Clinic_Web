@@ -28,27 +28,14 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().User.LastName)
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Address)
-                            </th>
+                            
                             <th>
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().User.Email)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.FirstOrDefault().User.PhoneNumber)
                             </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.TIN)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Address)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.ImageUrl)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.DateOfBirth)
-                            </th>
+                          
                             <th></th>
                         </tr>
                     </thead>
@@ -63,27 +50,16 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.User.LastName)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User.Address)
-                            </td>
+                          
                             <td>
                                 @Html.DisplayFor(modelItem => item.User.Email)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.User.PhoneNumber)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User.TIN)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User.ImageUrl)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User.Address)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.User.DateOfBirth)
-                            </td>
+                           
+                           
+                          
                             <td>
                                 <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
                                 <a asp-action="Details" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-list"> </i> </a>

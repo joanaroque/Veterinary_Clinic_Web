@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Vet_Clinic.Common.Models;
 using Vet_Clinic.Web.Data;
+using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
+using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Controllers.API
 {
@@ -20,7 +21,8 @@ namespace Vet_Clinic.Web.Controllers.API
 
 
         public OwnersController(IOwnerRepository OwnerRepository,
-            DataContext context)
+            DataContext context,
+            IServiceTypesRepository serviceTypesRepository)
         {
             _ownerRepository = OwnerRepository;
             _context = context;
@@ -34,7 +36,7 @@ namespace Vet_Clinic.Web.Controllers.API
 
         [HttpPost]
         [Route("GetOwnerByEmail")]
-        public async Task<IActionResult> GetOwner(OwnerResponse email)
+        public async Task<IActionResult> GetOwner(Owner email)
         {
             if (!ModelState.IsValid)
             {
@@ -43,38 +45,53 @@ namespace Vet_Clinic.Web.Controllers.API
 
             var owner = await _context.Owners
                 .Include(o => o.User)
+                .Include(a => a.Appointments)
                 .Include(o => o.Pets)
-                .ThenInclude(p => p.Appointments)
+                .ThenInclude(p => p.Specie)
                 .Include(o => o.Pets)
                 .ThenInclude(p => p.Histories)
                 .ThenInclude(h => h.ServiceType)
-                .FirstOrDefaultAsync(o => o.User.UserName.ToLower() == email.Email.ToLower());
+                .FirstOrDefaultAsync(o => o.User.UserName.ToLower() == email.User.Email.ToLower());
 
-            var response = new OwnerResponse
-            {
-                Id = owner.Id,
-                Name = owner.User.FirstName,
-                LastName = owner.User.LastName,
-                Email = owner.User.Email,
-                PhoneNumber = owner.User.PhoneNumber,
-                Pets = owner.Pets.Select(p => new PetResponse
-                {
-                    DateOfBirth = p.DateOfBirth,
-                    Id = p.Id,
-                    ImageUrl = p.ImageFullPath,
-                    Name = p.Name,
-                    Breed = p.Breed,
-                    Histories = p.Histories.Select(h => new HistoryResponse
-                    {
-                        Date = h.Date,
-                        Description = h.Description,
-                        Id = h.Id,
-                        ServiceType = h.ServiceType.Name
-                    }).ToList()
-                }).ToList()
-            };
+            //var response = new OwnerViewModel
+            //{
+            //    Id = owner.Id,
+            //    Name = owner.User.FirstName,
+            //    LastName = owner.User.LastName,
+            //    Email = owner.User.Email,
+            //    PhoneNumber = owner.User.PhoneNumber,
+            //    TIN = owner.TIN,
+            //    ImageUrl = owner.ImageUrl,
+            //    Address = owner.Address,
+            //    DateOfBirth = owner.DateOfBirth,
+            //    User = owner.User,
+            //    Appointments = owner.Appointments,
+            //    Pets = owner.Pets.Select(p => new PetViewModel
+            //    {
+            //        DateOfBirth = p.DateOfBirth,
+            //        Id = p.Id,
+            //        ImageUrl = p.ImageFullPath,
+            //        Name = p.Name,
+            //        Breed = p.Breed,
+            //        Gender = p.Gender,
+            //        Weight = p.Weight,
+            //        Specie = p.Specie,
+            //        Owner = p.Owner,
+            //        Appointments = p.Appointments,
+            //        Histories = p.Histories.Select(h => new HistoryViewModel
+            //        {
+            //            Date = h.Date,
+            //            Description = h.Description,
+            //            Id = h.Id,
+            //            User = h.User,
+            //            ServiceType = h.ServiceType.Id
+            //        }).ToList()
+            //    }).ToList()
+            //};
 
-            return Ok(response);
+            // return Ok(response);
+
+            return Ok(owner);
         }
     }
 }

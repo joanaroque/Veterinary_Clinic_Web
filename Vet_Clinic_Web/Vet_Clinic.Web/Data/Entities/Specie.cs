@@ -3,20 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Vet_Clinic.Web.Data.Entities
 {
-    public class ServiceType : IEntity
+    public class Specie : IEntity
     {
         public int Id { get; set; }
 
-        [Display(Name = "Service Type")]
+        [Display(Name = "Pet Type")]
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
-        public string Name { get; set; }
+        public string Description { get; set; }
 
-
-        public User User { get; set; }
-
-
-        public ICollection<History> Histories { get; set; }
+        public virtual ICollection<Pet> Pets { get; set; }
 
     }
 }

@@ -2,14 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using Vet_Clinic.Web.Data;
+using Vet_Clinic.Web.Data.Entities;
+using Vet_Clinic.Web.Data.Repositories;
 
-namespace Vet_Clinic.Web.Data.Repositories
+namespace Vet_Clinic.Web
 {
-    public class ServiceTypesRepository : IServiceTypesRepository
+    public class ServiceTypesRepository : GenericRepository<ServiceType>, IServiceTypesRepository
     {
         private readonly DataContext _context;
 
-        public ServiceTypesRepository(DataContext context)
+        public ServiceTypesRepository(DataContext context) : base(context)
         {
             _context = context;
         }
@@ -21,17 +24,15 @@ namespace Vet_Clinic.Web.Data.Repositories
 
         public IEnumerable<SelectListItem> GetComboServiceTypes()
         {
-            var list = _context.ServiceTypes.Select(pt => new SelectListItem
+            var list = _context.ServiceTypes.Select(p => new SelectListItem
             {
-                Text = pt.Name,
-                Value = $"{pt.Id}"
-            })
-                .OrderBy(pt => pt.Text)
-                .ToList();
+                Text = p.Name,
+                Value = p.Id.ToString()
+            }).ToList();
 
             list.Insert(0, new SelectListItem
             {
-                Text = "[Select a service type...]",
+                Text = "(Select a product...)",
                 Value = "0"
             });
 

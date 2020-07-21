@@ -13,58 +13,41 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
+            @Html.DisplayFor(model => model.TIN)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.User.LastName)
+            @Html.DisplayNameFor(model => model.ImageUrl)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.User.LastName)
+            @Html.DisplayFor(model => model.Email)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.User.Email)
+            @Html.DisplayNameFor(model => model.DateOfBirth)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.User.Email)
+            @Html.DisplayFor(model => model.Address)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.User.Address)
+            @Html.DisplayNameFor(model => model.PhoneNumber)
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.Address)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User.PhoneNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.PhoneNumber)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User.TIN)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.TIN)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User.ImageUrl)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.ImageUrl)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.User.DateOfBirth)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.User.DateOfBirth)
-        </dd>
         <dt>
             # Pets
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Pets.Count)
+        </dd>
+        <dt>
+            # Appointments
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Appointments.Count)
         </dd>
     </dl>
 </div>

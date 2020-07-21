@@ -98,9 +98,9 @@ namespace Vet_Clinic.Web.Controllers
 
         public async Task<JsonResult> GetPetsAsync(int ownerId)
         {
-            var pets = await _petRepository.GetByIdAsync(ownerId);
+            var owner = await _ownerRepository.GetOwnersWithPetsAsync(ownerId);
                
-            return Json(pets);
+            return Json(owner.Pets.OrderBy(p => p.Name));
         }
 
         public async Task<IActionResult> UnSchedule(int? id)

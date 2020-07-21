@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Vet_Clinic.Common.Models;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
@@ -21,9 +20,9 @@ namespace Vet_Clinic.Web.Helpers
         }
 
 
-        public Pet ToPet(PetViewModel model, string path, bool isNew)
+        public async Task<Pet> ToPetAsync(PetViewModel model, string path, bool isNew)
         {
-            return new Pet
+            var pet = new Pet
             {
                 Id = isNew ? 0 : model.Id,
                 Name = model.Name,
@@ -32,20 +31,36 @@ namespace Vet_Clinic.Web.Helpers
                 Weight = model.Weight,
                 ImageUrl = path,
                 Sterilization = model.Sterilization,
+                DateOfBirth = model.DateOfBirth,
+                Appointments = model.Appointments,
+                Histories = model.Histories,
+                Specie = await _context.Species.FindAsync(model.SpecieId),
+                Owner = await _context.Owners.FindAsync(model.OwnerId)
             };
+
+            return pet;
         }
 
-        public PetViewModel ToPetViewModel(Pet Pet)
+        public PetViewModel ToPetViewModel(Pet pet)
         {
             return new PetViewModel
             {
-                Id = Pet.Id,
-                Name = Pet.Name,
-                Breed = Pet.Breed,
-                Gender = Pet.Gender,
-                Weight = Pet.Weight,
-                ImageUrl = Pet.ImageUrl,
-                Sterilization = Pet.Sterilization,
+                Id = pet.Id,
+                Name = pet.Name,
+                Breed = pet.Breed,
+                Gender = pet.Gender,
+                Weight = pet.Weight,
+                ImageUrl = pet.ImageUrl,
+                Sterilization = pet.Sterilization,
+                DateOfBirth = pet.DateOfBirth,
+                Appointments = pet.Appointments,
+                Histories = pet.Histories,
+                Owner = pet.Owner,
+                Specie = pet.Specie,
+                OwnerId = pet.Owner.Id,
+                SpecieId = pet.Specie.Id,
+                Species = _serviceTypesRepository.GetComboServiceTypes()
+
             };
         }
 
@@ -54,14 +69,17 @@ namespace Vet_Clinic.Web.Helpers
             return new Owner
             {
                 Id = isNew ? 0 : model.Id,
-                //ImageUrl = path,
-                //LastName = model.LastName,
-                //Name = model.Name,
-                //TIN = model.TIN,
-                //PhoneNumber = model.PhoneNumber,
-                //Email = model.Email,
-                //Address = model.Address,
-                //DateOfBirth = model.DateOfBirth,
+                ImageUrl = path,
+                LastName = model.LastName,
+                Name = model.Name,
+                TIN = model.TIN,
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
+                Address = model.Address,
+                DateOfBirth = model.DateOfBirth,
+                User = model.User,
+                Pets = model.Pets,
+                Appointments = model.Appointments
             };
         }
 
@@ -70,15 +88,17 @@ namespace Vet_Clinic.Web.Helpers
             return new OwnerViewModel
             {
                 Id = owner.Id,
-                //ImageUrl = Owner.ImageUrl,
-                //LastName = Owner.LastName,
-                //Name = Owner.Name,
-                //TIN = Owner.TIN,
-                //PhoneNumber = Owner.PhoneNumber,
-                //Email = Owner.Email,
-                //Address = Owner.Address,
-                //DateOfBirth = Owner.DateOfBirth,
-                User = owner.User
+                ImageUrl = owner.ImageUrl,
+                LastName = owner.LastName,
+                Name = owner.Name,
+                TIN = owner.TIN,
+                PhoneNumber = owner.PhoneNumber,
+                Email = owner.Email,
+                Address = owner.Address,
+                DateOfBirth = owner.DateOfBirth,
+                User = owner.User,
+                Pets = owner.Pets,
+                Appointments = owner.Appointments
             };
         }
 
@@ -87,18 +107,19 @@ namespace Vet_Clinic.Web.Helpers
             return new Doctor
             {
                 Id = isNew ? 0 : model.Id,
-                //ImageUrl = path,
-                //LastName = model.LastName,
+                ImageUrl = path,
+                LastName = model.LastName,
                 Specialty = model.Specialty,
                 MedicalLicense = model.MedicalLicense,
-                //Name = model.Name,
-                //TIN = model.TIN,
-                //PhoneNumber = model.PhoneNumber,
-                //Email = model.Email,
+                Name = model.Name,
+                TIN = model.TIN,
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
                 Schedule = model.Schedule,
                 ObsRoom = model.ObsRoom,
-                //Address = model.Address,
-                //DateOfBirth = model.DateOfBirth,
+                Address = model.Address,
+                DateOfBirth = model.DateOfBirth,
+                User = model.User
             };
         }
 
@@ -107,18 +128,18 @@ namespace Vet_Clinic.Web.Helpers
             return new DoctorViewModel
             {
                 Id = doctor.Id,
-                //ImageUrl = doctor.ImageUrl,
-                //LastName = doctor.LastName,
+                ImageUrl = doctor.ImageUrl,
+                LastName = doctor.LastName,
                 Specialty = doctor.Specialty,
                 MedicalLicense = doctor.MedicalLicense,
-                //Name = doctor.Name,
-                //TIN = doctor.TIN,
-                //PhoneNumber = doctor.PhoneNumber,
-                //Email = doctor.Email,
+                Name = doctor.Name,
+                TIN = doctor.TIN,
+                PhoneNumber = doctor.PhoneNumber,
+                Email = doctor.Email,
                 Schedule = doctor.Schedule,
                 ObsRoom = doctor.ObsRoom,
-                //Address = doctor.Address,
-                //DateOfBirth = doctor.DateOfBirth,
+                Address = doctor.Address,
+                DateOfBirth = doctor.DateOfBirth,
                 User = doctor.User
             };
         }
@@ -129,6 +150,7 @@ namespace Vet_Clinic.Web.Helpers
             {
                 Date = model.Date.ToUniversalTime(),
                 Description = model.Description,
+                User = model.User,
                 Id = isNew ? 0 : model.Id,
                 Pet = await _context.Pets.FindAsync(model.PetId),
                 ServiceType = await _context.ServiceTypes.FindAsync(model.ServiceTypeId)
@@ -142,75 +164,44 @@ namespace Vet_Clinic.Web.Helpers
                 Date = history.Date,
                 Description = history.Description,
                 Id = history.Id,
+                User = history.User,
                 PetId = history.Pet.Id,
                 ServiceTypeId = history.ServiceType.Id,
                 ServiceTypes = _serviceTypesRepository.GetComboServiceTypes()
             };
         }
 
-        public PetResponse ToPetResponse(Pet pet)
+
+        public Assistant ToAssistant(AssistantViewModel model, string path, bool isNew)
         {
-            if (pet == null)
-            {
-                return null;
-            }
-
-            return new PetResponse
-            {
-                DateOfBirth = pet.DateOfBirth,
-                Id = pet.Id,
-                ImageUrl = pet.ImageFullPath,
-                Name = pet.Name,
-                Breed = pet.Breed,
-            };
-        }
-
-        public OwnerResponse ToOwnerResposne(Owner owner)
-        {
-            if (owner == null)
-            {
-                return null;
-            }
-
-            return new OwnerResponse
-            {
-                Address = owner.User.Address,
-                Email = owner.User.Email,
-                Name = owner.User.FirstName,
-                LastName = owner.User.LastName,
-                PhoneNumber = owner.User.PhoneNumber
-            };
-        }
-
-        public Administrative__Assistant ToAssistant(AssistantViewModel model, string path, bool isNew)
-        {
-            return new Administrative__Assistant
+            return new Assistant
             {
                 Id = isNew ? 0 : model.Id,
-                //ImageUrl = path,
-                //LastName = model.LastName,
-                //Name = model.Name,
-                //TIN = model.TIN,
-                //PhoneNumber = model.PhoneNumber,
-                //Email = model.Email,
-                //Address = model.Address,
-                //DateOfBirth = model.DateOfBirth,
+                ImageUrl = path,
+                LastName = model.LastName,
+                Name = model.Name,
+                TIN = model.TIN,
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
+                Address = model.Address,
+                DateOfBirth = model.DateOfBirth,
+                User = model.User
             };
         }
 
-        public AssistantViewModel ToAssistantViewModel(Administrative__Assistant assistant)
+        public AssistantViewModel ToAssistantViewModel(Assistant assistant)
         {
             return new AssistantViewModel
             {
                 Id = assistant.Id,
-                //ImageUrl = Owner.ImageUrl,
-                //LastName = Owner.LastName,
-                //Name = Owner.Name,
-                //TIN = Owner.TIN,
-                //PhoneNumber = Owner.PhoneNumber,
-                //Email = Owner.Email,
-                //Address = Owner.Address,
-                //DateOfBirth = Owner.DateOfBirth,
+                ImageUrl = assistant.ImageUrl,
+                LastName = assistant.LastName,
+                Name = assistant.Name,
+                TIN = assistant.TIN,
+                PhoneNumber = assistant.PhoneNumber,
+                Email = assistant.Email,
+                Address = assistant.Address,
+                DateOfBirth = assistant.DateOfBirth,
                 User = assistant.User
             };
         }

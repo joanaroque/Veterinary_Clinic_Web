@@ -42,15 +42,24 @@ namespace Vet_Clinic.Web.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    TIN = table.Column<string>(nullable: false),
-                    ImageUrl = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: false),
-                    DateOfBirth = table.Column<DateTime>(nullable: false)
+                    LastName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Species",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Species", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -184,6 +193,14 @@ namespace Vet_Clinic.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    TIN = table.Column<string>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -203,10 +220,18 @@ namespace Vet_Clinic.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
                     Specialty = table.Column<string>(nullable: false),
                     MedicalLicense = table.Column<string>(nullable: false),
                     Schedule = table.Column<string>(nullable: false),
                     ObsRoom = table.Column<string>(nullable: false),
+                    TIN = table.Column<string>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -226,6 +251,14 @@ namespace Vet_Clinic.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    TIN = table.Column<string>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -272,6 +305,7 @@ namespace Vet_Clinic.Web.Migrations
                     ImageUrl = table.Column<string>(nullable: true),
                     Sterilization = table.Column<bool>(nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
+                    SpecieId = table.Column<int>(nullable: true),
                     OwnerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -281,6 +315,12 @@ namespace Vet_Clinic.Web.Migrations
                         name: "FK_Pets_Owners_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "Owners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pets_Species_SpecieId",
+                        column: x => x.SpecieId,
+                        principalTable: "Species",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -463,6 +503,11 @@ namespace Vet_Clinic.Web.Migrations
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Pets_SpecieId",
+                table: "Pets",
+                column: "SpecieId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ServiceTypes_UserId",
                 table: "ServiceTypes",
                 column: "UserId");
@@ -511,6 +556,9 @@ namespace Vet_Clinic.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "Owners");
+
+            migrationBuilder.DropTable(
+                name: "Species");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

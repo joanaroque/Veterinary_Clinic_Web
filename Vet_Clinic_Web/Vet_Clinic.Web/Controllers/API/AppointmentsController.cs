@@ -6,15 +6,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Vet_Clinic.Common.Models;
 using Vet_Clinic.Web.Data;
+using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
+using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Controllers.API
 {
     [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] 
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class AppointmentsController : Controller
     {
@@ -39,7 +40,7 @@ namespace Vet_Clinic.Web.Controllers.API
 
         [HttpPost]
         [Route("GetAppointmentForOwner")]
-        public async Task<IActionResult> GetAppointmentForOwner(OwnerResponse email)
+        public async Task<IActionResult> GetAppointmentForOwner(OwnerViewModel email)
         {
             if (!ModelState.IsValid)
             {
@@ -54,30 +55,32 @@ namespace Vet_Clinic.Web.Controllers.API
                 .OrderBy(a => a.AppointmentSchedule)
                 .ToListAsync();
 
-            var response = new List<AppointmentResponse>();
+            var response = new List<AppointmentViewModel>();
             foreach (var appointment in appointments)
             {
-                var appointmentResponse = new AppointmentResponse
+                var agenda = new AppointmentViewModel
                 {
-                    Date = appointment.AppointmentSchedule,
+                    AppointmentSchedule = appointment.AppointmentSchedule,
                     Id = appointment.Id,
                     IsAvailable = appointment.IsAvailable
                 };
 
                 if (appointment.Owner != null)
                 {
-                    if (appointment.Owner.User.Email.ToLower().Equals(email.Email.ToLower()))
+                    if (appointment.Owner.User.Email.ToLower().Equals(email.User.Email.ToLower()))
                     {
-                        appointmentResponse.Owner = _converterHelper.ToOwnerResposne(appointment.Owner);
-                        appointmentResponse.Pet = _converterHelper.ToPetResponse(appointment.Pet);
+                        agenda.Owner = _converterHelper.ToOwnerViewModel(agenda.Owner);
+                        agenda.Pet = _converterHelper.ToPetViewModel(agenda.Pet);
+                        agenda.AppointmentObs = agenda.AppointmentObs;
+
                     }
                     else
                     {
-                        appointmentResponse.Owner = new OwnerResponse {Name = "Reserved" };
+                        agenda.Owner = new OwnerViewModel { Name = "Reserved" };
                     }
                 }
 
-                response.Add(appointmentResponse);
+                response.Add(agenda);
             }
 
             return Ok(response);
@@ -85,31 +88,31 @@ namespace Vet_Clinic.Web.Controllers.API
 
         [HttpPost]
         [Route("ScheduleAppointment")]
-        public async Task<IActionResult> ScheduleAppointment(ScheduleRequest request)
+        public async Task<IActionResult> ScheduleAppointment(AppointmentViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var appointment = await _context.Appointments.FindAsync(request.AppointmentId);
+            var appointment = await _context.Appointments.FindAsync(model.Id);
             if (appointment == null)
             {
-                return BadRequest("Agenda doesn't exists.");
+                return BadRequest("Appoint doesn't exists.");
             }
 
             if (!appointment.IsAvailable)
             {
-                return BadRequest("Agenda is not available.");
+                return BadRequest("Appoint is not available.");
             }
 
-            var owner = await _context.Owners.FindAsync(request.OwnerId);
+            var owner = await _context.Owners.FindAsync(model.OwnerId);
             if (owner == null)
             {
                 return BadRequest("Owner doesn't exists.");
             }
 
-            var pet = await _context.Pets.FindAsync(request.PetId);
+            var pet = await _context.Pets.FindAsync(model.PetId);
             if (pet == null)
             {
                 return BadRequest("Pet doesn't exists.");
@@ -126,7 +129,7 @@ namespace Vet_Clinic.Web.Controllers.API
 
         [HttpPost]
         [Route("UnScheduleAppointment")]
-        public async Task<IActionResult> UnScheduleAppointment(ScheduleRequest request)
+        public async Task<IActionResult> UnScheduleAppointment(AppointmentViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -136,15 +139,15 @@ namespace Vet_Clinic.Web.Controllers.API
             var appointment = await _context.Appointments
                 .Include(a => a.Owner)
                 .Include(a => a.Pet)
-                .FirstOrDefaultAsync(a => a.Id == request.AppointmentId);
+                .FirstOrDefaultAsync(a => a.Id == model.Id);
             if (appointment == null)
             {
-                return BadRequest("Agenda doesn't exists.");
+                return BadRequest("Appoint doesn't exists.");
             }
 
             if (appointment.IsAvailable)
             {
-                return BadRequest("Agenda is available.");
+                return BadRequest("Appoint is available.");
             }
 
             appointment.IsAvailable = true;
