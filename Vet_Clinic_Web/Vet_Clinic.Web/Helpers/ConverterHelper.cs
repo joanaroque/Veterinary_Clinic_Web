@@ -55,8 +55,6 @@ namespace Vet_Clinic.Web.Helpers
                 DateOfBirth = pet.DateOfBirth,
                 Appointments = pet.Appointments,
                 Histories = pet.Histories,
-                Owner = pet.Owner,
-                Specie = pet.Specie,
                 OwnerId = pet.Owner.Id,
                 SpecieId = pet.Specie.Id,
                 Species = _serviceTypesRepository.GetComboServiceTypes()

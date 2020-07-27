@@ -34,8 +34,10 @@ namespace Vet_Clinic.Web.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var cascadeFKs = modelBuilder.Model.GetEntityTypes()
-                .SelectMany(t => t.GetForeignKeys().Where(fk => fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade));
+            var cascadeFKs = modelBuilder.Model
+                .GetEntityTypes()
+                .SelectMany(t => t.GetForeignKeys()
+                .Where(fk => fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade));
 
             foreach (var fk in cascadeFKs)
             {

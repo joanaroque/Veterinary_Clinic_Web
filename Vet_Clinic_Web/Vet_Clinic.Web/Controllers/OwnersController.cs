@@ -10,9 +10,11 @@ using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
 using Vet_Clinic.Web.Data;
+using System.Collections.Generic;
 
 namespace Vet_Clinic.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class OwnersController : Controller
     {
         private readonly IOwnerRepository _ownerRepository;
@@ -85,11 +87,17 @@ namespace Vet_Clinic.Web.Controllers
 
                 }
 
-                var Owner = _converterHelper.ToOwner(OwnerViewModel, path, true);
+                var owner = _converterHelper.ToOwner(OwnerViewModel, path, true);
 
-                Owner.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                owner.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _ownerRepository.CreateAsync(Owner);
+                var newOwner = new Owner
+                {
+                    Appointments = new List<Appointment>(),
+                    Pets = new List<Pet>()
+                };
+
+                await _ownerRepository.CreateAsync(owner);
 
                 return RedirectToAction(nameof(Index));
             }

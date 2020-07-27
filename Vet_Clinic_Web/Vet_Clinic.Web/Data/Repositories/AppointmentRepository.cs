@@ -80,6 +80,7 @@ namespace Vet_Clinic.Web.Data.Repositories
                 appointment.IsAvailable = false;
                 appointment.Owner = await _context.Owners.FindAsync(model.OwnerId);
                 appointment.Pet = await _context.Pets.FindAsync(model.PetId);
+                appointment.Doctor = await _context.Doctors.FindAsync(model.DoctorId);
                 appointment.AppointmentObs = model.AppointmentObs;
                 _context.Appointments.Update(appointment);
                 await _context.SaveChangesAsync();

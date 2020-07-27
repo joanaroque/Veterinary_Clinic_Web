@@ -1,13 +1,14 @@
-﻿@model IEnumerable<Vet_Clinic.Web.Data.Entities.Admin>
+﻿@model IEnumerable<Vet_Clinic.Web.Data.Entities.Assistant>
 
 @{
     ViewData["Title"] = "Index";
 }
+
 <section class="content-header">
 
     <ol class="breadcrumb">
         <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
-        <li class="active">Admin</li>
+        <li class="active">Assistants</li>
     </ol>
 </section>
 
@@ -22,25 +23,36 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Admin</h3>
+                <h3 class="panel-title">Owners</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-hover table-responsive table-striped" id="MyTable">
                     <thead>
                         <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LastName)
+                            </th>
 
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.FirstName)
+                                @Html.DisplayNameFor(model => model.TIN)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.LastName)
-                            </th>
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Email)
+                                @Html.DisplayNameFor(model => model.ImageUrl)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.PhoneNumber)
+                                @Html.DisplayNameFor(model => model.Email)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DateOfBirth)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Address)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PhoneNumber)
                             </th>
 
                             <th></th>
@@ -49,32 +61,42 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            @using (Html.BeginForm("Delete", "Admins", new { id = item.Id }))
+                            @using (Html.BeginForm("Delete", "Assistants", new { id = item.Id }))
                             {
                                 <tr>
 
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.User.FirstName)
+                                        @Html.DisplayFor(modelItem => item.Name)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.User.LastName)
-                                    </td>
-
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.User.Email)
+                                        @Html.DisplayFor(modelItem => item.LastName)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+                                        @Html.DisplayFor(modelItem => item.Email)
                                     </td>
-
-
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TIN)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ImageUrl)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DateOfBirth)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Address)
+                                    </td>
 
                                     <td>
                                         <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
                                         <a asp-action="Details" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-list"> </i> </a>
                                         <input type="submit" value="Delete"
-                                               onclick="return confirm('Are you sure you want to delete @item.User.FirstName?')" />
+                                               onclick="return confirm('Are you sure you want to delete @item.Name?')" />
                                     </td>
+
                                 </tr>
                             }
                         }

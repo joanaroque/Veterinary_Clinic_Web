@@ -120,7 +120,7 @@ namespace Vet_Clinic.Web.Controllers
         // POST: Species/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -137,7 +137,7 @@ namespace Vet_Clinic.Web.Controllers
 
             if (species.Pets.Count > 0)
             {
-                ModelState.AddModelError(string.Empty, "The pet type can't be removed.");
+                ModelState.AddModelError(string.Empty, "This specie can't be removed.");
                 return RedirectToAction(nameof(Index));
             }
 

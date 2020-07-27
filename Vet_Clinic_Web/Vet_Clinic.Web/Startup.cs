@@ -70,6 +70,9 @@ namespace Vet_Clinic.Web
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IServiceTypesRepository, ServiceTypesRepository>();
+            services.AddScoped<ISpecieRepository, SpecieRepository>();
+            services.AddScoped<IAssistantRepository, AssistantRepository>();
+
 
             services.Configure<CookiePolicyOptions>(options =>
             {

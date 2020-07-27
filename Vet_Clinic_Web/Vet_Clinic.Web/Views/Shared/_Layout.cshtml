@@ -10,7 +10,9 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="~/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/bower_components/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css">
+
     <!-- Ionicons -->
     <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
     <!-- Theme style -->
@@ -66,12 +68,18 @@
                                             <ul class="nav navbar-nav ">
                                                 @if (User.Identity.IsAuthenticated)
                                                 {
-                                                    <li><a asp-area="" asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name</a></li>
-                                                    <li><a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                                    <li class="nav-item d-none d-sm-inline-block">
+                                                        <a asp-area="" asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name</a>
+                                                    </li>
+                                                    <li class="nav-item d-none d-sm-inline-block">
+                                                        <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                                    </li>
                                                 }
                                                 else
                                                 {
-                                                    <li><a asp-controller="Account" asp-action="Login">Login</a></li>
+                                                    <li class="nav-item d-none d-sm-inline-block">
+                                                        <a asp-controller="Account" asp-action="Login">Login</a>
+                                                    </li>
                                                 }
                                             </ul>
                                         </div>
@@ -140,23 +148,39 @@
 
                     <!-- Optionally, you can add icons to the links -->
                     <li class="active">
-                        <a asp-controller="Doctors" asp-action="Index">
-                            <i class="fa fa-user-md" aria-hidden="true"></i>
-                            <span>Doctors</span>
+                        <a asp-controller="Appointments" asp-action="Index">
+                            <i class="far fa-calendar-times" aria-hidden="true"></i>
+                            <span> Appointments</span>
                         </a>
                     </li>
                     <li class="active">
-                        <a asp-controller="Appointments" asp-action="Index">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            <span>Appointments</span>
+                        <a asp-controller="ServiceTypes" asp-action="Index">
+                            <i class="fab fa-allergies" aria-hidden="true"></i>
+                            <span> Service Types</span>
                         </a>
                     </li>
+                    <li class="active">
+                        <a asp-controller="Doctors" asp-action="Index">
+                            <i class="fa fa-user-md" aria-hidden="true"></i>
+                            <span> Doctors</span>
+                        </a>
+                    </li>
+
+
+                    <li class="active">
+                        <a asp-controller="Species" asp-action="Index">
+                            <i class="fas fa-dragon" aria-hidden="true"></i>
+                            <span> Species</span>
+                        </a>
+                    </li>
+
                     <li class="active">
                         <a asp-controller="Pets" asp-action="Index">
                             <i class="fa fa-paw" aria-hidden="true"></i>
                             <span> Pets</span>
                         </a>
                     </li>
+
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-female" aria-hidden="true"></i><i class="fa fa-male" aria-hidden="true"></i><span> Owners</span>
@@ -180,13 +204,13 @@
 
                 <!-- /.sidebar-menu -->
             </section>
+            <partial name="_CookieConsentPartial" />
 
             <!-- /.sidebar -->
         </aside>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <partial name="_CookieConsentPartial" />
 
             @RenderBody()
             <!-- /.content -->
@@ -206,6 +230,7 @@
     <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/dist/js/adminlte.min.js"></script>
+
 
 
     @RenderSection("Scripts", required: false)
