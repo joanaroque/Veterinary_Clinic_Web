@@ -6,19 +6,34 @@
     <title>Vet Clinic Web</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="~/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="~/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/bower_components/font-awesome/css/font-awesome.css">
+    @*<link rel="stylesheet" href="~/bower_components/bootstrap/dist/css/bootstrap.min.css">*@
+    <link rel="stylesheet" href="~/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/bootstrap.css.map">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/bootstrap.css">
+
+    <!-- DataTables MINE -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+    @*<link rel="stylesheet" href="~/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">*@
+    <!-- Font Awesome MINE -->
+    <link rel="stylesheet" href="~/fonts/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css">
 
+    @*<link rel="stylesheet" href="~/bower_components/font-awesome/css/font-awesome.css">*@
+
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/font-awesome/css/bootstrap.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+    </environment>
     <!-- Ionicons -->
-    <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
+    @*<link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">*@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="~/dist/css/skins/skin-blue.min.css">
+    <link href="~/dist/css/skins/_all-skins.css" rel="stylesheet" />
+
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -150,13 +165,19 @@
                     <li class="active">
                         <a asp-controller="Appointments" asp-action="Index">
                             <i class="far fa-calendar-times" aria-hidden="true"></i>
-                            <span> Appointments</span>
+                            <span>  Appointments</span>
                         </a>
                     </li>
                     <li class="active">
                         <a asp-controller="ServiceTypes" asp-action="Index">
-                            <i class="fab fa-allergies" aria-hidden="true"></i>
-                            <span> Service Types</span>
+                            <i class="fas fa-concierge-bell"></i>
+                            <span>  Service Types</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a asp-controller="Assistant" asp-action="Index">
+                            <i class="fa fa-female" aria-hidden="true"></i>
+                            <span> Assistants</span>
                         </a>
                     </li>
                     <li class="active">
@@ -165,12 +186,10 @@
                             <span> Doctors</span>
                         </a>
                     </li>
-
-
                     <li class="active">
-                        <a asp-controller="Species" asp-action="Index">
-                            <i class="fas fa-dragon" aria-hidden="true"></i>
-                            <span> Species</span>
+                        <a asp-controller="Owners" asp-action="Index">
+                            <i class="fas fa-user-friends" aria-hidden="true"></i>
+                            <span>  Owners</span>
                         </a>
                     </li>
 
@@ -183,17 +202,23 @@
 
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-female" aria-hidden="true"></i><i class="fa fa-male" aria-hidden="true"></i><span> Owners</span>
+                            Species
+
                             <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
+                                <i class="fa fa-angle-left "></i>
+
                             </span>
                         </a>
                         <ul class="treeview-menu">
                             <li class="active">
-                                <a asp-controller="Owners" asp-action="Index">
-                                    <i class="fa fa-female" aria-hidden="true"></i>
-                                    <i class="fa fa-male" aria-hidden="true">
-                                    </i> Owners
+                                <a asp-controller="Species" asp-action="Index">
+                                    <i class="fas fa-cat"></i>
+                                    <i class="fas fa-dog"></i>
+                                    <i class="fas fa-frog"></i>
+                                    <i class="fas fa-spider"></i>
+                                    <i class="fas fa-dragon"></i>
+                                    <i class="fas fa-fish"></i>
+                                    <i class="fas fa-hippo"></i>
                                 </a>
                             </li>
                         </ul>
@@ -213,7 +238,6 @@
             <!-- Content Header (Page header) -->
 
             @RenderBody()
-            <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
         <!-- Main Footer -->
@@ -224,14 +248,38 @@
     </div>
     <!-- ./wrapper -->
     <!-- REQUIRED JS SCRIPTS -->
-    <!-- jQuery 3 -->
-    <script src="~/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- jQuery 3 MINE -->
+    <script src="~/lib/font-awesome/js/jquery.min.js"></script>
+
+    @*<script src="~/bower_components/jquery/dist/jquery.min.js"></script>*@
     <!-- Bootstrap 3.3.7 -->
+    <script src="~/dist/js/bootstrap.min.js"></script>
+
     <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/dist/js/adminlte.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
-
+    <environment include="Development">
+        <script src="~/lib/font-awesome/js/jquery.js"></script>
+        <script src="~/lib/font-awesome/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/font-awesome/js/jquery.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+                asp-fallback-src="~/lib/font-awesome/js/bootstrap.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
+        </script>
+        <script src="~lib/js/site.js" asp-append-version="true"></script>
+    </environment>
 
     @RenderSection("Scripts", required: false)
 </body>

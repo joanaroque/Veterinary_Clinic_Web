@@ -61,7 +61,7 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            @using (Html.BeginForm("Delete", "Assistants", new { id = item.Id }))
+                            @using (Html.BeginForm("Delete", "Assistant", new { id = item.Id }))
                             {
                                 <tr>
 

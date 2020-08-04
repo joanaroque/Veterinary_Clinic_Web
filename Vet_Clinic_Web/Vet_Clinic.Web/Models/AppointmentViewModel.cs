@@ -10,7 +10,7 @@ namespace Vet_Clinic.Web.Models
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [Display(Name = "Doctor")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a product.")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a Doctor.")]
         public int DoctorId { get; set; }
 
 
@@ -18,7 +18,7 @@ namespace Vet_Clinic.Web.Models
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [Display(Name = "Pet")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a product.")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a Pet.")]
         public int PetId { get; set; }
 
 
@@ -26,7 +26,7 @@ namespace Vet_Clinic.Web.Models
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [Display(Name = "Owner")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a product.")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a Owner.")]
         public int OwnerId { get; set; }
 
 

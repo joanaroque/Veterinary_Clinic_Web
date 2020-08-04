@@ -71,13 +71,13 @@ namespace Vet_Clinic.Web.Data.Entities
 
 
 
-        [Required(ErrorMessage = "Must insert the {0}")]
+       
         [Display(Name = "Pet")]
         public ICollection<Pet> Pets { get; set; }
 
 
 
-        [Required(ErrorMessage = "Must insert the {0}")]
+       
         [Display(Name = "Appointments")]
         public ICollection<Appointment> Appointments { get; set; }
 

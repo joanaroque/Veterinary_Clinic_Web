@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+
 using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Data.Repositories
@@ -17,7 +16,7 @@ namespace Vet_Clinic.Web.Data.Repositories
             _context = context;
 
         }
-      
+
         public IEnumerable<SelectListItem> GetComboSpecies()
         {
             var list = _context.Species.Select(s => new SelectListItem
@@ -30,7 +29,7 @@ namespace Vet_Clinic.Web.Data.Repositories
 
             list.Insert(0, new SelectListItem
             {
-                Text = "[Select a pet type...]",
+                Text = "[Select a Specie...]",
                 Value = "0"
             });
 

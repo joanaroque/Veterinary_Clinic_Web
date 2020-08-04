@@ -75,6 +75,32 @@ ul, li {
 	list-style-type: none;
 }
 
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+.img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    display: block;
+    max-width: 80%;
+    height: auto;
+}
+
+img {
+    /*vertical-align: middle;*/
+    height: 120%;
+    border: 0;
+}
+.carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    line-height: 1;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
 
 /*---------------------------------------------*/
 input {

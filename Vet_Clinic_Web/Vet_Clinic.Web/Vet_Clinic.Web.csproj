@@ -14,6 +14,8 @@
 
   <ItemGroup>
     <Content Remove="Views\Pets\Create.cshtml" />
+    <Content Remove="wwwroot\dist\js\bootstrap.js" />
+    <Content Remove="wwwroot\dist\js\bootstrap.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -1968,6 +1970,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Graph" Version="3.8.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
     <PackageReference Include="Syncfusion.EJ2.AspNet.Core" Version="18.2.0.46" />
   </ItemGroup>
@@ -6662,6 +6665,8 @@
     <None Include="wwwroot\bower_components\select2\tests\vendor\jquery-1.7.2.js" />
     <None Include="wwwroot\bower_components\select2\tests\vendor\qunit-1.23.1.js" />
     <None Include="wwwroot\bower_components\select2\vendor\jquery-2.1.0.js" />
+    <None Include="wwwroot\dist\js\bootstrap.js" />
+    <None Include="wwwroot\dist\js\bootstrap.min.js" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,13 +7,13 @@ namespace Vet_Clinic.Web.Data.Repositories
 {
     public interface IAppointmentRepository : IGenericRepository<Appointment>
     {
-        Task<IQueryable<Appointment>> GetAppointmentsAsync(string userName);
+       // Task<IQueryable<Appointment>> GetAppointmentsAsync(string userName);
 
 
-        Task AddAppointmentAsync(AppointmentViewModel model, string userName);
+       // Task AddAppointmentAsync(AppointmentViewModel model, string userName);
 
 
-        Task ModifyAppointmentAsync(int id, double quantity);
+       // Task ModifyAppointmentAsync(int id, double quantity);
 
 
         Task AddDaysAsync(int days);

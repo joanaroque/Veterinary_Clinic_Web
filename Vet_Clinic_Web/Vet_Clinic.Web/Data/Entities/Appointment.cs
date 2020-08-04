@@ -12,8 +12,15 @@ namespace Vet_Clinic.Web.Data.Entities
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Appointment Schedule")]
+        [Display(Name = "Start Time")]
         public DateTime AppointmentSchedule { get; set; }
+
+
+        //[Required(ErrorMessage = "Must insert the {0}")]
+        //[DataType(DataType.DateTime)]
+        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
+        //[Display(Name = "End Time")]
+        //public DateTime EndTime { get; set; }
 
 
         [Display(Name = "Observations")]
@@ -28,13 +35,13 @@ namespace Vet_Clinic.Web.Data.Entities
         public bool IsAvailable { get; set; }
 
 
-        [Required]
+       
         public Doctor Doctor { get; set; }
 
-        [Required]
+       
         public Pet Pet { get; set; }
 
-        [Required]
+       
         public Owner Owner { get; set; }
 
 

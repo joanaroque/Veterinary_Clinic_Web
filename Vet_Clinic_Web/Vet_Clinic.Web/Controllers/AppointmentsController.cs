@@ -39,9 +39,9 @@ namespace Vet_Clinic.Web.Controllers
         public IActionResult Index()
         {
             return View(_context.Appointments
-                 .Include(a => a.Owner)
-                 .ThenInclude(o => o.User)
-                 .Include(a => a.Pet)
+                  .Include(a => a.Owner)
+                .ThenInclude(o => o.User)
+                .Include(a => a.Pet)
                  .Where(a => a.AppointmentSchedule >= DateTime.Today.ToUniversalTime()));
         }
 
@@ -86,8 +86,18 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _appointmentRepository.AddAppointmentAsync(model, User.Identity.Name);
-                return RedirectToAction("Index");
+                var appointment = await _context.Appointments.FindAsync(model.Id);
+                if (appointment != null)
+                {
+                    appointment.IsAvailable = false;
+                    appointment.Owner = await _context.Owners.FindAsync(model.OwnerId);
+                    appointment.Pet = await _context.Pets.FindAsync(model.PetId);
+                    appointment.AppointmentObs = model.AppointmentObs;
+                    appointment.Doctor = await _context.Doctors.FindAsync(model.Id);
+                    _context.Appointments.Update(appointment);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             model.Owners = _ownerRepository.GetComboOwners();
@@ -113,7 +123,9 @@ namespace Vet_Clinic.Web.Controllers
             var appointment = await _context.Appointments
                 .Include(a => a.Owner)
                 .Include(a => a.Pet)
+                .Include(a => a.Doctor)
                 .FirstOrDefaultAsync(o => o.Id == id.Value);
+
             if (appointment == null)
             {
                 return NotFound();
@@ -123,12 +135,11 @@ namespace Vet_Clinic.Web.Controllers
             appointment.Pet = null;
             appointment.Owner = null;
             appointment.AppointmentObs = null;
+            appointment.Doctor = null;
 
             _context.Appointments.Update(appointment);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
-        }
-
-       
+        }   
     }
 }

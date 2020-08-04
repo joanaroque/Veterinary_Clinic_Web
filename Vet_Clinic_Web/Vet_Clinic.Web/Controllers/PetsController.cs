@@ -2,29 +2,36 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Vet_Clinic.Web.Data.Repositories;
+using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
+using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PetsController : Controller
     {
         private readonly IPetRepository _PetRepository;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly DataContext _context;
+        private readonly IServiceTypesRepository _serviceTypesRepository;
 
         public PetsController(IPetRepository PetRepository,
             IImageHelper imageHelper,
-            IConverterHelper converterHelper)
+            IConverterHelper converterHelper,
+            DataContext context,
+            IServiceTypesRepository serviceTypesRepository)
         {
             _PetRepository = PetRepository;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
+           _context = context;
+           _serviceTypesRepository = serviceTypesRepository;
         }
 
         // GET: Pets
@@ -92,14 +99,17 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var Pet = await _PetRepository.GetByIdAsync(id.Value);
+            var pet = await _context.Pets
+                 .Include(p => p.Owner)
+                 .Include(p => p.Specie)
+                 .FirstOrDefaultAsync(p => p.Id == id.Value);
 
-            if (Pet == null)
+            if (pet == null)
             {
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var view = _converterHelper.ToPetViewModel(Pet);
+            var view = _converterHelper.ToPetViewModel(pet);
 
             return View(view);
         }
@@ -162,6 +172,121 @@ namespace Vet_Clinic.Web.Controllers
         public IActionResult PetNotFound()
         {
             return View();
+        }
+
+        public async Task<IActionResult> DeleteHistory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var history = await _context.Histories
+                .Include(h => h.Pet)
+                .FirstOrDefaultAsync(h => h.Id == id.Value);
+            if (history == null)
+            {
+                return NotFound();
+            }
+
+            _context.Histories.Remove(history);
+            await _context.SaveChangesAsync();
+            return RedirectToAction($"{nameof(Details)}/{history.Pet.Id}");
+        }
+
+        public async Task<IActionResult> EditHistory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var history = await _context.Histories
+                .Include(h => h.Pet)
+                .Include(h => h.ServiceType)
+                .FirstOrDefaultAsync(p => p.Id == id.Value);
+            if (history == null)
+            {
+                return NotFound();
+            }
+
+            var view = new HistoryViewModel
+            {
+                Date = history.Date,
+                Description = history.Description,
+                Id = history.Id,
+                PetId = history.Pet.Id,
+                ServiceTypeId = history.ServiceType.Id,
+                ServiceTypes = _serviceTypesRepository.GetComboServiceTypes()
+            };
+
+            return View(view);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditHistory(HistoryViewModel view)
+        {
+            if (ModelState.IsValid)
+            {
+                var history = new History
+                {
+                    Date = view.Date,
+                    Description = view.Description,
+                    Id = view.Id,
+                    Pet = await _context.Pets.FindAsync(view.PetId),
+                    ServiceType = await _context.ServiceTypes.FindAsync(view.ServiceTypeId)
+                };
+
+                _context.Histories.Update(history);
+                await _context.SaveChangesAsync();
+                return RedirectToAction($"{nameof(Details)}/{view.PetId}");
+            }
+
+            return View(view);
+        }
+
+        public async Task<IActionResult> AddHistory(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var pet = await _context.Pets.FindAsync(id.Value);
+            if (pet == null)
+            {
+                return NotFound();
+            }
+
+            var view = new HistoryViewModel
+            {
+                Date = DateTime.Now,
+                PetId = pet.Id,
+                ServiceTypes = _serviceTypesRepository.GetComboServiceTypes(),
+            };
+
+            return View(view);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddHistory(HistoryViewModel view)
+        {
+            if (ModelState.IsValid)
+            {
+                var history = new History
+                {
+                    Date = view.Date,
+                    Description = view.Description,
+                    Pet = await _context.Pets.FindAsync(view.PetId),
+                    ServiceType = await _context.ServiceTypes.FindAsync(view.ServiceTypeId)
+                };
+
+                _context.Histories.Add(history);
+                await _context.SaveChangesAsync();
+                return RedirectToAction($"{nameof(Details)}/{view.PetId}");
+            }
+
+            return View(view);
         }
     }
 }

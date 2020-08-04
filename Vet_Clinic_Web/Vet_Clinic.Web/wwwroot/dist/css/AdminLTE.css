@@ -610,7 +610,7 @@ a:focus {
     display: none;
   }
   .sidebar-mini.sidebar-collapse .main-header .navbar {
-    margin-left: 50px;
+    margin-left: 0px;
   }
 }
 @media (min-width: 768px) {
@@ -2234,12 +2234,12 @@ a:focus {
 }
 .btn-primary {
   background-color: #048b7b;
-  border-color: #0aaeae;
+  border-color: #048b7b;
 }
 .btn-primary:hover,
 .btn-primary:active,
 .btn-primary.hover {
-  background-color: #0aaeae;
+  background-color: #048b7b;
 }
 .btn-success {
   background-color: #00a65a;
@@ -4306,7 +4306,7 @@ table.text-center th {
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
   background-color: #048b7b;
-  border-color: #0aaeae;
+  border-color: #048b7b;
   padding: 1px 10px;
   color: #fff;
 }

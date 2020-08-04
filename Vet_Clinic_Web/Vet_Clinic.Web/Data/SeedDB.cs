@@ -35,7 +35,7 @@ namespace Vet_Clinic.Web.Data
             await FillDoctorAsync();
             await FillAssistantAsync();
             await FillAdminAsync(admin);
-           // await FillAppointmentAsync();
+         // await FillAppointmentAsync();
             await FillPetsAsync();
             await FillHistoriesAsync();
 
@@ -190,6 +190,8 @@ namespace Vet_Clinic.Web.Data
         {
             if (!_context.Owners.Any())
             {
+                var pet = _context.Pets.FirstOrDefault();
+
                 _context.Owners.Add(new Owner
                 {
 
@@ -237,10 +239,10 @@ namespace Vet_Clinic.Web.Data
         {
             if (!_context.Appointments.Any())
             {
-                var owner = _context.Owners.FirstOrDefault();
-                var doctor = _context.Doctors.FirstOrDefault();
-                var pet = _context.Pets.FirstOrDefault();
-               
+                //var owner = _context.Owners.FirstOrDefault();
+                //var doctor = _context.Doctors.FirstOrDefault();
+                //var pet = _context.Pets.FirstOrDefault();
+                //var user = _context.Users.FirstOrDefault();
 
 
                 var initialDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
@@ -257,10 +259,11 @@ namespace Vet_Clinic.Web.Data
                             {
                                 AppointmentSchedule = initialDate,
                                 IsAvailable = true,
-                                AppointmentObs = "qualquer coisa qualquer coisa",
-                                Owner = owner,
-                                Doctor = doctor,
-                                Pet = pet
+                                //AppointmentObs = "qualquer coisa qualquer coisa",
+                                //Owner = owner,
+                                //Doctor = doctor,
+                                //Pet = pet,
+                                //User = user
                             });
 
                             initialDate = initialDate.AddMinutes(30);
