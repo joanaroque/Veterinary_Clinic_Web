@@ -24,6 +24,11 @@ body {
   overflow-y: auto;
 }
 
+.navbar {
+    position: relative;
+    display: block;   
+    justify-content: space-between;
+}
 /* Layout */
 .wrapper {
   height: 100%;
@@ -63,18 +68,18 @@ body {
 }
 .layout-top-nav .content-wrapper,
 .layout-top-nav .main-footer {
-  margin-left: 0;
+  margin: 0;
 }
 @media (max-width: 767px) {
   .content-wrapper,
   .main-footer {
-    margin-left: 0;
+    margin: 0;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 767px) {
   .sidebar-collapse .content-wrapper,
   .sidebar-collapse .main-footer {
-    margin-left: 0;
+    margin: 0;
   }
 }
 @media (max-width: 767px) {
