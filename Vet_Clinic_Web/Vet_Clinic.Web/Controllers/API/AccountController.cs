@@ -92,7 +92,7 @@ namespace Vet_Clinic.Web.Controllers.API
 
         [HttpPost]
         [Route("RecoverPassword")]
-        public async Task<IActionResult> RecoverPassword([FromBody] User email)
+        public async Task<IActionResult> RecoverPassword(User email)
         {
             if (!ModelState.IsValid)
             {

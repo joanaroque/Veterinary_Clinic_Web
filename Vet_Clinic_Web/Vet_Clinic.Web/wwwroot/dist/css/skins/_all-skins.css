@@ -69,9 +69,16 @@
   color: #4b646f;
   background: #1a2226;
 }
-.skin-blue .sidebar-menu > li > a {
-  border-left: 3px solid transparent;
+
+/*****************************************menu active***************************/
+.skin-blue .sidebar-menu > li.active > a{
+    border-left-color: #3c8dbc;
 }
+
+.skin-blue .sidebar-menu > li > a {
+    border-left: 3px solid transparent;
+}
+
 .skin-blue .sidebar-menu > li:hover > a,
 .skin-blue .sidebar-menu > li.active > a,
 .skin-blue .sidebar-menu > li.menu-open > a {
@@ -81,6 +88,7 @@
 .skin-blue .sidebar-menu > li.active > a {
   border-left-color: #048b7b;
 }
+
 .skin-blue .sidebar-menu > li > .treeview-menu {
   margin: 0 1px;
   background: #2c3b41;

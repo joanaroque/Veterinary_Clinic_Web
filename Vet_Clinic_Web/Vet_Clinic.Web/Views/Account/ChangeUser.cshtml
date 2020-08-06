@@ -3,37 +3,62 @@
     ViewData["Title"] = "ChangeUser";
 }
 
-<h2>ChangeUser</h2>
-<div class="row">
-    <div class="col-md-4 offset-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly"></div>
+<br />
+<div class="register-box">
 
-            <div class="form-group">
-                <label asp-for="FirstName">First Name</label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-warning"></span>
+    <div class="card">
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">Change User</p>
+
+            <form method="post">
+                <div asp-validation-summary="ModelOnly"></div>
+
+                <div class="input-group mb-3">
+                    <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span asp-validation-for="FirstName" class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name">
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span asp-validation-for="LastName" class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+                </div>
+            </form>
+
+            <div class="social-auth-links text-center">
+                <p>- OR -</p>
+                <a href="#" class="btn btn-block btn-primary">
+                    <i class="fab fa-facebook mr-2"></i>
+                    Sign up using Facebook
+                </a>
+                <a href="#" class="btn btn-block btn-danger">
+                    <i class="fab fa-google-plus mr-2"></i>
+                    Sign up using Google+
+                </a>
             </div>
-
-            <div class="form-group">
-                <label asp-for="LastName">Last Name</label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-warning"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" />
-                <a asp-action="ChangePassword" class="btn btn-success">Change Password</a>
-            </div>
-
-            <div class="text-success">@ViewBag.UserMessage</div>
-        </form>
+        </div>
+        <div class="text-success">
+            <p>
+                @ViewBag.Message
+            </p>
+        </div>
     </div>
 </div>
+<br />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
 
 

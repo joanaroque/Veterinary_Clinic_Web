@@ -7,6 +7,7 @@ namespace Vet_Clinic.Web.Models
     {
         [Required]
         [EmailAddress]
+        [Display(Name = "User Name")]
         public string UserName { get; set; }
 
         [Required]
