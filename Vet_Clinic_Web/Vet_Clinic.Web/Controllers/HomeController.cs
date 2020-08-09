@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
@@ -100,6 +101,7 @@ namespace Vet_Clinic.Web.Data
                 AppointmentSchedule = a.AppointmentSchedule,
                 Id = a.Id,
                 IsAvailable = a.IsAvailable,
+                Doctor = a.Doctor,
                 Owner = a.Owner,
                 Pet = a.Pet,
                 AppointmentObs = a.AppointmentObs
@@ -111,7 +113,7 @@ namespace Vet_Clinic.Web.Data
             return View(list);
         }
 
-        [Authorize(Roles = "Customer")]
+         [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Schedule(int? id)
         {
             if (id == null)
@@ -132,10 +134,17 @@ namespace Vet_Clinic.Web.Data
                 return NotFound();
             }
 
+            var doctor = await _context.Doctors.FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
+            if (doctor == null)
+            {
+                return NotFound();
+            }
+
             var model = new AppointmentViewModel
             {
                 Id = agenda.Id,
                 OwnerId = owner.Id,
+                DoctorId = doctor.Id,
                 Pets = _petRepository.GetComboPets(owner.Id)
             };
 
@@ -154,6 +163,8 @@ namespace Vet_Clinic.Web.Data
                     appointment.IsAvailable = false;
                     appointment.Owner = await _context.Owners.FindAsync(model.OwnerId);
                     appointment.Pet = await _context.Pets.FindAsync(model.PetId);
+                    appointment.Doctor = await _context.Doctors.FindAsync(model.DoctorId);
+
                     _context.Appointments.Update(appointment);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(MyAppointments));
@@ -173,9 +184,11 @@ namespace Vet_Clinic.Web.Data
             }
 
             var agenda = await _context.Appointments
+                .Include(a => a.Doctor)
                 .Include(a => a.Owner)
                 .Include(a => a.Pet)
                 .FirstOrDefaultAsync(o => o.Id == id.Value);
+
             if (agenda == null)
             {
                 return NotFound();
@@ -184,6 +197,7 @@ namespace Vet_Clinic.Web.Data
             agenda.IsAvailable = true;
             agenda.Pet = null;
             agenda.Owner = null;
+            agenda.Doctor = null;
 
             _context.Appointments.Update(agenda);
             await _context.SaveChangesAsync();
@@ -201,6 +215,7 @@ namespace Vet_Clinic.Web.Data
             var pet = await _context.Pets
                 .Include(p => p.Owner)
                 .FirstOrDefaultAsync(p => p.Id == id.Value);
+
             if (pet == null)
             {
                 return NotFound();
@@ -303,7 +318,7 @@ namespace Vet_Clinic.Web.Data
             return RedirectToAction(nameof(MyPets));
         }
 
-        [Authorize(Roles = "Customer")]
+       [Authorize(Roles = "Customer")]
         public async Task<IActionResult> Create()
         {
             var owner = await _context.Owners

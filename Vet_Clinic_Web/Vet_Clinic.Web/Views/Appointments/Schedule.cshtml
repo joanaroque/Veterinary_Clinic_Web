@@ -10,8 +10,9 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Shcedule">
+        <form asp-action="Shcedule" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
 
             <div class="form-group">
                 <label asp-for="DoctorId" class="control-label"></label>
@@ -33,7 +34,7 @@
 
             <div class="form-group">
                 <label asp-for="AppointmentObs" class="control-label"></label>
-                <select asp-for="AppointmentObs" class="form-control"></select>
+                <textarea asp-for="AppointmentObs" class="form-control"></textarea>
                 <span asp-validation-for="AppointmentObs" class="text-danger"></span>
             </div>
 
@@ -47,7 +48,8 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
+    
+<script type="text/javascript">
         $(document).ready(function () {
             $("#OwnerId").change(function () {
                 $("#PetId").empty();

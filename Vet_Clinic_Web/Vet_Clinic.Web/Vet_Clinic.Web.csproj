@@ -6,13 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\bower_components\chart.js\**" />
-    <Content Remove="wwwroot\bower_components\chart.js\**" />
-    <EmbeddedResource Remove="wwwroot\bower_components\chart.js\**" />
-    <None Remove="wwwroot\bower_components\chart.js\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="Views\Pets\Create.cshtml" />
   </ItemGroup>
 
@@ -76,6 +69,16 @@
     <Content Include="wwwroot\bower_components\bootstrap-datepicker\tests\assets\qunit.css" />
     <Content Include="wwwroot\bower_components\bootstrap-datepicker\tests\tests.html" />
     <Content Include="wwwroot\bower_components\bootstrap-datepicker\tests\timezone.html" />
+    <Content Include="wwwroot\bower_components\bootstrap-daterangepicker\.bower.json" />
+    <Content Include="wwwroot\bower_components\bootstrap-daterangepicker\bower.json" />
+    <Content Include="wwwroot\bower_components\bootstrap-daterangepicker\daterangepicker.css" />
+    <Content Include="wwwroot\bower_components\bootstrap-daterangepicker\demo.html" />
+    <Content Include="wwwroot\bower_components\bootstrap-daterangepicker\drp.png" />
+    <Content Include="wwwroot\bower_components\bootstrap-daterangepicker\example\amd\index.html" />
+    <Content Include="wwwroot\bower_components\bootstrap-daterangepicker\example\browserify\index.html" />
+    <Content Include="wwwroot\bower_components\bootstrap-daterangepicker\package.json" />
+    <Content Include="wwwroot\bower_components\bootstrap-daterangepicker\website\index.html" />
+    <Content Include="wwwroot\bower_components\bootstrap-daterangepicker\website\website.css" />
     <Content Include="wwwroot\bower_components\bootstrap-slider\.bower.json" />
     <Content Include="wwwroot\bower_components\bootstrap-slider\bower.json" />
     <Content Include="wwwroot\bower_components\bootstrap-slider\locks.png" />
@@ -2237,6 +2240,16 @@
     <None Include="wwwroot\bower_components\bootstrap-datepicker\tests\suites\timezone.js" />
     <None Include="wwwroot\bower_components\bootstrap-datepicker\tests\suites\touch_navigation\all.js" />
     <None Include="wwwroot\bower_components\bootstrap-datepicker\yarn.lock" />
+    <None Include="wwwroot\bower_components\bootstrap-daterangepicker\daterangepicker.js" />
+    <None Include="wwwroot\bower_components\bootstrap-daterangepicker\daterangepicker.scss" />
+    <None Include="wwwroot\bower_components\bootstrap-daterangepicker\example\amd\main.js" />
+    <None Include="wwwroot\bower_components\bootstrap-daterangepicker\example\amd\require.js" />
+    <None Include="wwwroot\bower_components\bootstrap-daterangepicker\example\browserify\bundle.js" />
+    <None Include="wwwroot\bower_components\bootstrap-daterangepicker\example\browserify\main.js" />
+    <None Include="wwwroot\bower_components\bootstrap-daterangepicker\example\browserify\README.md" />
+    <None Include="wwwroot\bower_components\bootstrap-daterangepicker\package.js" />
+    <None Include="wwwroot\bower_components\bootstrap-daterangepicker\README.md" />
+    <None Include="wwwroot\bower_components\bootstrap-daterangepicker\website\website.js" />
     <None Include="wwwroot\bower_components\bootstrap-slider\bootstrap-slider.js" />
     <None Include="wwwroot\bower_components\bootstrap-slider\README.md" />
     <None Include="wwwroot\bower_components\bootstrap-timepicker\CHANGELOG.md" />
@@ -2256,6 +2269,7 @@
     <None Include="wwwroot\bower_components\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="wwwroot\bower_components\bootstrap\Gemfile" />
     <None Include="wwwroot\bower_components\bootstrap\Gemfile.lock" />
+    <None Include="wwwroot\bower_components\bootstrap\Gruntfile.js" />
     <None Include="wwwroot\bower_components\bootstrap\grunt\.jshintrc" />
     <None Include="wwwroot\bower_components\bootstrap\grunt\bs-commonjs-generator.js" />
     <None Include="wwwroot\bower_components\bootstrap\grunt\bs-glyphicons-data-generator.js" />
@@ -6839,10 +6853,6 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\bower_components\moment\moment.d.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\images\Assistant\" />
   </ItemGroup>
 
 </Project>

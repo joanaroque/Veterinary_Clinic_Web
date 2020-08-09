@@ -4,6 +4,13 @@
     ViewData["Title"] = "Index";
 }
 
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+            <li class="active">Doctors</li>
+        </ol>
+    </section>
+    <br />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <br />
 
@@ -21,6 +28,9 @@
                                 @Html.DisplayNameFor(model => model.AppointmentSchedule)
                             </th>
                             <th>
+                                Doctor
+                            </th>
+                            <th>
                                 Owner
                             </th>
                             <th>
@@ -32,52 +42,64 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.IsAvailable)
                             </th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AppointmentSchedule)
+                            </td>
+                            <td>
+                                @if (item.IsMine)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Doctor.User.FullName)
+                                }
+                                else if (!item.IsAvailable)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Reserved)
+                                }
+                            </td>
+                            <td>
+                                @if (item.IsMine)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Owner.User.FullName)
+                                }
+                                else if (!item.IsAvailable)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Reserved)
+                                }
+                            </td>
+                            <td>
+                                @if (item.IsMine)
+                                {
+                                    @Html.DisplayFor(modelItem => item.Pet.Name)
+                                }
+                            </td>
+                            <td>
+                                @if (item.IsMine)
+                                {
+                                    @Html.DisplayFor(modelItem => item.AppointmentObs)
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IsAvailable)
+                            </td>
+                            <td>
+                                @if (item.IsAvailable)
+                                {
+                                    <a asp-action="Schedule" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-plus"></i></a>
+                                }
+                                else
+                                {
                                     @if (item.IsMine)
                                     {
-                                        @Html.DisplayFor(modelItem => item.Owner.User.FullName)
+                                        <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-minus"></i></button>
                                     }
-                                    else if (!item.IsAvailable)
-                                    {
-                                        @Html.DisplayFor(modelItem => item.Reserved)
-                                    }
-                                </td>
-                                <td>
-                                    @if (item.IsMine)
-                                    {
-                                        @Html.DisplayFor(modelItem => item.Pet.Name)
-                                    }
-                                </td>
-                                <td>
-                                    @if (item.IsMine)
-                                    {
-                                        @Html.DisplayFor(modelItem => item.AppointmentObs)
-                                    }
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.IsAvailable)
-                                </td>
-                                <td>
-                                    @if (item.IsAvailable)
-                                    {
-                                        <a asp-action="Schedule" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-plus"></i></a>
-                                    }
-                                    else
-                                    {
-                                        @if (item.IsMine)
-                                        {
-                                            <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-minus"></i></button>
-                                        }
-                                    }
-                                </td>
-                            </tr>
+                                }
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

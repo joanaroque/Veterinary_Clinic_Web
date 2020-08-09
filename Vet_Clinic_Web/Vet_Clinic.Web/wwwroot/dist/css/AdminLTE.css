@@ -131,7 +131,7 @@ body {
 
 .fixed .content-wrapper,
 .fixed .right-side {
-    padding-top: 50px;
+    padding-top: 0px;
 }
 
 @media (max-width: 767px) {
@@ -436,8 +436,8 @@ a {
     }
 
         .navbar-custom-menu .navbar-nav > li > a {
-            padding-top: 15px;
-            padding-bottom: 15px;
+            padding-top: 0px;
+            padding-bottom: 0px;
             line-height: 20px;
         }
 }
@@ -482,7 +482,7 @@ a {
     position: absolute;
     top: 0;
     left: 0;
-    padding-top: 50px;
+    padding-top: 0px;
     min-height: 100%;
     width: 230px;
     z-index: 810;
@@ -684,8 +684,8 @@ a {
         }
 
         .sidebar-mini.sidebar-collapse .sidebar-menu > li > .treeview-menu {
-            padding-top: 5px;
-            padding-bottom: 5px;
+            padding-top: 0px;
+            padding-bottom: 0px;
             border-bottom-right-radius: 4px;
         }
 
@@ -811,7 +811,7 @@ a {
 
 .control-sidebar {
     position: absolute;
-    padding-top: 50px;
+    padding-top: 0px;
     z-index: 1010;
 }
 

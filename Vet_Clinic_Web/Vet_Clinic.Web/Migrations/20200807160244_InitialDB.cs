@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Vet_Clinic.Web.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class InitialDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,7 +42,8 @@ namespace Vet_Clinic.Web.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false)
+                    LastName = table.Column<string>(nullable: false),
+                    Address = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -335,9 +336,9 @@ namespace Vet_Clinic.Web.Migrations
                     AppointmentObs = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     IsAvailable = table.Column<bool>(nullable: false),
-                    DoctorId = table.Column<int>(nullable: false),
-                    PetId = table.Column<int>(nullable: false),
-                    OwnerId = table.Column<int>(nullable: false)
+                    DoctorId = table.Column<int>(nullable: true),
+                    PetId = table.Column<int>(nullable: true),
+                    OwnerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -347,19 +348,19 @@ namespace Vet_Clinic.Web.Migrations
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Appointments_Owners_OwnerId",
                         column: x => x.OwnerId,
                         principalTable: "Owners",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Appointments_Pets_PetId",
                         column: x => x.PetId,
                         principalTable: "Pets",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Appointments_AspNetUsers_UserId",
                         column: x => x.UserId,

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
+using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Data
 {
@@ -12,13 +13,15 @@ namespace Vet_Clinic.Web.Data
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
+        private readonly IImageHelper _imageHelper;
 
-
-        public SeedDB(DataContext context, IUserHelper userHelper)
+        public SeedDB(DataContext context,
+            IUserHelper userHelper,
+            IImageHelper imageHelper)
         {
             _context = context;
             _userHelper = userHelper;
-
+            _imageHelper = imageHelper;
         }
 
         public async Task SeedAsync()
@@ -28,6 +31,7 @@ namespace Vet_Clinic.Web.Data
             await CheckRoles();
 
             var admin = await FillUserAsync("Joana", "Roque", "joanatpsi@gmail.com", "123456789", "Rua Ola", "Admin");
+            var customer = await FillUserAsync("Joana", "Ramos", "joana.ramos.roque@formandos.cinel.pt", "123456789", "Rua Adeus", "Customer");
 
             await FillSpeciesAsync();
             await FillServiceTypesAsync();
@@ -35,7 +39,7 @@ namespace Vet_Clinic.Web.Data
             await FillDoctorAsync();
             await FillAssistantAsync();
             await FillAdminAsync(admin);
-         // await FillAppointmentAsync();
+          await FillAppointmentAsync();
             await FillPetsAsync();
             await FillHistoriesAsync();
 
@@ -67,7 +71,7 @@ namespace Vet_Clinic.Web.Data
                     Owner = owner,
                     Specie = specie,
                     Breed = "Mongrel",
-                    ImageUrl = "IMAGEMMM********************************************",
+                //    ImageUrl = await _imageHelper.UploadImageAsync(_context.Pets .ImageFile, "Pets"),
                     Gender = "Male",
                     Weight = 8,
                     Sterilization = true,
@@ -80,7 +84,7 @@ namespace Vet_Clinic.Web.Data
                     Owner = owner,
                     Specie = specie,
                     Breed = "Berner Sennenhund",
-                    ImageUrl = "IMAGEMMM*****************************",
+                    ImageUrl = "w*****",
                     Gender = "Male",
                     Weight = 8,
                     Sterilization = true,
@@ -120,7 +124,7 @@ namespace Vet_Clinic.Web.Data
                     PhoneNumber = "874514747",
                     Email = "alex@gmail.pt",
                     TIN = "87545454",
-                    ImageUrl = "POR IMAGEM *************************************************************",
+                    ImageUrl = "POR IMAGEM ************************************************",
                     Address = "Rua Zeca Afonso",
                     DateOfBirth = DateTime.Now.AddYears(-35)
                 });
@@ -171,6 +175,13 @@ namespace Vet_Clinic.Web.Data
                 await _userHelper.ConfirmEmailAsync(user, token);
             }
 
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Admin");
+
+            if (!isInRole)
+            {
+                await _userHelper.AddUSerToRoleAsync(user, "Admin");
+            }
+
             return user;
         }
 
@@ -197,7 +208,7 @@ namespace Vet_Clinic.Web.Data
 
                     Name = "Joana",
                     LastName = "Ramos",
-                    Email = "joana.ramos.roque@formandos.cinel.pt",
+                    Email = "lala@joana.pt",
                     PhoneNumber = "123456789",
                     Address = "Rua Adeus",
                     TIN = "44541",

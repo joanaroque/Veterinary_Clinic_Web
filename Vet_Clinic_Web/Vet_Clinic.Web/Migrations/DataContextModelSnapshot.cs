@@ -154,13 +154,13 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<DateTime>("AppointmentSchedule");
 
-                    b.Property<int>("DoctorId");
+                    b.Property<int?>("DoctorId");
 
                     b.Property<bool>("IsAvailable");
 
-                    b.Property<int>("OwnerId");
+                    b.Property<int?>("OwnerId");
 
-                    b.Property<int>("PetId");
+                    b.Property<int?>("PetId");
 
                     b.Property<string>("UserId");
 
@@ -521,18 +521,15 @@ namespace Vet_Clinic.Web.Migrations
                 {
                     b.HasOne("Vet_Clinic.Web.Data.Entities.Doctor", "Doctor")
                         .WithMany()
-                        .HasForeignKey("DoctorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DoctorId");
 
                     b.HasOne("Vet_Clinic.Web.Data.Entities.Owner", "Owner")
                         .WithMany("Appointments")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OwnerId");
 
                     b.HasOne("Vet_Clinic.Web.Data.Entities.Pet", "Pet")
                         .WithMany("Appointments")
-                        .HasForeignKey("PetId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PetId");
 
                     b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
                         .WithMany()

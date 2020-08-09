@@ -12,7 +12,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Start Time")]
+        [Display(Name = "Date")]
         public DateTime AppointmentSchedule { get; set; }
 
 
@@ -22,6 +22,9 @@ namespace Vet_Clinic.Web.Data.Entities
         //[Display(Name = "End Time")]
         //public DateTime EndTime { get; set; }
 
+        [Display(Name = "Date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}")]
+        public DateTime DateLocal => AppointmentSchedule.ToLocalTime();
 
         [Display(Name = "Observations")]
         public string AppointmentObs { get; set; }
