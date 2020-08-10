@@ -92,17 +92,14 @@ else
                                     @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Gender)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().DateOfBirth)
-                                </th>
-                                <th>
                                     @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Sterilization)
                                 </th>
                                 <th>
-                                    # Histories
+                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Specie.Description)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Histories)
-                                </th>
+                                    # Histories
+                                </th>                               
                                 <th></th>
                             </tr>
                         </thead>
@@ -129,13 +126,16 @@ else
                                     @Html.DisplayFor(modelItem => item.DateOfBirth)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Histories.Count)
-                                </td>
-                                <td>
                                     @Html.DisplayFor(modelItem => item.Gender)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Sterilization)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Specie.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Histories.Count)
                                 </td>
                                 <td>
                                     <a asp-action="EditPet" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>

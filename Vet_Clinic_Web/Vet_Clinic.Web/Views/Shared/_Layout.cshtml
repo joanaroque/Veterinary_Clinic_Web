@@ -243,13 +243,12 @@
     <!-- AdminLTE App -->
     <script src="~/dist/js/adminlte.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-
+    <script src="~/dist/js/adminlte.js"></script>
 
 
     <environment include="Development">
         <script src="~/lib/font-awesome/js/jquery.js"></script>
         <script src="~/lib/font-awesome/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
@@ -264,7 +263,6 @@
                 crossorigin="anonymous"
                 integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
         </script>
-        <script src="~lib/js/site.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)
