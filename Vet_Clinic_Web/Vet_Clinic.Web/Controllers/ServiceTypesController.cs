@@ -46,14 +46,14 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ServiceTypeNotFound");
             }
 
             var serviceType = await _context.ServiceTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (serviceType == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ServiceTypeNotFound");
             }
 
             return View(serviceType);
@@ -84,13 +84,13 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ServiceTypeNotFound");
             }
 
             var serviceType = await _context.ServiceTypes.FindAsync(id);
             if (serviceType == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ServiceTypeNotFound");
             }
             return View(serviceType);
         }
@@ -104,7 +104,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id != serviceType.Id)
             {
-                return NotFound();
+                return new NotFoundViewResult("ServiceTypeNotFound");
             }
 
             if (ModelState.IsValid)
@@ -118,7 +118,7 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     if (!ServiceTypeExists(serviceType.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("ServiceTypeNotFound");
                     }
                     else
                     {
@@ -134,14 +134,14 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ServiceTypeNotFound");
             }
 
             var serviceType = await _context.ServiceTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (serviceType == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("ServiceTypeNotFound");
             }
 
             _context.ServiceTypes.Remove(serviceType);

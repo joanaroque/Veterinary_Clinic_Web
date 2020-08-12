@@ -18,73 +18,77 @@
     <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Create New</a>
 </p>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Admin</h3>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div style="text-align:center">
+                <h3 class="card-title">Admin</h3>
             </div>
-            <div class="panel-body">
-                <table class="table table-hover table-responsive table-striped" id="MyTable">
-                    <thead>
-                        <tr>
+            <div class="panel panel-default">
+                <div class="box-header with-border">
 
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.FirstName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.LastName)
-                            </th>
-
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.Email)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().User.PhoneNumber)
-                            </th>
-
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            @using (Html.BeginForm("Delete", "Admins", new { id = item.Id }))
-                            {
+                    <div class="panel-body">
+                        <table class="table table-hover table-responsive table-striped" id="MyTable">
+                            <thead>
                                 <tr>
 
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.User.FirstName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.User.LastName)
-                                    </td>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FirstOrDefault().User.FirstName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FirstOrDefault().User.LastName)
+                                    </th>
 
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.User.Email)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.User.PhoneNumber)
-                                    </td>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FirstOrDefault().User.Email)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FirstOrDefault().User.PhoneNumber)
+                                    </th>
 
-
-
-                                    <td>
-                                        <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
-                                        <a asp-action="Details" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-list"> </i> </a>
-                                        <input type="submit" value="Delete"
-                                               onclick="return confirm('Are you sure you want to delete @item.User.FirstName?')" />
-                                    </td>
+                                    <th></th>
                                 </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    @using (Html.BeginForm("Delete", "Admins", new { id = item.Id }))
+                                    {
+                                        <tr>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.User.FirstName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.User.LastName)
+                                            </td>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.User.Email)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.User.PhoneNumber)
+                                            </td>
+
+
+
+                                            <td>
+                                                <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                                <a asp-action="Details" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-list"> </i> </a>
+                                                <input type="submit" value="Delete"
+                                                       onclick="return confirm('Are you sure you want to delete @item.User.FirstName?')" />
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-
+</section>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>

@@ -197,13 +197,13 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             var pet = await _context.Pets.FindAsync(id.Value);
             if (pet == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             var model = new HistoryViewModel
@@ -235,7 +235,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             var pet = await _context.Pets
@@ -246,7 +246,7 @@ namespace Vet_Clinic.Web.Controllers
                 .FirstOrDefaultAsync(o => o.Id == id.Value);
             if (pet == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             return View(pet);
@@ -261,13 +261,13 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             var owner = await _context.Owners.FindAsync(id.Value);
             if (owner == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             var model = new PetViewModel
@@ -305,7 +305,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             var pet = await _context.Pets
@@ -315,7 +315,7 @@ namespace Vet_Clinic.Web.Controllers
 
             if (pet == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             return View(_converterHelper.ToPetViewModel(pet));
@@ -348,7 +348,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             var pet = await _context.Pets
@@ -357,7 +357,7 @@ namespace Vet_Clinic.Web.Controllers
                 .FirstOrDefaultAsync(p => p.Id == id.Value);
             if (pet == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             if (pet.Histories.Count > 0)
@@ -375,7 +375,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             var history = await _context.Histories
@@ -383,7 +383,7 @@ namespace Vet_Clinic.Web.Controllers
                 .FirstOrDefaultAsync(h => h.Id == id.Value);
             if (history == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("OwnerNotFound");
             }
 
             _context.Histories.Remove(history);

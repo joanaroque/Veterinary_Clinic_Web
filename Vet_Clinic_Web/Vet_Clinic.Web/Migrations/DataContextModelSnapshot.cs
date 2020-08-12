@@ -412,9 +412,6 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("Address")
-                        .IsRequired();
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 

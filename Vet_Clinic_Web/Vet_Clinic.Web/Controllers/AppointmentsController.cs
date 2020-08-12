@@ -55,7 +55,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AppointmentNotFound");
             }
 
             var appointment = await _context.Appointments
@@ -63,7 +63,7 @@ namespace Vet_Clinic.Web.Controllers
 
             if (appointment == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AppointmentNotFound");
             }
 
 
@@ -117,7 +117,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AppointmentNotFound");
             }
 
             var appointment = await _context.Appointments
@@ -128,7 +128,7 @@ namespace Vet_Clinic.Web.Controllers
 
             if (appointment == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AppointmentNotFound");
             }
 
             appointment.IsAvailable = true;

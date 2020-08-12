@@ -30,8 +30,8 @@ namespace Vet_Clinic.Web.Data
 
             await CheckRoles();
 
-            var admin = await FillUserAsync("Joana", "Roque", "joanatpsi@gmail.com", "123456789", "Rua Ola", "Admin");
-            var customer = await FillUserAsync("Joana", "Ramos", "joana.ramos.roque@formandos.cinel.pt", "123456789", "Rua Adeus", "Customer");
+            var admin = await FillUserAsync("Joana", "Roque", "joanatpsi@gmail.com", "123456789", "Admin");
+          // var customer = await FillUserAsync("Joana", "Ramos", "joana.ramos.roque@formandos.cinel.pt", "123456789", "Customer");
 
             await FillSpeciesAsync();
             await FillServiceTypesAsync();
@@ -152,7 +152,6 @@ namespace Vet_Clinic.Web.Data
            string lastName,
            string email,
            string phone,
-           string address,
            string role)
         {
             var user = await _userHelper.GetUserByEmailAsync(email);
@@ -164,8 +163,7 @@ namespace Vet_Clinic.Web.Data
                     LastName = lastName,
                     Email = email,
                     UserName = email,
-                    PhoneNumber = phone,
-                    Address = address
+                    PhoneNumber = phone
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");

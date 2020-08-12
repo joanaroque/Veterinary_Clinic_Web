@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
+using Vet_Clinic.Web.Helpers;
 
 namespace Vet_Clinic.Web.Controllers
 {
@@ -30,14 +31,14 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("SpecieNotFound");
             }
 
             var specie = await _context.Species
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (specie == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("SpecieNotFound");
             }
 
             return View(specie);
@@ -70,13 +71,13 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("SpecieNotFound");
             }
 
             var specie = await _context.Species.FindAsync(id);
             if (specie == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("SpecieNotFound");
             }
             return View(specie);
         }
@@ -90,7 +91,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id != specie.Id)
             {
-                return NotFound();
+                return new NotFoundViewResult("SpecieNotFound");
             }
 
             if (ModelState.IsValid)
@@ -104,7 +105,7 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     if (!SpecieExists(specie.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("SpecieNotFound");
                     }
                     else
                     {
@@ -124,7 +125,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("SpecieNotFound");
             }
 
             var species = await _context.Species
@@ -132,7 +133,7 @@ namespace Vet_Clinic.Web.Controllers
                 .FirstOrDefaultAsync(pt => pt.Id == id);
             if (species == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("SpecieNotFound");
             }
 
             if (species.Pets.Count > 0)

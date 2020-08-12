@@ -44,14 +44,14 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AdminNotFound");
             }
 
             var admin = await _context.Admins
                 .FirstOrDefaultAsync(m => m.Id == id.Value);
             if (admin == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AdminNotFound");
             }
 
             return View(admin);
@@ -127,7 +127,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AdminNotFound");
             }
 
             var admin = await _context.Admins
@@ -136,7 +136,7 @@ namespace Vet_Clinic.Web.Controllers
 
             if (admin == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AdminNotFound");
             }
 
             return View(admin);
@@ -160,7 +160,7 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     if (!AdminExists(admin.Id))
                     {
-                        return NotFound();
+                        return new NotFoundViewResult("AdminNotFound");
                     }
                     else
                     {
@@ -180,7 +180,7 @@ namespace Vet_Clinic.Web.Controllers
 
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("AdminNotFound");
             }
 
             var admin = await _context.Admins.FindAsync(id);
