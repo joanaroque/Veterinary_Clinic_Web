@@ -24,7 +24,7 @@
             <div style="text-align:center">
                 <h3 class="card-title">Service Type</h3>
             </div>
-            <div class="panel panel-default">
+            <div class="box box-info" style="margin-top:10px">
 
                 <div class="box-header with-border">
                     <div class="panel-body">
@@ -46,9 +46,9 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Name)
                                             </td>
-                                            <td >
+                                            <td>
                                                 <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
-                                                <a asp-action="Details" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-list"> </i> </a>
+                                                <a asp-action="Details" class="btn btn-default" asp-route-id="@item.Id"><i class="fa fa-list"></i></a>
                                                 <input type="submit" value="Delete"
                                                        onclick="return confirm('Are you sure you want to delete @item.Name?')" />
                                             </td>

@@ -4,22 +4,44 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+        <li class="active">Histories</li>
+    </ol>
+</section>
 
-<h4>History</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddHistory">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="PetId" />
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
 
-            <partial name="_History" />
+                <div style="text-align:center">
+                    <h3 class="card-title">History</h3>
+                </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-                <a asp-action="DetailsPet" asp-route-id="@Model.PetId" class="btn btn-success">Back to Pet</a>
+                <div class="box box-info" style="margin-top:10px">
+                    <div class="box-header with-border">
+
+                        <form asp-action="AddHistory" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="PetId" />
+
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <partial name="_History" />
+
+                                    <div class="form-group">
+                                        <input type="submit" value="Create" class="btn btn-primary" />
+                                        <a asp-action="DetailsPet" asp-route-id="@Model.PetId" class="btn btn-success pull-right"><i class="fa fa-backward"></i> Back to Pet</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+</section>

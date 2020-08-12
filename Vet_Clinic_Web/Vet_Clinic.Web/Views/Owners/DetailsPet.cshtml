@@ -4,131 +4,159 @@
     ViewData["Title"] = "Details";
 }
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+            <li class="active">Pets</li>
+        </ol>
+    </section>
 
-<h2>Pet</h2>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-12">
 
-<div>
-    <h4>Details</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-8">
-            <dl class="dl-horizontal">
-                <dt>
-                    Owner
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Owner.User.FullName)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Breed)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Breed)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.DateOfBirth)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.DateOfBirth)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Sterilization)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Sterilization)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Gender)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Gender)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Weight)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Weight)
-                </dd>
-            </dl>
-        </div>
-        <div class="col-md-4">
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:300px;height:300px;max-height: 100%; width: auto;" />
-            }
-        </div>
-    </div>
-</div>
-<div>
-    <a asp-action="EditPet" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-    <a asp-action="AddHistory" asp-route-id="@Model.Id" class="btn btn-primary">Add History</a>
-    <a asp-action="Details" asp-route-id="@Model.Owner.Id" class="btn btn-success">Back to Owner</a>
-</div>
-<h4>History</h4>
-<hr />
-@if (Model.Histories.Count == 0)
-{
-    <h5>Not histories added yet.</h5>
-}
-else
-{
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Histories</h3>
+                <div style="text-align:center">
+                    <h3 class="card-title">Pet</h3>
                 </div>
-                <div class="panel-body">
-                    <table class="table table-hover table-responsive table-striped" id="MyTable">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().Date)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().ServiceType.Name)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().Description)
-                                </th>
-                               
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Histories)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Date)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ServiceType.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Description)
-                                    </td>
-                                  
-                                    <td>
-                                        <a asp-action="EditHistory" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
-                                        <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-trash"></i></button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+
+                <div class="box box-info" style="margin-top:10px">
+                    <div class="box-header with-border">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        Owner
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Owner.User.FullName)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Name)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Name)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Breed)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Breed)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.DateOfBirth)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.DateOfBirth)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Sterilization)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Sterilization)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Gender)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Gender)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Weight)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Weight)
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-4">
+                                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                {
+                                    <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:300px;height:300px;max-height: 100%; width: auto;" />
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <a asp-action="EditPet" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a asp-action="AddHistory" asp-route-id="@Model.Id" class="btn btn-primary center-block"><i class="fa fa-history"></i> Add History <i class="fa fa-history"></i></a>
+                        <a asp-action="Details" asp-route-id="@Model.Owner.Id" class="btn btn-success pull-right"><i class="fa fa-backward"></i> Back to Owner</a>
+                    </div>
                 </div>
             </div>
         </div>
+        <br />
+        <div style="text-align:center">
+            <h3 class="card-title">Pet History</h3>
+        </div>
+
+        <div class="box box-info" style="margin-top:10px">
+            <hr />
+            @if (Model.Histories.Count == 0)
+            {
+                <div class="center-block">
+                    <h5>No histories added yet.</h5>
+                </div>
+
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Histories</h3>
+                            </div>
+                            <div class="panel-body">
+                                <table class="table table-hover table-responsive table-striped" id="MyTable">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().Date)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().ServiceType.Name)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().Description)
+                                            </th>
+
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.Histories)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Date)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.ServiceType.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Description)
+                                                </td>
+
+                                                <td>
+                                                    <a asp-action="EditHistory" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                                    <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
     </div>
-}
+</section>
 
 <partial name="_DeleteDialog" />
 

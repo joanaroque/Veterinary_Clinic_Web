@@ -3,126 +3,146 @@
     ViewData["Title"] = "Details";
 }
 
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+        <li class="active">Pets</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
-<h2>Pet</h2>
-<br />
-<br />
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-8">
 
-<div>
-    <h4>Details</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-8">
-            <dl class="dl-horizontal">
-                <dt>
-                    Owner
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Owner.User.FullName)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Breed)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Breed)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.DateOfBirth)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.DateOfBirth)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Sterilization)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Sterilization)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Gender)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Gender)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Weight)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Weight)
-                </dd>
-            </dl>
-        </div>
-        <div class="col-md-4">
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:300px;height:300px;max-height: 100%; width: auto;" />
-            }
-        </div>
-    </div>
-</div>
-<div>
-    <a asp-action="EditPet" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i>Edit</a>
-    <a asp-action="MyPets" asp-route-id="@Model.Id" class="btn btn-success">Back to My Pets</a>
-</div>
-<hr />
-@if (Model.Histories.Count == 0)
-{
-    <h4>Not histories added yet.</h4>
-}
-else
-{
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">History</h3>
+                <div style="text-align:center">
+                    <h3 class="card-title">Specie</h3>
                 </div>
-                <div class="panel-body">
-                    <table class="table table-hover table-responsive table-striped" id="MyTable">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().Date)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().ServiceType.Name)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().Description)
-                                </th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.Histories)
+                <div class="box box-info" style="margin-top:10px">
+                    <div class="box-header with-border">
+
+
+                        <div class="col-md-8">
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    Owner
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Owner.User.FullName)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Name)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Breed)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Breed)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.DateOfBirth)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.DateOfBirth)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Sterilization)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Sterilization)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Gender)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Gender)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Weight)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Weight)
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-4">
+                            @if (!string.IsNullOrEmpty(Model.ImageUrl))
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Date)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ServiceType.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Description)
-                                    </td>
-
-                                </tr>
+                                <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:300px;height:300px;max-height: 100%; width: auto;" />
                             }
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <a asp-action="EditPet" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i>Edit</a>
+                    <a asp-action="MyPets" asp-route-id="@Model.Id" class="btn btn-success"><i class="fa fa-backward"></i> Back to My Pets</a>
                 </div>
             </div>
         </div>
     </div>
-}
+
+    <hr />
+    @if (Model.Histories.Count == 0)
+    {
+        <h4>Not histories added yet.</h4>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">History</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-hover table-responsive table-striped" id="MyTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().Date)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().ServiceType.Name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().Description)
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Histories)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Date)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ServiceType.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</section>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
