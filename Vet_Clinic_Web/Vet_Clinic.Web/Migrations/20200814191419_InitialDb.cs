@@ -42,24 +42,12 @@ namespace Vet_Clinic.Web.Migrations
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false)
+                    LastName = table.Column<string>(nullable: false),
+                    Address = table.Column<string>(maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Species",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Species", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -293,6 +281,26 @@ namespace Vet_Clinic.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Species",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(maxLength: 50, nullable: false),
+                    UserId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Species", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Species_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pets",
                 columns: table => new
                 {
@@ -510,6 +518,11 @@ namespace Vet_Clinic.Web.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ServiceTypes_UserId",
                 table: "ServiceTypes",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Species_UserId",
+                table: "Species",
                 column: "UserId");
         }
 

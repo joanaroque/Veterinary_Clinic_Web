@@ -49,10 +49,15 @@ namespace Vet_Clinic.Web.Data
         {
             if (!_context.Histories.Any())
             {
+                var pet = _context.Pets.FirstOrDefault();
+                var type = _context.ServiceTypes.FirstOrDefault();
+
                 _context.Histories.Add(new History
                 {
+                    Pet = pet,
+                    ServiceType = type,
                     Description = "Otite e orelhas sujas",
-                    Date = DateTime.Now
+                    Date = DateTime.Now.AddDays(-1)
                 });
                 await _context.SaveChangesAsync();
             }

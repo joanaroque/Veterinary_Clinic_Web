@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-12">
+            <div class="col-md-9 center-block">
 
                 <div style="text-align:center">
                     <h3 class="card-title">Owner</h3>
@@ -51,6 +51,12 @@
                                 </dt>
                                 <dd>
                                     @Html.DisplayFor(model => model.DateOfBirth)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Email)
                                 </dd>
                                 <dt>
                                     @Html.DisplayNameFor(model => model.PhoneNumber)
@@ -133,46 +139,49 @@
                                 <tbody>
                                     @foreach (var item in Model.Pets)
                                     {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Name)
-                                            </td>
-                                            <td>
-                                                @if (!string.IsNullOrEmpty(item.ImageUrl))
-                                                {
-                                                    <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:50px;height:50px;max-width: 100%; height: auto;" />
-                                                }
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Breed)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Weight)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.DateOfBirth)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Gender)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Sterilization)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Specie.Description)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Histories.Count)
-                                            </td>
-                                            <td>
-                                                <a asp-action="EditPet" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
-                                                <a asp-action="DetailsPet" class="btn btn-default" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
-                                                <input type="submit" value="Delete"
-                                                       onclick="return confirm('Are you sure you want to delete @item.Name?')" />
-                                            </td>
-                                        </tr>
+                                        @using (Html.BeginForm("Delete", "Owners", new { id = item.Id }))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Name)
+                                                </td>
+                                                <td>
+                                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                                    {
+                                                        <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:50px;height:50px;max-width: 100%; height: auto;" />
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Breed)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Weight)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DateOfBirth)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Gender)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Sterilization)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Specie.Description)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Histories.Count)
+                                                </td>
+                                                <td>
+                                                    <input type="submit" value="Delete" class="btn btn-danger pull-right"
+                                                           onclick="return confirm('Are you sure you want to delete @item.Name?')" />
+                                                    <a asp-action="EditPet" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                                    <a asp-action="DetailsPet" class="btn btn-warning pull-right" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
+                                                </td>
+                                            </tr>
+                                        }
                                     }
-                                </tbody>
+                                    </tbody>
                             </table>
                         </div>
                     </div>

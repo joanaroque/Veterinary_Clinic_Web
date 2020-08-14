@@ -1710,7 +1710,7 @@ pre {
     }
 
 select.form-control:not([size]):not([multiple]) {
-    height: calc(2.25rem + 2px);
+    height: inherit;
 }
 
 select.form-control:focus::-ms-value {
@@ -1778,7 +1778,7 @@ select.form-control:focus::-ms-value {
 select.form-control-sm:not([size]):not([multiple]), .input-group-sm > select.form-control:not([size]):not([multiple]),
 .input-group-sm > select.input-group-addon:not([size]):not([multiple]),
 .input-group-sm > .input-group-btn > select.btn:not([size]):not([multiple]) {
-    height: calc(1.8125rem + 2px);
+    height: inherit;
 }
 
 .form-control-lg, .input-group-lg > .form-control,
@@ -1793,7 +1793,7 @@ select.form-control-sm:not([size]):not([multiple]), .input-group-sm > select.for
 select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.form-control:not([size]):not([multiple]),
 .input-group-lg > select.input-group-addon:not([size]):not([multiple]),
 .input-group-lg > .input-group-btn > select.btn:not([size]):not([multiple]) {
-    height: calc(2.3125rem + 2px);
+    height: inherit;
 }
 
 .form-group {

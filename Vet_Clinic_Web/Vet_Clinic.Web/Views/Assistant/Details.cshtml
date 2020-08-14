@@ -10,60 +10,79 @@
         <li class="active">Assistants</li>
     </ol>
 </section>
-<!-- Main content -->
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
 <section class="content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">Details</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-10 center-block">
+
+                <div style="text-align:center">
+                    <h3 class="card-title">Assistant</h3>
                 </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Last Name</th>
-                                <th>TIN</th>
-                                <th>Phone Number</th>
-                                <th>Email</th>
-                                <th>Address</th>
-                                <th>DateOfBirth</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
+
+                <div class="box box-info" style="margin-top:10px">
+                    <div class="box-header with-border">
+
+                        <div class="col-sm-8">
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.ImageUrl)
+                                </dt>
+                                <dd>
                                     @if (!string.IsNullOrEmpty(Model.ImageUrl))
                                     {
                                         <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
                                     }
-                                </td>
-                                <td>@Html.DisplayFor(model => model.Name)</td>
-                                <td>@Html.DisplayFor(model => model.LastName)</td>
-                                <td>@Html.DisplayFor(model => model.TIN)</td>
-                                <td>@Html.DisplayFor(model => model.PhoneNumber)</td>
-                                <td>@Html.DisplayFor(model => model.Email)</td>
-                                <td>@Html.DisplayFor(model => model.Address)</td>
-                                <td>@Html.DisplayFor(model => model.DateOfBirth)</td>
-
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                                    <a asp-action="Index">Back to List</a>
-                                </td>
-                            </tr>
-                    </table>
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Name)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.LastName)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.LastName)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Email)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.TIN)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.TIN)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.DateOfBirth)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.DateOfBirth)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.PhoneNumber)
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                        <a asp-action="Index" class="btn btn-success  pull-right"><i class="fa fa-backward"></i> Back to List</a>
+                    </div>
                 </div>
-                <!-- /.box-body -->
             </div>
-            <!-- /.box -->
         </div>
-        <!-- /.col -->
     </div>
-    <!-- /.row -->
 </section>
-
-
 

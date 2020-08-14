@@ -108,7 +108,9 @@ namespace Vet_Clinic.Web.Controllers
                 Email = view.UserName,
                 FirstName = view.FirstName,
                 LastName = view.LastName,
-                UserName = view.UserName
+                UserName = view.UserName,
+                Address = view.Address,
+                PhoneNumber = view.PhoneNumber
             };
 
             var result = await _userHelper.AddUserAsync(user, view.Password);

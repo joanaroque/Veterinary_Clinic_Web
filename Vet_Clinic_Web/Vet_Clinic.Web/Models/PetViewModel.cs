@@ -15,7 +15,7 @@ namespace Vet_Clinic.Web.Models
 
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [Display(Name = "Pet Specie")]
-        [Range(1, int.MaxValue, ErrorMessage = "You must select a pet type.")]
+        [Range(1, int.MaxValue, ErrorMessage = "You must select a Specie.")]
         public int SpecieId { get; set; }
 
         [Display(Name = "Image")]

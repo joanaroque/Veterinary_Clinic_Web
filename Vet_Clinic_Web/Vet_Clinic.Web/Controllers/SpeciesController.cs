@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
+using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
 
 namespace Vet_Clinic.Web.Controllers
@@ -14,16 +15,28 @@ namespace Vet_Clinic.Web.Controllers
     public class SpeciesController : Controller
     {
         private readonly DataContext _context;
+        private readonly ISpecieRepository _specie;
+        private readonly IUserHelper _userHelper;
+        private readonly IConverterHelper _converterHelper;
+        private readonly IImageHelper _imageHelper;
 
-        public SpeciesController(DataContext context)
+        public SpeciesController(DataContext context,
+            IImageHelper imageHelper,
+            ISpecieRepository specie,
+                        IUserHelper userHelper,
+                        IConverterHelper converterHelper)
         {
             _context = context;
+            _specie = specie;
+            _userHelper = userHelper;
+            _converterHelper = converterHelper;
+            _imageHelper = imageHelper;
         }
 
         // GET: Species
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Species.ToListAsync());
+            return View(_specie.GetAll().OrderBy(s => s.User.FirstName));
         }
 
         // GET: Species/Details/5
@@ -34,8 +47,8 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("SpecieNotFound");
             }
 
-            var specie = await _context.Species
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var specie = await _specie.GetByIdAsync(id.Value);
+
             if (specie == null)
             {
                 return new NotFoundViewResult("SpecieNotFound");
@@ -55,7 +68,7 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description")] Specie specie)
+        public async Task<IActionResult> Create(Specie specie)
         {
             if (ModelState.IsValid)
             {
@@ -131,6 +144,7 @@ namespace Vet_Clinic.Web.Controllers
             var species = await _context.Species
                 .Include(pt => pt.Pets)
                 .FirstOrDefaultAsync(pt => pt.Id == id);
+
             if (species == null)
             {
                 return new NotFoundViewResult("SpecieNotFound");
@@ -142,8 +156,9 @@ namespace Vet_Clinic.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            _context.Species.Remove(species);
-            await _context.SaveChangesAsync();
+            var specie = await _specie.GetByIdAsync(id.Value);
+            await _specie.DeleteAsync(specie);
+
             return RedirectToAction(nameof(Index));
         }
 

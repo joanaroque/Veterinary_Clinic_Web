@@ -32,7 +32,7 @@ namespace Vet_Clinic.Web
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a Service...)",
+                Text = "[Select a Service...]",
                 Value = "0"
             });
 

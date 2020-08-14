@@ -17,7 +17,7 @@
         <div class="box box-info">
             <div class="box-header with-border">
 
-                <form method="post">
+                <form  asp-action="Register">
                     <div asp-validation-summary="ModelOnly"></div>
 
                     <div class="input-group mb-3">
@@ -57,10 +57,10 @@
                     </div>
 
                     <div class="input-group mb-3">
-                        <input asp-for="Confirm" type="Password" class="form-control" placeholder="Confirm Password">
+                        <input asp-for="PasswordConfirm" type="Password" class="form-control" placeholder="Confirm Password">
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span asp-validation-for="Confirm" class="fas fa-lock"></span>
+                                <span asp-validation-for="PasswordConfirm" class="fas fa-lock"></span>
                             </div>
                         </div>
                     </div>

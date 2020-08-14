@@ -9,7 +9,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-12">
+            <div class="col-md-9 center-block">
 
                 <div style="text-align:center">
                     <h3 class="card-title">Admin</h3>
@@ -17,6 +17,7 @@
 
                 <div class="box box-info" style="margin-top:10px">
                     <div class="box-header with-border">
+
                         <form asp-action="Create" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -24,11 +25,11 @@
 
                                 <partial name="_User" />
 
-                                <br />
+                              
                                 <div class="form-group">
 
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label asp-for="UserName" class="control-label"></label>
                                                 <input asp-for="UserName" class="form-control" />
@@ -44,9 +45,9 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label asp-for="Confirm" class="control-label"></label>
-                                                <input asp-for="Confirm" class="form-control" />
-                                                <span asp-validation-for="Confirm" class="text-danger"></span>
+                                                <label asp-for="PasswordConfirm" class="control-label"></label>
+                                                <input asp-for="PasswordConfirm" class="form-control" />
+                                                <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>

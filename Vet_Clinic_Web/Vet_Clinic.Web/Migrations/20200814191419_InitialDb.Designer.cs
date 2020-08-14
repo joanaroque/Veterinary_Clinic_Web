@@ -10,7 +10,7 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200810205910_InitialDb")]
+    [Migration("20200814191419_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -402,7 +402,11 @@ namespace Vet_Clinic.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<string>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Species");
                 });
@@ -413,6 +417,9 @@ namespace Vet_Clinic.Web.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -583,6 +590,13 @@ namespace Vet_Clinic.Web.Migrations
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.ServiceType", b =>
+                {
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Specie", b =>
                 {
                     b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
                         .WithMany()

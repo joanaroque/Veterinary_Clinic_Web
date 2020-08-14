@@ -49,8 +49,8 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("ServiceTypeNotFound");
             }
 
-            var serviceType = await _context.ServiceTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var serviceType = await _serviceTypesRepository.GetByIdAsync(id.Value);
+
             if (serviceType == null)
             {
                 return new NotFoundViewResult("ServiceTypeNotFound");
@@ -139,13 +139,15 @@ namespace Vet_Clinic.Web.Controllers
 
             var serviceType = await _context.ServiceTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (serviceType == null)
             {
                 return new NotFoundViewResult("ServiceTypeNotFound");
             }
 
-            _context.ServiceTypes.Remove(serviceType);
-            await _context.SaveChangesAsync();
+            var type = await _serviceTypesRepository.GetByIdAsync(id.Value);
+            await _serviceTypesRepository.DeleteAsync(type);
+
             return RedirectToAction(nameof(Index));
         }
 
