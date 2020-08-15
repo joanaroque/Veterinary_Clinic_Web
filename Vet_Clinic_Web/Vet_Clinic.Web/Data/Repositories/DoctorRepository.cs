@@ -25,11 +25,12 @@ namespace Vet_Clinic.Web.Data.Repositories
             {
                 Text = p.User.FirstName,
                 Value = p.Id.ToString()
+
             }).OrderBy(p => p.Text).ToList();
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a doctor...)",
+                Text = "[Select a doctor...]",
                 Value = "0"
             });
 

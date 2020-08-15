@@ -30,8 +30,8 @@ namespace Vet_Clinic.Web.Controllers
             _PetRepository = PetRepository;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
-           _context = context;
-           _serviceTypesRepository = serviceTypesRepository;
+            _context = context;
+            _serviceTypesRepository = serviceTypesRepository;
         }
 
         // GET: Pets
@@ -48,14 +48,18 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var Pet = await _PetRepository.GetByIdAsync(id.Value);
+            var pet = await _context.Pets
+                .Include(p => p.Owner)
+                .Include(p => p.Specie)
+                .Include(p => p.Histories)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Pet == null)
+            if (pet == null)
             {
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            return View(Pet);
+            return View(pet);
         }
 
         // GET: Pets/Create

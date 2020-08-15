@@ -34,7 +34,7 @@ namespace Vet_Clinic.Web.Data.Repositories
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a Assistant...)",
+                Text = "[Select a Assistant...]",
                 Value = "0"
             });
 

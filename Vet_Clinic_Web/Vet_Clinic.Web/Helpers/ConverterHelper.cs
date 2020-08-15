@@ -10,13 +10,16 @@ namespace Vet_Clinic.Web.Helpers
     {
         private readonly DataContext _context;
         private readonly IServiceTypesRepository _serviceTypesRepository;
+        private readonly ISpecieRepository _specieRepository;
 
         public ConverterHelper(
            DataContext dataContext,
-           IServiceTypesRepository serviceTypesRepository)
+           IServiceTypesRepository serviceTypesRepository,
+           ISpecieRepository specieRepository)
         {
             _context = dataContext;
             _serviceTypesRepository = serviceTypesRepository;
+            _specieRepository = specieRepository;
         }
 
 
@@ -57,7 +60,7 @@ namespace Vet_Clinic.Web.Helpers
                 Histories = pet.Histories,
                 OwnerId = pet.Owner.Id,
                 SpecieId = pet.Specie.Id,
-                Species = _serviceTypesRepository.GetComboServiceTypes()
+                Species = _specieRepository.GetComboSpecies()
 
             };
 

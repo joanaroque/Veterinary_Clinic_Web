@@ -27,11 +27,12 @@ namespace Vet_Clinic.Web.Data.Repositories
             {
                 Text = p.User.FirstName,
                 Value = p.Id.ToString()
+
             }).ToList();
 
             list.Insert(0, new SelectListItem
             {
-                Text = "(Select a Owner...)",
+                Text = "[Select a Owner...]",
                 Value = "0"
             });
 

@@ -22,10 +22,8 @@ namespace Vet_Clinic.Web.Data.Repositories
             var list = _context.Species.Select(s => new SelectListItem
             {
                 Text = s.Description,
-                Value = $"{s.Id}"
-            })
-                           .OrderBy(s => s.Text)
-                           .ToList();
+                Value = s.Id.ToString()
+            }).OrderBy(s => s.Text).ToList();
 
             list.Insert(0, new SelectListItem
             {
