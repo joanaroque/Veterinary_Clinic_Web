@@ -65,7 +65,7 @@ namespace Vet_Clinic.Web.Data.Entities
                 {
                     return null;
                 }
-                return $"https://tpsicet46.azurewebsites.net{this.ImageUrl.Substring(1)}";
+                return $"https://petclinicjoana.azurewebsites.net{this.ImageUrl.Substring(1)}";
             }
         }
 

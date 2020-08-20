@@ -79,7 +79,7 @@ namespace Vet_Clinic.Web.Data
             return View();
         }
 
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public IActionResult MyPets()
         {
             return View(_context.Pets
@@ -87,7 +87,7 @@ namespace Vet_Clinic.Web.Data
                 .Where(p => p.Owner.User.Email.ToLower().Equals(User.Identity.Name.ToLower())));
         }
 
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> MyAppointments()
         {
             var appointments = await _context.Appointments
@@ -113,7 +113,7 @@ namespace Vet_Clinic.Web.Data
             return View(list);
         }
 
-         [Authorize(Roles = "Customer")]
+         //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> Schedule(int? id)
         {
             if (id == null)
@@ -175,7 +175,7 @@ namespace Vet_Clinic.Web.Data
             return View(model);
         }
 
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> UnSchedule(int? id)
         {
             if (id == null)
@@ -204,7 +204,7 @@ namespace Vet_Clinic.Web.Data
             return RedirectToAction(nameof(MyAppointments));
         }
 
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -270,7 +270,7 @@ namespace Vet_Clinic.Web.Data
             return View(model);
         }
 
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -292,7 +292,7 @@ namespace Vet_Clinic.Web.Data
             return View(pet);
         }
 
-        [Authorize(Roles = "Customer")]
+        //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -318,7 +318,7 @@ namespace Vet_Clinic.Web.Data
             return RedirectToAction(nameof(MyPets));
         }
 
-       [Authorize(Roles = "Customer")]
+       //[Authorize(Roles = "Customer")]
         public async Task<IActionResult> Create()
         {
             var owner = await _context.Owners

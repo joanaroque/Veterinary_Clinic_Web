@@ -51,13 +51,13 @@ namespace Vet_Clinic.Web
                       ValidIssuer = Configuration["Tokens:Issuer"],
                       ValidAudience = Configuration["Tokens:Audience"],
                       IssuerSigningKey = new SymmetricSecurityKey(
-                          Encoding.UTF8.GetBytes(this.Configuration["Tokens:Key"]))
+                          Encoding.UTF8.GetBytes(Configuration["Tokens:Key"]))
                   };
               });
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
+                cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
             });
 
             services.AddTransient<SeedDB>();
