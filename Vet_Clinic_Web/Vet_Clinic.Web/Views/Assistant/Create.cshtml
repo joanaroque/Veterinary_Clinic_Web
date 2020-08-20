@@ -16,7 +16,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-12">
+            <div class="col-md-11 center-block">
 
                 <div style="text-align:center">
                     <h3 class="card-title">New Assistant</h3>
@@ -30,15 +30,20 @@
 
                             <div class="card-body">
                                 <div class="form-group">
+
+                                    <div class="pull-right">
+                                        <img id="imgprw" alt="Avatar" width="150" height="300"/>
+                                    </div>
+
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label asp-for="Name" class="control-label"></label>
                                                 <input asp-for="Name" class="form-control" />
                                                 <span asp-validation-for="Name" class="text-danger"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label asp-for="LastName" class="control-label"></label>
                                                 <input asp-for="LastName" class="form-control" />
@@ -49,14 +54,14 @@
 
 
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label asp-for="Email" class="control-label"></label>
                                                 <input asp-for="Email" class="form-control" />
                                                 <span asp-validation-for="Email" class="text-danger"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label asp-for="TIN" class="control-label"></label>
                                                 <input asp-for="TIN" class="form-control" />
@@ -65,16 +70,17 @@
                                         </div>
                                     </div>
 
+
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-5">
                                             <div class="form-group">
-                                                <label asp-for="PhoneNumber"></label>
+                                                <label asp-for="PhoneNumber" class="control-label"></label>
                                                 <input asp-for="PhoneNumber" class="form-control" />
                                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                             </div>
                                         </div>
 
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label asp-for="DateOfBirth" class="control-label"></label>
                                                 <input asp-for="DateOfBirth" class="form-control" />
@@ -84,17 +90,17 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label asp-for="Address" class="control-label"></label>
                                                 <input asp-for="Address" class="form-control" />
                                                 <span asp-validation-for="Address" class="text-danger"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-5">
                                             <div class="form-group">
-                                                <label asp-for="ImageFile"></label>
-                                                <input asp-for="ImageFile" class="form-control" />
+                                                <label asp-for="ImageFile" class="control-label"></label>
+                                                <input type="file" class="form-control" onchange="imagePreview(this)"/>
                                                 <span asp-validation-for="ImageFile" class="text-danger"></span>
                                             </div>
                                         </div>
@@ -120,9 +126,21 @@
     @{await Html.RenderPartialAsync("_ValidationCurrencyPartial");}
 
     <script type="text/javascript">
-        $(document).ready(function () {
-            bsCustomFileInput.init();
-        });
-    </script>
+        function imagePreview(input) {
+            if (input.files && input.files[0]) {
+                let fildr = new FileReader();
+                fildr.onload = function (e) {
+                    $('#imgprw').attr('src', e.target.result);
+                }
+                fildr.readAsDataURL(input.files[0]);
+            }
+        }
 
+        //$(document).ready(function () {
+        //    $(".custom-file-input").on("change", function () {
+        //        let fileName = $(this).val().split("\\").pop();
+        //        $(this).next("custom-file-label").html(fileName);
+        //    })
+        //});
+    </script>
 }

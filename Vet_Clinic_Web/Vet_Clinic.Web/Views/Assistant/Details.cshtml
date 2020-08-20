@@ -26,17 +26,16 @@
                 <div class="box box-info" style="margin-top:10px">
                     <div class="box-header with-border">
 
-                        <div class="col-sm-8">
-                            <dl class="dl-horizontal">
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.ImageUrl)
-                                </dt>
-                                <dd>
-                                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
-                                    {
-                                        <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
-                                    }
-                                </dd>
+                      
+                        <div class="col-sm-8 ">
+
+                            <div>
+                                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                {
+                                    <img src="@Url.Content(Model.ImageUrl)" alt="Image" />
+                                }
+                            </div>
+                            <dl class="dl-horizontal pull-right">
                                 <dt>
                                     @Html.DisplayNameFor(model => model.Name)
                                 </dt>
@@ -74,7 +73,9 @@
                                     @Html.DisplayFor(model => model.PhoneNumber)
                                 </dd>
                             </dl>
+
                         </div>
+
                     </div>
                     <div>
                         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>

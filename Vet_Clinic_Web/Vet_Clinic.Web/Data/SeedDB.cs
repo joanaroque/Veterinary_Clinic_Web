@@ -30,7 +30,7 @@ namespace Vet_Clinic.Web.Data
 
             await CheckRoles();
 
-            var admin = await FillUserAsync("Joana", "Roque", "joanatpsi@gmail.com", "123456789", "Admin");
+            var admin = await FillUserAsync("Joana", "Roque", "joana.ramos.roque@formandos.cinel.pt", "123456789", "Admin");
           // var customer = await FillUserAsync("Joana", "Ramos", "joana.ramos.roque@formandos.cinel.pt", "123456789", "Customer");
 
             await FillSpeciesAsync();
@@ -76,7 +76,7 @@ namespace Vet_Clinic.Web.Data
                     Owner = owner,
                     Specie = specie,
                     Breed = "Mongrel",
-                //    ImageUrl = await _imageHelper.UploadImageAsync(_context.Pets .ImageFile, "Pets"),
+                //  ImageUrl = await _imageHelper.UploadImageAsync(_context.Pets .ImageFile, "Pets"),
                     Gender = "Male",
                     Weight = 8,
                     Sterilization = true,

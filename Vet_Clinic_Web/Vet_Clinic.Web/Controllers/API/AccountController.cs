@@ -92,39 +92,39 @@ namespace Vet_Clinic.Web.Controllers.API
 
         [HttpPost]
         [Route("RecoverPassword")]
-        public async Task<IActionResult> RecoverPassword(User email)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new Response
-                {
-                    IsSuccess = false,
-                    Message = "Bad request"
-                });
-            }
+        //public async Task<IActionResult> RecoverPassword(User email)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(new Response
+        //        {
+        //            IsSuccess = false,
+        //            Message = "Bad request"
+        //        });
+        //    }
 
-            var user = await _userHelper.GetUserByEmailAsync(email.Email);
-            if (user == null)
-            {
-                return BadRequest(new Response
-                {
-                    IsSuccess = false,
-                    Message = "This email is not assigned to any user."
-                });
-            }
+        //    var user = await _userHelper.GetUserByEmailAsync(email.Email);
+        //    if (user == null)
+        //    {
+        //        return BadRequest(new Response
+        //        {
+        //            IsSuccess = false,
+        //            Message = "This email is not assigned to any user."
+        //        });
+        //    }
 
-            var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
-            var link = Url.Action("ResetPassword", "Account", new { token = myToken }, protocol: HttpContext.Request.Scheme);
-            _mailHelper.SendMail(email.Email, "Password Reset", $"<h1>Recover Password</h1>" +
-                $"To reset the password click in this link:</br></br>" +
-                $"<a href = \"{link}\">Reset Password</a>");
+        //    var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
+        //    var link = Url.Action("ResetPassword", "Account", new { token = myToken }, protocol: HttpContext.Request.Scheme);
+        //    _mailHelper.SendMail(email.Email, "Password Reset", $"<h1>Recover Password</h1>" +
+        //        $"To reset the password click in this link:</br></br>" +
+        //        $"<a href = \"{link}\">Reset Password</a>");
 
-            return Ok(new Response
-            {
-                IsSuccess = true,
-                Message = "An email with instructions to change the password was sent."
-            });
-        }
+        //    return Ok(new Response
+        //    {
+        //        IsSuccess = true,
+        //        Message = "An email with instructions to change the password was sent."
+        //    });
+        //}
 
 
         [HttpPut]

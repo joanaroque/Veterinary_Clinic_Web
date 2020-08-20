@@ -9,7 +9,7 @@ namespace Vet_Clinic.Web.Models
     public class AssistantViewModel : Assistant
     {
 
-        [Display(Name = "Image")]
+        [Display(Name = "Photo")]
         public IFormFile ImageFile { get; set; }
 
     }
