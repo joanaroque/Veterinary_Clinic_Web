@@ -36,7 +36,7 @@
 
                                     <div class="form-group">
                                         <input type="submit" value="Create" class="btn btn-primary" />
-                                        <a asp-action="DetailsPet" asp-route-id="@Model.PetId" class="btn btn-success">Back to Pet</a>
+                                        <a asp-action="DetailsPet" asp-controller="Owners" asp-route-id="@Model.PetId" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To Pet</a>
                                     </div>
                                 </div>
                             </div>

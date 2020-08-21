@@ -29,6 +29,11 @@
 
                             <div class="card-body">
                                 <div class="form-group">
+
+                                    <div class="pull-right">
+                                        <img id="imgprw" alt="Image" width="150" height="300" />
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
@@ -124,11 +129,11 @@
                                                 <span asp-validation-for="Address" class="text-danger"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2"></div>
+                                        
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label asp-for="ImageFile"></label>
-                                                <input asp-for="ImageFile" class="form-control" />
+                                                <input type="file" class="form-control" onchange="imagePreview(this)" />
                                                 <span asp-validation-for="ImageFile" class="text-danger"></span>
                                             </div>
                                         </div>
@@ -152,5 +157,15 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @{await Html.RenderPartialAsync("_ValidationCurrencyPartial");}
-
+    <script type="text/javascript">
+        function imagePreview(input) {
+            if (input.files && input.files[0]) {
+                let fildr = new FileReader();
+                fildr.onload = function (e) {
+                    $('#imgprw').attr('src', e.target.result);
+                }
+                fildr.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 }

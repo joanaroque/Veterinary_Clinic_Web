@@ -20,7 +20,7 @@
 
 <section class="content">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8 center-block">
             <div style="text-align:center">
                 <h3 class="card-title">Species</h3>
             </div>
@@ -39,7 +39,7 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    @using (Html.BeginForm("Delete", "Pets", new { id = item.Id }))
+                                    @using (Html.BeginForm("Delete", "Species", new { id = item.Id }))
                                     {
                                         <tr>
                                             <td>
@@ -68,6 +68,5 @@
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="~/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-
 
 }

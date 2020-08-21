@@ -59,6 +59,10 @@
                                             {
                                                 <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
                                             }
+                                            else
+                                            {
+                                                <img id="imgprw" alt="Image" width="150" height="300" />
+                                            }
                                         </div>
                                     </div>
 
@@ -89,7 +93,7 @@
                                                 <span asp-validation-for="Specialty" class="text-danger"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label asp-for="MedicalLicense" class="control-label"></label>
                                                 <input type="number" asp-for="MedicalLicense" class="form-control" />
@@ -106,7 +110,7 @@
                                                 <span asp-validation-for="Schedule" class="text-danger"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label asp-for="ObsRoom" class="control-label"></label>
                                                 <input type="number" asp-for="ObsRoom" class="form-control" />
@@ -126,14 +130,14 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label asp-for="ImageFile" class="control-label"></label>
-                                                <input asp-for="ImageFile" class="form-control" />
+                                                <input type="file" class="form-control" onchange="imagePreview(this)" />
                                                 <span asp-validation-for="ImageFile" class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- /.box-body -->
                                     <div class="form-group">
-                                        <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"> </i> Back to List</a>
+                                        <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"> </i> To List</a>
                                         <input type="submit" value="Save" class="btn btn-success " />
                                     </div>
                                     <!-- /.box-footer -->
@@ -154,5 +158,15 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @{await Html.RenderPartialAsync("_ValidationCurrencyPartial");}
-
+    <script type="text/javascript">
+        function imagePreview(input) {
+            if (input.files && input.files[0]) {
+                let fildr = new FileReader();
+                fildr.onload = function (e) {
+                    $('#imgprw').attr('src', e.target.result);
+                }
+                fildr.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 }

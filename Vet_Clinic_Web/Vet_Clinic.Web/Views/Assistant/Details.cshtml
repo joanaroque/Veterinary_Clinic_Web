@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-10 center-block">
+            <div class="col-md-9 center-block">
 
                 <div style="text-align:center">
                     <h3 class="card-title">Assistant</h3>
@@ -26,60 +26,61 @@
                 <div class="box box-info" style="margin-top:10px">
                     <div class="box-header with-border">
 
-                      
-                        <div class="col-sm-8 ">
+                        <div class="row">
+                            <div class="col-sm-8 ">
 
-                            <div>
-                                @if (!string.IsNullOrEmpty(Model.ImageUrl))
-                                {
-                                    <img src="@Url.Content(Model.ImageUrl)" alt="Image" />
-                                }
+                                <div class="pull-right">
+                                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                                    {
+                                        <img src="@Url.Content(Model.ImageUrl)" alt="Image" />
+                                    }
+                                </div>
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Name)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Name)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.LastName)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.LastName)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.Email)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.Email)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.TIN)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.TIN)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.DateOfBirth)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.DateOfBirth)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.PhoneNumber)
+                                    </dd>
+                                </dl>
+
                             </div>
-                            <dl class="dl-horizontal pull-right">
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.Name)
-                                </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.Name)
-                                </dd>
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.LastName)
-                                </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.LastName)
-                                </dd>
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.Email)
-                                </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.Email)
-                                </dd>
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.TIN)
-                                </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.TIN)
-                                </dd>
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.DateOfBirth)
-                                </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.DateOfBirth)
-                                </dd>
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.PhoneNumber)
-                                </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.PhoneNumber)
-                                </dd>
-                            </dl>
 
                         </div>
-
-                    </div>
-                    <div>
-                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                        <a asp-action="Index" class="btn btn-success  pull-right"><i class="fa fa-backward"></i> Back to List</a>
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                            <a asp-action="Index" class="btn btn-success  pull-right"><i class="fa fa-backward"></i> To List</a>
+                        </div>
                     </div>
                 </div>
             </div>

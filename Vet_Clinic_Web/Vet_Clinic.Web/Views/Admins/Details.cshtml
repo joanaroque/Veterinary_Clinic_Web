@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-9 center-block">
+            <div class="col-md-7 center-block">
 
                 <div style="text-align:center">
                     <h3 class="card-title">Admin</h3>
@@ -26,46 +26,48 @@
                 <div class="box box-info" style="margin-top:10px">
                     <div class="box-header with-border">
 
-                        <div class="col-sm-8">
-                            <dl class="dl-horizontal">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <dl class="dl-horizontal">
 
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.User.FirstName)
-                                </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.User.FirstName)
-                                </dd>
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.User.LastName)
-                                </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.User.LastName)
-                                </dd>
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.User.Address)
-                                </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.User.Address)
-                                </dd>
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.User.Email)
-                                </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.User.Email)
-                                </dd>
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.User.PhoneNumber)
-                                </dt>
-                                <dd>
-                                    @Html.DisplayFor(model => model.User.PhoneNumber)
-                                </dd>
-                            </dl>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.User.FirstName)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.User.FirstName)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.User.LastName)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.User.LastName)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.User.Address)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.User.Address)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.User.Email)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.User.Email)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.User.PhoneNumber)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.User.PhoneNumber)
+                                    </dd>
+                                </dl>
+                            </div>
                         </div>
-                    </div>
                         <div>
                             <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                            <a asp-action="Index" class="btn btn-success  pull-right"><i class="fa fa-backward"></i> Back to List</a>
+                            <a asp-action="Index" class="btn btn-success  pull-right"><i class="fa fa-backward"></i> To List</a>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
