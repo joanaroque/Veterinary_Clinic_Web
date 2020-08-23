@@ -24,6 +24,8 @@ namespace Vet_Clinic.Web.Data
             _imageHelper = imageHelper;
         }
 
+        public UserManager<User> UserManager { get; }
+
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
@@ -31,7 +33,7 @@ namespace Vet_Clinic.Web.Data
             await CheckRoles();
 
             var admin = await FillUserAsync("Joana", "Roque", "joanatpsi@gmail.com", "123456789", "Rua da Programação", "Admin");
-            // var customer = await FillUserAsync("Joana", "Ramos", "joanatpsi@gmail.com", "123456789", "Rua da Programação", "Customer");
+             var customer = await FillUserAsync("Joana", "Ramos", "joana.ramos.roque@formandos.cinel.pt", "123456789", "Rua da Programação", "Customer");
 
             await FillSpeciesAsync();
             await FillServiceTypesAsync();
@@ -169,7 +171,8 @@ namespace Vet_Clinic.Web.Data
                     LastName = lastName,
                     Email = email,
                     UserName = email,
-                    PhoneNumber = phone
+                    PhoneNumber = phone,
+                    Address = address
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");

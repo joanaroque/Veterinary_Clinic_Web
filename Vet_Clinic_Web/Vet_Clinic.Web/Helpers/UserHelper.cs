@@ -27,7 +27,7 @@ namespace Vet_Clinic.Web.Helpers
 
         public async Task AddUSerToRoleAsync(User user, string roleName)
         {
-            await _userManager.AddToRoleAsync(user, "Admin");
+            await _userManager.AddToRoleAsync(user, roleName);
         }
 
         public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
