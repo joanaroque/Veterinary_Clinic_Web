@@ -82,22 +82,31 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await AddUserAsync(model);
+                var user = await _userHelper.GetUserByEmailAsync(model.UserName);
 
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, "This email is already used.");
+                    user = new User
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Email = model.UserName,
+                        UserName = model.UserName,
+                        Address = model.Address,
+                        PhoneNumber = model.PhoneNumber
+                       
+                    };
+
+                }
+
+                var result = await _userHelper.AddUserAsync(user, model.Password);
+
+                if (result != IdentityResult.Success)
+                {
+                    ModelState.AddModelError(string.Empty, "User couldn't be created.");
                     return View(model);
                 }
 
-                var owner = new Owner
-                {
-                    Pets = new List<Pet>(),
-                    User = user,
-                };
-
-                _context.Owners.Add(owner);
-                await _context.SaveChangesAsync();
 
                 var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                 var tokenLink = Url.Action("ConfirmEmail", "Account", new
@@ -123,7 +132,7 @@ namespace Vet_Clinic.Web.Controllers
                     $"<tr>" +
                     $" <td style = 'background-color: #ecf0f1'>" +
                     $"      <div style = 'color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif'>" +
-                    $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hola </h1>" +
+                    $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello, welcome </h1>" +
                     $"                    <p style = 'margin: 2px; font-size: 15px'>" +
                     $"                      The best specialized Veterinary Clinic in Lisbon focused on providing medical and surgical services<br>" +
                     $"                      applying the most current techniques for accurate diagnoses and timely treatments..<br>" +
@@ -139,7 +148,7 @@ namespace Vet_Clinic.Web.Controllers
                     $"  </div>" +
                     $"  <div style = 'width: 100%; text-align: center'>" +
                     $"    <h2 style = 'color: #e67e22; margin: 0 0 7px' >Email Confirmation </h2>" +
-                    $"    To allow the user,plase click in this link:</ br ></ br > " +
+                    $"    To allow the user, please click in this link:</br></br> " +
                     $"    <a style ='text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db' href = \"{tokenLink}\">Confirm Email</a>" +
                     $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > Nuskë Clinica Integral Veterinaria 2019 </p>" +
                     $"  </div>" +

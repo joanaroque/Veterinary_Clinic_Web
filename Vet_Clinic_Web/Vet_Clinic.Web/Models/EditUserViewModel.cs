@@ -19,6 +19,7 @@ namespace Vet_Clinic.Web.Models
         public string LastName { get; set; }
 
 
+        
         [MaxLength(100, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string Address { get; set; }
 

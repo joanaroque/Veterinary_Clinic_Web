@@ -4,7 +4,7 @@
 }
 
 <br />
-<div class="register-box">
+<div class="register-box" style="margin-top:10px">
 
     <div class="container-fluid">
 
@@ -17,7 +17,7 @@
         <div class="box box-info">
             <div class="box-header with-border">
 
-                <form  asp-action="Register">
+                <form asp-action="Register">
                     <div asp-validation-summary="ModelOnly"></div>
 
                     <div class="input-group mb-3">
@@ -34,6 +34,24 @@
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span asp-validation-for="LastName" class="fas fa-user"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input asp-for="Address" type="text" class="form-control" placeholder="Address">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span asp-validation-for="Address" class="fas fa-address-book"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input asp-for="PhoneNumber" type="number" class="form-control" placeholder="Phone Number">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span asp-validation-for="PhoneNumber" class="fas fa-phone"></span>
                             </div>
                         </div>
                     </div>
