@@ -39,6 +39,7 @@ namespace Vet_Clinic.Web
                 cfg.Password.RequireUppercase = false;  
                 cfg.Password.RequiredLength = 6;
             })
+                .AddRoles<IdentityRole>()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataContext>();
 

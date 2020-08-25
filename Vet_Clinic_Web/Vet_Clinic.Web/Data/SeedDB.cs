@@ -141,8 +141,10 @@ namespace Vet_Clinic.Web.Data
 
         private async Task CheckRoles()
         {
-            await _userHelper.CheckRoleAsync("Admin");
-            await _userHelper.CheckRoleAsync("Customer");
+            await _userHelper.CheckRoleAsync("Admin"); // see and do all
+            await _userHelper.CheckRoleAsync("Agent"); // crud agents, appointments, owners and Pets + register other agents and Doctor
+            await _userHelper.CheckRoleAsync("Doctor"); // crud Doctor and appointments 
+            await _userHelper.CheckRoleAsync("Customer"); // crud Pets and crud appointments (and await confirmation)
         }
 
         private async Task FillAdminAsync(User user)
