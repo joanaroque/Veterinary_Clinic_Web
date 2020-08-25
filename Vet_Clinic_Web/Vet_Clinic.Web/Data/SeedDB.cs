@@ -30,6 +30,8 @@ namespace Vet_Clinic.Web.Data
         {
             await _context.Database.EnsureCreatedAsync();
 
+            await CheckOrCreateRoles();
+
             var admin = await FillUserAsync("Joana", "Roque", "joanatpsi@gmail.com", "123456789", "Rua da Programação", "Admin");
             var customer = await FillUserAsync("Joana", "Ramos", "joana.ramos.roque@formandos.cinel.pt", "123456789", "Rua da Programação", "Customer");
 
@@ -43,6 +45,14 @@ namespace Vet_Clinic.Web.Data
             await FillPetsAsync();
             await FillHistoriesAsync();
 
+        }
+
+        private async Task CheckOrCreateRoles()
+        {
+            await _userHelper.CheckRoleAsync("Admin"); // see and do all
+            await _userHelper.CheckRoleAsync("Agent"); // crud agents, appointments, owners and Pets + register other agents and Doctor
+            await _userHelper.CheckRoleAsync("Doctor"); // crud Doctor and appointments 
+            await _userHelper.CheckRoleAsync("Customer"); // crud Pets and crud appointments (and await confirmation)
         }
 
         private async Task FillHistoriesAsync()
