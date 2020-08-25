@@ -55,7 +55,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Assistant/Create
-        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -66,6 +65,7 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Create(AssistantViewModel model)
         {
             if (ModelState.IsValid)
@@ -89,7 +89,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Assistant/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -113,6 +113,7 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(AssistantViewModel model)
         {
             if (ModelState.IsValid)
@@ -151,6 +152,7 @@ namespace Vet_Clinic.Web.Controllers
         [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             if (id == null)

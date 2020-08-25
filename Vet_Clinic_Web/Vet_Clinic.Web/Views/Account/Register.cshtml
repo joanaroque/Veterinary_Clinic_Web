@@ -4,13 +4,13 @@
 }
 
 <br />
-<div class="register-box" style="margin-top:10px">
+<div class="register-box" style="margin-top:10px; margin-bottom:10px">
 
     <div class="container-fluid">
 
         <!-- left column -->
 
-        <div style="text-align:center">
+        <div style="text-align: center">
             <h3 class="card-title">Register New User</h3>
         </div>
 
@@ -49,12 +49,19 @@
 
                     <div class="input-group mb-3">
                         <input asp-for="PhoneNumber" type="number" class="form-control" placeholder="Phone Number">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span asp-validation-for="PhoneNumber" class="fas fa-phone"></span>
-                            </div>
+                        <div class="input-group-text">
+                            <span asp-validation-for="PhoneNumber" class="fas fa-phone"></span>
                         </div>
                     </div>
+
+                    <div class="input-group mb-3">
+                        <label asp-for="Roles"></label>
+                        @Html.DropDownList("RoleName", new SelectList(Model.Roles, "Text", "Text"))
+                        <div class="input-group-text">
+                            <span asp-validation-for="RoleName" class="fas fa-photo"></span>
+                        </div>
+                    </div>
+
 
                     <div class="input-group mb-3">
                         <input asp-for="UserName" type="text" class="form-control" placeholder="User Name">

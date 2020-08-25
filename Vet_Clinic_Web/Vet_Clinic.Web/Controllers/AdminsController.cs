@@ -120,7 +120,7 @@ namespace Vet_Clinic.Web.Controllers
             }
 
             var newUser = await _userHelper.GetUserByEmailAsync(view.UserName);
-            await _userHelper.AddUSerToRoleAsync(newUser, "Admin");
+            await _userHelper.AddUSerToRoleAsync(newUser, "Agent");
             return newUser;
         }
 

@@ -4,7 +4,7 @@
 }
 
 <br />
-<div class="register-box">
+<div class="register-box" style="margin-top:10px; margin-bottom:10px">
 
     <div class="container-fluid">
 
@@ -38,13 +38,16 @@
                         </div>
                     </div>
 
-                    <div class="col-4">
-                        <input type="submit" value="Submit" class="btn btn-success btn-block" />
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-warning" />
+                        <a asp-action="ChangePassword" class="btn btn-success pull-right">Change Password</a>
                     </div>
                 </form>
+                <br />
 
                 <div class="social-auth-links text-center">
                     <p>- OR -</p>
+                    <br />
                     <a href="#" class="btn btn-block btn-primary">
                         <i class="fab fa-facebook mr-2"></i>
                         Sign up using Facebook
@@ -55,6 +58,8 @@
                     </a>
                 </div>
             </div>
+
+
             <div class="text-success">
                 <p>
                     @ViewBag.Message

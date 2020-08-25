@@ -14,7 +14,6 @@ using System.Collections.Generic;
 
 namespace Vet_Clinic.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class OwnersController : Controller
     {
         private readonly IOwnerRepository _ownerRepository;
@@ -84,6 +83,7 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Create(OwnerViewModel OwnerViewModel)
         {
             if (ModelState.IsValid)
@@ -114,7 +114,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Owners/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -137,6 +137,7 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(OwnerViewModel model)
         {
             if (ModelState.IsValid)
@@ -175,6 +176,7 @@ namespace Vet_Clinic.Web.Controllers
         [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

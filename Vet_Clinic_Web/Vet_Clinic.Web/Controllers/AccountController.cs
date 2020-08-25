@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -35,6 +36,7 @@ namespace Vet_Clinic.Web.Controllers
             _context = dataContext;
         }
 
+        [AllowAnonymous]
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -78,6 +80,7 @@ namespace Vet_Clinic.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Register(RegisterNewViewModel model)
         {
             if (ModelState.IsValid)

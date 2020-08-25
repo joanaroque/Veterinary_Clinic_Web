@@ -12,6 +12,8 @@ using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Data;
+using System.Threading.Tasks;
+using System;
 
 namespace Vet_Clinic.Web
 {
@@ -58,7 +60,7 @@ namespace Vet_Clinic.Web
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
+                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             services.AddTransient<SeedDB>();
@@ -84,7 +86,8 @@ namespace Vet_Clinic.Web
 
             services.ConfigureApplicationCookie(options =>
             {
-                //options.LoginPath = "/Account/NotAuthorized";   para casos de users anonimos
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout"; // para casos de users anonimos
                 options.AccessDeniedPath = "/Account/NotAuthorized";
 
             });
@@ -95,7 +98,7 @@ namespace Vet_Clinic.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -119,6 +122,29 @@ namespace Vet_Clinic.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            CreateRoles(serviceProvider).Wait();
         }
+
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
+
+            string[] rolesNames = { "Admin", "Agent", "Doctor" , "Customer"};
+
+            IdentityResult result;
+            
+            foreach (var namesRole in rolesNames)
+            {
+                var roleExist = await roleManager.RoleExistsAsync(namesRole);
+                if (!roleExist)
+                {
+                    result = await roleManager.CreateAsync(new IdentityRole(namesRole));
+                }
+            }
+        }
+
     }
 }
