@@ -55,15 +55,6 @@
                     </div>
 
                     <div class="input-group mb-3">
-                        <label asp-for="Roles"></label>
-                        @Html.DropDownList("RoleName", new SelectList(Model.Roles, "Value", "Text"))
-                        <div class="input-group-text">
-                            <span asp-validation-for="RoleName" class="fas fa-photo"></span>
-                        </div>
-                    </div>
-
-
-                    <div class="input-group mb-3">
                         <input asp-for="UserName" type="text" class="form-control" placeholder="User Name">
                         <div class="input-group-append">
                             <div class="input-group-text">

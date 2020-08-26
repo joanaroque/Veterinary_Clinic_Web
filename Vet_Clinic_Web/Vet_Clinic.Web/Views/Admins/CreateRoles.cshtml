@@ -1,4 +1,4 @@
-﻿@model Microsoft.AspNetCore.Identity.IdentityRole
+﻿@model Vet_Clinic.Web.Models.CreateRoleViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -27,12 +27,12 @@
                         <form asp-action="Create">
                             <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
                             <div class="form-group">
-                                <label asp-for="Name" class="control-label"></label>
-                                <input asp-for="Name" class="form-control" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
+                                <label asp-for="RoleName" class="control-label"></label>
+                                <input asp-for="RoleName" class="form-control" />
+                                <span asp-validation-for="RoleName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <a asp-action="Index" class="btn btn-warning pull-right">Back to List</a>
+                                <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To List</a>
                                 <input type="submit" value="Create" class="btn btn-success " />
                             </div>
                         </form>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Vet_Clinic.Web.Models
 {
@@ -28,5 +29,7 @@ namespace Vet_Clinic.Web.Models
         [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
         public string PhoneNumber { get; set; }
 
+
+        public IList<string> Roles { get; set; }
     }
 }

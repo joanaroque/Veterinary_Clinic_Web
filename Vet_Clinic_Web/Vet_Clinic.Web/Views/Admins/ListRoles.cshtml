@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section class="content-header">
+
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+        <li class="active">Roles</li>
+    </ol>
+</section>
+
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+<br />
+
+<p>
+    <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Create </a>
+</p>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-7 center-block">
+            <div style="text-align:center">
+                <h3 class="card-title">List of Roles</h3>
+            </div>
+            <div class="box box-info" style="margin-top:10px">
+
+                @if (Model.Any())
+                {
+                    <a class="btn btn-primary mb-3" style="width:auto" asp-action="CreateRole"
+                       asp-controller="Admin">Add new role</a>
+
+                    @foreach (var role in Model)
+                    {
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                Role Id: @role.Id
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@role.Name</h5>
+                            </div>
+                            <div class="card-footer">
+                                <a asp-controller="Admin" asp-action="EditRole"
+                                   asp-route-id="@role.Id" class="btn btn-primary">
+                                    Edit
+                                </a>
+
+                                <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
+                                    <span id="confirmDeleteSpan_@role.Id" style="display:none">
+                                        <span>Are you sure you want to delete?</span>
+                                        <button type="submit" class="btn btn-danger">Yes</button>
+                                        <a href="#" class="btn btn-primary"
+                                           onclick="confirmDelete('@role.Id', false)">No</a>
+                                    </span>
+
+                                    <span id="deleteSpan_@role.Id">
+                                        <a href="#" class="btn btn-danger"
+                                           onclick="confirmDelete('@role.Id', true)">Delete</a>
+                                    </span>
+                                    <span id="deleteSpan_@role.Id">
+                                        <a href="#" class="btn btn-danger"
+                                           onclick="confirmDelete('@role.Id', true)">Delete</a>
+                                    </span>
+                                </form>
+                            </div>
+                        </div>
+
+                    }
+                }
+                else
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            No roles created yet
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                Use the button below to create a role
+                            </h5>
+                            <a class="btn btn-primary" style="width:auto"
+                               asp-controller="Admin" asp-action="CreateRole">
+                                Create Role
+                            </a>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+@section Scripts {
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/main.js"></script>
+}
