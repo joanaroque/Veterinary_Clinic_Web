@@ -21,8 +21,6 @@ namespace Vet_Clinic.Web.Data
 
         public DbSet<ServiceType> ServiceTypes { get; set; }
 
-        public DbSet<Admin> Admins { get; set; }
-
         public DbSet<Assistant> Assistants { get; set; }
 
 

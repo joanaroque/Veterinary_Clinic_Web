@@ -143,7 +143,7 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Admins");
+                    b.ToTable("Administrator");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appointment", b =>

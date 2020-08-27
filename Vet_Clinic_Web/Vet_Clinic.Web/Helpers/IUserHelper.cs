@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
+using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Models;
 
@@ -36,6 +40,8 @@ namespace Vet_Clinic.Web.Helpers
         Task<string> GeneratePasswordResetTokenAsync(User user);
 
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
+
+        IList<SelectListItem> GetRoles();
     }
 
 }

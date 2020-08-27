@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Syncfusion.EJ2.PivotView;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ using Vet_Clinic.Web.Models;
 namespace Vet_Clinic.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class AdminsController : Controller
+    public class AdministratorController : Controller
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
@@ -26,7 +26,7 @@ namespace Vet_Clinic.Web.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
 
-        public AdminsController(DataContext context,
+        public AdministratorController(DataContext context,
             IUserHelper userHelper,
             IMailHelper mailHelper,
             IImageHelper imageHelper,
@@ -52,24 +52,18 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                // We just need to specify a unique role name to create a new role
-                IdentityRole identityRole = new IdentityRole
-                {
-                    Name = model.RoleName
-                };
+                await _userHelper.CheckRoleAsync(model.RoleName);
 
-                // Saves the role in the underlying AspNetRoles table
-                IdentityResult result = await _roleManager.CreateAsync(identityRole);
+                //if (result.Succeeded)
+                //{
+                //    return RedirectToAction("ListRoles", "Administrator");
+                //}
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("ListRoles", "Admins");
-                }
+                //foreach (IdentityError error in result.Errors)
+                //{
+                //    ModelState.AddModelError("", error.Description);
+                //}
 
-                foreach (IdentityError error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
             }
             return View(model);
         }
@@ -82,17 +76,35 @@ namespace Vet_Clinic.Web.Controllers
             return View(roles);
         }
 
+        // GET: Administrator/Details/5
+        public async Task<IActionResult> DetailsUser(string id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+
+            var user = await _userHelper.GetUserByIdAsync(id);
+
+
+            if (user == null)
+            {
+                return new NotFoundViewResult("UserNotFound");
+            }
+
+            return View(user);
+        }
 
         [HttpGet]
-        public async Task<IActionResult> EditRole(int? id)
+        public async Task<IActionResult> EditRole(string id)
         {
-            var role = await _userHelper.GetUserByIdAsync(id.ToString());
+            var role = await _userHelper.GetUserByIdAsync(id);
 
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
 
-                return new NotFoundViewResult("RoleNotFound");
+                return new NotFoundViewResult("UserNotFound");
             }
 
             var model = new EditRoleViewModel
@@ -101,10 +113,10 @@ namespace Vet_Clinic.Web.Controllers
                 RoleName = role.FullName
             };
 
-           
+
             foreach (var user in _userManager.Users)
             {
-               
+
                 if (await _userHelper.IsUserInRoleAsync(user, role.FullName))
                 {
                     model.Users.Add(user.UserName);
@@ -123,7 +135,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 ViewBag.ErrorMessage = $"Role with Id = {model.Id} cannot be found";
 
-                return new NotFoundViewResult("RoleNotFound");
+                return new NotFoundViewResult("UserNotFound");
             }
 
             else
@@ -147,17 +159,17 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditUsersInRole(int roleId)
+        public async Task<IActionResult> EditUsersInRole(string roleId)
         {
             ViewBag.roleId = roleId;
 
-            var role = await _userHelper.GetUserByIdAsync(roleId.ToString());
+            var role = await _userHelper.GetUserByIdAsync(roleId);
 
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
 
-                return new NotFoundViewResult("RoleNotFound");
+                return new NotFoundViewResult("UserNotFound");
             }
 
             var model = new List<UserRoleViewModel>();
@@ -186,15 +198,15 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, int roleId)
+        public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
         {
-            var role = await _userHelper.GetUserByIdAsync(roleId.ToString());
+            var role = await _userHelper.GetUserByIdAsync(roleId);
 
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
 
-                return new NotFoundViewResult("RoleNotFound");
+                return new NotFoundViewResult("UserNotFound");
             }
 
             for (int i = 0; i < model.Count; i++)
@@ -310,7 +322,8 @@ namespace Vet_Clinic.Web.Controllers
         }
 
 
-        // GET: Admins/Edit/5
+        // GET: Administrator/Edit/5
+        [HttpGet]
         public async Task<IActionResult> EditUser(string id)
         {
 
@@ -320,13 +333,12 @@ namespace Vet_Clinic.Web.Controllers
             {
                 ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
 
-                return new NotFoundViewResult("AdminNotFound");
+                return new NotFoundViewResult("UserNotFound");
             }
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
-
-            var model = new RegisterNewViewModel
+            var model = new EditUserViewModel
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -339,20 +351,20 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        // POST: Admins/Edit/5
+        // POST: Administrator/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUser(RegisterNewViewModel model)
         {
-            var user = await _userHelper.GetUserByIdAsync(model.Id.ToString());
+            var user = await _userHelper.GetUserByIdAsync(model.Id);
 
             if (user == null)
             {
                 ViewBag.ErrorMessage = $"User with Id = {model.Id} cannot be found";
 
-                return new NotFoundViewResult("AdminNotFound");
+                return new NotFoundViewResult("UserNotFound");
             }
             else
             {
@@ -380,7 +392,7 @@ namespace Vet_Clinic.Web.Controllers
             }
         }
 
-        // POST: Admins/Delete/5
+        // POST: Administrator/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUser(string id)
@@ -391,7 +403,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
 
-                return new NotFoundViewResult("AdminNotFound");
+                return new NotFoundViewResult("UserNotFound");
             }
             else
             {
@@ -420,7 +432,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
 
-                return new NotFoundViewResult("AdminNotFound");
+                return new NotFoundViewResult("UserNotFound");
             }
             else
             {
@@ -440,14 +452,9 @@ namespace Vet_Clinic.Web.Controllers
             }
         }
 
-        public IActionResult AdminNotFound()
+        public IActionResult UserNotFound()
         {
-            return new NotFoundViewResult("AdminNotFound");
-        }
-
-        private bool AdminExists(int id)
-        {
-            return _context.Admins.Any(e => e.Id == id);
+            return new NotFoundViewResult("UserNotFound");
         }
     }
 }

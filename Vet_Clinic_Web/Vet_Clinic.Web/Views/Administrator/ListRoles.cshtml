@@ -31,41 +31,35 @@
 
                 @if (Model.Any())
                 {
-                    
+
 
                     @foreach (var role in Model)
                     {
-                        <div class="card mb-3">
-                            <div class="card-header">
-                                Role Id: @role.Id
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title">@role.Name</h4>
-                            </div>
-                            <div class="card-footer">
-                                <a asp-controller="Admins" asp-action="EditRole"
-                                   asp-route-id="@role.Id" class="btn btn-primary">
-                                    Edit
-                                </a>
+                        @using (Html.BeginForm("DeleteRole", "Admins", new { id = role.Id }))
+                        {
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    Role Id: @role.Id
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">@role.Name</h4>
+                                </div>
+                                <div class="card-footer">
+                                    <a asp-controller="Admins" asp-action="EditUsersInRole"
+                                       asp-route-id="@role.Id" class="btn btn-info">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </a>
 
-                                <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
-                                    <span id="confirmDeleteSpan_@role.Id" style="display:none">
-                                        <span>Are you sure you want to delete?</span>
-                                        <button type="submit" class="btn btn-danger">Yes</button>
-                                        <a href="#" class="btn btn-primary"
-                                           onclick="confirmDelete('@role.Id', false)">No</a>
-                                    </span>
+                                    <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
 
-                                    <span id="deleteSpan_@role.Id">
-                                        <a href="#" class="btn btn-danger"
-                                           onclick="confirmDelete('@role.Id', true)">Delete</a>
-                                    </span>
-                                </form>
+                                        <input type="submit" value="Delete" class="btn btn-danger pull-right"
+                                               onclick="return confirm('Are you sure you want to delete @role.Name?')" />
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-
+                            }
+                        }
                     }
-                }
                 else
                 {
                     <div class="card">

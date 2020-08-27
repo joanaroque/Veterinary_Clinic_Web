@@ -32,15 +32,12 @@ namespace Vet_Clinic.Web.Data
 
             await CheckOrCreateRoles();
 
-            var admin = await FillUserAsync("Joana", "Roque", "joanatpsi@gmail.com", "123456789", "Rua da Programação", "Admin");
-            var customer = await FillUserAsync("Joana", "Ramos", "joana.ramos.roque@formandos.cinel.pt", "123456789", "Rua da Programação", "Customer");
-
+            await FillUserAsync();
             await FillSpeciesAsync();
             await FillServiceTypesAsync();
             await FillOwnerAsync();
             await FillDoctorAsync();
             await FillAssistantAsync();
-            await FillAdminAsync(admin);
             await FillAppointmentAsync();
             await FillPetsAsync();
             await FillHistoriesAsync();
@@ -147,46 +144,23 @@ namespace Vet_Clinic.Web.Data
             }
         }
 
-        //*******************************************************************************************************************
-        //await _userHelper.CheckRoleAsync("Admin"); // see and do all
-        //await _userHelper.CheckRoleAsync("Agent"); // crud agents, appointments, owners and Pets + register other agents and Doctor
-        //await _userHelper.CheckRoleAsync("Doctor"); // crud Doctor and appointments 
-        //await _userHelper.CheckRoleAsync("Customer"); // crud Pets and crud appointments (and await confirmation)
-        //*******************************************************************************************************************
-
-
-        private async Task FillAdminAsync(User user)
+        private async Task FillUserAsync()
         {
-            if (!_context.Admins.Any())
-            {
-                _context.Admins.Add(new Admin { User = user });
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        private async Task<User> FillUserAsync(
-           string firstName,
-           string lastName,
-           string email,
-           string phone,
-           string address,
-           string role)
-        {
-            var user = await _userHelper.GetUserByEmailAsync(email);
+            var user = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com");
             if (user == null)
             {
                 user = new User
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Email = email,
-                    UserName = email,
-                    PhoneNumber = phone,
-                    Address = address
+                    FirstName = "Joana",
+                    LastName = "Roque",
+                    Email = "joanatpsi@gmail.com",
+                    UserName = "joanatpsi@gmail.com",
+                    PhoneNumber = "965214744",
+                    Address = "Rua da Programação",
+                    EmailConfirmed = true
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");
-                await _userHelper.AddUSerToRoleAsync(user, role);
 
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                 await _userHelper.ConfirmEmailAsync(user, token);
@@ -199,7 +173,7 @@ namespace Vet_Clinic.Web.Data
                 await _userHelper.AddUSerToRoleAsync(user, "Admin");
             }
 
-            return user;
+            await _context.SaveChangesAsync();      
         }
 
         private async Task FillServiceTypesAsync()

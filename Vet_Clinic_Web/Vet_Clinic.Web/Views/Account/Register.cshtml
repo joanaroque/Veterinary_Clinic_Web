@@ -20,6 +20,16 @@
                 <form asp-action="Register">
                     <div asp-validation-summary="ModelOnly"></div>
 
+
+                    <div class="input-group mb-3">
+                        <select asp-for="Id" class="form-control" asp-items="@ViewBag.Roles" placeholder="Role Name"></select>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span asp-validation-for="Id" class="fas fa-users"></span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="input-group mb-3">
                         <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name">
                         <div class="input-group-append">

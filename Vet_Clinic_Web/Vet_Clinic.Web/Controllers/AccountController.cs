@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -75,7 +76,10 @@ namespace Vet_Clinic.Web.Controllers
 
         public IActionResult Register()
         {
-            return View();
+            var list = _userHelper.GetRoles();
+            ViewBag.Roles = list;
+
+            return View(list);
         }
 
         [HttpPost]
@@ -85,12 +89,19 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                
+
+                //var list = _context.Roles.OrderBy(role => role.Name).ToList()
+                //    .Select(role => new SelectListItem { Value = role.Name.ToString(), Text = role.Name }).ToList();
+               
+               
                 var user = await _userHelper.GetUserByEmailAsync(model.UserName);
 
                 if (user == null)
                 {
                     user = new User
                     {
+                        Id = model.Id,
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.UserName,

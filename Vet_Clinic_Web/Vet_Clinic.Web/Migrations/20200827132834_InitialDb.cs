@@ -72,7 +72,7 @@ namespace Vet_Clinic.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Admins",
+                name: "Administrator",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -81,9 +81,9 @@ namespace Vet_Clinic.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Admins", x => x.Id);
+                    table.PrimaryKey("PK_Administrator", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Admins_AspNetUsers_UserId",
+                        name: "FK_Administrator_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -412,8 +412,8 @@ namespace Vet_Clinic.Web.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Admins_UserId",
-                table: "Admins",
+                name: "IX_Administrator_UserId",
+                table: "Administrator",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -529,7 +529,7 @@ namespace Vet_Clinic.Web.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Admins");
+                name: "Administrator");
 
             migrationBuilder.DropTable(
                 name: "Appointments");

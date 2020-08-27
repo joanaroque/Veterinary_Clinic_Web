@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Models;
@@ -42,7 +45,7 @@ namespace Vet_Clinic.Web.Helpers
             {
                 await _roleManager.CreateAsync(new IdentityRole
                 {
-                    Name = roleName,
+                    Name = roleName
                 });
             }
         }
@@ -60,6 +63,24 @@ namespace Vet_Clinic.Web.Helpers
         public async Task<string> GeneratePasswordResetTokenAsync(User user)
         {
             return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public IList<SelectListItem> GetRoles()
+        {
+            var list = _roleManager.Roles.Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+
+            }).OrderBy(l => l.Text).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "[Select a role...]",
+                Value = "0"
+            });
+
+            return list;
         }
 
         public async Task<User> GetUserByEmailAsync(string email)
