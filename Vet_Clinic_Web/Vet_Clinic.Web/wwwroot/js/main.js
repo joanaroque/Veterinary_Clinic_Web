@@ -51,7 +51,9 @@
         $(thisAlert).removeClass('alert-validate');
     }
 
-    // list of roles -----------------------------------------------------
+})(jQuery);
+
+    // list of roles/ users -----------------------------------------------------
 
     function confirmDelete(uniqueId, isDeleteClicked) {
         var deleteSpan = 'deleteSpan_' + uniqueId;
@@ -83,5 +85,4 @@
 // list of roles -----------------------------------------------------
     
 
-})(jQuery);
 

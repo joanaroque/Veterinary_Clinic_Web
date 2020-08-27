@@ -16,6 +16,7 @@ namespace Vet_Clinic.Web.Controllers
 {
     public class OwnersController : Controller
     {
+        private readonly IPetRepository _petRepository;
         private readonly IOwnerRepository _ownerRepository;
         private readonly IUserHelper _userHelper;
         private readonly IImageHelper _imageHelper;
@@ -24,7 +25,8 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IServiceTypesRepository _serviceTypesRepository;
         private readonly ISpecieRepository _specieRepository;
 
-        public OwnersController(IOwnerRepository OwnerRepository,
+        public OwnersController(IPetRepository petRepository,
+            IOwnerRepository OwnerRepository,
             IUserHelper userHelper,
             IImageHelper imageHelper,
             IConverterHelper converterHelper,
@@ -32,6 +34,7 @@ namespace Vet_Clinic.Web.Controllers
             IServiceTypesRepository serviceTypesRepository,
             ISpecieRepository specieRepository)
         {
+            _petRepository = petRepository;
             _ownerRepository = OwnerRepository;
             _userHelper = userHelper;
             _imageHelper = imageHelper;
@@ -84,19 +87,26 @@ namespace Vet_Clinic.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Agent")]
-        public async Task<IActionResult> Create(OwnerViewModel OwnerViewModel)
+        public async Task<IActionResult> Create(OwnerViewModel ownerViewModel)
         {
             if (ModelState.IsValid)
             {
+
+                if (ownerViewModel.DateOfBirth > DateTime.Today)
+                {
+                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
+                    return View(ownerViewModel);
+                }
+
                 var path = string.Empty;
 
-                if (OwnerViewModel.ImageFile != null && OwnerViewModel.ImageFile.Length > 0)
+                if (ownerViewModel.ImageFile != null && ownerViewModel.ImageFile.Length > 0)
                 {
-                    path = await _imageHelper.UploadImageAsync(OwnerViewModel.ImageFile, "Owners");
+                    path = await _imageHelper.UploadImageAsync(ownerViewModel.ImageFile, "Owners");
 
                 }
 
-                var owner = _converterHelper.ToOwner(OwnerViewModel, path, true);
+                var owner = _converterHelper.ToOwner(ownerViewModel, path, true);
 
                 owner.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
@@ -110,7 +120,7 @@ namespace Vet_Clinic.Web.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(OwnerViewModel);
+            return View(ownerViewModel);
         }
 
         // GET: Owners/Edit/5
@@ -142,6 +152,13 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (model.DateOfBirth > DateTime.Today)
+                {
+                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
+                    return View(model);
+                }
+
                 try
                 {
                     var path = model.ImageUrl;
@@ -173,8 +190,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // POST: Owners/Delete/5
-        [Authorize]
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)
@@ -184,17 +200,27 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("OwnerNotFound");
             }
 
-            var Owner = await _ownerRepository.GetByIdAsync(id.Value);
-            await _ownerRepository.DeleteAsync(Owner);
+            var owner = await _context.Owners
+                .Include(pt => pt.Pets)
+               .FirstOrDefaultAsync(pt => pt.Id == id);
+
+            if (owner == null)
+            {
+                return new NotFoundViewResult("OwnerNotFound");
+            }
+
+            if (owner.Pets.Count > 0)
+            {
+                ModelState.AddModelError(string.Empty, "This Owner can't be removed.");
+                return RedirectToAction(nameof(Index));
+            }
+
+            await _ownerRepository.DeleteAsync(owner);
 
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult OwnerNotFound()
-        {
-            return View();
-        }
-
+       
         public async Task<IActionResult> AddHistory(int? id)
         {
             if (id == null)
@@ -223,6 +249,14 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (model.Date > DateTime.Today)
+                {
+                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
+                    return View(model);
+                }
+
+
                 var history = await _converterHelper.ToHistoryAsync(model, true);
                 _context.Histories.Add(history);
                 await _context.SaveChangesAsync();
@@ -287,6 +321,14 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (model.DateOfBirth > DateTime.Today)
+                {
+                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
+                    return View(model);
+                }
+
+
                 var path = string.Empty;
 
                 if (model.ImageFile != null)
@@ -295,9 +337,10 @@ namespace Vet_Clinic.Web.Controllers
                 }
 
                 var pet =  _converterHelper.ToPetAsync(model, path, true);
-                _context.Pets.Add(pet.Result);
-                await _context.SaveChangesAsync();
-                return RedirectToAction($"Details/{model.OwnerId}");
+
+                await _petRepository.CreateAsync(model);
+
+                return RedirectToAction(nameof(Index));
             }
             model.Species = _specieRepository.GetComboSpecies();
             return View(model);
@@ -328,6 +371,14 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (model.DateOfBirth > DateTime.Today)
+                {
+                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
+                    return View(model);
+                }
+
+
                 var path = model.ImageUrl;
 
                 if (model.ImageFile != null)
@@ -383,6 +434,7 @@ namespace Vet_Clinic.Web.Controllers
             var history = await _context.Histories
                 .Include(h => h.Pet)
                 .FirstOrDefaultAsync(h => h.Id == id.Value);
+          
             if (history == null)
             {
                 return new NotFoundViewResult("OwnerNotFound");

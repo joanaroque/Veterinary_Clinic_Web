@@ -16,9 +16,10 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <br />
 
-<p>
-    <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Create </a>
-</p>
+
+    <a class="btn btn-primary mb-3" style="width:auto" asp-action="CreateRole"
+       asp-controller="Admins"><i class="glyphicon glyphicon-plus"></i> Add new role</a>
+
 
 <section class="content">
     <div class="row">
@@ -30,8 +31,7 @@
 
                 @if (Model.Any())
                 {
-                    <a class="btn btn-primary mb-3" style="width:auto" asp-action="CreateRole"
-                       asp-controller="Admin">Add new role</a>
+                    
 
                     @foreach (var role in Model)
                     {
@@ -40,10 +40,10 @@
                                 Role Id: @role.Id
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">@role.Name</h5>
+                                <h4 class="card-title">@role.Name</h4>
                             </div>
                             <div class="card-footer">
-                                <a asp-controller="Admin" asp-action="EditRole"
+                                <a asp-controller="Admins" asp-action="EditRole"
                                    asp-route-id="@role.Id" class="btn btn-primary">
                                     Edit
                                 </a>
@@ -56,10 +56,6 @@
                                            onclick="confirmDelete('@role.Id', false)">No</a>
                                     </span>
 
-                                    <span id="deleteSpan_@role.Id">
-                                        <a href="#" class="btn btn-danger"
-                                           onclick="confirmDelete('@role.Id', true)">Delete</a>
-                                    </span>
                                     <span id="deleteSpan_@role.Id">
                                         <a href="#" class="btn btn-danger"
                                            onclick="confirmDelete('@role.Id', true)">Delete</a>

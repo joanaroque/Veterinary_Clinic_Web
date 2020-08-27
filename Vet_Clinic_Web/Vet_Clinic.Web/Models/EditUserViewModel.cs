@@ -5,7 +5,7 @@ namespace Vet_Clinic.Web.Models
 {
     public class EditUserViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
 
         [Display(Name = "First Name")]

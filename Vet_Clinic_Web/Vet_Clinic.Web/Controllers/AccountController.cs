@@ -97,7 +97,7 @@ namespace Vet_Clinic.Web.Controllers
                         UserName = model.UserName,
                         Address = model.Address,
                         PhoneNumber = model.PhoneNumber
-                       
+
                     };
 
                 }

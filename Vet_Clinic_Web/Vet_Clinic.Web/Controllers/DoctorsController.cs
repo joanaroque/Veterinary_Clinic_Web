@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
@@ -17,16 +18,19 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly DataContext _context;
 
         public DoctorsController(IDoctorRepository doctorRepository,
             IUserHelper userHelper,
             IImageHelper imageHelper,
-            IConverterHelper converterHelper)
+            IConverterHelper converterHelper,
+            DataContext dataContext)
         {
             _doctorRepository = doctorRepository;
             _imageHelper = imageHelper;
             _userHelper = userHelper;
             _converterHelper = converterHelper;
+            _context = dataContext;
         }
 
         // GET: Doctors
@@ -69,6 +73,12 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (doctorViewModel.DateOfBirth > DateTime.Today)
+                {
+                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
+                    return View(doctorViewModel);
+                }
+
                 var path = string.Empty;
 
                 if (doctorViewModel.ImageFile != null && doctorViewModel.ImageFile.Length > 0)
@@ -117,6 +127,12 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.DateOfBirth > DateTime.Today)
+                {
+                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
+                    return View(model);
+                }
+
                 try
                 {
                     var path = model.ImageUrl;
@@ -160,15 +176,16 @@ namespace Vet_Clinic.Web.Controllers
             }
 
             var doctor = await _doctorRepository.GetByIdAsync(id.Value);
+
             await _doctorRepository.DeleteAsync(doctor);
 
             return RedirectToAction(nameof(Index));
         }
 
 
-        public IActionResult DoctorNotFound()
+        private bool DoctorExists(int id)
         {
-            return View();
+            return _context.Doctors.Any(d => d.Id == id);
         }
     }
 }

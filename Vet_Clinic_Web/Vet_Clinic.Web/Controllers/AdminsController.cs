@@ -63,7 +63,7 @@ namespace Vet_Clinic.Web.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("index", "home");
+                    return RedirectToAction("ListRoles", "Admins");
                 }
 
                 foreach (IdentityError error in result.Errors)
@@ -311,10 +311,10 @@ namespace Vet_Clinic.Web.Controllers
 
 
         // GET: Admins/Edit/5
-        public async Task<IActionResult> EditUser(int? id)
+        public async Task<IActionResult> EditUser(string id)
         {
 
-            var user = await _userHelper.GetUserByIdAsync(id.Value.ToString());
+            var user = await _userHelper.GetUserByIdAsync(id);
 
             if (id == null)
             {
@@ -328,9 +328,9 @@ namespace Vet_Clinic.Web.Controllers
 
             var model = new RegisterNewViewModel
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                UserName = user.UserName,
                 Roles = userRoles,
                 Address = user.Address,
                 PhoneNumber = user.PhoneNumber
@@ -383,9 +383,9 @@ namespace Vet_Clinic.Web.Controllers
         // POST: Admins/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(string id)
         {
-            var user = await _userHelper.GetUserByIdAsync(id.ToString());
+            var user = await _userHelper.GetUserByIdAsync(id);
 
             if (user == null)
             {
@@ -412,9 +412,9 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> DeleteRole(int id)
+        public async Task<IActionResult> DeleteRole(string id)
         {
-            var role = await _roleManager.FindByIdAsync(id.ToString());
+            var role = await _roleManager.FindByIdAsync(id);
 
             if (role == null)
             {

@@ -14,70 +14,75 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <br />
 
-<div class="row">
-    <div class="col-md-9 center-block">
+<a asp-action="Register" class="btn btn-primary" asp-controller="Account">
+    <i class="glyphicon glyphicon-plus"></i> Add new user
+</a>
 
-        @if (Model.Any())
-        {
-            <p>
-                <a asp-action="Register" class="btn btn-primary" asp-controller="Account">
-                    <i class="glyphicon glyphicon-plus"></i> Add new user
-                </a>
-            </p>
-
-
-
-            foreach (var user in Model)
-            {
-                <div class="card-header">
-                    User Id : @user.Id
-                </div>
-
-                <div class="card-body">
-                    <h3 class="card-title">@user.UserName</h3>
-                </div>
-
-                <div class="card-footer">
-                    <form method="post" asp-action="DeleteUser" asp-route-id="@user.Id">
-                        <a asp-controller="Admin" asp-action="Edituser"
-                           asp-route-id="@user.Id" class="btn btn-primary">
-                            <i class="fa fa-edit"></i> Edit
-                        </a>
-
-                        <span id="confirmDeleteSpan_@user.Id" style="display:none">
-                            <span>Are you sure you want to delete?</span>
-                            <button type="submit" class="btn btn-danger">Yes</button>
-                            <a href="#" class="btn btn-primary"
-                               onclick="confirmDelete('@user.Id', false)">No</a>
-                        </span>
-
-                        <span id="deleteSpan_@user.Id">
-                            <a href="#" class="btn btn-danger"
-                               onclick="confirmDelete('@user.Id', true)">Delete</a>
-                        </span>
-                    </form>
-                </div>
-            }
-        }
-        else
-        {
-            <div class="card">
-                <div class="card-header">
-                    No users created yet
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">
-                        Use the button below to create a user
-                    </h5>
-                    <a class="btn btn-primary" style="width:auto"
-                       asp-controller="Account" asp-action="Register">
-                        Add new user
-                    </a>
-                </div>
+<section class="content">
+    <div class="row">
+        <div class="col-md-7 center-block">
+            <div style="text-align:center">
+                <h3 class="card-title">List of Users</h3>
             </div>
-        }
+            <div class="box box-info" style="margin-top:10px">
+
+                @if (Model.Any())
+                {
+
+
+                    foreach (var user in Model)
+                    {
+                        <div class="card-header">
+                            User Id : @user.Id
+                        </div>
+
+                        <div class="card-body">
+                            <h4 class="card-title">@user.UserName</h4>
+                        </div>
+
+                        <div class="card-footer">
+                            <form method="post" asp-action="DeleteUser" asp-route-id="@user.Id">
+                                <a asp-controller="Admins" asp-action="EditUser"
+                                   asp-route-id="@user.Id" class="btn btn-primary">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+
+                                <span id="confirmDeleteSpan_@user.Id" style="display:none">
+                                    <span>Are you sure you want to delete?</span>
+                                    <button type="submit" class="btn btn-danger">Yes</button>
+                                    <a asp-controller="Admins" asp-action="DeleteUser" class="btn btn-primary"
+                                       onclick="confirmDelete('@user.Id', false)">No</a>
+                                </span>
+
+                                <span id="deleteSpan_@user.Id">
+                                    <a asp-controller="Admins" asp-action="DeleteUser" class="btn btn-danger"
+                                       onclick="confirmDelete('@user.Id', true)">Delete</a>
+                                </span>
+                            </form>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            No users created yet
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                Use the button below to create a user
+                            </h5>
+                            <a class="btn btn-primary" style="width:auto"
+                               asp-controller="Account" asp-action="Register">
+                                Add new user
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

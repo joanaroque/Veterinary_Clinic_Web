@@ -24,7 +24,7 @@
 
                 <div class="box box-info" style="margin-top:10px">
                     <div class="box-header with-border">
-                        <form asp-action="Create">
+                        <form asp-action="CreateRole">
                             <div asp-validation-summary="ModelOnly" class="text-danger"> </div>
                             <div class="form-group">
                                 <label asp-for="RoleName" class="control-label"></label>
@@ -32,7 +32,7 @@
                                 <span asp-validation-for="RoleName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To List</a>
+                                <a asp-action="ListRoles" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To List</a>
                                 <input type="submit" value="Create" class="btn btn-success " />
                             </div>
                         </form>

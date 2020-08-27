@@ -86,6 +86,14 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (model.AppointmentSchedule > DateTime.Today)
+                {
+                    ModelState.AddModelError("AppointmentSchedule", "Invalid Appointment date");
+                    return View(model);
+                }
+
+
                 var appointment = await _context.Appointments.FindAsync(model.Id);
                 if (appointment != null)
                 {

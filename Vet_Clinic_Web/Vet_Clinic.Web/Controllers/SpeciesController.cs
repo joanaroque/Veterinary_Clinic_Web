@@ -134,7 +134,7 @@ namespace Vet_Clinic.Web.Controllers
 
 
         // POST: Species/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -158,8 +158,7 @@ namespace Vet_Clinic.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var specie = await _specie.GetByIdAsync(id.Value);
-            await _specie.DeleteAsync(specie);
+            await _specie.DeleteAsync(species);
 
             return RedirectToAction(nameof(Index));
         }

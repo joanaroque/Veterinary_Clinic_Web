@@ -14,19 +14,19 @@ namespace Vet_Clinic.Web.Controllers
 {
     public class PetsController : Controller
     {
-        private readonly IPetRepository _PetRepository;
+        private readonly IPetRepository _petRepository;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly DataContext _context;
         private readonly IServiceTypesRepository _serviceTypesRepository;
 
-        public PetsController(IPetRepository PetRepository,
+        public PetsController(IPetRepository petRepository,
             IImageHelper imageHelper,
             IConverterHelper converterHelper,
             DataContext context,
             IServiceTypesRepository serviceTypesRepository)
         {
-            _PetRepository = PetRepository;
+            _petRepository = petRepository;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
             _context = context;
@@ -36,7 +36,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Pets
         public IActionResult Index()
         {
-            return View(_PetRepository.GetAll().OrderBy(p => p.Name));
+            return View(_petRepository.GetAll().OrderBy(p => p.Name));
         }
 
         // GET: Pets/Details/5
@@ -61,39 +61,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(pet);
         }
 
-        // GET: Pets/Create
-        [Authorize]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Pets/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Agent")]
-        public async Task<IActionResult> Create(PetViewModel view)
-        {
-            if (ModelState.IsValid)
-            {
-                var path = string.Empty;
-
-                if (view.ImageFile != null && view.ImageFile.Length > 0)
-                {
-                    path = await _imageHelper.UploadImageAsync(view.ImageFile, "Pets");
-                }
-
-                var Pet = _converterHelper.ToPetAsync(view, path, true);
-
-                await _PetRepository.CreateAsync(view);
-
-                return RedirectToAction(nameof(Index));
-            }
-            return View(view);
-        }
-
+       
         // GET: Pets/Edit/5
         [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int? id)
@@ -128,6 +96,13 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (model.DateOfBirth > DateTime.Today)
+                {
+                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
+                    return View(model);
+                }
+
                 try
                 {
                     var path = model.ImageUrl;
@@ -139,11 +114,11 @@ namespace Vet_Clinic.Web.Controllers
 
                     var pet = _converterHelper.ToPetAsync(model, path, false);
 
-                    await _PetRepository.UpdateAsync(model);
+                    await _petRepository.UpdateAsync(model);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _PetRepository.ExistAsync(model.Id))
+                    if (!await _petRepository.ExistAsync(model.Id))
                     {
                         return new NotFoundViewResult("PetNotFound");
                     }
@@ -169,8 +144,8 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var Pet = await _PetRepository.GetByIdAsync(id.Value);
-            await _PetRepository.DeleteAsync(Pet);
+            var pet = await _petRepository.GetByIdAsync(id.Value);
+            await _petRepository.DeleteAsync(pet);
 
             return RedirectToAction(nameof(Index));
         }
@@ -234,6 +209,12 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (view.Date > DateTime.Today)
+                {
+                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
+                    return View(view);
+                }
+
                 var history = new History
                 {
                     Date = view.Date,

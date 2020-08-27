@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -70,6 +70,12 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.DateOfBirth > DateTime.Today)
+                {
+                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
+                    return View(model);
+                }
+
                 var path = string.Empty;
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
@@ -118,6 +124,12 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.DateOfBirth > DateTime.Today)
+                {
+                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
+                    return View(model);
+                }
+
                 try
                 {
                     var path = model.ImageUrl;

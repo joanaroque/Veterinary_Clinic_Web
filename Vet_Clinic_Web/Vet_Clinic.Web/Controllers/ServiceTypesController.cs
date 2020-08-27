@@ -132,6 +132,9 @@ namespace Vet_Clinic.Web.Controllers
             return View(serviceType);
         }
 
+        // POST: ServiceType/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,15 +143,22 @@ namespace Vet_Clinic.Web.Controllers
             }
 
             var serviceType = await _context.ServiceTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+                 .Include(pt => pt.Histories)
+                .FirstOrDefaultAsync(pt => pt.Id == id);
 
             if (serviceType == null)
             {
                 return new NotFoundViewResult("ServiceTypeNotFound");
+
             }
 
-            var type = await _serviceTypesRepository.GetByIdAsync(id.Value);
-            await _serviceTypesRepository.DeleteAsync(type);
+            if (serviceType.Histories.Count > 0)
+            {
+                ModelState.AddModelError(string.Empty, "This service Type can't be removed.");
+                return RedirectToAction(nameof(Index));
+            }
+
+            await _serviceTypesRepository.DeleteAsync(serviceType);
 
             return RedirectToAction(nameof(Index));
         }
