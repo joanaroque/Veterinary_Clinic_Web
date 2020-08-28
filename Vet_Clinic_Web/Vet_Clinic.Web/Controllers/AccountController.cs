@@ -74,12 +74,13 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             var list = _userHelper.GetRoles();
             ViewBag.Roles = list;
 
-            return View(list);
+            return View();
         }
 
         [HttpPost]
@@ -100,8 +101,7 @@ namespace Vet_Clinic.Web.Controllers
                 if (user == null)
                 {
                     user = new User
-                    {
-                        Id = model.Id,
+                    {   
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.UserName,
@@ -164,7 +164,7 @@ namespace Vet_Clinic.Web.Controllers
                     $"    <h2 style = 'color: #e67e22; margin: 0 0 7px' >Email Confirmation </h2>" +
                     $"    To allow the user, please click in this link:</br></br> " +
                     $"    <a style ='text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db' href = \"{tokenLink}\">Confirm Email</a>" +
-                    $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > Nuskë Clinica Integral Veterinaria 2019 </p>" +
+                    $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > Joana Veterinary Clinic 2020 </p>" +
                     $"  </div>" +
                     $" </td >" +
                     $"</tr>" +
