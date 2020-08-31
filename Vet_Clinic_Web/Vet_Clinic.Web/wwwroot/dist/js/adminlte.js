@@ -17,26 +17,7 @@ if (typeof jQuery === 'undefined') {
 throw new Error('AdminLTE requires jQuery')
 }
 
-/* BoxRefresh()
- * =========
- * Adds AJAX content control to a box.
- *
- * @Usage: $('#my-box').boxRefresh(options)
- *         or add [data-widget="box-refresh"] to the box element
- *         Pass any option as data-option="value"
- */
 
-/*
- PAGE NOTFOUND ********************************************************************************************************************
- **/
-
-
-
-
-
-/*
- PAGE NOTFOUND ********************************************************************************************************************
- **/
 
 +function ($) {
   'use strict';

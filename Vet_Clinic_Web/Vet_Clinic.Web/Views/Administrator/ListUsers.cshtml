@@ -32,7 +32,7 @@
 
                     foreach (var user in Model)
                     {
-                        @using (Html.BeginForm("DeleteUser", "Admins", new { id = user.Id }))
+                        @using (Html.BeginForm("DeleteUser", "Administrator", new { id = user.Id }))
                         {
                             <div class="card-header">
                                 User Id : @user.Id
@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="card-footer">
-                                <a asp-controller="Admins" asp-action="EditUser"
+                                <a asp-controller="Administrator" asp-action="EditUser"
                                    asp-route-id="@user.Id" class="btn btn-info">
                                     <i class="fa fa-edit"></i></a>
                                 <a asp-action="DetailsUser" class="btn btn-warning"

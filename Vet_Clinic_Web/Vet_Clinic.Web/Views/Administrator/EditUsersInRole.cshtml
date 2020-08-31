@@ -1,0 +1,46 @@
+﻿@model List<UserRoleViewModel>
+
+@{
+    var roleId = ViewBag.roleId;
+}
+
+<section class="content-header">
+
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+        <li class="active">Roles</li>
+    </ol>
+</section>
+
+<br />
+<br />
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-7 center-block">
+            <div style="text-align:center">
+                <h3 class="card-title">Add or remove users from this role</h3>
+            </div>
+            <div class="box box-info" style="margin-top:10px">
+                @foreach (var role in Model)
+                {
+                    <div class="form-check m-4">
+                        <input type="hidden" asp-for="@role.UserId" />
+                        <input type="hidden" asp-for="@role.UserName" />
+                        <input asp-for="@role.IsSelected" class="form-check-input" />
+                        <label class="form-check-label" asp-for="@role.IsSelected">
+                            @role.UserName
+                        </label>
+                    </div>
+                }
+            <form method="post">
+                <div class="card-footer">
+                    <input type="submit" value="Save" class="btn btn-success" />
+                    <a asp-action="EditRole" asp-controller="Administrator" asp-route-id="@roleId"
+                       class="btn btn-warning  pull-right"><i class="fa fa-backward"></i> To Roles</a>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</section>

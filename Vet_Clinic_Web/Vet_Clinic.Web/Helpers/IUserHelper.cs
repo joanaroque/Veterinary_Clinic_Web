@@ -41,7 +41,6 @@ namespace Vet_Clinic.Web.Helpers
 
         Task<IdentityResult> ResetPasswordAsync(User user, string token, string password);
 
-        IList<SelectListItem> GetRoles();
     }
 
 }

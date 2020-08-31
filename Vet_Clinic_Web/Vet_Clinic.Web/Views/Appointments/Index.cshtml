@@ -12,7 +12,7 @@
     </ol>
 </section>
 
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+@*<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />*@
 
 
 <p>
@@ -20,136 +20,224 @@
 </p>
 
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Appointment</h3>
-            </div>
-            <div class="panel-body">
-                <table class="table table-hover table-responsive table-striped" id="MyTable">
-                    <thead>
-                        <tr>
-                            @if (this.User.IsInRole("Admin"))
-                            {
-                                <th>
-                                    @Html.DisplayNameFor(model => model.User.FullName)
-                                </th>
-                            }
-                            <th>
-                                @Html.DisplayNameFor(model => model.AppointmentSchedule)
-                            </th>
-                            <th>
-                                Doctor
-                            </th>
-                            <th>
-                                Owner
-                            </th>
-                            <th>
-                                Pet
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.AppointmentObs)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.IsAvailable)
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                        <tr>
-                            @if (this.User.IsInRole("Admin"))
-                            {
-                                <th>
-                                    @Html.DisplayFor(modelItem => item.User.FullName)
-                                </th>
-                            }
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AppointmentSchedule)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Doctor.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Owner.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Pet.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AppointmentObs)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IsAvailable)
-                            </td>
-                            <td>
-                                @if (item.IsAvailable)
+@*<div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Appointment</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-hover table-responsive table-striped" id="MyTable">
+                        <thead>
+                            <tr>
+                                @if (this.User.IsInRole("Admin"))
                                 {
-                                    <a asp-action="Schedule" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-plus"></i></a>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.User.FullName)
+                                    </th>
                                 }
-                                else
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AppointmentSchedule)
+                                </th>
+                                <th>
+                                    Doctor
+                                </th>
+                                <th>
+                                    Owner
+                                </th>
+                                <th>
+                                    Pet
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.AppointmentObs)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IsAvailable)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                            <tr>
+                                @if (this.User.IsInRole("Admin"))
                                 {
-                                    <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-minus"></i></button>
+                                    <th>
+                                        @Html.DisplayFor(modelItem => item.User.FullName)
+                                    </th>
                                 }
-                            </td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AppointmentSchedule)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Doctor.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Owner.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Pet.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AppointmentObs)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsAvailable)
+                                </td>
+                                <td>
+                                    @if (item.IsAvailable)
+                                    {
+                                        <a asp-action="Schedule" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-plus"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-minus"></i></button>
+                                    }
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </div>*@
 
+<div id="calender"></div>
 
-
-
-
-<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">UnSchedule Appointment</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><span id="eventTitle"></span></h4>
             </div>
             <div class="modal-body">
-                <p>Are you sure to UnSchedule this appoiment?</p>
+                <p id="pDetails"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="btnYesDelete">UnSchedule</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
 
+<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
+<link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var events = [];
+            $.ajax({
+                type: "GET",
+                url: "/Appointments/Index",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        events.push({
+                            title: v.Subject,
+                            description: v.Description,
+                            start: moment(v.Start),
+                            end: v.End != null ? moment(v.End) : null,
+                            color: v.ThemeColor,
+                            allDay: v.IsFullDay
+                        });
+                    })
+
+                    GenerateCalender(events);
+                },
+                error: function (error) {
+                    alert('failed');
+                }
+            })
+
+            function GenerateCalender(events) {
+                $('#calender').fullCalendar('destroy');
+                $('#calender').fullCalendar({
+                    contentHeight: 400,
+                    defaultDate: new Date(),
+                    timeFormat: 'h(:mm)a',
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,basicWeek,basicDay,agenda'
+                    },
+                    eventLimit: true,
+                    eventColor: '#378006',
+                    events: events,
+                    eventClick: function (calEvent, jsEvent, view) {
+                        $('#myModal #eventTitle').text(calEvent.title);
+                        var $description = $('<div/>');
+                        $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
+                        if (calEvent.end != null) {
+                            $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
+                        }
+                        $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
+                        $('#myModal #pDetails').empty().html($description);
+
+                        $('#myModal').modal();
+                    }
+                })
+            }
+        })
+    </script>
+}
 
 
-@section Scripts {
+
+
+
+
+
+
+
+
+
+
+@*<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">UnSchedule Appointment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure to UnSchedule this appoiment?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" id="btnYesDelete">UnSchedule</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+
+@*@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#MyTable').DataTable();
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#MyTable').DataTable();
 
-            // Delete item
-            var item_to_delete;
+                // Delete item
+                var item_to_delete;
 
-            $('.deleteItem').click((e) => {
-                item_to_delete = e.currentTarget.dataset.id;
+                $('.deleteItem').click((e) => {
+                    item_to_delete = e.currentTarget.dataset.id;
+                });
+
+                $("#btnYesDelete").click(function () {
+                    window.location.href = '/Appointments/UnSchedule/' + item_to_delete;
+                });
             });
+        </script>
 
-            $("#btnYesDelete").click(function () {
-                window.location.href = '/Appointments/UnSchedule/' + item_to_delete;
-            });
-        });
-    </script>
-
-
-
-}
+}*@

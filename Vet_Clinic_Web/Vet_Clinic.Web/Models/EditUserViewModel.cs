@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Vet_Clinic.Web.Models
@@ -30,6 +31,6 @@ namespace Vet_Clinic.Web.Models
         public string PhoneNumber { get; set; }
 
 
-        public IList<string> Roles { get; set; }
+        public IEnumerable<SelectListItem> Roles { get; set; }
     }
 }

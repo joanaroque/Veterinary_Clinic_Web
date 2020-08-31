@@ -8,16 +8,18 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     <link rel="stylesheet" href="~/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/lib/font-awesome/css/bootstrap.css.map">
-    <link rel="stylesheet" href="~/lib/font-awesome/css/bootstrap.css">
-
-
+    <link href="~/css/ionicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/dist/js/bootstrap.js" />
+
     <!-- Font Awesome  -->
     <link rel="stylesheet" href="~/fonts/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css">
-
+    <link rel="stylesheet" href="~/lib/font-awesome/css/bootstrap.css.map">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/bootstrap.css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.min.css" />
 
     <link rel="stylesheet" href="~/css/main.css">
     <link rel="stylesheet" href="~/dist/css/AdminLTE.css">
@@ -77,14 +79,14 @@
                                             <ul class="nav navbar-nav navbar-right">
                                                 @if (User.Identity.IsAuthenticated)
                                                 {
-                                                <li> <a asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name</a>  </li>
-                                                <li class="navbar-custom-menu"> <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a> </li>
+                                                    <li> <a asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name</a>  </li>
+                                                    <li class="navbar-custom-menu"> <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a> </li>
                                                 }
                                                 else
                                                 {
-                                                <li class="nav-item d-none d-sm-inline-block">
-                                                    <a asp-controller="Account" asp-action="Login">Login</a>
-                                                </li>
+                                                    <li class="nav-item d-none d-sm-inline-block">
+                                                        <a asp-controller="Account" asp-action="Login">Login</a>
+                                                    </li>
                                                 }
                                             </ul>
                                         </div>
@@ -113,15 +115,15 @@
                 <form class="form-inline ">
                     <ul class="nav navbar-nav navbar-left">
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin</a>
-                            <ul class="dropdown-menu">
-                                <li><a asp-controller="Administrator" asp-action="ListUsers">Users</a></li>
-                                <li><a asp-controller="Administrator" asp-action="ListRoles">Roles</a></li>
-                            </ul>
-                        </li>
-                    }
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin</a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-controller="Administrator" asp-action="ListUsers">Users</a></li>
+                                    <li><a asp-controller="Administrator" asp-action="ListRoles">Roles</a></li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
                 </form>
                 <!-- Sidebar Menu -->
@@ -212,12 +214,12 @@
     </div>
 
     <script src="~/lib/font-awesome/js/jquery.min.js"></script>
-
+    <script src="~/dist/js/jquery.min.js"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="~/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/font-awesome/js/jquery.js"></script>
     <script src="~/lib/font-awesome/js/bootstrap.js"></script>
-    <script src="~/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/dist/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/dist/js/adminlte.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>

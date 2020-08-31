@@ -98,7 +98,7 @@ namespace Vet_Clinic.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -122,29 +122,7 @@ namespace Vet_Clinic.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            CreateRoles(serviceProvider).Wait();
+        
         }
-
-        private async Task CreateRoles(IServiceProvider serviceProvider)
-        {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-            var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
-
-            string[] rolesNames = { "Admin", "Agent", "Doctor" , "Customer"};
-
-            IdentityResult result;
-            
-            foreach (var namesRole in rolesNames)
-            {
-                var roleExist = await roleManager.RoleExistsAsync(namesRole);
-                if (!roleExist)
-                {
-                    result = await roleManager.CreateAsync(new IdentityRole(namesRole));
-                }
-            }
-        }
-
     }
 }

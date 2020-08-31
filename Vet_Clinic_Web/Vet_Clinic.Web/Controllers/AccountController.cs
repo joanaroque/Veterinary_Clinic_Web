@@ -77,9 +77,6 @@ namespace Vet_Clinic.Web.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            var list = _userHelper.GetRoles();
-            ViewBag.Roles = list;
-
             return View();
         }
 
@@ -90,18 +87,12 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-
-                //var list = _context.Roles.OrderBy(role => role.Name).ToList()
-                //    .Select(role => new SelectListItem { Value = role.Name.ToString(), Text = role.Name }).ToList();
-               
-               
                 var user = await _userHelper.GetUserByEmailAsync(model.UserName);
 
                 if (user == null)
                 {
                     user = new User
-                    {   
+                    {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
                         Email = model.UserName,
@@ -120,7 +111,6 @@ namespace Vet_Clinic.Web.Controllers
                     ModelState.AddModelError(string.Empty, "User couldn't be created.");
                     return View(model);
                 }
-
 
                 var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                 var tokenLink = Url.Action("ConfirmEmail", "Account", new
@@ -181,29 +171,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
 
-        private async Task<User> AddUserAsync(RegisterNewViewModel model)
-        {
-            var user = new User
-            {
-                Address = model.Address,
-                PhoneNumber = model.PhoneNumber,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Email = model.UserName,
-                UserName = model.UserName
-            };
-
-            var result = await _userHelper.AddUserAsync(user, model.Password);
-            if (result != IdentityResult.Success)
-            {
-                return null;
-            }
-
-            var newUser = await _userHelper.GetUserByEmailAsync(model.UserName);
-            await _userHelper.AddUSerToRoleAsync(newUser, "Customer");
-            return newUser;
-        }
-
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
@@ -221,6 +188,14 @@ namespace Vet_Clinic.Web.Controllers
             if (!result.Succeeded)
             {
                 return NotFound();
+            }
+
+
+            var isInRole = await _userHelper.IsUserInRoleAsync(user, "Customer");
+
+            if (!isInRole)
+            {
+                await _userHelper.AddUSerToRoleAsync(user, "Customer");
             }
 
             return View();
@@ -378,6 +353,7 @@ namespace Vet_Clinic.Web.Controllers
                 _mailHelper.SendMail(model.Email, "Vet Clinic Password Reset", $"<h1>Vet Clinic Password Reset</h1>" +
                 $"To reset the password click in this link:</br></br>" +
                 $"<a href = \"{link}\">Reset Password</a>");
+
                 ViewBag.Message = "The instructions to recover your password has been sent to email.";
 
                 return View();

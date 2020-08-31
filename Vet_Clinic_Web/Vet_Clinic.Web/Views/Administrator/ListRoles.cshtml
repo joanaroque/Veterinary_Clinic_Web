@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ListRoles";
 }
 
 <section class="content-header">
@@ -18,7 +18,7 @@
 
 
     <a class="btn btn-primary mb-3" style="width:auto" asp-action="CreateRole"
-       asp-controller="Admins"><i class="glyphicon glyphicon-plus"></i> Add new role</a>
+       asp-controller="Administrator"><i class="glyphicon glyphicon-plus"></i> Add new role</a>
 
 
 <section class="content">
@@ -31,11 +31,9 @@
 
                 @if (Model.Any())
                 {
-
-
                     @foreach (var role in Model)
                     {
-                        @using (Html.BeginForm("DeleteRole", "Admins", new { id = role.Id }))
+                        @using (Html.BeginForm("DeleteRole", "Administrator", new { id = role.Id }))
                         {
                             <div class="card mb-3">
                                 <div class="card-header">
@@ -45,7 +43,7 @@
                                     <h4 class="card-title">@role.Name</h4>
                                 </div>
                                 <div class="card-footer">
-                                    <a asp-controller="Admins" asp-action="EditUsersInRole"
+                                    <a asp-controller="Administrator" asp-action="EditRole"
                                        asp-route-id="@role.Id" class="btn btn-info">
                                         <i class="fa fa-edit"></i> Edit
                                     </a>
