@@ -10,7 +10,7 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200827132834_InitialDb")]
+    [Migration("20200901094922_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -129,21 +129,6 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Admin", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Administrator");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appointment", b =>
@@ -514,13 +499,6 @@ namespace Vet_Clinic.Web.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Admin", b =>
-                {
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appointment", b =>

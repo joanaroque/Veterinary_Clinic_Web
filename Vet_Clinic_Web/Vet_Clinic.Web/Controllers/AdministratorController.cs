@@ -364,7 +364,7 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(RegisterNewViewModel editUser)
+        public async Task<IActionResult> EditUser(EditUserViewModel editUser)
         {
             if (ModelState.IsValid)
             {
@@ -381,8 +381,6 @@ namespace Vet_Clinic.Web.Controllers
                 user.LastName = editUser.LastName;
                 user.Address = editUser.Address;
                 user.PhoneNumber = editUser.PhoneNumber;
-                user.Email = editUser.UserName;
-                user.UserName = editUser.UserName;
 
 
                 var result = await _userHelper.UpdateUserAsync(user);

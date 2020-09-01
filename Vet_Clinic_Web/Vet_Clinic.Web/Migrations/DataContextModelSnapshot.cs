@@ -129,21 +129,6 @@ namespace Vet_Clinic.Web.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Admin", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Administrator");
-                });
-
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appointment", b =>
                 {
                     b.Property<int>("Id")
@@ -512,13 +497,6 @@ namespace Vet_Clinic.Web.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Admin", b =>
-                {
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appointment", b =>

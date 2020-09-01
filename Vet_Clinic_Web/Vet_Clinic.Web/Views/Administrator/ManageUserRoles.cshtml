@@ -5,32 +5,45 @@
     var userId = ViewBag.UserId;
 }
 
+<section class="content-header">
 
-    <form  method="post">
-        <div class="card">
-            <div class="card-header">
-                <h2>Manage User Roles</h2>
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+        <li class="active">Users</li>
+    </ol>
+</section>
+<br />
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-6 center-block">
+            <div style="text-align:center">
+                <h3 class="card-title">Manage User Roles</h3>
             </div>
 
-            <div class="card-body">
-                @for (int i = 0; i < Model.Count; i++)
+            <div class="box box-info" style="margin-top:10px">
+                @foreach (var role in Model)
                 {
-                <div class="form-check m-1">
-                    <input type="hidden" asp-for="@Model[i].RoleId" />
-                    <input type="hidden" asp-for="@Model[i].RoleName" />
-                    <input asp-for="@Model[i].IsSelected" class="form-check-input" />
-                    <label class="form-check-label" asp-for="@Model[i].IsSelected">
-                        @Model[i].RoleName
-                    </label>
-                </div>
+                    <div class="form-check m-4">
+                        <input type="hidden" asp-for="@role.RoleId" />
+                        <input type="hidden" asp-for="@role.RoleName" />
+                        <input asp-for="@role.IsSelected" class="form-check-input" />
+                        <label class="form-check-label" asp-for="@role.IsSelected">
+                            @role.RoleName
+                        </label>
+                    </div>
                 }
 
-            <div asp-validation-summary="All" class="text-danger"></div>
-            </div>
+                <div asp-validation-summary="All" class="text-danger"></div>
 
-            <div class="card-footer">
-                <input type="submit"  value="Update" class="btn btn-primary" />
-                <a asp-action="EditUser" asp-route-id="@userId"  class="btn btn-default"> Cancel</a>
+                <form method="post">
+                    <div class="card-footer">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                        <a asp-action="EditUser" asp-route-id="@userId"
+                           class="btn btn-warning  pull-right"><i class="fa fa-backward"></i> To Roles</a>
+                    </div>
+                </form>
             </div>
         </div>
-</form>
+    </div>
+</section>

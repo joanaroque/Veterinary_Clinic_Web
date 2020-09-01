@@ -72,25 +72,6 @@ namespace Vet_Clinic.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Administrator",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Administrator", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Administrator_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -412,11 +393,6 @@ namespace Vet_Clinic.Web.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Administrator_UserId",
-                table: "Administrator",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Appointments_DoctorId",
                 table: "Appointments",
                 column: "DoctorId");
@@ -528,9 +504,6 @@ namespace Vet_Clinic.Web.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Administrator");
-
             migrationBuilder.DropTable(
                 name: "Appointments");
 
