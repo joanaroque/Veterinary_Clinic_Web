@@ -63,15 +63,15 @@ namespace Vet_Clinic.Web
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
-                    options.ClientId = "594353587969-fl18q341t4vhdspvn8ditd5r5obhh1jb.apps.googleusercontent.com";
-                    options.ClientSecret = "zMiTzsxXn5gsNWxtT8roG3bH";
-                });
+                    options.ClientId = Configuration["App:GoogleClientId"];
+                    options.ClientSecret = Configuration["App:GoogleClientSecret"];
+                })
 
-                //.AddFacebook(options =>
-                //{
-                //    options.ClientId = Configuration["App:FacebookClientId"];
-                //    options.ClientSecret = Configuration["App:FacebookClientSecret"];
-                //});
+                .AddFacebook(options =>
+                {
+                    options.ClientId = Configuration["App:FacebookClientId"];
+                    options.ClientSecret = Configuration["App:FacebookClientSecret"];
+                });
 
 
             // login with google and facebook ***************************************************************************************************************

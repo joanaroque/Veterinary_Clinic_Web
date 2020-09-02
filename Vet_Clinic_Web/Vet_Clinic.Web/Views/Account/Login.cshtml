@@ -4,7 +4,7 @@
 }
 
 <br />
-<div class="register-box" style="margin-top:10px; margin-bottom:10px">
+<div class="register-box" style="margin-top:20px; margin-bottom:10px">
     <div class="container-fluid">
 
         <div style="text-align:center">
@@ -43,7 +43,7 @@
                         </div>
 
                         <div class="col-4">
-                            <input type="submit" value="Login" class="btn btn-success" />
+                            <input type="submit" value="Login" class="btn btn-warning" />
                         </div>
                     </div>
                 </form>
@@ -57,7 +57,7 @@
                             <div>
                                 @foreach (var provider in Model.ExternalLogins)
                                 {
-                                <button  type="submit" class="btn btn-block btn-primary"
+                                <button  type="submit" class="btn btn-block  btn-foursquare"
                                         name="provider" value="@provider.Name"
                                         title="Login using your @provider.DisplayName account">
                                     @provider.DisplayName
