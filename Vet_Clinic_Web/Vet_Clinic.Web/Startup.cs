@@ -58,6 +58,23 @@ namespace Vet_Clinic.Web
                   };
               });
 
+            // login with google and facebook ****************************************************************************************************************
+
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "594353587969-fl18q341t4vhdspvn8ditd5r5obhh1jb.apps.googleusercontent.com";
+                    options.ClientSecret = "zMiTzsxXn5gsNWxtT8roG3bH";
+                });
+
+                //.AddFacebook(options =>
+                //{
+                //    options.ClientId = Configuration["App:FacebookClientId"];
+                //    options.ClientSecret = Configuration["App:FacebookClientSecret"];
+                //});
+
+
+            // login with google and facebook ***************************************************************************************************************
             services.AddDbContext<DataContext>(cfg =>
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));

@@ -1,9 +1,9 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:51193",
+      "applicationUrl": "https://localhost:44305/",
       "sslPort": 44305
     }
   },
@@ -12,10 +12,9 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"   //   Production
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "nativeDebugging": false
-
     },
     "Vet_Clinic.Web": {
       "commandName": "Project",

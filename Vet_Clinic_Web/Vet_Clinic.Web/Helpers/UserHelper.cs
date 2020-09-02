@@ -82,7 +82,7 @@ namespace Vet_Clinic.Web.Helpers
 
         public async Task<SignInResult> LoginAsync(LoginViewModel model)
         {
-            return await this._signInManager.PasswordSignInAsync(
+            return await _signInManager.PasswordSignInAsync(
                model.UserName,
                model.Password,
                model.RememberMe,

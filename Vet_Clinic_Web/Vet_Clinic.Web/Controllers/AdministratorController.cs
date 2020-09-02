@@ -103,8 +103,6 @@ namespace Vet_Clinic.Web.Controllers
 
             if (role == null)
             {
-                ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
-
                 return new NotFoundViewResult("UserNotFound");
             }
 
@@ -130,15 +128,12 @@ namespace Vet_Clinic.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> EditRole(EditRoleViewModel model)
         {
-
             if (ModelState.IsValid)
             {
                 var role = await _roleManager.FindByIdAsync(model.Id);
 
                 if (role == null)
                 {
-                    ViewBag.ErrorMessage = $"Role with Id = {model.Id} cannot be found";
-
                     return new NotFoundViewResult("AdminNotFound");
                 }
 
@@ -170,8 +165,6 @@ namespace Vet_Clinic.Web.Controllers
 
             if (role == null)
             {
-                ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
-
                 return new NotFoundViewResult("UserNotFound");
             }
 
@@ -203,12 +196,10 @@ namespace Vet_Clinic.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
         {
-            var role = await _userHelper.GetUserByIdAsync(roleId);
+            var role = await _roleManager.FindByIdAsync(roleId);
 
             if (role == null)
             {
-                ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
-
                 return new NotFoundViewResult("UserNotFound");
             }
 
@@ -218,13 +209,13 @@ namespace Vet_Clinic.Web.Controllers
 
                 IdentityResult result = null;
 
-                if (model[i].IsSelected && !(await _userHelper.IsUserInRoleAsync(user, role.FullName)))
+                if (model[i].IsSelected && !(await _userHelper.IsUserInRoleAsync(user, role.Name)))
                 {
-                    result = await _userHelper.AddUserAsync(user, role.FullName);
+                    result = await _userHelper.AddUserAsync(user, role.Name);
                 }
-                else if (!model[i].IsSelected && await _userHelper.IsUserInRoleAsync(user, role.FullName))
+                else if (!model[i].IsSelected && await _userHelper.IsUserInRoleAsync(user, role.Name))
                 {
-                    result = await _userManager.RemoveFromRoleAsync(user, role.FullName);
+                    result = await _userManager.RemoveFromRoleAsync(user, role.Name);
                 }
                 else
                 {
@@ -260,8 +251,6 @@ namespace Vet_Clinic.Web.Controllers
 
             if (user == null)
             {
-                ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
-
                 return new NotFoundViewResult("UserNotFound");
             }
 
@@ -298,8 +287,6 @@ namespace Vet_Clinic.Web.Controllers
 
             if (user == null)
             {
-                ViewBag.ErrorMessage = $"User with Id = {userId} cannot be found";
-
                 return new NotFoundViewResult("UserNotFound");
             }
 
@@ -333,8 +320,6 @@ namespace Vet_Clinic.Web.Controllers
 
             if (id == null)
             {
-                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
-
                 return new NotFoundViewResult("UserNotFound");
             }
 
@@ -372,8 +357,6 @@ namespace Vet_Clinic.Web.Controllers
 
                 if (user == null)
                 {
-                    ViewBag.ErrorMessage = $"User with Id = {editUser.Id} cannot be found";
-
                     return new NotFoundViewResult("UserNotFound");
                 }
 
@@ -409,8 +392,6 @@ namespace Vet_Clinic.Web.Controllers
 
             if (user == null)
             {
-                ViewBag.ErrorMessage = $"User with Id = {id} cannot be found";
-
                 return new NotFoundViewResult("UserNotFound");
             }
             else
@@ -438,8 +419,6 @@ namespace Vet_Clinic.Web.Controllers
 
             if (role == null)
             {
-                ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
-
                 return new NotFoundViewResult("UserNotFound");
             }
 

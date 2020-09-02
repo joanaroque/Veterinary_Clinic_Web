@@ -48,15 +48,35 @@
                     </div>
                 </form>
 
-                <div class="social-auth-links text-center mb-3">
-                    <p>- OR -</p>
-                    <a href="#" class="btn btn-block btn-primary">
-                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                    </a>
-                    <a href="#" class="btn btn-block btn-danger">
-                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                    </a>
-                </div>
+                @if (Model.ExternalLogins.Count > 0)
+                {
+                    <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+                        <div class="social-auth-links text-center mb-3">
+                            <p>- OR -</p>
+
+                            <div>
+                                @foreach (var provider in Model.ExternalLogins)
+                                {
+                                <button  type="submit" class="btn btn-block btn-primary"
+                                        name="provider" value="@provider.Name"
+                                        title="Login using your @provider.DisplayName account">
+                                    @provider.DisplayName
+                                </button>
+
+                                    @*<a href="#" class="btn btn-block btn-primary">
+                                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                                    </a>
+                                    <a href="#" class="btn btn-block btn-danger">
+                                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                                    </a>*@
+                                }
+                            </div>
+
+                           
+                        </div>
+                    </form>
+                }
+
 
                 <p class="mb-1">
                     <a asp-action="RecoverPassword" class="text-center">Forgot your password?</a>
@@ -73,6 +93,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 }
 
 
