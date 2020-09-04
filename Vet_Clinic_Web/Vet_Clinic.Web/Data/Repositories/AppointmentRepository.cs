@@ -34,7 +34,7 @@ namespace Vet_Clinic.Web.Data.Repositories
             else
             {
                 var agenda = _context.Appointments.LastOrDefault();
-                initialDate = new DateTime(agenda.AppointmentSchedule.Year, agenda.AppointmentSchedule.Month, agenda.AppointmentSchedule.AddDays(1).Day, 8, 0, 0);
+                initialDate = new DateTime(agenda.Date.Year, agenda.Date.Month, agenda.Date.AddDays(1).Day, 8, 0, 0);
             }
 
             var finalDate = initialDate.AddDays(days);
@@ -47,7 +47,7 @@ namespace Vet_Clinic.Web.Data.Repositories
                     {
                         _context.Appointments.Add(new Appointment
                         {
-                            AppointmentSchedule = initialDate.ToUniversalTime(),
+                            Date = initialDate.ToUniversalTime(),
                             IsAvailable = true,
                         });
 

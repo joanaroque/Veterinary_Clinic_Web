@@ -29,9 +29,11 @@ namespace Vet_Clinic.Web.Data.Entities
         public string Email { get; set; }
 
 
+
         [Required(ErrorMessage = "Must insert the {0}")]
         [Display(Name = "Specialty")]
         public string Specialty { get; set; }
+
 
 
         [Required(ErrorMessage = "Must insert the {0}")]
@@ -39,11 +41,6 @@ namespace Vet_Clinic.Web.Data.Entities
         [Display(Name = "Medical License nrº")]
         public string MedicalLicense { get; set; }
 
-     
-
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        public string Schedule { get; set; }
 
 
 
@@ -51,6 +48,22 @@ namespace Vet_Clinic.Web.Data.Entities
         [Display(Name = "Observation Room")]
         [DataType(DataType.Currency)]
         public string ObsRoom { get; set; }
+
+
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+        [Display(Name = "Work Start")]
+        [DataType(DataType.Currency)]
+        public string WorkStart { get; set; }
+
+
+
+
+        [Required(ErrorMessage = "Must insert the {0}")]
+        [Display(Name = "Work End")]
+        [DataType(DataType.Currency)]
+        public string WorkEnd { get; set; }
+
 
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.Currency)]

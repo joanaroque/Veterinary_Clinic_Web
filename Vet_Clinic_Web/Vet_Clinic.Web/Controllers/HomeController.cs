@@ -94,11 +94,11 @@ namespace Vet_Clinic.Web.Data
                 .Include(a => a.Owner)
                 .ThenInclude(o => o.User)
                 .Include(a => a.Pet)
-                .Where(a => a.AppointmentSchedule >= DateTime.Today.ToUniversalTime()).ToListAsync();
+                .Where(a => a.Date >= DateTime.Today.ToUniversalTime()).ToListAsync();
 
             var list = new List<AppointmentViewModel>(appointments.Select(a => new AppointmentViewModel
             {
-                AppointmentSchedule = a.AppointmentSchedule,
+                Date = a.Date,
                 Id = a.Id,
                 IsAvailable = a.IsAvailable,
                 Doctor = a.Doctor,

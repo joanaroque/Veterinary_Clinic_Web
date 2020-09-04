@@ -10,7 +10,7 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200901213143_InitialDb")]
+    [Migration("20200904100944_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,7 +139,7 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<string>("AppointmentObs");
 
-                    b.Property<DateTime>("AppointmentSchedule");
+                    b.Property<DateTime>("Date");
 
                     b.Property<int?>("DoctorId");
 
@@ -234,9 +234,6 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired();
 
-                    b.Property<string>("Schedule")
-                        .IsRequired();
-
                     b.Property<string>("Specialty")
                         .IsRequired();
 
@@ -244,6 +241,12 @@ namespace Vet_Clinic.Web.Migrations
                         .IsRequired();
 
                     b.Property<string>("UserId");
+
+                    b.Property<string>("WorkEnd")
+                        .IsRequired();
+
+                    b.Property<string>("WorkStart")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

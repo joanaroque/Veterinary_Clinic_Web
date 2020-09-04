@@ -12,7 +12,7 @@ using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AppointmentsController : Controller
     {
         private readonly IAppointmentRepository _appointmentRepository;
@@ -38,11 +38,14 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Appointments
         public IActionResult Index()
         {
-            return View(_context.Appointments
+            var appointment = _context.Appointments
                   .Include(a => a.Owner)
-                .ThenInclude(o => o.User)
-                .Include(a => a.Pet)
-                 .Where(a => a.AppointmentSchedule >= DateTime.Today.ToUniversalTime()));
+                  .Include(a => a.Doctor)
+                  .ThenInclude(o => o.User)
+                  .Include(a => a.Pet)
+                  .Where(a => a.Date >= DateTime.Today.ToUniversalTime());
+
+            return View(appointment);
         }
 
         public async Task<IActionResult> AddDays()
@@ -86,13 +89,15 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                if (model.AppointmentSchedule > DateTime.Today)
+                //por isto nas validaçoes: 
+                if (model.Date > DateTime.Today)
                 {
                     ModelState.AddModelError("AppointmentSchedule", "Invalid Appointment date");
                     return View(model);
                 }
 
+
+                //por isto nas validaçoes ^^^^^^^^^^
 
                 var appointment = await _context.Appointments.FindAsync(model.Id);
                 if (appointment != null)

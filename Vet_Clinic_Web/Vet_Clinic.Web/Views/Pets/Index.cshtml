@@ -53,33 +53,33 @@
                                 {
                                     @using (Html.BeginForm("Delete", "Pets", new { id = item.Id }))
                                     {
-                                <tr>
-                                    <td>
-                                        @if (!string.IsNullOrEmpty(item.ImageUrl))
-                                        {
-                                            <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
-                                        }
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Owner.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Name)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Gender)
-                                    </td>
+                                        <tr>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                                {
+                                                    <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Owner.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Gender)
+                                            </td>
 
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Histories.Count)
-                                    </td>
-                                    <td>
-                                        <input type="submit" value="Delete" class="btn btn-danger pull-right"
-                                               onclick="return confirm('Are you sure you want to delete @item.Name?')" />
-                                        <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
-                                        <a asp-action="Details" class="btn btn-warning pull-right" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
-                                    </td>
-                                </tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Histories.Count)
+                                            </td>
+                                            <td>
+                                                <input type="submit" value="Delete" class="btn btn-danger pull-right"
+                                                       onclick="return confirm('Are you sure you want to delete @item.Name?')" />
+                                                <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                                <a asp-action="Details" class="btn btn-warning pull-right" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
+                                            </td>
+                                        </tr>
                                     }
                                 }
                             </tbody>
@@ -94,6 +94,11 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MyTable').DataTable();
+        });
+    </script>
 
 }

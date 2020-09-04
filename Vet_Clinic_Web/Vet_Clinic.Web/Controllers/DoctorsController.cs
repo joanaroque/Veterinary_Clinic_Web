@@ -36,7 +36,9 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Doctors
         public IActionResult Index()
         {
-            return View(_doctorRepository.GetAll().OrderBy(p => p.User.FirstName));
+            var doctor = _doctorRepository.GetAll().OrderBy(p => p.User.FirstName).ToList();
+
+            return View(doctor);
         }
 
         // GET: Doctors/Details/5

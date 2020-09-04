@@ -12,22 +12,13 @@ namespace Vet_Clinic.Web.Data.Entities
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Date")]
-        public DateTime AppointmentSchedule { get; set; }
+        public DateTime Date { get; set; }
 
 
-        //[Required(ErrorMessage = "Must insert the {0}")]
-        //[DataType(DataType.DateTime)]
-        //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
-        //[Display(Name = "End Time")]
-        //public DateTime EndTime { get; set; }
-
-        [Display(Name = "Date")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}")]
-        public DateTime DateLocal => AppointmentSchedule.ToLocalTime();
 
         [Display(Name = "Observations")]
         public string AppointmentObs { get; set; }
+
 
         public User User { get; set; }
 

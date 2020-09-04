@@ -4,149 +4,126 @@
     ViewData["Title"] = "Index";
 }
 
-    <section class="content-header">
-        <ol class="breadcrumb">
-            <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
-            <li class="active">Doctors</li>
-        </ol>
-    </section>
-    <br />
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+        <li class="active">Appointments</li>
+    </ol>
+</section>
+<br />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <br />
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Appointment</h3>
+<section class="content">
+    <div class="row">
+        <div class="col-md-10 center-block">
+            <div style="text-align:center">
+                <h3 class="card-title">My Appointments</h3>
             </div>
-            <div class="panel-body">
-                <table class="table table-hover table-responsive table-striped" id="MyTable">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.AppointmentSchedule)
-                            </th>
-                            <th>
-                                Doctor
-                            </th>
-                            <th>
-                                Owner
-                            </th>
-                            <th>
-                                Pet
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.AppointmentObs)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.IsAvailable)
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AppointmentSchedule)
-                            </td>
-                            <td>
-                                @if (item.IsMine)
+            <div class="box box-info" style="margin-top:10px">
+
+                <div class="box-header with-border">
+                    <div class="panel-body">
+                        <table class="table table-hover table-responsive table-striped" id="MyTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Date)
+                                    </th>
+                                    <th>
+                                        Doctor
+                                    </th>
+                                    <th>
+                                        Owner
+                                    </th>
+                                    <th>
+                                        Pet
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.AppointmentObs)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.IsAvailable)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
                                 {
-                                    @Html.DisplayFor(modelItem => item.Doctor.User.FullName)
-                                }
-                                else if (!item.IsAvailable)
-                                {
-                                    @Html.DisplayFor(modelItem => item.Reserved)
-                                }
-                            </td>
-                            <td>
-                                @if (item.IsMine)
-                                {
-                                    @Html.DisplayFor(modelItem => item.Owner.User.FullName)
-                                }
-                                else if (!item.IsAvailable)
-                                {
-                                    @Html.DisplayFor(modelItem => item.Reserved)
-                                }
-                            </td>
-                            <td>
-                                @if (item.IsMine)
-                                {
-                                    @Html.DisplayFor(modelItem => item.Pet.Name)
-                                }
-                            </td>
-                            <td>
-                                @if (item.IsMine)
-                                {
-                                    @Html.DisplayFor(modelItem => item.AppointmentObs)
-                                }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IsAvailable)
-                            </td>
-                            <td>
-                                @if (item.IsAvailable)
-                                {
-                                    <a asp-action="Schedule" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-plus"></i></a>
-                                }
-                                else
-                                {
-                                    @if (item.IsMine)
+                                    @using (Html.BeginForm("UnSchedule", "Appoitments", new { id = item.Id }))
                                     {
-                                        <button data-id="@item.Id" class="btn btn-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-minus"></i></button>
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Date)
+                                            </td>
+                                            <td>
+                                                @if (item.IsMine)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Doctor.User.FullName)
+                                                }
+                                                else if (!item.IsAvailable)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Reserved)
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.IsMine)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Owner.User.FullName)
+                                                }
+                                                else if (!item.IsAvailable)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Reserved)
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.IsMine)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Pet.Name)
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.IsMine)
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.AppointmentObs)
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IsAvailable)
+                                            </td>
+                                            <td>
+                                                @if (item.IsAvailable)
+                                                {
+                                                    <a asp-action="Schedule" asp-controller="Appointments" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-plus"></i></a>
+                                                }
+                                                else
+                                                {
+                                                    @if (item.IsMine)
+                                                    {
+                                                        <input type="submit" value="Delete" class="btn btn-danger pull-right"
+                                                               onclick="return confirm('Are you sure you want to delete @item.Id?')" />
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
                                     }
                                 }
-                            </td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Un-assign agenda-->
-<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Un-assign Agenda</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure to UnShcedule this appoiment?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="btnYesDelete">UnShcedule</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 @section Scripts {Home
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
     <script type="text/javascript">
         $(document).ready(function () {
             $('#MyTable').DataTable();
-
-            // Delete item
-            var item_to_delete;
-
-            $('.deleteItem').click((e) => {
-                item_to_delete = e.currentTarget.dataset.id;
-            });
-
-            $("#btnYesDelete").click(function () {
-                window.location.href = '/Appointments/UnShcedule/' + item_to_delete;
-            });
         });
     </script>
 }

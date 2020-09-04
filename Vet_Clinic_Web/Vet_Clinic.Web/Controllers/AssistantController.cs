@@ -172,8 +172,8 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("AssistantNotFound");
             }
 
-            var doctor = await _assistantRepository.GetByIdAsync(id.Value);
-            await _assistantRepository.DeleteAsync(doctor);
+            var assistant = await _assistantRepository.GetByIdAsync(id.Value);
+            await _assistantRepository.DeleteAsync(assistant);
 
             return RedirectToAction(nameof(Index));
         }

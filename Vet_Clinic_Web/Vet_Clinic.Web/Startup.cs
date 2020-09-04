@@ -58,8 +58,6 @@ namespace Vet_Clinic.Web
                   };
               });
 
-            // login with google and facebook ****************************************************************************************************************
-
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
@@ -74,7 +72,6 @@ namespace Vet_Clinic.Web
                 });
 
 
-            // login with google and facebook ***************************************************************************************************************
             services.AddDbContext<DataContext>(cfg =>
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));

@@ -103,11 +103,18 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label asp-for="Schedule" class="control-label"></label>
-                                                <input asp-for="Schedule" class="form-control" />
-                                                <span asp-validation-for="Schedule" class="text-danger"></span>
+                                                <label asp-for="WorkStart" class="control-label"></label>
+                                                <input asp-for="WorkStart" class="form-control" />
+                                                <span asp-validation-for="WorkStart" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label asp-for="WorkEnd" class="control-label"></label>
+                                                <input asp-for="WorkEnd" class="form-control" />
+                                                <span asp-validation-for="WorkEnd" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -135,15 +142,17 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <!-- /.box-body -->
                                     <div class="form-group">
                                         <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"> </i> To List</a>
                                         <input type="submit" value="Save" class="btn btn-success " />
                                     </div>
+
                                     <!-- /.box-footer -->
+
                                 </div>
                             </div>
-
                         </form>
 
                     </div>

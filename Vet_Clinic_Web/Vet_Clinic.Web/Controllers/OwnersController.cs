@@ -47,7 +47,9 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Owners
         public IActionResult Index()
         {
-            return View(_ownerRepository.GetAll().OrderBy(p => p.User.FirstName));
+            var owner = _ownerRepository.GetAll().OrderBy(p => p.User.FirstName).ToList();
+
+            return View(owner);
         }
 
         // GET: Owners/Details/5

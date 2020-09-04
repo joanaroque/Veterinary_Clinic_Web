@@ -196,7 +196,6 @@ namespace Vet_Clinic.Web.Data
 
                 _context.Owners.Add(new Owner
                 {
-
                     Name = "Joana",
                     LastName = "Ramos",
                     Email = "lala@joana.pt",
@@ -224,7 +223,8 @@ namespace Vet_Clinic.Web.Data
                     Email = "antoni@gmail.com",
                     Specialty = "Ortopedia",
                     MedicalLicense = "45345",
-                    Schedule = "manha",
+                    WorkStart = "9 h",
+                    WorkEnd = "13 h",
                     ObsRoom = "8",
                     TIN = "4342",
                     ImageUrl = "imagemmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
@@ -259,7 +259,7 @@ namespace Vet_Clinic.Web.Data
                         {
                             _context.Appointments.Add(new Appointment
                             {
-                                AppointmentSchedule = initialDate,
+                                Date = initialDate,
                                 IsAvailable = true,
                                 //AppointmentObs = "qualquer coisa qualquer coisa",
                                 //Owner = owner,

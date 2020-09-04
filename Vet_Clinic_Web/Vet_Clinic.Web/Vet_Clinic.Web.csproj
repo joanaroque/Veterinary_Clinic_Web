@@ -6,13 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\bower_components\**" />
-    <Content Remove="wwwroot\bower_components\**" />
-    <EmbeddedResource Remove="wwwroot\bower_components\**" />
-    <None Remove="wwwroot\bower_components\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="Views\Pets\Create.cshtml" />
     <Content Remove="wwwroot\dist\js\jquery.min.js" />
     <Content Remove="wwwroot\dist\js\jquery.min.map" />

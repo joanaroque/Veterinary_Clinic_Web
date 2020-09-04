@@ -66,7 +66,7 @@
                                                 @Html.DisplayFor(modelItem => item.Appointments.Count)
                                             </td>
                                             <td>
-                                                <input type="submit" value="Delete" class="btn btn-danger pull-right" 
+                                                <input type="submit" value="Delete" class="btn btn-danger pull-right"
                                                        onclick="return confirm('Are you sure you want to delete @item.Name?')" />
                                                 <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
                                                 <a asp-action="Details" class="btn btn-warning pull-right" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
@@ -85,6 +85,11 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MyTable').DataTable();
+        });
+    </script>
 
 }

@@ -137,7 +137,7 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<string>("AppointmentObs");
 
-                    b.Property<DateTime>("AppointmentSchedule");
+                    b.Property<DateTime>("Date");
 
                     b.Property<int?>("DoctorId");
 
@@ -232,9 +232,6 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("PhoneNumber")
                         .IsRequired();
 
-                    b.Property<string>("Schedule")
-                        .IsRequired();
-
                     b.Property<string>("Specialty")
                         .IsRequired();
 
@@ -242,6 +239,12 @@ namespace Vet_Clinic.Web.Migrations
                         .IsRequired();
 
                     b.Property<string>("UserId");
+
+                    b.Property<string>("WorkEnd")
+                        .IsRequired();
+
+                    b.Property<string>("WorkStart")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

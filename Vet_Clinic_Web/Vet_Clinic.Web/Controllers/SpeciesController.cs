@@ -38,7 +38,9 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Species
         public IActionResult Index()
         {
-            return View(_specie.GetAll().OrderBy(s => s.User.FirstName));
+            var specie = _specie.GetAll().OrderBy(s => s.User.FirstName).ToList();
+
+            return View(specie);
         }
 
         // GET: Species/Details/5

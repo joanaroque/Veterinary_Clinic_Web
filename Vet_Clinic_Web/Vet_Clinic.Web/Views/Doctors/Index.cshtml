@@ -29,15 +29,24 @@
                 <div class="box-header with-border">
                     <div class="panel-body">
                         <table class="table table-hover table-responsive table-striped" id="MyTable">
-
                             <thead>
                                 <tr>
-                                    <th>Photo</th>
-                                    <th>Name</th>
-                                    <th>Specialty</th>
-                                    <th>Phone Number</th>
-                                    <th>Schedule</th>
-                                    <th>Observation Room</th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ImageUrl)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Specialty)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.WorkStart)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.WorkEnd)
+                                    </th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,12 +62,18 @@
                                                     <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
                                                 }
                                             </td>
-                                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.Specialty)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.Schedule)</td>
-                                            <td>@Html.DisplayFor(modelItem => item.ObsRoom)</td>
-
+                                            <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Specialty)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.WorkStart)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.WorkEnd)
+                                            </td>
                                             <td>
                                                 <input type="submit" value="Delete" class="btn btn-danger pull-right"
                                                        onclick="return confirm('Are you sure you want to delete @item.Name?')" />
@@ -80,6 +95,11 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MyTable').DataTable();
+        });
+    </script>
 }
 

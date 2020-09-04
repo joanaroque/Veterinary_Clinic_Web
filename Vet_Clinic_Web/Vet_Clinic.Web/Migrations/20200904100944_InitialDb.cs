@@ -195,8 +195,9 @@ namespace Vet_Clinic.Web.Migrations
                     Email = table.Column<string>(nullable: false),
                     Specialty = table.Column<string>(nullable: false),
                     MedicalLicense = table.Column<string>(nullable: false),
-                    Schedule = table.Column<string>(nullable: false),
                     ObsRoom = table.Column<string>(nullable: false),
+                    WorkStart = table.Column<string>(nullable: false),
+                    WorkEnd = table.Column<string>(nullable: false),
                     TIN = table.Column<string>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: false),
@@ -320,7 +321,7 @@ namespace Vet_Clinic.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AppointmentSchedule = table.Column<DateTime>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
                     AppointmentObs = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     IsAvailable = table.Column<bool>(nullable: false),

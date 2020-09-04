@@ -4,52 +4,73 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Shcedule</h2>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+        <li class="active">Appointments</li>
+    </ol>
+</section>
+<br />
+<br />
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-6 center-block">
 
-<h4>Appointment</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Shcedule" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+                <div style="text-align:center">
+                    <h3 class="card-title">My Appointments</h3>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="DoctorId" class="control-label"></label>
-                <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-control"></select>
-                <span asp-validation-for="DoctorId" class="text-danger"></span>
+                <div class="box box-info" style="margin-top:10px">
+                    <div class="box-header with-border">
+                        <form asp-action="Shcedule" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="OwnerId" />
+                            <input type="hidden" asp-for="DoctorId" />
+
+                            <div class="form-group">
+                                <label asp-for="DoctorId" class="control-label"></label>
+                                <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-control"></select>
+                                <span asp-validation-for="DoctorId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="OwnerId" class="control-label"></label>
+                                <select asp-for="OwnerId" asp-items="Model.Owners" class="form-control"></select>
+                                <span asp-validation-for="OwnerId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="PetId" class="control-label"></label>
+                                <select asp-for="PetId" asp-items="Model.Pets" class="form-control"></select>
+                                <span asp-validation-for="PetId" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label asp-for="AppointmentObs" class="control-label"></label>
+                                <textarea asp-for="AppointmentObs" class="form-control"></textarea>
+                                <span asp-validation-for="AppointmentObs" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Shcedule" class="btn btn-success" />
+                                <a asp-action="Index" class="btn btn-warning pull-right">Back to List</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label asp-for="PetId" class="control-label"></label>
-                <select asp-for="PetId" asp-items="Model.Pets" class="form-control"></select>
-                <span asp-validation-for="PetId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="OwnerId" class="control-label"></label>
-                <select asp-for="OwnerId" asp-items="Model.Owners" class="form-control"></select>
-                <span asp-validation-for="OwnerId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="AppointmentObs" class="control-label"></label>
-                <textarea asp-for="AppointmentObs" class="form-control"></textarea>
-                <span asp-validation-for="AppointmentObs" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Shcedule" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-success">Back to List</a>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
+</section>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    
-<script type="text/javascript">
+
+    <script type="text/javascript">
         $(document).ready(function () {
             $("#OwnerId").change(function () {
                 $("#PetId").empty();

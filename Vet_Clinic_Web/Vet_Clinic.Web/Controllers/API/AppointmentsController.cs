@@ -51,8 +51,8 @@ namespace Vet_Clinic.Web.Controllers.API
                 .Include(a => a.Owner)
                 .ThenInclude(o => o.User)
                 .Include(a => a.Pet)
-                .Where(a => a.AppointmentSchedule >= DateTime.Today.ToUniversalTime())
-                .OrderBy(a => a.AppointmentSchedule)
+                .Where(a => a.Date >= DateTime.Today.ToUniversalTime())
+                .OrderBy(a => a.Date)
                 .ToListAsync();
 
             var response = new List<AppointmentViewModel>();
@@ -60,7 +60,7 @@ namespace Vet_Clinic.Web.Controllers.API
             {
                 var agenda = new AppointmentViewModel
                 {
-                    AppointmentSchedule = appointment.AppointmentSchedule,
+                    Date = appointment.Date,
                     Id = appointment.Id,
                     IsAvailable = appointment.IsAvailable
                 };

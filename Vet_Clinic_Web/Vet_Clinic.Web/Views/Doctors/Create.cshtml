@@ -95,11 +95,18 @@
                                                 <span asp-validation-for="Email" class="text-danger"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label asp-for="Schedule"></label>
-                                                <input asp-for="Schedule" class="form-control" />
-                                                <span asp-validation-for="Schedule" class="text-danger"></span>
+                                                <label asp-for="WorkStart"></label>
+                                                <input type="number" asp-for="WorkStart" class="form-control" />
+                                                <span asp-validation-for="WorkStart" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label asp-for="WorkEnd"></label>
+                                                <input type="number" asp-for="WorkEnd" class="form-control" />
+                                                <span asp-validation-for="WorkEnd" class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -115,7 +122,7 @@
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label asp-for="ObsRoom"></label>
-                                                <input asp-for="ObsRoom" class="form-control" />
+                                                <input type="number" asp-for="ObsRoom" class="form-control" />
                                                 <span asp-validation-for="ObsRoom" class="text-danger"></span>
                                             </div>
                                         </div>
