@@ -74,7 +74,7 @@ namespace Vet_Clinic.Web
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
             });
 
             services.AddTransient<SeedDB>();

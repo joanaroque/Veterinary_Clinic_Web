@@ -94,7 +94,7 @@
                                             <td>
                                                 @if (item.IsAvailable)
                                                 {
-                                                    <a asp-action="Schedule" asp-controller="Appointments" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-plus"></i></a>
+                                                    <a asp-action="Schedule" asp-controller="Home" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-plus"></i></a>
                                                 }
                                                 else
                                                 {
@@ -121,7 +121,8 @@
 @section Scripts {Home
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript">
+ 
+   <script type="text/javascript">
         $(document).ready(function () {
             $('#MyTable').DataTable();
         });

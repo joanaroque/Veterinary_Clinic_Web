@@ -340,9 +340,11 @@ namespace Vet_Clinic.Web.Controllers
 
                 var pet =  _converterHelper.ToPetAsync(model, path, true);
 
-                await _petRepository.CreateAsync(model);
+                _context.Add(pet);
 
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction($"Details/{model.OwnerId}");
             }
             model.Species = _specieRepository.GetComboSpecies();
             return View(model);

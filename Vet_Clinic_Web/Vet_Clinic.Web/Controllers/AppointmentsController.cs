@@ -24,14 +24,14 @@ namespace Vet_Clinic.Web.Controllers
 
         public AppointmentsController(IAppointmentRepository appointmentRepository,
             IDoctorRepository doctorRepository,
-            IPetRepository PetRepository,
-            IOwnerRepository OwnerRepository,
+            IPetRepository petRepository,
+            IOwnerRepository ownerRepository,
             DataContext context)
         {
             _appointmentRepository = appointmentRepository;
             _doctorRepository = doctorRepository;
-            _petRepository = PetRepository;
-            _ownerRepository = OwnerRepository;
+            _petRepository = petRepository;
+            _ownerRepository = ownerRepository;
             _context = context;
         }
 
@@ -70,18 +70,17 @@ namespace Vet_Clinic.Web.Controllers
             }
 
 
-            var model =  new AppointmentViewModel
+            var model = new AppointmentViewModel
             {
                 Id = appointment.Id,
                 Doctors = _doctorRepository.GetComboDoctors(),
+                Owners = _ownerRepository.GetComboOwners(),
                 Pets = _petRepository.GetComboPets(0),
-                Owners = _ownerRepository.GetComboOwners()
-
+                Date = appointment.Date
             };
 
             return View(model);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -103,12 +102,16 @@ namespace Vet_Clinic.Web.Controllers
                 if (appointment != null)
                 {
                     appointment.IsAvailable = false;
+                    appointment.Doctor = await _context.Doctors.FindAsync(model.Id);
                     appointment.Owner = await _context.Owners.FindAsync(model.OwnerId);
                     appointment.Pet = await _context.Pets.FindAsync(model.PetId);
                     appointment.AppointmentObs = model.AppointmentObs;
-                    appointment.Doctor = await _context.Doctors.FindAsync(model.Id);
-                    _context.Appointments.Update(appointment);
+                   
+
+                    await _appointmentRepository.UpdateAsync(appointment);
+
                     await _context.SaveChangesAsync();
+
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -122,7 +125,7 @@ namespace Vet_Clinic.Web.Controllers
         public async Task<JsonResult> GetPetsAsync(int ownerId)
         {
             var owner = await _ownerRepository.GetOwnersWithPetsAsync(ownerId);
-               
+
             return Json(owner.Pets.OrderBy(p => p.Name));
         }
 
@@ -153,6 +156,6 @@ namespace Vet_Clinic.Web.Controllers
             _context.Appointments.Update(appointment);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
-        }   
+        }
     }
 }

@@ -38,7 +38,7 @@ namespace Vet_Clinic.Web.Data
             await FillOwnerAsync();
             await FillDoctorAsync();
             await FillAssistantAsync();
-            await FillAppointmentAsync();
+            //await FillAppointmentAsync();
             await FillPetsAsync();
             await FillHistoriesAsync();
 
@@ -173,7 +173,7 @@ namespace Vet_Clinic.Web.Data
                 await _userHelper.AddUSerToRoleAsync(user, "Admin");
             }
 
-            await _context.SaveChangesAsync();      
+            await _context.SaveChangesAsync();
         }
 
         private async Task FillServiceTypesAsync()
@@ -246,43 +246,17 @@ namespace Vet_Clinic.Web.Data
                 //var pet = _context.Pets.FirstOrDefault();
                 //var user = _context.Users.FirstOrDefault();
 
-
-                var initialDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
-                var finalDate = initialDate.AddYears(1);
-
-                while (initialDate < finalDate)
+                _context.Appointments.Add(new Appointment
                 {
-                    if (initialDate.DayOfWeek != DayOfWeek.Sunday || initialDate.DayOfWeek != DayOfWeek.Saturday)
-                    {
-                        var finalDate2 = initialDate.AddHours(10);
-                        while (initialDate < finalDate2)
-                        {
-                            _context.Appointments.Add(new Appointment
-                            {
-                                Date = initialDate,
-                                IsAvailable = true,
-                                //AppointmentObs = "qualquer coisa qualquer coisa",
-                                //Owner = owner,
-                                //Doctor = doctor,
-                                //Pet = pet,
-                                //User = user
-                            });
-
-                            initialDate = initialDate.AddMinutes(30);
-                        }
-
-                        initialDate = initialDate.AddHours(14);
-                    }
-                    else
-                    {
-                        initialDate = initialDate.AddDays(1);
-                    }
-                }
+                    Date = DateTime.Now,
+                    AppointmentObs = "vacinas vacinas vacinas",
+                    IsAvailable = true
+                });
             }
 
             await _context.SaveChangesAsync();
         }
-    }
 
+    }
 }
 

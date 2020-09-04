@@ -66,64 +66,65 @@ namespace Vet_Clinic.Web.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        //public async Task AddAppointmentAsync(AppointmentViewModel model, string userName)
-        //{
-        //    var user = await _userHelper.GetUserByEmailAsync(userName);
-        //    if (user == null)
+        //    public async Task AddAppointmentAsync(AppointmentViewModel model, string userName)
         //    {
-        //        return;
+        //        var user = await _userHelper.GetUserByEmailAsync(userName);
+        //        if (user == null)
+        //        {
+        //            return;
+        //        }
+
+        //        var appointment = await _context.Appointments.FindAsync(model.Id);
+
+        //        if (appointment != null)
+        //        {
+        //            appointment.IsAvailable = false;
+        //            appointment.Owner = await _context.Owners.FindAsync(model.OwnerId);
+        //            appointment.Pet = await _context.Pets.FindAsync(model.PetId);
+        //            appointment.Doctor = await _context.Doctors.FindAsync(model.DoctorId);
+        //            appointment.AppointmentObs = model.AppointmentObs;
+        //            _context.Appointments.Update(appointment);
+        //            await _context.SaveChangesAsync();
+        //        }
+
+
+        //        appointment = new Appointment
+        //        {
+        //            Doctor = doctor,
+        //            Pet = Pet,
+        //            Owner = Owner,
+        //            User = user,
+        //        };
+
+        //        _context.Appointments.Add(appointment);
+
         //    }
 
-        //    var appointment = await _context.Appointments.FindAsync(model.Id);
-
-        //    if (appointment != null)
+        //    public async Task<IQueryable<Appointment>> GetAppointmentsAsync(string userName)
         //    {
-        //        appointment.IsAvailable = false;
-        //        appointment.Owner = await _context.Owners.FindAsync(model.OwnerId);
-        //        appointment.Pet = await _context.Pets.FindAsync(model.PetId);
-        //        appointment.Doctor = await _context.Doctors.FindAsync(model.DoctorId);
-        //        appointment.AppointmentObs = model.AppointmentObs;
-        //        _context.Appointments.Update(appointment);
-        //        await _context.SaveChangesAsync();
-        //    }
+        //        var user = await _userHelper.GetUserByEmailAsync(userName);
 
+        //        if (user == null)
+        //        {
+        //            return null;
+        //        }
 
-        //    appointment = new Appointment
-        //    {
-        //        Doctor = doctor,
-        //        Pet = Pet,
-        //        Owner = Owner,
-        //        User = user,
-        //    };
+        //        if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
+        //        {
+        //            return _context.Appointments
+        //                .Include(o => o.Owner)
+        //                .Include(p => p.Pet)
+        //                .OrderByDescending(o => o.Date);
+        //        }
 
-        //    _context.Appointments.Add(appointment);
-
-        //}
-
-        //public async Task<IQueryable<Appointment>> GetAppointmentsAsync(string userName)
-        //{
-        //    var user = await _userHelper.GetUserByEmailAsync(userName);
-
-        //    if (user == null)
-        //    {
-        //        return null;
-        //    }
-
-        //    if (await _userHelper.IsUserInRoleAsync(user, "Admin"))
-        //    {
         //        return _context.Appointments
-        //            .Include(o => o.Owner)
-        //            .Include(p => p.Pet)
-        //            .OrderByDescending(o => o.AppointmentSchedule);
+        //                .Include(o => o.Owner)
+        //                .Include(p => p.Pet)
+        //                .Where(o => o.User == user)
+        //                .OrderByDescending(o => o.Date);
         //    }
 
-        //    return _context.Appointments
-        //            .Include(o => o.Owner)
-        //            .Include(p => p.Pet)
-        //            .Where(o => o.User == user)
-        //            .OrderByDescending(o => o.AppointmentSchedule);
-        //}
 
-       
+        //}
     }
 }

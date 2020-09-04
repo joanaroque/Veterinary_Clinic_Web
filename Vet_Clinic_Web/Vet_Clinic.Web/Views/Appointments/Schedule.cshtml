@@ -1,7 +1,7 @@
 ﻿@model Vet_Clinic.Web.Models.AppointmentViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Schedule";
 }
 
 <section class="content-header">
@@ -20,16 +20,23 @@
             <div class="col-md-6 center-block">
 
                 <div style="text-align:center">
-                    <h3 class="card-title">My Appointments</h3>
+                    <h3 class="card-title">Appointments</h3>
                 </div>
 
                 <div class="box box-info" style="margin-top:10px">
                     <div class="box-header with-border">
-                        <form asp-action="Shcedule" enctype="multipart/form-data">
+                        <form asp-action="Schedule" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="Id" />
                             <input type="hidden" asp-for="OwnerId" />
                             <input type="hidden" asp-for="DoctorId" />
+
+                             <div class="form-group">
+                                <label asp-for="Date" class="control-label"></label>
+                                <input asp-for="Date" class="form-control"/>
+                                <span asp-validation-for="Date" class="text-danger"></span>
+                            </div>
+
 
                             <div class="form-group">
                                 <label asp-for="DoctorId" class="control-label"></label>
@@ -57,7 +64,7 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="submit" value="Shcedule" class="btn btn-success" />
+                                <input type="submit" value="Create" class="btn btn-success" />
                                 <a asp-action="Index" class="btn btn-warning pull-right">Back to List</a>
                             </div>
                         </form>

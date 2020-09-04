@@ -76,10 +76,13 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(specie);
+                await _specie.CreateAsync(specie);
+
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(specie);
         }
 

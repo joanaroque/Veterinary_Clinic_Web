@@ -77,8 +77,10 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(serviceType);
+               await _serviceTypesRepository.CreateAsync(serviceType);
+
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(serviceType);
