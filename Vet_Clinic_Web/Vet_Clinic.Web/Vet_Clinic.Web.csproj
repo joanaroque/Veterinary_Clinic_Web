@@ -72,8 +72,6 @@
     <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\js\site.min.js" />
     <None Include="wwwroot\lib\font-awesome\css\bootstrap.css.map" />
-    <None Include="wwwroot\lib\font-awesome\js\additional-methods.js" />
-    <None Include="wwwroot\lib\font-awesome\js\additional-methods.min.js" />
     <None Include="wwwroot\lib\font-awesome\js\all.js" />
     <None Include="wwwroot\lib\font-awesome\js\all.min.js" />
     <None Include="wwwroot\lib\font-awesome\js\bootstrap.js" />
@@ -87,8 +85,6 @@
     <None Include="wwwroot\lib\font-awesome\js\jquery.js" />
     <None Include="wwwroot\lib\font-awesome\js\jquery.min.js" />
     <None Include="wwwroot\lib\font-awesome\js\jquery.min.map" />
-    <None Include="wwwroot\lib\font-awesome\js\jquery.validate.js" />
-    <None Include="wwwroot\lib\font-awesome\js\jquery.validate.min.js" />
     <None Include="wwwroot\lib\font-awesome\js\npm.js" />
     <None Include="wwwroot\lib\font-awesome\js\regular.js" />
     <None Include="wwwroot\lib\font-awesome\js\regular.min.js" />
@@ -119,6 +115,10 @@
     <None Include="wwwroot\vendor\jquery\jquery-3.2.1.min.js" />
     <None Include="wwwroot\vendor\select2\select2.js" />
     <None Include="wwwroot\vendor\select2\select2.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\jquery-validate\" />
   </ItemGroup>
 
 </Project>
