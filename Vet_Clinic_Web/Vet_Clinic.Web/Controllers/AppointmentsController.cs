@@ -19,17 +19,23 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IDoctorRepository _doctorRepository;
         private readonly IOwnerRepository _ownerRepository;
         private readonly DataContext _context;
+        private readonly IConverterHelper _converterHelper;
+        private readonly IUserHelper _userHelper;
 
 
         public AppointmentsController(IAppointmentRepository appointmentRepository,
             IDoctorRepository doctorRepository,
             IOwnerRepository ownerRepository,
-            DataContext context)
+            DataContext context,
+            IConverterHelper converterHelper,
+            IUserHelper userHelper)
         {
             _appointmentRepository = appointmentRepository;
             _doctorRepository = doctorRepository;
             _ownerRepository = ownerRepository;
             _context = context;
+            _converterHelper = converterHelper;
+            _userHelper = userHelper;
         }
 
         // GET: Appointments
@@ -65,26 +71,17 @@ namespace Vet_Clinic.Web.Controllers
                     ModelState.AddModelError("AppointmentSchedule", "Invalid Appointment date");
                     return View(model);
                 }
+                //por isto nas validaçoes ^^^^^^^^^^ e na history tambem!
 
+                var appointment = _converterHelper.ToAppointment(model, true);
 
-                //por isto nas validaçoes ^^^^^^^^^^
+                appointment.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                await _appointmentRepository.CreateAsync(appointment);
 
-                var appointment = await _appointmentRepository.GetByIdAsync(model.Id);
+                await _context.SaveChangesAsync();
 
-                if (appointment != null)
-                {
-                    appointment.Doctor = await _context.Doctors.FindAsync(model.Id);
-                    appointment.Owner = await _context.Owners.FindAsync(model.OwnerId);
-                    appointment.Pet = await _context.Pets.FindAsync(model.PetId);
-                    appointment.AppointmentObs = model.AppointmentObs;
+                return RedirectToAction(nameof(Index));
 
-
-                    await _appointmentRepository.UpdateAsync(appointment);
-
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToAction(nameof(Index));
-                }
             }
 
             model.Doctors = _doctorRepository.GetComboDoctors();

@@ -72,12 +72,6 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.DateOfBirth > DateTime.Today)
-                {
-                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
-                    return View(model);
-                }
-
                 var path = string.Empty;
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)

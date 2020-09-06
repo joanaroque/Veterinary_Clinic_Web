@@ -84,13 +84,6 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                if (ownerViewModel.DateOfBirth > DateTime.Today)
-                {
-                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
-                    return View(ownerViewModel);
-                }
-
                 var path = string.Empty;
 
                 if (ownerViewModel.ImageFile != null && ownerViewModel.ImageFile.Length > 0)
@@ -145,13 +138,6 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                if (model.DateOfBirth > DateTime.Today)
-                {
-                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
-                    return View(model);
-                }
-
                 try
                 {
                     var path = model.ImageUrl;
@@ -213,7 +199,7 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-       
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddHistory(int? id)
         {
             if (id == null)
@@ -238,6 +224,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddHistory(HistoryViewModel model)
         {
             if (ModelState.IsValid)
@@ -310,17 +297,11 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPet(PetViewModel model)
         {
             if (ModelState.IsValid)
             {
-               
-                if (model.DateOfBirth > DateTime.Today)
-                {
-                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
-                    return View(model);
-                }
-
                 var path = string.Empty;
 
                 if (model.ImageFile != null && model.ImageFile.Length > 0)
@@ -333,6 +314,12 @@ namespace Vet_Clinic.Web.Controllers
                 await _ownerRepository.AddPetAsync(pet);
 
                 return RedirectToAction($"Details/{model.OwnerId}");
+            }else
+            {
+                var message = string.Join(" | ", ModelState.Values
+                                              .SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage));
+
             }
             model.Species = _specieRepository.GetComboSpecies();
            
@@ -357,17 +344,11 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPet(PetViewModel model)
         {
             if (ModelState.IsValid)
             {
-
-                if (model.DateOfBirth > DateTime.Today)
-                {
-                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
-                    return View(model);
-                }
-
                 var path = model.ImageUrl;
 
                 if (model.ImageFile != null)

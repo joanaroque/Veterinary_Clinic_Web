@@ -331,6 +331,7 @@ namespace Vet_Clinic.Web.Data
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PetViewModel model)
         {
             if (ModelState.IsValid)

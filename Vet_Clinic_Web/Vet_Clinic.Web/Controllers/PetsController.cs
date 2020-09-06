@@ -98,13 +98,6 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                if (model.DateOfBirth > DateTime.Today)
-                {
-                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
-                    return View(model);
-                }
-
                 try
                 {
                     var path = model.ImageUrl;
@@ -176,6 +169,7 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction($"{nameof(Details)}/{history.Pet.Id}");
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditHistory(int? id)
         {
             if (id == null)
@@ -206,6 +200,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditHistory(HistoryViewModel view)
         {
             if (ModelState.IsValid)
@@ -233,6 +228,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(view);
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddHistory(int? id)
         {
             if (id == null)
@@ -257,6 +253,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddHistory(HistoryViewModel view)
         {
             if (ModelState.IsValid)

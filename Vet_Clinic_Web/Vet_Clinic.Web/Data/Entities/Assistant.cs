@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Vet_Clinic.Web.CustomValidation;
 
 namespace Vet_Clinic.Web.Data.Entities
 {
@@ -53,6 +54,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date Of Birth")]
+        [CustomBirthDate(ErrorMessage = "Birth Date must be less than or equal to Today's day's day")]
         public DateTime? DateOfBirth { get; set; }
 
 
@@ -72,6 +74,6 @@ namespace Vet_Clinic.Web.Data.Entities
 
         public User User { get; set; }
 
-     
+
     }
 }

@@ -63,8 +63,6 @@ namespace Vet_Clinic.Web.Helpers
                 Species = _specieRepository.GetComboSpecies()
 
             };
-
-
         }
 
         public Owner ToOwner(OwnerViewModel model, string path, bool isNew)
@@ -208,6 +206,20 @@ namespace Vet_Clinic.Web.Helpers
                 Address = assistant.Address,
                 DateOfBirth = assistant.DateOfBirth,
                 User = assistant.User
+            };
+        }
+
+        public Appointment ToAppointment(AppointmentViewModel model, bool isNew)
+        {
+            return new Appointment
+            {
+                Id = isNew ? 0 : model.Id,
+                Date = model.Date,
+                AppointmentObs = model.AppointmentObs,
+                User = model.User,
+                Doctor = model.Doctor,
+                Pet = model.Pet,
+                Owner = model.Owner
             };
         }
     }

@@ -18,8 +18,10 @@ namespace Vet_Clinic.Web.Models
         [Range(1, int.MaxValue, ErrorMessage = "You must select a Specie.")]
         public int SpecieId { get; set; }
 
+
         [Display(Name = "Image")]
         public IFormFile ImageFile { get; set; }
+
 
         public IEnumerable<SelectListItem> Species { get; set; }
 

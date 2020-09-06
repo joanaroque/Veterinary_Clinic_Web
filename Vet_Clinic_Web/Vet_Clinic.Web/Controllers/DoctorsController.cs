@@ -74,13 +74,7 @@ namespace Vet_Clinic.Web.Controllers
         public async Task<IActionResult> Create(DoctorViewModel doctorViewModel)
         {
             if (ModelState.IsValid)
-            {
-                if (doctorViewModel.DateOfBirth > DateTime.Today)
-                {
-                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
-                    return View(doctorViewModel);
-                }
-
+            {            
                 var path = string.Empty;
 
                 if (doctorViewModel.ImageFile != null && doctorViewModel.ImageFile.Length > 0)

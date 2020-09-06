@@ -26,5 +26,7 @@ namespace Vet_Clinic.Web.Helpers
 
         AssistantViewModel ToAssistantViewModel( Assistant assistant);
 
+        Appointment ToAppointment(AppointmentViewModel model, bool isNew);
+
     }
 }
