@@ -38,7 +38,7 @@ namespace Vet_Clinic.Web.Data
             await FillOwnerAsync();
             await FillDoctorAsync();
             await FillAssistantAsync();
-            //await FillAppointmentAsync();
+            await FillAppointmentAsync();
             await FillPetsAsync();
             await FillHistoriesAsync();
 
@@ -241,17 +241,51 @@ namespace Vet_Clinic.Web.Data
         {
             if (!_context.Appointments.Any())
             {
-                //var owner = _context.Owners.FirstOrDefault();
-                //var doctor = _context.Doctors.FirstOrDefault();
-                //var pet = _context.Pets.FirstOrDefault();
-                //var user = _context.Users.FirstOrDefault();
+                var owner = _context.Owners.FirstOrDefault();
+                var doctor = _context.Doctors.FirstOrDefault();
+                var pet = _context.Pets.FirstOrDefault();
+                var user = _context.Users.FirstOrDefault();
 
                 _context.Appointments.Add(new Appointment
                 {
-                    Date = DateTime.Now,
+                    Date = DateTime.Now.AddDays(2),
                     AppointmentObs = "vacinas vacinas vacinas",
-                    IsAvailable = true
+                    Owner = owner,
+                    Doctor = doctor,
+                    Pet = pet,
+                    User = user
                 });
+
+                _context.Appointments.Add(new Appointment
+                {
+                    Date = DateTime.Now.AddDays(4),
+                    AppointmentObs = "Otites",
+                    Owner = owner,
+                    Doctor = doctor,
+                    Pet = pet,
+                    User = user
+                });
+
+                _context.Appointments.Add(new Appointment
+                {
+                    Date = DateTime.Now.AddDays(5),
+                    AppointmentObs = "Nao faz xixi",
+                    Owner = owner,
+                    Doctor = doctor,
+                    Pet = pet,
+                    User = user
+                });
+
+                _context.Appointments.Add(new Appointment
+                {
+                    Date = DateTime.Now.AddDays(5),
+                    AppointmentObs = "Comichão na cabeça",
+                    Owner = owner,
+                    Doctor = doctor,
+                    Pet = pet,
+                    User = user
+                });
+
             }
 
             await _context.SaveChangesAsync();

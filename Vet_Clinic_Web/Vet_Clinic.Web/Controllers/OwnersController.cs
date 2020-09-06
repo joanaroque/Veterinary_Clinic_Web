@@ -16,7 +16,6 @@ namespace Vet_Clinic.Web.Controllers
 {
     public class OwnersController : Controller
     {
-        private readonly IPetRepository _petRepository;
         private readonly IOwnerRepository _ownerRepository;
         private readonly IUserHelper _userHelper;
         private readonly IImageHelper _imageHelper;
@@ -25,8 +24,7 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IServiceTypesRepository _serviceTypesRepository;
         private readonly ISpecieRepository _specieRepository;
 
-        public OwnersController(IPetRepository petRepository,
-            IOwnerRepository OwnerRepository,
+        public OwnersController(IOwnerRepository OwnerRepository,
             IUserHelper userHelper,
             IImageHelper imageHelper,
             IConverterHelper converterHelper,
@@ -34,7 +32,6 @@ namespace Vet_Clinic.Web.Controllers
             IServiceTypesRepository serviceTypesRepository,
             ISpecieRepository specieRepository)
         {
-            _petRepository = petRepository;
             _ownerRepository = OwnerRepository;
             _userHelper = userHelper;
             _imageHelper = imageHelper;
@@ -60,13 +57,7 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("OwnerNotFound");
             }
 
-            var owner = await _context.Owners
-               .Include(o => o.User)
-               .Include(o => o.Pets)
-               .ThenInclude(p => p.Specie)
-               .Include(o => o.Pets)
-               .ThenInclude(p => p.Histories)
-               .FirstOrDefaultAsync(m => m.Id == id);
+            var owner = await _ownerRepository.GetOwnersWithPetsAsync(id.Value);
 
             if (owner == null)
             {
@@ -302,7 +293,7 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var owner = await _context.Owners.FindAsync(id.Value);
+            var owner = await _ownerRepository.GetByIdAsync(id.Value);
             if (owner == null)
             {
                 return new NotFoundViewResult("PetNotFound");
@@ -323,30 +314,28 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
+               
                 if (model.DateOfBirth > DateTime.Today)
                 {
                     ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
                     return View(model);
                 }
 
-
                 var path = string.Empty;
 
-                if (model.ImageFile != null)
+                if (model.ImageFile != null && model.ImageFile.Length > 0)
                 {
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, path);
                 }
 
-                var pet =  _converterHelper.ToPetAsync(model, path, true);
+                var pet = _converterHelper.ToPet(model, path, true);
 
-                _context.Add(pet);
-
-                await _context.SaveChangesAsync();
+                await _ownerRepository.AddPetAsync(pet);
 
                 return RedirectToAction($"Details/{model.OwnerId}");
             }
             model.Species = _specieRepository.GetComboSpecies();
+           
             return View(model);
         }
 
@@ -357,17 +346,14 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var pet = await _context.Pets
-                .Include(p => p.Owner)
-                .Include(p => p.Specie)
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var pet = await _ownerRepository.GetPetAsync(id.Value);
 
             if (pet == null)
             {
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            return View(_converterHelper.ToPetViewModel(pet));
+            return View(pet);
         }
 
         [HttpPost]
@@ -382,18 +368,20 @@ namespace Vet_Clinic.Web.Controllers
                     return View(model);
                 }
 
-
                 var path = model.ImageUrl;
 
                 if (model.ImageFile != null)
                 {
-                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "Pets");
+                  path = await _imageHelper.UploadImageAsync(model.ImageFile, "Pets");
                 }
 
-                var pet = await _converterHelper.ToPetAsync(model, path, false);
-                _context.Pets.Update(pet);
-                await _context.SaveChangesAsync();
-                return RedirectToAction($"Details/{model.OwnerId}");
+                var pet =  _converterHelper.ToPet(model, path, false);
+
+                var ownerId = await _ownerRepository.UpdatePetAsync(pet);
+                if (ownerId != 0)
+                {
+                    return RedirectToAction($"Details/{ownerId}");
+                }
             }
 
             model.Species = _specieRepository.GetComboSpecies();
@@ -408,10 +396,8 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var pet = await _context.Pets
-                .Include(p => p.Owner)
-                .Include(p => p.Histories)
-                .FirstOrDefaultAsync(p => p.Id == id.Value);
+            var pet = await _ownerRepository.GetPetAsync(id.Value);
+
             if (pet == null)
             {
                 return new NotFoundViewResult("PetNotFound");
@@ -423,9 +409,8 @@ namespace Vet_Clinic.Web.Controllers
                 return RedirectToAction($"{nameof(Details)}/{pet.Owner.Id}");
             }
 
-            _context.Pets.Remove(pet);
-            await _context.SaveChangesAsync();
-            return RedirectToAction($"{nameof(Details)}/{pet.Owner.Id}");
+            var ownerId = await _ownerRepository.DeletePetAsync(pet);
+            return RedirectToAction($"Details/{ownerId}");
         }
 
         public async Task<IActionResult> DeleteHistory(int? id)

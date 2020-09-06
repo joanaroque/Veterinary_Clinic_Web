@@ -141,8 +141,6 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<int?>("DoctorId");
 
-                    b.Property<bool>("IsAvailable");
-
                     b.Property<int?>("OwnerId");
 
                     b.Property<int?>("PetId");

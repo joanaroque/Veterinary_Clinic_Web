@@ -5,7 +5,6 @@
 
 }
 <section class="content-header">
-
     <ol class="breadcrumb">
         <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
         <li class="active">Appointments</li>
@@ -17,7 +16,7 @@
 
 <br />
 <p>
-    <a asp-action="AddDays" class="btn btn-foursquare"><i class="glyphicon glyphicon-plus"></i> Add Days</a>
+    <a asp-action="Schedule" class="btn btn-foursquare"><i class="glyphicon glyphicon-plus"></i> Schedule</a>
 </p>
 
 <section class="content">
@@ -36,7 +35,7 @@
                                     @if (this.User.IsInRole("Admin"))
                                     {
                                         <th>
-                                            @Html.DisplayNameFor(model => model.User.FullName)
+                                            @Html.DisplayNameFor(model => model.User.FirstName)
                                         </th>
                                     }
                                     <th>
@@ -54,9 +53,6 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.AppointmentObs)
                                     </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.IsAvailable)
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,7 +64,7 @@
                                             @if (this.User.IsInRole("Admin"))
                                             {
                                                 <th>
-                                                    @Html.DisplayFor(modelItem => item.User.FullName)
+                                                    @Html.DisplayFor(modelItem => item.User.FirstName)
                                                 </th>
                                             }
                                             <td>
@@ -87,18 +83,10 @@
                                                 @Html.DisplayFor(modelItem => item.AppointmentObs)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.IsAvailable)
-                                            </td>
-                                            <td>
-                                                @if (item.IsAvailable)
-                                                {
-                                                <a asp-action="Schedule" class="btn btn-default" asp-route-id="@item.Id"><i class="fa fa-scissors"></i> Schedule</a>
-                                                }
-                                                else
-                                                {
-                                                    <input type="submit" value="Delete" class="btn btn-danger pull-right"
-                                                           onclick="return confirm('Are you sure you want to delete appointment @item.Id?')" />
-                                                }
+                                                <input type="submit" value="UnSchedule" class="btn btn-danger pull-right"
+                                                       onclick="return confirm('Are you sure you want to delete appointment @item.Id?')" />
+                                                <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                                <a asp-action="Details" class="btn btn-warning pull-right" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
                                             </td>
                                         </tr>
                                     }

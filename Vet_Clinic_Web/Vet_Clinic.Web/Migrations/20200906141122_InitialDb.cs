@@ -324,7 +324,6 @@ namespace Vet_Clinic.Web.Migrations
                     Date = table.Column<DateTime>(nullable: false),
                     AppointmentObs = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
-                    IsAvailable = table.Column<bool>(nullable: false),
                     DoctorId = table.Column<int>(nullable: true),
                     PetId = table.Column<int>(nullable: true),
                     OwnerId = table.Column<int>(nullable: true)

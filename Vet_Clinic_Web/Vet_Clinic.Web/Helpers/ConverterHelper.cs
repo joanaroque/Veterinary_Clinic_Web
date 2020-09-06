@@ -23,7 +23,7 @@ namespace Vet_Clinic.Web.Helpers
         }
 
 
-        public async Task<Pet> ToPetAsync(PetViewModel model, string path, bool isNew)
+        public  Pet ToPet(PetViewModel model, string path, bool isNew)
         {
             var pet = new Pet
             {
@@ -37,8 +37,8 @@ namespace Vet_Clinic.Web.Helpers
                 DateOfBirth = model.DateOfBirth,
                 Appointments = model.Appointments,
                 Histories = model.Histories,
-                Specie = await _context.Species.FindAsync(model.SpecieId),
-                Owner = await _context.Owners.FindAsync(model.OwnerId)
+                Specie =  model.Specie,
+                Owner =  model.Owner
             };
 
             return pet;

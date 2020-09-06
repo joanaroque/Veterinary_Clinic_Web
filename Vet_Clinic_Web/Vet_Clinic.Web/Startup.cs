@@ -83,7 +83,6 @@ namespace Vet_Clinic.Web
             services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddScoped<IMailHelper, MailHelper>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();
-            services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<IServiceTypesRepository, ServiceTypesRepository>();

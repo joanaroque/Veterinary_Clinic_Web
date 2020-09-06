@@ -18,15 +18,15 @@ namespace Vet_Clinic.Web.Controllers.API
     public class PetsController : ControllerBase
     {
         private readonly DataContext _context;
-        private readonly IPetRepository _petRepository;
+        private readonly IOwnerRepository _ownerRepository;
         private readonly IConverterHelper _converterHelper;
 
 
-        public PetsController(IPetRepository PetRepository,
+        public PetsController(IOwnerRepository ownerRepository,
             DataContext context,
             IConverterHelper converterHelper)
         {
-            _petRepository = PetRepository;
+            _ownerRepository = ownerRepository;
             _context = context;
             _converterHelper = converterHelper;
         }
@@ -34,7 +34,7 @@ namespace Vet_Clinic.Web.Controllers.API
         [HttpGet]
         public IActionResult GetPet()
         {
-            return Ok(_petRepository.GetAll());
+            return Ok(_ownerRepository.GetAll());
 
         }
         [HttpPost]

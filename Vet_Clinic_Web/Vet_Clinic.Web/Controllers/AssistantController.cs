@@ -33,7 +33,9 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Assistant
         public IActionResult Index()
         {
-            return View(_assistantRepository.GetAll().OrderBy(a => a.User.FirstName));
+            var assistant = _assistantRepository.GetAll().OrderBy(a => a.User.FirstName);
+
+            return View(assistant);
         }
 
         // GET: Assistant/Details/5
@@ -161,11 +163,10 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // POST: Assistant/Delete/5
-        [Authorize]
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Agent")]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {

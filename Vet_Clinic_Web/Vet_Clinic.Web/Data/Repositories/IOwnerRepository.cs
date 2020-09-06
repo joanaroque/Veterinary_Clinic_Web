@@ -11,9 +11,26 @@ namespace Vet_Clinic.Web.Data.Repositories
     {
         IQueryable GetAllWithUsers(); 
 
+
         IEnumerable<SelectListItem> GetComboOwners();
 
-        Task<Owner> GetOwnersWithPetsAsync(int id);
+
+        IEnumerable<SelectListItem> GetComboPets(int ownerId);
+
+
+        Task<Owner> GetOwnersWithPetsAsync(int ownerId);
+
+
+        Task AddPetAsync(Pet pet);
+
+
+        Task<int> UpdatePetAsync(Pet pet);
+
+
+        Task<Pet> GetPetAsync(int id);
+
+
+        Task<int> DeletePetAsync(Pet pet);
 
     }
 }

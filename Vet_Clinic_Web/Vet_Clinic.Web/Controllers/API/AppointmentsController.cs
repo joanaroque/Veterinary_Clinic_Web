@@ -62,7 +62,6 @@ namespace Vet_Clinic.Web.Controllers.API
                 {
                     Date = appointment.Date,
                     Id = appointment.Id,
-                    IsAvailable = appointment.IsAvailable
                 };
 
                 if (appointment.Owner != null)
@@ -100,12 +99,6 @@ namespace Vet_Clinic.Web.Controllers.API
             {
                 return BadRequest("Appoint doesn't exists.");
             }
-
-            if (!appointment.IsAvailable)
-            {
-                return BadRequest("Appoint is not available.");
-            }
-
             var owner = await _context.Owners.FindAsync(model.OwnerId);
             if (owner == null)
             {
@@ -118,7 +111,6 @@ namespace Vet_Clinic.Web.Controllers.API
                 return BadRequest("Pet doesn't exists.");
             }
 
-            appointment.IsAvailable = false;
             appointment.Owner = owner;
             appointment.Pet = pet;
 
@@ -144,13 +136,6 @@ namespace Vet_Clinic.Web.Controllers.API
             {
                 return BadRequest("Appoint doesn't exists.");
             }
-
-            if (appointment.IsAvailable)
-            {
-                return BadRequest("Appoint is available.");
-            }
-
-            appointment.IsAvailable = true;
             appointment.AppointmentObs = null;
             appointment.Owner = null;
             appointment.Pet = null;

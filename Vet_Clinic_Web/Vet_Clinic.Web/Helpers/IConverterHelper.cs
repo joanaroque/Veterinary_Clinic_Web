@@ -10,7 +10,7 @@ namespace Vet_Clinic.Web.Helpers
 
         DoctorViewModel ToDoctorViewModel(Doctor doctor);
 
-        Task<Pet> ToPetAsync(PetViewModel model, string path, bool isNew);
+        Pet ToPet(PetViewModel model, string path, bool isNew);
 
         PetViewModel ToPetViewModel( Pet pet);
 

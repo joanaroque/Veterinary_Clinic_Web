@@ -14,19 +14,19 @@ namespace Vet_Clinic.Web.Controllers
 {
     public class PetsController : Controller
     {
-        private readonly IPetRepository _petRepository;
+        private readonly IOwnerRepository _ownerRepository;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
         private readonly DataContext _context;
         private readonly IServiceTypesRepository _serviceTypesRepository;
 
-        public PetsController(IPetRepository petRepository,
+        public PetsController(IOwnerRepository ownerRepository,
             IImageHelper imageHelper,
             IConverterHelper converterHelper,
             DataContext context,
             IServiceTypesRepository serviceTypesRepository)
         {
-            _petRepository = petRepository;
+            _ownerRepository = ownerRepository;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
             _context = context;
@@ -36,7 +36,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Pets
         public IActionResult Index()
         {
-            var pet = _petRepository.GetAll().OrderBy(p => p.Name).ToList();
+            var pet = _ownerRepository.GetAll().OrderBy(p => p.Name).ToList();
 
             return View(pet);
         }
@@ -114,13 +114,13 @@ namespace Vet_Clinic.Web.Controllers
                         path = await _imageHelper.UploadImageAsync(model.ImageFile, "Pets");
                     }
 
-                    var pet = _converterHelper.ToPetAsync(model, path, false);
+                    var pet = _converterHelper.ToPet(model, path, false);
 
-                    await _petRepository.UpdateAsync(model);
+                    await _ownerRepository.UpdatePetAsync(pet);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _petRepository.ExistAsync(model.Id))
+                    if (!await _ownerRepository.ExistAsync(model.Id))
                     {
                         return new NotFoundViewResult("PetNotFound");
                     }
@@ -135,8 +135,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // POST: Pets/Delete/5
-        [Authorize]
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)
@@ -146,8 +145,8 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var pet = await _petRepository.GetByIdAsync(id.Value);
-            await _petRepository.DeleteAsync(pet);
+            var pet = await _ownerRepository.GetByIdAsync(id.Value);
+            await _ownerRepository.DeleteAsync(pet);
 
             return RedirectToAction(nameof(Index));
         }

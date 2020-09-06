@@ -14,6 +14,10 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <br />
 
+<p>
+    <a asp-action="Schedule" class="btn btn-foursquare"><i class="glyphicon glyphicon-plus"></i> Schedule</a>
+</p>
+
 <section class="content">
     <div class="row">
         <div class="col-md-10 center-block">
@@ -42,9 +46,7 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.AppointmentObs)
                                     </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.IsAvailable)
-                                    </th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,19 +63,11 @@
                                                 {
                                                     @Html.DisplayFor(modelItem => item.Doctor.User.FullName)
                                                 }
-                                                else if (!item.IsAvailable)
-                                                {
-                                                    @Html.DisplayFor(modelItem => item.Reserved)
-                                                }
                                             </td>
                                             <td>
                                                 @if (item.IsMine)
                                                 {
                                                     @Html.DisplayFor(modelItem => item.Owner.User.FullName)
-                                                }
-                                                else if (!item.IsAvailable)
-                                                {
-                                                    @Html.DisplayFor(modelItem => item.Reserved)
                                                 }
                                             </td>
                                             <td>
@@ -89,21 +83,10 @@
                                                 }
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.IsAvailable)
-                                            </td>
-                                            <td>
-                                                @if (item.IsAvailable)
-                                                {
-                                                    <a asp-action="Schedule" asp-controller="Home" class="btn btn-default" asp-route-id="@item.Id"><i class="glyphicon glyphicon-plus"></i></a>
-                                                }
-                                                else
-                                                {
-                                                    @if (item.IsMine)
-                                                    {
-                                                        <input type="submit" value="Delete" class="btn btn-danger pull-right"
-                                                               onclick="return confirm('Are you sure you want to delete @item.Id?')" />
-                                                    }
-                                                }
+                                                <input type="submit" value="UnSchedule" class="btn btn-danger pull-right"
+                                                       onclick="return confirm('Are you sure you want to delete appointment @item.Id?')" />
+                                                <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                                <a asp-action="Details" class="btn btn-warning pull-right" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
                                             </td>
                                         </tr>
                                     }

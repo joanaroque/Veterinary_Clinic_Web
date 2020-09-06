@@ -8,10 +8,8 @@ namespace Vet_Clinic.Web.Data.Repositories
 {
     public interface IAssistantRepository : IGenericRepository<Assistant>
     {
-
         IQueryable GetAllWithUsers();
 
         IEnumerable<SelectListItem> GetComboAssistent();
-
     }
 }

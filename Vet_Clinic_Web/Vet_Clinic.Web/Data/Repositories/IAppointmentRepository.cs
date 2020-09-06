@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Models;
@@ -11,6 +13,10 @@ namespace Vet_Clinic.Web.Data.Repositories
 
         //Task AddAppointmentAsync(AppointmentViewModel model, string userName);
 
-        Task AddDaysAsync(int days);
+        Task GetDoctorAsync(int days);
+
+        IQueryable GetAllWithUsers();
+
+        IEnumerable<SelectListItem> GetComboAppointment();
     }
 }

@@ -28,8 +28,6 @@
                         <form asp-action="Schedule" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="Id" />
-                            <input type="hidden" asp-for="OwnerId" />
-                            <input type="hidden" asp-for="DoctorId" />
 
                              <div class="form-group">
                                 <label asp-for="Date" class="control-label"></label>
@@ -87,7 +85,7 @@
                     dataType: 'json',
                     data: { ownerId: $("#OwnerId").val() },
                     success: function (pets) {
-                        $("#PetId").append('<option value="0">(Select a pet...)</option>');
+                        $("#PetId").append('<option value="0">[Select a pet...]</option>');
                         $.each(pets, function (i, pet) {
                             $("#PetId").append('<option value="'
                                 + pet.id + '">'

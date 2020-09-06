@@ -1,29 +1,26 @@
-﻿using Microsoft.AspNetCore.Rewrite.Internal.UrlActions;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Vet_Clinic.Web.Data.Entities;
-using Vet_Clinic.Web.Helpers;
-using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Data.Repositories
 {
     public class AppointmentRepository : GenericRepository<Appointment>, IAppointmentRepository
     {
         private readonly DataContext _context;
-        private readonly IUserHelper _userHelper;
 
 
-        public AppointmentRepository(DataContext context,
-            IUserHelper userHelper) : base(context)
+        public AppointmentRepository(DataContext context) : base(context)
         {
             _context = context;
-            _userHelper = userHelper;
-
         }
 
-        public async Task AddDaysAsync(int days)
+        public async Task GetDoctorAsync(int days)
         {
             DateTime initialDate;
 
@@ -48,7 +45,6 @@ namespace Vet_Clinic.Web.Data.Repositories
                         _context.Appointments.Add(new Appointment
                         {
                             Date = initialDate.ToUniversalTime(),
-                            IsAvailable = true,
                         });
 
 
@@ -64,6 +60,28 @@ namespace Vet_Clinic.Web.Data.Repositories
             }
 
             await _context.SaveChangesAsync();
+        }
+
+        public IQueryable GetAllWithUsers()
+        {
+            return _context.Appointments.Include(p => p.User);
+        }
+
+        public IEnumerable<SelectListItem> GetComboAppointment()
+        {
+            var list = _context.Appointments.Select(p => new SelectListItem
+            {
+                Text = p.User.FirstName,
+                Value = p.Id.ToString()
+            }).ToList();
+
+            list.Insert(0, new SelectListItem
+            {
+                Text = "[Select an Appointment...]",
+                Value = "0"
+            });
+
+            return list;
         }
 
         //    public async Task AddAppointmentAsync(AppointmentViewModel model, string userName)

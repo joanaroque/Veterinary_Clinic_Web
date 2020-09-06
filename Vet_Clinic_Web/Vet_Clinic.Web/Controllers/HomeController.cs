@@ -20,7 +20,6 @@ namespace Vet_Clinic.Web.Data
 
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IDoctorRepository _doctorRepository;
-        private readonly IPetRepository _petRepository;
         private readonly IOwnerRepository _ownerRepository;
         private readonly IImageHelper _imageHelper;
         private readonly DataContext _context;
@@ -28,14 +27,12 @@ namespace Vet_Clinic.Web.Data
 
         public HomeController(IAppointmentRepository appointmentRepository,
             IDoctorRepository doctorRepository,
-            IPetRepository PetRepository,
             IOwnerRepository OwnerRepository,
             IImageHelper imageHelper,
             DataContext context)
         {
             _appointmentRepository = appointmentRepository;
             _doctorRepository = doctorRepository;
-            _petRepository = PetRepository;
             _ownerRepository = OwnerRepository;
             _context = context;
             _imageHelper = imageHelper;
@@ -100,7 +97,6 @@ namespace Vet_Clinic.Web.Data
             {
                 Date = a.Date,
                 Id = a.Id,
-                IsAvailable = a.IsAvailable,
                 Doctor = a.Doctor,
                 Owner = a.Owner,
                 Pet = a.Pet,
@@ -145,7 +141,7 @@ namespace Vet_Clinic.Web.Data
                 Id = agenda.Id,
                 OwnerId = owner.Id,
                 DoctorId = doctor.Id,
-                Pets = _petRepository.GetComboPets(owner.Id)
+                Pets = _ownerRepository.GetComboPets(owner.Id)
             };
 
             return View(model);
@@ -160,7 +156,6 @@ namespace Vet_Clinic.Web.Data
                 var appointment = await _context.Appointments.FindAsync(model.Id);
                 if (appointment != null)
                 {
-                    appointment.IsAvailable = false;
                     appointment.Owner = await _context.Owners.FindAsync(model.OwnerId);
                     appointment.Pet = await _context.Pets.FindAsync(model.PetId);
                     appointment.Doctor = await _context.Doctors.FindAsync(model.DoctorId);
@@ -171,7 +166,7 @@ namespace Vet_Clinic.Web.Data
                 }
             }
 
-            model.Pets = _petRepository.GetComboPets(model.Id);
+            model.Pets = _ownerRepository.GetComboPets(model.Id);
             return View(model);
         }
 
@@ -193,8 +188,6 @@ namespace Vet_Clinic.Web.Data
             {
                 return NotFound();
             }
-
-            agenda.IsAvailable = true;
             agenda.Pet = null;
             agenda.Owner = null;
             agenda.Doctor = null;
