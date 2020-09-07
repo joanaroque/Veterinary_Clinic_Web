@@ -222,6 +222,20 @@ namespace Vet_Clinic.Web.Helpers
                 Owner = model.Owner
             };
         }
+
+        public Appointment ToAppointmentViewModel(Appointment appointment)
+        {
+            return new AppointmentViewModel
+            {
+                Id = appointment.Id,
+                Date = appointment.Date,
+                AppointmentObs = appointment.AppointmentObs,
+                User = appointment.User,
+                Doctor = appointment.Doctor,
+                Pet = appointment.Pet,
+                Owner = appointment.Owner
+            };
+        }
     }
 }
 

@@ -28,5 +28,7 @@ namespace Vet_Clinic.Web.Helpers
 
         Appointment ToAppointment(AppointmentViewModel model, bool isNew);
 
+        Appointment ToAppointmentViewModel(Appointment appointment);
+
     }
 }

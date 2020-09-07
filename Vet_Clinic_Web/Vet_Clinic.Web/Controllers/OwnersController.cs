@@ -229,14 +229,6 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                if (model.Date > DateTime.Today)
-                {
-                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
-                    return View(model);
-                }
-
-
                 var history = await _converterHelper.ToHistoryAsync(model, true);
                 _context.Histories.Add(history);
                 await _context.SaveChangesAsync();

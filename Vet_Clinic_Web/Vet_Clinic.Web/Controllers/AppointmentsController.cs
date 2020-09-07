@@ -46,6 +46,69 @@ namespace Vet_Clinic.Web.Controllers
             return View(appointment);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("AssistantNotFound");
+            }
+
+            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
+            if (appointment == null)
+            {
+                return new NotFoundViewResult("AppointmentNotFound");
+            }
+
+            var view = _converterHelper.ToAppointmentViewModel(appointment);
+
+            return View(view);
+        }
+
+        // POST: Assistant/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(AppointmentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var appointment = await _appointmentRepository.GetByIdAsync(model.Id);
+
+                if (appointment == null)
+                {
+                    return new NotFoundViewResult("AppointmentNotFound");
+                }
+
+                appointment.Id = model.Id;
+
+                await _appointmentRepository.UpdateAsync(appointment);
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(model);
+        }
+
+        // GET: Appointment/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new NotFoundViewResult("AssistantNotFound");
+            }
+
+            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
+
+            if (appointment == null)
+            {
+                return new NotFoundViewResult("AppointmentNotFound");
+            }
+
+            return View(appointment);
+        }
+
         public IActionResult Schedule()
         {
             var model = new AppointmentViewModel
@@ -65,14 +128,6 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                //por isto nas validaçoes: 
-                if (model.Date < DateTime.Today)
-                {
-                    ModelState.AddModelError("AppointmentSchedule", "Invalid Appointment date");
-                    return View(model);
-                }
-                //por isto nas validaçoes ^^^^^^^^^^ e na history tambem!
-
                 var appointment = _converterHelper.ToAppointment(model, true);
 
                 appointment.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);

@@ -54,7 +54,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date Of Birth")]
-        [CustomBirthDate(ErrorMessage = "Birth Date must be less than or equal to Today's day's day")]
+        [CustomBirthDate(ErrorMessage = "Birth Date must be less than or equal to Today's day")]
         public DateTime? DateOfBirth { get; set; }
 
 
