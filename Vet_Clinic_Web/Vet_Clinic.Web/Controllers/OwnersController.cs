@@ -44,7 +44,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Owners
         public IActionResult Index()
         {
-            var owner = _ownerRepository.GetAll().OrderBy(p => p.User.FirstName).ToList();
+            var owner = _ownerRepository.GetAll().ToList();
 
             return View(owner);
         }
@@ -94,7 +94,7 @@ namespace Vet_Clinic.Web.Controllers
 
                 var owner = _converterHelper.ToOwner(ownerViewModel, path, true);
 
-                owner.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                owner.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 var newOwner = new Owner
                 {
@@ -149,7 +149,8 @@ namespace Vet_Clinic.Web.Controllers
 
                     var owner = _converterHelper.ToOwner(model, path, false);
 
-                    owner.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    owner.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
                     await _ownerRepository.UpdateAsync(owner);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -248,7 +249,7 @@ namespace Vet_Clinic.Web.Controllers
 
             var pet = await _context.Pets
                 .Include(p => p.Owner)
-                .ThenInclude(o => o.User)
+                .ThenInclude(o => o.CreatedBy)
                 .Include(p => p.Histories)
                 .ThenInclude(h => h.ServiceType)
                 .FirstOrDefaultAsync(o => o.Id == id.Value);

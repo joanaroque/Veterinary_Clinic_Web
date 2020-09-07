@@ -31,7 +31,7 @@ namespace Vet_Clinic.Web.Data.Repositories
             else
             {
                 var agenda = _context.Appointments.LastOrDefault();
-                initialDate = new DateTime(agenda.Date.Year, agenda.Date.Month, agenda.Date.AddDays(1).Day, 8, 0, 0);
+                initialDate = new DateTime(agenda.CreateDate.Year, agenda.CreateDate.Month, agenda.CreateDate.AddDays(1).Day, 8, 0, 0);
             }
 
             var finalDate = initialDate.AddDays(days);
@@ -44,7 +44,7 @@ namespace Vet_Clinic.Web.Data.Repositories
                     {
                         _context.Appointments.Add(new Appointment
                         {
-                            Date = initialDate.ToUniversalTime(),
+                            CreateDate = initialDate.ToUniversalTime(),
                         });
 
 
@@ -64,14 +64,14 @@ namespace Vet_Clinic.Web.Data.Repositories
 
         public IQueryable GetAllWithUsers()
         {
-            return _context.Appointments.Include(p => p.User);
+            return _context.Appointments.Include(p => p.CreatedBy);
         }
 
         public IEnumerable<SelectListItem> GetComboAppointment()
         {
             var list = _context.Appointments.Select(p => new SelectListItem
             {
-                Text = p.User.FirstName,
+                Text = p.CreatedBy.FirstName,
                 Value = p.Id.ToString()
             }).ToList();
 

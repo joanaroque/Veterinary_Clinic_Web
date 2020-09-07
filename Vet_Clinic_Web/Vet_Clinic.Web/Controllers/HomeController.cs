@@ -81,7 +81,7 @@ namespace Vet_Clinic.Web.Data
         {
             return View(_context.Pets
                 .Include(p => p.Appointments)
-                .Where(p => p.Owner.User.Email.ToLower().Equals(User.Identity.Name.ToLower())));
+                .Where(p => p.Owner.CreatedBy.Email.ToLower().Equals(User.Identity.Name.ToLower())));
         }
 
         //[Authorize(Roles = "Customer")]
@@ -89,13 +89,13 @@ namespace Vet_Clinic.Web.Data
         {
             var appointments = await _context.Appointments
                 .Include(a => a.Owner)
-                .ThenInclude(o => o.User)
+                .ThenInclude(o => o.CreatedBy)
                 .Include(a => a.Pet)
-                .Where(a => a.Date >= DateTime.Today.ToUniversalTime()).ToListAsync();
+                .Where(a => a.CreateDate >= DateTime.Today.ToUniversalTime()).ToListAsync();
 
             var list = new List<AppointmentViewModel>(appointments.Select(a => new AppointmentViewModel
             {
-                Date = a.Date,
+                CreateDate = a.CreateDate,
                 Id = a.Id,
                 Doctor = a.Doctor,
                 Owner = a.Owner,
@@ -103,7 +103,7 @@ namespace Vet_Clinic.Web.Data
                 AppointmentObs = a.AppointmentObs
             }).ToList());
 
-            list.Where(a => a.Owner != null && a.Owner.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()))
+            list.Where(a => a.Owner != null && a.Owner.CreatedBy.UserName.ToLower().Equals(User.Identity.Name.ToLower()))
                 .All(a => { a.IsMine = true; return true; });
 
             return View(list);
@@ -124,13 +124,13 @@ namespace Vet_Clinic.Web.Data
                 return NotFound();
             }
 
-            var owner = await _context.Owners.FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
+            var owner = await _context.Owners.FirstOrDefaultAsync(o => o.CreatedBy.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
             if (owner == null)
             {
                 return NotFound();
             }
 
-            var doctor = await _context.Doctors.FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
+            var doctor = await _context.Doctors.FirstOrDefaultAsync(o => o.CreatedBy.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
             if (doctor == null)
             {
                 return NotFound();
@@ -273,7 +273,7 @@ namespace Vet_Clinic.Web.Data
 
             var pet = await _context.Pets
                 .Include(p => p.Owner)
-                .ThenInclude(o => o.User)
+                .ThenInclude(o => o.CreatedBy)
                 .Include(p => p.Histories)
                 .ThenInclude(h => h.ServiceType)
                 .FirstOrDefaultAsync(o => o.Id == id.Value);
@@ -315,7 +315,7 @@ namespace Vet_Clinic.Web.Data
         public async Task<IActionResult> Create()
         {
             var owner = await _context.Owners
-                .FirstOrDefaultAsync(o => o.User.Email.ToLower().Equals(User.Identity.Name.ToLower()));
+                .FirstOrDefaultAsync(o => o.CreatedBy.Email.ToLower().Equals(User.Identity.Name.ToLower()));
             if (owner == null)
             {
                 return NotFound();

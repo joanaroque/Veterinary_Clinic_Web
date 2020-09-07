@@ -32,7 +32,7 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Date)
+                                        @Html.DisplayNameFor(model => model.CreateDate)
                                     </th>
                                     <th>
                                         Doctor
@@ -56,18 +56,18 @@
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Date)
+                                                @Html.DisplayFor(modelItem => item.CreateDate)
                                             </td>
                                             <td>
                                                 @if (item.IsMine)
                                                 {
-                                                    @Html.DisplayFor(modelItem => item.Doctor.User.FullName)
+                                                    @Html.DisplayFor(modelItem => item.Doctor.CreatedBy.FullName)
                                                 }
                                             </td>
                                             <td>
                                                 @if (item.IsMine)
                                                 {
-                                                    @Html.DisplayFor(modelItem => item.Owner.User.FullName)
+                                                    @Html.DisplayFor(modelItem => item.Owner.CreatedBy.FullName)
                                                 }
                                             </td>
                                             <td>

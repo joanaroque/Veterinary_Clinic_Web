@@ -19,7 +19,7 @@ namespace Vet_Clinic.Web
 
         public IQueryable GetAllWithUsers()
         {
-            return _context.ServiceTypes.Include(p => p.User);
+            return _context.ServiceTypes.Include(p => p.CreatedBy);
         }
 
         public IEnumerable<SelectListItem> GetComboServiceTypes()

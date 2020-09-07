@@ -170,14 +170,23 @@ namespace Vet_Clinic.Web.Migrations
                     ImageUrl = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    CreatedById = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    ModifiedById = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Assistants", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Assistants_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Assistants_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Assistants_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -202,14 +211,23 @@ namespace Vet_Clinic.Web.Migrations
                     ImageUrl = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    CreatedById = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    ModifiedById = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Doctors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Doctors_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Doctors_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Doctors_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -229,14 +247,23 @@ namespace Vet_Clinic.Web.Migrations
                     ImageUrl = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    CreatedById = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    ModifiedById = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Owners", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Owners_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Owners_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Owners_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -249,14 +276,23 @@ namespace Vet_Clinic.Web.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    CreatedById = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    ModifiedById = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ServiceTypes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ServiceTypes_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_ServiceTypes_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ServiceTypes_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -269,14 +305,23 @@ namespace Vet_Clinic.Web.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(maxLength: 50, nullable: false),
-                    UserId = table.Column<string>(nullable: true)
+                    CreatedById = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    ModifiedById = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Species", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Species_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Species_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Species_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -296,11 +341,27 @@ namespace Vet_Clinic.Web.Migrations
                     Sterilization = table.Column<bool>(nullable: false),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
                     SpecieId = table.Column<int>(nullable: true),
-                    OwnerId = table.Column<int>(nullable: true)
+                    OwnerId = table.Column<int>(nullable: true),
+                    CreatedById = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    ModifiedById = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pets_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pets_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Pets_Owners_OwnerId",
                         column: x => x.OwnerId,
@@ -321,20 +382,34 @@ namespace Vet_Clinic.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Date = table.Column<DateTime>(nullable: false),
                     AppointmentObs = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: true),
                     DoctorId = table.Column<int>(nullable: true),
                     PetId = table.Column<int>(nullable: true),
-                    OwnerId = table.Column<int>(nullable: true)
+                    OwnerId = table.Column<int>(nullable: true),
+                    CreatedById = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    ModifiedById = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Appointments", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Appointments_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Appointments_Doctors_DoctorId",
                         column: x => x.DoctorId,
                         principalTable: "Doctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Appointments_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -349,12 +424,6 @@ namespace Vet_Clinic.Web.Migrations
                         principalTable: "Pets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Appointments_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -365,13 +434,28 @@ namespace Vet_Clinic.Web.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(maxLength: 100, nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
+                    CreatedById = table.Column<string>(nullable: true),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    UpdateDate = table.Column<DateTime>(nullable: false),
+                    ModifiedById = table.Column<string>(nullable: true),
                     ServiceTypeId = table.Column<int>(nullable: true),
                     PetId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Histories", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Histories_AspNetUsers_CreatedById",
+                        column: x => x.CreatedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Histories_AspNetUsers_ModifiedById",
+                        column: x => x.ModifiedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Histories_Pets_PetId",
                         column: x => x.PetId,
@@ -384,18 +468,22 @@ namespace Vet_Clinic.Web.Migrations
                         principalTable: "ServiceTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Histories_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_CreatedById",
+                table: "Appointments",
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_DoctorId",
                 table: "Appointments",
                 column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_ModifiedById",
+                table: "Appointments",
+                column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_OwnerId",
@@ -406,11 +494,6 @@ namespace Vet_Clinic.Web.Migrations
                 name: "IX_Appointments_PetId",
                 table: "Appointments",
                 column: "PetId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Appointments_UserId",
-                table: "Appointments",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -452,14 +535,34 @@ namespace Vet_Clinic.Web.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assistants_UserId",
+                name: "IX_Assistants_CreatedById",
                 table: "Assistants",
-                column: "UserId");
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctors_UserId",
+                name: "IX_Assistants_ModifiedById",
+                table: "Assistants",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Doctors_CreatedById",
                 table: "Doctors",
-                column: "UserId");
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Doctors_ModifiedById",
+                table: "Doctors",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Histories_CreatedById",
+                table: "Histories",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Histories_ModifiedById",
+                table: "Histories",
+                column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Histories_PetId",
@@ -472,14 +575,24 @@ namespace Vet_Clinic.Web.Migrations
                 column: "ServiceTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Histories_UserId",
-                table: "Histories",
-                column: "UserId");
+                name: "IX_Owners_CreatedById",
+                table: "Owners",
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Owners_UserId",
+                name: "IX_Owners_ModifiedById",
                 table: "Owners",
-                column: "UserId");
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pets_CreatedById",
+                table: "Pets",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pets_ModifiedById",
+                table: "Pets",
+                column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pets_OwnerId",
@@ -492,14 +605,24 @@ namespace Vet_Clinic.Web.Migrations
                 column: "SpecieId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ServiceTypes_UserId",
+                name: "IX_ServiceTypes_CreatedById",
                 table: "ServiceTypes",
-                column: "UserId");
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Species_UserId",
+                name: "IX_ServiceTypes_ModifiedById",
+                table: "ServiceTypes",
+                column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Species_CreatedById",
                 table: "Species",
-                column: "UserId");
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Species_ModifiedById",
+                table: "Species",
+                column: "ModifiedById");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

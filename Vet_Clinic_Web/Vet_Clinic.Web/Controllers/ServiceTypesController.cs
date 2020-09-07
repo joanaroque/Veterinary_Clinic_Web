@@ -40,7 +40,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: ServiceTypes
         public IActionResult Index()
         {
-            var service = _serviceTypesRepository.GetAll().OrderBy(s => s.User.FirstName).ToList();
+            var service = _serviceTypesRepository.GetAll().ToList();
 
             return View(service);
         }

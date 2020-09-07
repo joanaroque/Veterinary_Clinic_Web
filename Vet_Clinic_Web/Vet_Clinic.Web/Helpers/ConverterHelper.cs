@@ -78,7 +78,8 @@ namespace Vet_Clinic.Web.Helpers
                 Email = model.Email,
                 Address = model.Address,
                 DateOfBirth = model.DateOfBirth,
-                User = model.User,
+                CreatedBy = model.CreatedBy,
+                CreateDate = model.CreateDate,
                 Pets = model.Pets,
                 Appointments = model.Appointments
             };
@@ -97,7 +98,8 @@ namespace Vet_Clinic.Web.Helpers
                 Email = owner.Email,
                 Address = owner.Address,
                 DateOfBirth = owner.DateOfBirth,
-                User = owner.User,
+                CreatedBy = owner.CreatedBy,
+                CreateDate = owner.CreateDate,
                 Pets = owner.Pets,
                 Appointments = owner.Appointments
             };
@@ -121,7 +123,8 @@ namespace Vet_Clinic.Web.Helpers
                 ObsRoom = model.ObsRoom,
                 Address = model.Address,
                 DateOfBirth = model.DateOfBirth,
-                User = model.User
+                CreatedBy = model.CreatedBy,
+                CreateDate = model.CreateDate
             };
         }
 
@@ -143,7 +146,8 @@ namespace Vet_Clinic.Web.Helpers
                 ObsRoom = doctor.ObsRoom,
                 Address = doctor.Address,
                 DateOfBirth = doctor.DateOfBirth,
-                User = doctor.User
+                CreatedBy = doctor.CreatedBy,
+                CreateDate = doctor.CreateDate
             };
         }
 
@@ -153,7 +157,8 @@ namespace Vet_Clinic.Web.Helpers
             {
                 Date = model.Date.ToUniversalTime(),
                 Description = model.Description,
-                User = model.User,
+                CreatedBy = model.CreatedBy,
+                CreateDate = model.CreateDate,
                 Id = isNew ? 0 : model.Id,
                 Pet = await _context.Pets.FindAsync(model.PetId),
                 ServiceType = await _context.ServiceTypes.FindAsync(model.ServiceTypeId)
@@ -167,7 +172,8 @@ namespace Vet_Clinic.Web.Helpers
                 Date = history.Date,
                 Description = history.Description,
                 Id = history.Id,
-                User = history.User,
+                CreatedBy = history.CreatedBy,
+                CreateDate = history.CreateDate,
                 PetId = history.Pet.Id,
                 ServiceTypeId = history.ServiceType.Id,
                 ServiceTypes = _serviceTypesRepository.GetComboServiceTypes()
@@ -188,7 +194,8 @@ namespace Vet_Clinic.Web.Helpers
                 Email = model.Email,
                 Address = model.Address,
                 DateOfBirth = model.DateOfBirth,
-                User = model.User
+                CreatedBy = model.CreatedBy,
+                CreateDate = model.CreateDate
             };
         }
 
@@ -205,7 +212,9 @@ namespace Vet_Clinic.Web.Helpers
                 Email = assistant.Email,
                 Address = assistant.Address,
                 DateOfBirth = assistant.DateOfBirth,
-                User = assistant.User
+                CreatedBy = assistant.CreatedBy,
+                CreateDate = assistant.CreateDate
+
             };
         }
 
@@ -214,9 +223,9 @@ namespace Vet_Clinic.Web.Helpers
             return new Appointment
             {
                 Id = isNew ? 0 : model.Id,
-                Date = model.Date,
+                CreateDate = model.CreateDate,
                 AppointmentObs = model.AppointmentObs,
-                User = model.User,
+                CreatedBy = model.CreatedBy,
                 Doctor = model.Doctor,
                 Pet = model.Pet,
                 Owner = model.Owner
@@ -228,9 +237,9 @@ namespace Vet_Clinic.Web.Helpers
             return new AppointmentViewModel
             {
                 Id = appointment.Id,
-                Date = appointment.Date,
+                CreateDate = appointment.CreateDate,
                 AppointmentObs = appointment.AppointmentObs,
-                User = appointment.User,
+                CreatedBy = appointment.CreatedBy,
                 Doctor = appointment.Doctor,
                 Pet = appointment.Pet,
                 Owner = appointment.Owner

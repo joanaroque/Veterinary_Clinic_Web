@@ -21,7 +21,16 @@ namespace Vet_Clinic.Web.Data.Entities
         [CustomDate(ErrorMessage = "Date must be more than or equal to Today's day")]
         public DateTime Date { get; set; }
 
-        public User User { get; set; }
+        public User CreatedBy { get; set; }
+
+
+        public DateTime CreateDate { get; set; }
+
+
+        public DateTime UpdateDate { get; set; }
+
+
+        public User ModifiedBy { get; set; }
 
 
         public ServiceType ServiceType { get; set; }

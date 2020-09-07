@@ -21,7 +21,7 @@ namespace Vet_Clinic.Web.Data.Repositories
 
         public IQueryable GetAllWithUsers()
         {
-            return _context.Assistants.Include(p => p.User);
+            return _context.Assistants.Include(p => p.CreatedBy);
         }
 
         public IEnumerable<SelectListItem> GetComboAssistent()

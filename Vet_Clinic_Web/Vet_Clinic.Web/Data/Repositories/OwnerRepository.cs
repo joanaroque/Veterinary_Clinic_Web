@@ -51,7 +51,7 @@ namespace Vet_Clinic.Web.Data.Repositories
 
         public IQueryable GetAllWithUsers()
         {
-            return _context.Owners.Include(p => p.User);
+            return _context.Owners.Include(p => p.CreatedBy);
         }
 
         public IEnumerable<SelectListItem> GetComboPets(int ownerId)
@@ -93,7 +93,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         public async Task<Owner> GetOwnersWithPetsAsync(int ownerId)
         {
             return await _context.Owners
-                .Include(o => o.User)
+                .Include(o => o.CreatedBy)
                .Include(o => o.Pets)
                .ThenInclude(p => p.Specie)
                .Include(o => o.Pets)

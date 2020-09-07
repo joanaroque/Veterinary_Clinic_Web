@@ -10,19 +10,9 @@ namespace Vet_Clinic.Web.Data.Entities
         public int Id { get; set; }
 
 
-        [Required(ErrorMessage = "Must insert the {0}")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
-        [CustomDate(ErrorMessage = "Date must be more than or equal to Today's day")]
-        public DateTime Date { get; set; }
-
-
-
         [Display(Name = "Observations")]
         public string AppointmentObs { get; set; }
 
-
-        public User User { get; set; }
 
        
         public Doctor Doctor { get; set; }
@@ -34,5 +24,20 @@ namespace Vet_Clinic.Web.Data.Entities
         public Owner Owner { get; set; }
 
 
+        public User CreatedBy { get; set; }
+
+
+        [Display(Name = "Date")]
+        [Required(ErrorMessage = "Must insert the {0}")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
+        [CustomDate(ErrorMessage = "Date must be more than or equal to Today's day")]
+        public DateTime CreateDate { get; set; }
+
+
+        public DateTime UpdateDate { get; set; }
+
+
+        public User ModifiedBy { get; set; }
     }
 }

@@ -63,6 +63,17 @@ namespace Vet_Clinic.Web.Data.Entities
         public ICollection<History> Histories { get; set; }
 
 
+        public User CreatedBy { get; set; }
+
+
+        public DateTime CreateDate { get; set; }
+
+
+        public DateTime UpdateDate { get; set; }
+
+
+        public User ModifiedBy { get; set; }
+
 
         public string ImageFullPath
         {

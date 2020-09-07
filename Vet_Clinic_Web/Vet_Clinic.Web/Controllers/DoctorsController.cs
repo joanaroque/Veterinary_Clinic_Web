@@ -36,7 +36,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Doctors
         public IActionResult Index()
         {
-            var doctor = _doctorRepository.GetAll().OrderBy(p => p.User.FirstName).ToList();
+            var doctor = _doctorRepository.GetAll().ToList();
 
             return View(doctor);
         }
@@ -84,7 +84,7 @@ namespace Vet_Clinic.Web.Controllers
 
                 var doctor = _converterHelper.ToDoctor(doctorViewModel, path, true);
  
-                doctor.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                doctor.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 await _doctorRepository.CreateAsync(doctor);
 
@@ -140,7 +140,7 @@ namespace Vet_Clinic.Web.Controllers
 
                     var doctor = _converterHelper.ToDoctor(model, path, false);
 
-                    doctor.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    doctor.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
                     await _doctorRepository.UpdateAsync(doctor);
                 }
                 catch (DbUpdateConcurrencyException)

@@ -33,7 +33,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Assistant
         public IActionResult Index()
         {
-            var assistant = _assistantRepository.GetAll().OrderBy(a => a.User.FirstName);
+            var assistant = _assistantRepository.GetAll().ToList();
 
             return View(assistant);
         }
@@ -81,7 +81,7 @@ namespace Vet_Clinic.Web.Controllers
 
                 var assistant = _converterHelper.ToAssistant(model, path, true);
 
-                assistant.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                assistant.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 await _assistantRepository.CreateAsync(assistant);
 
@@ -131,7 +131,8 @@ namespace Vet_Clinic.Web.Controllers
 
                     var assistant = _converterHelper.ToAssistant(model, path, false);
 
-                    assistant.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    assistant.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
                     await _assistantRepository.UpdateAsync(assistant);
                 }
                 catch (DbUpdateConcurrencyException)

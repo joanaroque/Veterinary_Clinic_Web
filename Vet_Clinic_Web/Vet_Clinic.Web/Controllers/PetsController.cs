@@ -36,7 +36,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Pets
         public IActionResult Index()
         {
-            var pet = _ownerRepository.GetAll().OrderBy(p => p.Name).ToList();
+            var pet = _ownerRepository.GetAll().ToList();
 
             return View(pet);
         }

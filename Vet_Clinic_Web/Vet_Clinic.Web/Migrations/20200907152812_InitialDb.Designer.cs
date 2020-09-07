@@ -10,7 +10,7 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200906141122_InitialDb")]
+    [Migration("20200907152812_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -139,25 +139,31 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<string>("AppointmentObs");
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
 
                     b.Property<int?>("DoctorId");
+
+                    b.Property<string>("ModifiedById");
 
                     b.Property<int?>("OwnerId");
 
                     b.Property<int?>("PetId");
 
-                    b.Property<string>("UserId");
+                    b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatedById");
+
                     b.HasIndex("DoctorId");
+
+                    b.HasIndex("ModifiedById");
 
                     b.HasIndex("OwnerId");
 
                     b.HasIndex("PetId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Appointments");
                 });
@@ -171,6 +177,10 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("Address")
                         .IsRequired();
 
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
+
                     b.Property<DateTime?>("DateOfBirth")
                         .IsRequired();
 
@@ -182,6 +192,8 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("LastName")
                         .IsRequired();
 
+                    b.Property<string>("ModifiedById");
+
                     b.Property<string>("Name")
                         .IsRequired();
 
@@ -191,11 +203,13 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("TIN")
                         .IsRequired();
 
-                    b.Property<string>("UserId");
+                    b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
 
                     b.ToTable("Assistants");
                 });
@@ -208,6 +222,10 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired();
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
 
                     b.Property<DateTime?>("DateOfBirth")
                         .IsRequired();
@@ -222,6 +240,8 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<string>("MedicalLicense")
                         .IsRequired();
+
+                    b.Property<string>("ModifiedById");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -238,7 +258,7 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("TIN")
                         .IsRequired();
 
-                    b.Property<string>("UserId");
+                    b.Property<DateTime>("UpdateDate");
 
                     b.Property<string>("WorkEnd")
                         .IsRequired();
@@ -248,7 +268,9 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
 
                     b.ToTable("Doctors");
                 });
@@ -259,25 +281,33 @@ namespace Vet_Clinic.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
+
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(100);
 
+                    b.Property<string>("ModifiedById");
+
                     b.Property<int?>("PetId");
 
                     b.Property<int?>("ServiceTypeId");
 
-                    b.Property<string>("UserId");
+                    b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
 
                     b.HasIndex("PetId");
 
                     b.HasIndex("ServiceTypeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Histories");
                 });
@@ -291,6 +321,10 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("Address")
                         .IsRequired();
 
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
+
                     b.Property<DateTime?>("DateOfBirth")
                         .IsRequired();
 
@@ -302,6 +336,8 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("LastName")
                         .IsRequired();
 
+                    b.Property<string>("ModifiedById");
+
                     b.Property<string>("Name")
                         .IsRequired();
 
@@ -311,11 +347,13 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("TIN")
                         .IsRequired();
 
-                    b.Property<string>("UserId");
+                    b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
 
                     b.ToTable("Owners");
                 });
@@ -330,6 +368,10 @@ namespace Vet_Clinic.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
+
                     b.Property<DateTime>("DateOfBirth");
 
                     b.Property<string>("Gender")
@@ -337,6 +379,8 @@ namespace Vet_Clinic.Web.Migrations
                         .HasMaxLength(10);
 
                     b.Property<string>("ImageUrl");
+
+                    b.Property<string>("ModifiedById");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -348,9 +392,15 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<bool>("Sterilization");
 
+                    b.Property<DateTime>("UpdateDate");
+
                     b.Property<double>("Weight");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
 
                     b.HasIndex("OwnerId");
 
@@ -365,15 +415,23 @@ namespace Vet_Clinic.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
+
+                    b.Property<string>("ModifiedById");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("UserId");
+                    b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
 
                     b.ToTable("ServiceTypes");
                 });
@@ -384,15 +442,23 @@ namespace Vet_Clinic.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<string>("CreatedById");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("ModifiedById");
+
+                    b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("ModifiedById");
 
                     b.ToTable("Species");
                 });
@@ -504,9 +570,17 @@ namespace Vet_Clinic.Web.Migrations
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Appointment", b =>
                 {
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
                     b.HasOne("Vet_Clinic.Web.Data.Entities.Doctor", "Doctor")
                         .WithMany()
                         .HasForeignKey("DoctorId");
+
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
 
                     b.HasOne("Vet_Clinic.Web.Data.Entities.Owner", "Owner")
                         .WithMany("Appointments")
@@ -515,28 +589,40 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasOne("Vet_Clinic.Web.Data.Entities.Pet", "Pet")
                         .WithMany("Appointments")
                         .HasForeignKey("PetId");
-
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Assistant", b =>
                 {
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Doctor", b =>
                 {
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.History", b =>
                 {
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
+
                     b.HasOne("Vet_Clinic.Web.Data.Entities.Pet", "Pet")
                         .WithMany("Histories")
                         .HasForeignKey("PetId");
@@ -544,21 +630,29 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasOne("Vet_Clinic.Web.Data.Entities.ServiceType", "ServiceType")
                         .WithMany("Histories")
                         .HasForeignKey("ServiceTypeId");
-
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Owner", b =>
                 {
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Pet", b =>
                 {
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
+
                     b.HasOne("Vet_Clinic.Web.Data.Entities.Owner", "Owner")
                         .WithMany("Pets")
                         .HasForeignKey("OwnerId");
@@ -570,16 +664,24 @@ namespace Vet_Clinic.Web.Migrations
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.ServiceType", b =>
                 {
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Specie", b =>
                 {
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById");
                 });
 #pragma warning restore 612, 618
         }

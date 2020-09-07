@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Vet_Clinic.Web.Data.Entities
@@ -13,7 +14,16 @@ namespace Vet_Clinic.Web.Data.Entities
         public string Description { get; set; }
 
 
-        public User User { get; set; }
+        public User CreatedBy { get; set; }
+
+
+        public DateTime CreateDate { get; set; }
+
+
+        public DateTime UpdateDate { get; set; }
+
+
+        public User ModifiedBy { get; set; }
 
 
         public virtual ICollection<Pet> Pets { get; set; }

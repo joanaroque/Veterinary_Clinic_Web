@@ -38,7 +38,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Species
         public IActionResult Index()
         {
-            var specie = _specie.GetAll().OrderBy(s => s.User.FirstName).ToList();
+            var specie = _specie.GetAll().ToList();
 
             return View(specie);
         }
@@ -94,7 +94,7 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("SpecieNotFound");
             }
 
-            var specie = await _context.Species.FindAsync(id);
+            var specie = await _specie.GetByIdAsync(id.Value);
             if (specie == null)
             {
                 return new NotFoundViewResult("SpecieNotFound");
@@ -118,7 +118,8 @@ namespace Vet_Clinic.Web.Controllers
             {
                 try
                 {
-                    _context.Update(specie);
+                    await _specie.UpdateAsync(specie);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

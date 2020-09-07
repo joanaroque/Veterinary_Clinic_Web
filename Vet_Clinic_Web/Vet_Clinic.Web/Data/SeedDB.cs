@@ -248,42 +248,42 @@ namespace Vet_Clinic.Web.Data
 
                 _context.Appointments.Add(new Appointment
                 {
-                    Date = DateTime.Now.AddDays(2),
+                    CreateDate = DateTime.Now.AddDays(2),
                     AppointmentObs = "vacinas vacinas vacinas",
                     Owner = owner,
                     Doctor = doctor,
                     Pet = pet,
-                    User = user
+                    CreatedBy = user
                 });
 
                 _context.Appointments.Add(new Appointment
                 {
-                    Date = DateTime.Now.AddDays(4),
+                    CreateDate = DateTime.Now.AddDays(4),
                     AppointmentObs = "Otites",
                     Owner = owner,
                     Doctor = doctor,
                     Pet = pet,
-                    User = user
+                    CreatedBy = user
                 });
 
                 _context.Appointments.Add(new Appointment
                 {
-                    Date = DateTime.Now.AddDays(5),
+                    CreateDate = DateTime.Now.AddDays(5),
                     AppointmentObs = "Nao faz xixi",
                     Owner = owner,
                     Doctor = doctor,
                     Pet = pet,
-                    User = user
+                    CreatedBy = user
                 });
 
                 _context.Appointments.Add(new Appointment
                 {
-                    Date = DateTime.Now.AddDays(5),
+                    CreateDate = DateTime.Now.AddDays(5),
                     AppointmentObs = "Comichão na cabeça",
                     Owner = owner,
                     Doctor = doctor,
                     Pet = pet,
-                    User = user
+                    CreatedBy = user
                 });
 
             }

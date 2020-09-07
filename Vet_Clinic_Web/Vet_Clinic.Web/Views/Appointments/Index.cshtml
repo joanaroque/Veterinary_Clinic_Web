@@ -35,11 +35,11 @@
                                     @if (this.User.IsInRole("Admin"))
                                     {
                                         <th>
-                                            @Html.DisplayNameFor(model => model.User.FirstName)
+                                            @Html.DisplayNameFor(model => model.CreatedBy.FullName)
                                         </th>
                                     }
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Date)
+                                        @Html.DisplayNameFor(model => model.CreateDate)
                                     </th>
                                     <th>
                                         Doctor
@@ -64,11 +64,11 @@
                                             @if (this.User.IsInRole("Admin"))
                                             {
                                                 <th>
-                                                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                                                    @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
                                                 </th>
                                             }
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Date)
+                                                @Html.DisplayFor(modelItem => item.CreateDate)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Doctor.Name)

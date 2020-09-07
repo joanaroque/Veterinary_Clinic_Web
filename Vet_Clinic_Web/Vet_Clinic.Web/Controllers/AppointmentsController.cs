@@ -41,7 +41,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Appointments
         public IActionResult Index()
         {
-            var appointment = _appointmentRepository.GetAll().OrderBy(a => a.User.FullName);
+            var appointment = _appointmentRepository.GetAll().ToList();
 
             return View(appointment);
         }
@@ -130,7 +130,8 @@ namespace Vet_Clinic.Web.Controllers
             {
                 var appointment = _converterHelper.ToAppointment(model, true);
 
-                appointment.User = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                appointment.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+               
                 await _appointmentRepository.CreateAsync(appointment);
 
                 await _context.SaveChangesAsync();
