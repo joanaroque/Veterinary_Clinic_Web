@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Vet_Clinic.Web.CustomValidation
 {
-    public class CustomBirthDate : ValidationAttribute
+    public class CustomBirthDateValidator : ValidationAttribute
     {
         public override bool IsValid(object value)
         {

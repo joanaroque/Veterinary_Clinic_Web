@@ -22,9 +22,11 @@ namespace Vet_Clinic.Web.Data.Entities
         public string LastName { get; set; }
 
 
-        [Required(ErrorMessage = "Must insert the {0}")]
+        [RegularExpression(@"\d{9}",
+         ErrorMessage = "Must insert the {0} correct.")]
         [Display(Name = "Phone Number")]
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
 
@@ -54,7 +56,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date Of Birth")]
-        [CustomBirthDate(ErrorMessage = "Birth Date must be less than or equal to Today's day")]
+        [CustomBirthDateValidator(ErrorMessage = "Birth Date must be less than or equal to Today's day")]
         public DateTime? DateOfBirth { get; set; }
 
 
@@ -67,7 +69,7 @@ namespace Vet_Clinic.Web.Data.Entities
                 {
                     return null;
                 }
-                return $"https://petclinicjoana.azurewebsites.net{this.ImageUrl.Substring(1)}";
+                return $"https://petclinicjoana.azurewebsites.net{ImageUrl.Substring(1)}";
             }
         }
 

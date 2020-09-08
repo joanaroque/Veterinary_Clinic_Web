@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,6 +15,11 @@ namespace Vet_Clinic.Web.Data.Repositories
         {
             _context = context;
 
+        }
+
+        public IQueryable GetAllWithUsers()
+        {
+            return _context.Species.Include(p => p.CreatedBy);
         }
 
         public IEnumerable<SelectListItem> GetComboSpecies()

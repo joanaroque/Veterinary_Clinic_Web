@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
@@ -38,7 +39,10 @@ namespace Vet_Clinic.Web.Helpers
                 Appointments = model.Appointments,
                 Histories = model.Histories,
                 Specie =  model.Specie,
-                Owner =  model.Owner
+                Owner =  model.Owner,
+                CreateDate = DateTime.Now,
+                CreatedBy = model.CreatedBy,
+                UpdateDate = DateTime.Now
             };
 
             return pet;
@@ -60,7 +64,9 @@ namespace Vet_Clinic.Web.Helpers
                 Histories = pet.Histories,
                 OwnerId = pet.Owner.Id,
                 SpecieId = pet.Specie.Id,
-                Species = _specieRepository.GetComboSpecies()
+                Species = _specieRepository.GetComboSpecies(),
+                ModifiedBy = pet.ModifiedBy,
+                UpdateDate = DateTime.Now,
 
             };
         }
@@ -79,7 +85,8 @@ namespace Vet_Clinic.Web.Helpers
                 Address = model.Address,
                 DateOfBirth = model.DateOfBirth,
                 CreatedBy = model.CreatedBy,
-                CreateDate = model.CreateDate,
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
                 Pets = model.Pets,
                 Appointments = model.Appointments
             };
@@ -98,8 +105,8 @@ namespace Vet_Clinic.Web.Helpers
                 Email = owner.Email,
                 Address = owner.Address,
                 DateOfBirth = owner.DateOfBirth,
-                CreatedBy = owner.CreatedBy,
-                CreateDate = owner.CreateDate,
+                ModifiedBy = owner.ModifiedBy,
+                UpdateDate = DateTime.Now,
                 Pets = owner.Pets,
                 Appointments = owner.Appointments
             };
@@ -124,7 +131,8 @@ namespace Vet_Clinic.Web.Helpers
                 Address = model.Address,
                 DateOfBirth = model.DateOfBirth,
                 CreatedBy = model.CreatedBy,
-                CreateDate = model.CreateDate
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
             };
         }
 
@@ -146,8 +154,8 @@ namespace Vet_Clinic.Web.Helpers
                 ObsRoom = doctor.ObsRoom,
                 Address = doctor.Address,
                 DateOfBirth = doctor.DateOfBirth,
-                CreatedBy = doctor.CreatedBy,
-                CreateDate = doctor.CreateDate
+                ModifiedBy = doctor.ModifiedBy,
+                UpdateDate = DateTime.Now
             };
         }
 
@@ -158,7 +166,8 @@ namespace Vet_Clinic.Web.Helpers
                 Date = model.Date.ToUniversalTime(),
                 Description = model.Description,
                 CreatedBy = model.CreatedBy,
-                CreateDate = model.CreateDate,
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
                 Id = isNew ? 0 : model.Id,
                 Pet = await _context.Pets.FindAsync(model.PetId),
                 ServiceType = await _context.ServiceTypes.FindAsync(model.ServiceTypeId)
@@ -172,8 +181,8 @@ namespace Vet_Clinic.Web.Helpers
                 Date = history.Date,
                 Description = history.Description,
                 Id = history.Id,
-                CreatedBy = history.CreatedBy,
-                CreateDate = history.CreateDate,
+                ModifiedBy = history.ModifiedBy,
+                UpdateDate = DateTime.Now,
                 PetId = history.Pet.Id,
                 ServiceTypeId = history.ServiceType.Id,
                 ServiceTypes = _serviceTypesRepository.GetComboServiceTypes()
@@ -195,7 +204,8 @@ namespace Vet_Clinic.Web.Helpers
                 Address = model.Address,
                 DateOfBirth = model.DateOfBirth,
                 CreatedBy = model.CreatedBy,
-                CreateDate = model.CreateDate
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now
             };
         }
 
@@ -212,8 +222,8 @@ namespace Vet_Clinic.Web.Helpers
                 Email = assistant.Email,
                 Address = assistant.Address,
                 DateOfBirth = assistant.DateOfBirth,
-                CreatedBy = assistant.CreatedBy,
-                CreateDate = assistant.CreateDate
+                ModifiedBy = assistant.ModifiedBy,
+                UpdateDate = DateTime.Now
 
             };
         }
@@ -223,7 +233,8 @@ namespace Vet_Clinic.Web.Helpers
             return new Appointment
             {
                 Id = isNew ? 0 : model.Id,
-                CreateDate = model.CreateDate,
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now,
                 AppointmentObs = model.AppointmentObs,
                 CreatedBy = model.CreatedBy,
                 Doctor = model.Doctor,
@@ -237,9 +248,9 @@ namespace Vet_Clinic.Web.Helpers
             return new AppointmentViewModel
             {
                 Id = appointment.Id,
-                CreateDate = appointment.CreateDate,
+                ModifiedBy = appointment.ModifiedBy,
                 AppointmentObs = appointment.AppointmentObs,
-                CreatedBy = appointment.CreatedBy,
+                UpdateDate = DateTime.Now,
                 Doctor = appointment.Doctor,
                 Pet = appointment.Pet,
                 Owner = appointment.Owner

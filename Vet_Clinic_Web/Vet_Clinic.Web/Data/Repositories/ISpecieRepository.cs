@@ -7,6 +7,8 @@ namespace Vet_Clinic.Web.Data.Repositories
 {
     public interface ISpecieRepository : IGenericRepository<Specie>
     {
+        IQueryable GetAllWithUsers();
+
 
         IEnumerable<SelectListItem> GetComboSpecies();
     }

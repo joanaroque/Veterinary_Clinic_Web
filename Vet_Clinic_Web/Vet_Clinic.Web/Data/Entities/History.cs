@@ -18,7 +18,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
-        [CustomDate(ErrorMessage = "Date must be more than or equal to Today's day")]
+        [CustomDateValidator(ErrorMessage = "Date must be more than or equal to Today's day")]
         public DateTime Date { get; set; }
 
         public User CreatedBy { get; set; }
