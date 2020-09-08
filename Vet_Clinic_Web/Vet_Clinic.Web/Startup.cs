@@ -46,6 +46,7 @@ namespace Vet_Clinic.Web
                 .AddEntityFrameworkStores<DataContext>();
 
             services.AddAuthentication()
+
               .AddCookie()
               .AddJwtBearer(cfg =>
               {

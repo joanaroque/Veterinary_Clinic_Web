@@ -24,8 +24,6 @@ namespace Vet_Clinic.Web.Data
             _imageHelper = imageHelper;
         }
 
-        public UserManager<User> UserManager { get; }
-
         public async Task SeedAsync()
         {
             await _context.Database.EnsureCreatedAsync();
@@ -227,7 +225,7 @@ namespace Vet_Clinic.Web.Data
                     WorkEnd = "13",
                     ObsRoom = "8",
                     TIN = "4342",
-                    ImageUrl = "imagemmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm",
+                    ImageUrl = ("~/images/Doctors/41d3c742-fb4d-4124-a975-96fb0ceaafd9.jpg"),
                     Address = "Rua do médico",
                     DateOfBirth = DateTime.Now.AddYears(-58)
 

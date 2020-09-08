@@ -29,7 +29,7 @@ namespace Vet_Clinic.Web.Helpers
 
         Task<bool> IsUserInRoleAsync(User user, string roleName);
 
-        Task AddUSerToRoleAsync(User user, string roleName);
+        Task<IdentityResult> AddUSerToRoleAsync(User user, string roleName);
 
         Task<string> GenerateEmailConfirmationTokenAsync(User user);
 

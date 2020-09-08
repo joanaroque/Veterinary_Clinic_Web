@@ -277,7 +277,6 @@ namespace Vet_Clinic.Web.Controllers
                 return NotFound();
             }
 
-
             var isInRole = await _userHelper.IsUserInRoleAsync(user, "Customer");
 
             if (!isInRole)

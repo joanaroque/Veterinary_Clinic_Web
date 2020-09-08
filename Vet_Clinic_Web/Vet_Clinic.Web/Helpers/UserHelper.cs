@@ -28,9 +28,9 @@ namespace Vet_Clinic.Web.Helpers
             return await _userManager.CreateAsync(user, password);
         }
 
-        public async Task AddUSerToRoleAsync(User user, string roleName)
+        public async Task<IdentityResult> AddUSerToRoleAsync(User user, string roleName)
         {
-            await _userManager.AddToRoleAsync(user, roleName);
+           return await _userManager.AddToRoleAsync(user, roleName);
         }
 
         public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
@@ -77,7 +77,7 @@ namespace Vet_Clinic.Web.Helpers
 
         public async Task<bool> IsUserInRoleAsync(User user, string roleName)
         {
-            return await _userManager.IsInRoleAsync(user, "Admin");
+            return await _userManager.IsInRoleAsync(user, roleName);
         }
 
         public async Task<SignInResult> LoginAsync(LoginViewModel model)

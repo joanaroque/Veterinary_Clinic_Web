@@ -27,7 +27,8 @@ namespace Vet_Clinic.Web.Models
 
 
         [Display(Name = "Phone Number")]
-        [MaxLength(50, ErrorMessage = "The {0} field can not have more than {1} characters.")]
+        [RegularExpression(@"\d{9}",
+         ErrorMessage = "Must insert the {0} correct.")]
         public string PhoneNumber { get; set; }
 
 

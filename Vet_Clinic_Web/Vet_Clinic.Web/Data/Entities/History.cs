@@ -19,6 +19,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         [CustomDateValidator(ErrorMessage = "Date must be more than or equal to Today's day")]
+        [NotInWeekendsValidator(ErrorMessage ="The Vet Clinic is closed on weekends")]
         public DateTime Date { get; set; }
 
         public User CreatedBy { get; set; }

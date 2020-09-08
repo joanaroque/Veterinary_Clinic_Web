@@ -170,7 +170,7 @@ namespace Vet_Clinic.Web.Controllers
 
             var model = new List<UserRoleViewModel>();
 
-            foreach (var user in _userManager.Users)
+            foreach (var user in _userManager.Users.ToList())
             {
                 var userRoleViewModel = new UserRoleViewModel
                 {
@@ -195,7 +195,7 @@ namespace Vet_Clinic.Web.Controllers
 
         [HttpPost]
         public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
-        {
+         {
             var role = await _roleManager.FindByIdAsync(roleId);
 
             if (role == null)
@@ -209,16 +209,18 @@ namespace Vet_Clinic.Web.Controllers
 
                 IdentityResult result = null;
 
+                //se o user ta selecionado e se nao é, já, membro do role
                 if (model[i].IsSelected && !(await _userHelper.IsUserInRoleAsync(user, role.Name)))
                 {
-                    result = await _userHelper.AddUserAsync(user, role.Name);
+                    result = await _userHelper.AddUSerToRoleAsync(user, role.Name);
                 }
+                //se o user nao ta selecionado e se já é membro do role
                 else if (!model[i].IsSelected && await _userHelper.IsUserInRoleAsync(user, role.Name))
                 {
                     result = await _userManager.RemoveFromRoleAsync(user, role.Name);
                 }
                 else
-                {
+                {                  
                     continue;
                 }
 
