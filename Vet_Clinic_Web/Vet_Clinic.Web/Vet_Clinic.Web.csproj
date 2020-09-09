@@ -118,7 +118,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\layout__________\" />
     <Folder Include="wwwroot\lib\jquery-validate\" />
   </ItemGroup>
 

@@ -7,6 +7,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+    @*este poe a barra superior correta, mas poe as tabelas pro lado..*@
     @*<link rel="stylesheet" href="~/vendor/bootstrap/css/bootstrap.min.css">*@
     <link rel="stylesheet" href="~/lib/font-awesome/css/bootstrap.css.map">
     <link rel="stylesheet" href="~/lib/font-awesome/css/bootstrap.css">
@@ -18,7 +19,7 @@
 
 
     <link rel="stylesheet" href="~/css/main.css">
-   @* <link rel="stylesheet" href="~/dist/css/AdminLTE.css">*@
+    <link rel="stylesheet" href="~/dist/css/AdminLTE.css">
     <link href="~/dist/css/AdminLTE.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/dist/css/skins/skin-blue.min.css">
     <link href="~/dist/css/skins/_all-skins.css" rel="stylesheet" />
@@ -49,47 +50,38 @@
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <!-- User Account Menu -->
-                        <li class="dropdown user user-menu">
-                            <!-- Menu Toggle Button -->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <!-- The user image in the navbar-->
-                                <img src="~/dist/img/if2.jpg" class="user-image" alt="User Image">
-                                <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs">Welcome</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!-- The user image in the menu -->
-                                <li class="user-header">
-                                    <img src="~/dist/img/if2.jpg" class="img-circle" alt="User Image">
-                                    <p>
-                                        Joana Roque - Web Project
-                                        <small>Versão 1.0</small>
-                                    </p>
-                                </li>
-
-                                <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="row">
-                                        <div class="navbar-collapse collapse">
-                                            <ul class="nav navbar-nav navbar-right">
-                                                @if (User.Identity.IsAuthenticated)
-                                                {
-                                                    <li> <a asp-controller="Account" asp-action="ChangeUser">Hello @this.User.Identity.Name</a>  </li>
-                                                    <li class="navbar-custom-menu"> <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a> </li>
-                                                }
-                                                else
-                                                {
-                                                    <li class="nav-item d-none d-sm-inline-block">
-                                                        <a asp-controller="Account" asp-action="Login">Login</a>
-                                                    </li>
-                                                }
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- /.row -->
-                                </li>
-                            </ul>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator:</a>
+                                <ul class="dropdown-menu">
+                                    <li><a asp-controller="Administrator" asp-action="ListUsers">Users</a></li>
+                                    <li><a asp-controller="Administrator" asp-action="ListRoles">Roles</a></li>
+                                </ul>
+                            </li>
+                        }
+                        <!-- Menu Body -->
+                        <li class="user-body">
+                            <div class="row">
+                                <div class="navbar-collapse collapse">
+                                    <ul class="nav navbar-nav navbar-right">
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <li> <a asp-controller="Account" asp-action="ChangeUser"> @this.User.Identity.Name</a>  </li>
+                                            <li class="navbar-custom-menu">
+                                                <a asp-controller="Account" asp-action="Logout">Logout</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="nav-item d-none d-sm-inline-block">
+                                                <a asp-controller="Account" asp-action="Login">Login</a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- /.row -->
                         </li>
                     </ul>
                 </div>
@@ -110,83 +102,100 @@
                 </div>
                 <form class="form-inline ">
                     <ul class="nav navbar-nav navbar-left">
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                        {
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin</a>
-                                <ul class="dropdown-menu">
-                                    <li><a asp-controller="Administrator" asp-action="ListUsers">Users</a></li>
-                                    <li><a asp-controller="Administrator" asp-action="ListRoles">Roles</a></li>
-                                </ul>
-                            </li>
-                        }
                     </ul>
                 </form>
                 <!-- Sidebar Menu -->
+
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">Menu</li>
-                    <!-- Optionally, you can add icons to the links -->
-                    <li class="active">
-                        <a asp-controller="Appointments" asp-action="Index">
-                            <i class="far fa-calendar-times"></i>
-                            <span>  Appointments</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a asp-controller="ServiceTypes" asp-action="Index">
-                            <i class="fas fa-concierge-bell"></i>
-                            <span>  Service Types</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a asp-controller="Assistant" asp-action="Index">
-                            <i class="fa fa-female"></i>
-                            <span> Assistants</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a asp-controller="Doctors" asp-action="Index">
-                            <i class="fa fa-user-md"></i>
-                            <span> Doctors</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a asp-controller="Owners" asp-action="Index">
-                            <i class="fas fa-user-friends"></i>
-                            <span>  Owners</span>
-                        </a>
-                    </li>
 
-                    <li class="active">
-                        <a asp-controller="Pets" asp-action="Index">
-                            <i class="fa fa-paw"></i>
-                            <span> Pets</span>
-                        </a>
-                    </li>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Agent") || User.IsInRole("Doctor"))
+                    {
+                        <!-- Optionally, you can add icons to the links -->
+                        <li class="active">
+                            <a asp-controller="Appointments" asp-action="Index">
+                                <i class="far fa-calendar-times"></i>
+                                <span>  Appointments</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="ServiceTypes" asp-action="Index">
+                                <i class="fas fa-concierge-bell"></i>
+                                <span>  Service Types</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Assistant" asp-action="Index">
+                                <i class="fa fa-female"></i>
+                                <span> Assistants</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Doctors" asp-action="Index">
+                                <i class="fa fa-user-md"></i>
+                                <span> Doctors</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Owners" asp-action="Index">
+                                <i class="fas fa-user-friends"></i>
+                                <span>  Owners</span>
+                            </a>
+                        </li>
 
-                    <li class="treeview">
-                        <a href="#">
-                            Species
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left "></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="active">
-                                <a asp-controller="Species" asp-action="Index">
-                                    <i class="fas fa-cat"></i>
-                                    <i class="fas fa-dog"></i>
-                                    <i class="fas fa-frog"></i>
-                                    <i class="fas fa-spider"></i>
-                                    <i class="fas fa-dragon"></i>
-                                    <i class="fas fa-fish"></i>
-                                    <i class="fas fa-hippo"></i>
-                                </a>
-                            </li>
-                        </ul>
+                        <li>
+                            <a asp-controller="Pets" asp-action="Index">
+                                <i class="fa fa-paw"></i>
+                                <span> Pets</span>
+                            </a>
+                        </li>
 
-                    </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fas fa-cat"></i>
+                                <i class="fas fa-dog"></i>
+                                <i class="fas fa-frog"></i>
+                                <i class="fas fa-spider"></i>
+                                <i class="fas fa-dragon"></i>
+                                <i class="fas fa-fish"></i>
+                                <i class="fas fa-hippo"></i>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left "></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="active">
+                                    <a asp-controller="Species" asp-action="Index">
+                                        Pet Species
+                                    </a>
+                                </li>
+                            </ul>
 
+                        </li>
+                    }
+                    else if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
+                    {
+                        <li class="active">
+                            <a asp-controller="Home" asp-action="MyPets">
+                                <i class="fa fa-paw"></i>
+                                <span> My Pets</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Home" asp-action="MyAppointments">
+                                <i class="fa fa-calendar"></i>
+                                <span> My Appointments</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a asp-controller="Doctors" asp-action="Index">
+                                <i class="fa fa-user-md"></i>
+                                <span> Doctors</span>
+                            </a>
+                        </li>
+                    }
                 </ul>
 
                 <!-- /.sidebar-menu -->
@@ -219,8 +228,6 @@
     <script src="~/dist/js/adminlte.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"></script>
-
-
 
     @RenderSection("Scripts", required: false)
 </body>
