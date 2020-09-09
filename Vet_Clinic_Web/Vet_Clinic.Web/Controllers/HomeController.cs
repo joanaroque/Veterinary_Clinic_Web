@@ -23,19 +23,29 @@ namespace Vet_Clinic.Web.Data
         private readonly IOwnerRepository _ownerRepository;
         private readonly IImageHelper _imageHelper;
         private readonly DataContext _context;
+        private readonly ISpecieRepository _specieRepository;
+        private readonly IConverterHelper _converterHelper;
+        private readonly IUserHelper _userHelper;
+
 
 
         public HomeController(IAppointmentRepository appointmentRepository,
             IDoctorRepository doctorRepository,
             IOwnerRepository OwnerRepository,
             IImageHelper imageHelper,
-            DataContext context)
+             IUserHelper userHelper,
+              IConverterHelper converterHelper,
+            DataContext context,
+            ISpecieRepository specieRepository)
         {
             _appointmentRepository = appointmentRepository;
             _doctorRepository = doctorRepository;
             _ownerRepository = OwnerRepository;
             _context = context;
+            _specieRepository = specieRepository;
             _imageHelper = imageHelper;
+            _converterHelper = converterHelper;
+            _userHelper = userHelper;
         }
 
 
@@ -76,7 +86,7 @@ namespace Vet_Clinic.Web.Data
             return View();
         }
 
-        //[Authorize(Roles = "Customer")]
+        [Authorize(Roles = "Admin, Customer")]
         public IActionResult MyPets()
         {
             return View(_context.Pets
@@ -84,7 +94,8 @@ namespace Vet_Clinic.Web.Data
                 .Where(p => p.Owner.CreatedBy.Email.ToLower().Equals(User.Identity.Name.ToLower())));
         }
 
-        //[Authorize(Roles = "Customer")]
+
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> MyAppointments()
         {
             var appointments = await _context.Appointments
@@ -95,7 +106,8 @@ namespace Vet_Clinic.Web.Data
 
             var list = new List<AppointmentViewModel>(appointments.Select(a => new AppointmentViewModel
             {
-                CreateDate = a.CreateDate,
+                CreateDate = DateTime.Now,
+                CreatedBy = a.CreatedBy,
                 Id = a.Id,
                 Doctor = a.Doctor,
                 Owner = a.Owner,
@@ -103,13 +115,14 @@ namespace Vet_Clinic.Web.Data
                 AppointmentObs = a.AppointmentObs
             }).ToList());
 
-            list.Where(a => a.Owner != null && a.Owner.CreatedBy.UserName.ToLower().Equals(User.Identity.Name.ToLower()))
-                .All(a => { a.IsMine = true; return true; });
+            list.Where(a => a.Owner != null && a.Owner.CreatedBy.UserName.ToLower()
+            .Equals(User.Identity.Name.ToLower()));   
 
             return View(list);
         }
 
-         //[Authorize(Roles = "Customer")]
+        [HttpGet]
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Schedule(int? id)
         {
             if (id == null)
@@ -149,6 +162,7 @@ namespace Vet_Clinic.Web.Data
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Schedule(AppointmentViewModel model)
         {
             if (ModelState.IsValid)
@@ -170,7 +184,8 @@ namespace Vet_Clinic.Web.Data
             return View(model);
         }
 
-        //[Authorize(Roles = "Customer")]
+
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> UnSchedule(int? id)
         {
             if (id == null)
@@ -197,7 +212,8 @@ namespace Vet_Clinic.Web.Data
             return RedirectToAction(nameof(MyAppointments));
         }
 
-        //[Authorize(Roles = "Customer")]
+        [HttpGet]
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -214,23 +230,14 @@ namespace Vet_Clinic.Web.Data
                 return NotFound();
             }
 
-            var model = new PetViewModel
-            {
-                DateOfBirth = pet.DateOfBirth,
-                Id = pet.Id,
-                ImageUrl = pet.ImageUrl,
-                Name = pet.Name,
-                OwnerId = pet.Owner.Id,
-                Weight = pet.Weight,
-                Breed = pet.Breed,
-                Gender = pet.Gender
-            };
+            var model = _converterHelper.ToPetViewModel(pet);
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Edit(PetViewModel model)
         {
             if (ModelState.IsValid)
@@ -243,17 +250,8 @@ namespace Vet_Clinic.Web.Data
 
                 }
 
-                var pet = new Pet
-                {
-                    DateOfBirth = model.DateOfBirth,
-                    Id = model.Id,
-                    ImageUrl = path,
-                    Name = model.Name,
-                    Owner = await _context.Owners.FindAsync(model.OwnerId),
-                    Breed = model.Breed,
-                    Weight = model.Weight,
-                    Gender = model.Gender
-                };
+                var pet = _converterHelper.ToPet(model, path, false);
+                pet.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 _context.Pets.Update(pet);
                 await _context.SaveChangesAsync();
@@ -263,7 +261,7 @@ namespace Vet_Clinic.Web.Data
             return View(model);
         }
 
-        //[Authorize(Roles = "Customer")]
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -285,7 +283,7 @@ namespace Vet_Clinic.Web.Data
             return View(pet);
         }
 
-        //[Authorize(Roles = "Customer")]
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -311,7 +309,9 @@ namespace Vet_Clinic.Web.Data
             return RedirectToAction(nameof(MyPets));
         }
 
-       //[Authorize(Roles = "Customer")]
+
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Create()
         {
             var owner = await _context.Owners
@@ -324,6 +324,7 @@ namespace Vet_Clinic.Web.Data
             var model = new PetViewModel
             {
                 DateOfBirth = DateTime.Now,
+                Species = _specieRepository.GetComboSpecies(),
                 OwnerId = owner.Id
             };
 
@@ -331,7 +332,8 @@ namespace Vet_Clinic.Web.Data
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       
+        [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Create(PetViewModel model)
         {
             if (ModelState.IsValid)
@@ -344,16 +346,8 @@ namespace Vet_Clinic.Web.Data
 
                 }
 
-                var pet = new Pet
-                {
-                    DateOfBirth = model.DateOfBirth,
-                    ImageUrl = path,
-                    Name = model.Name,
-                    Owner = await _context.Owners.FindAsync(model.OwnerId),
-                    Breed = model.Breed,
-                    Weight = model.Weight,
-                    Gender = model.Gender
-                };
+                var pet = _converterHelper.ToPet(model, path, true);
+                pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 _context.Pets.Add(pet);
                 await _context.SaveChangesAsync();

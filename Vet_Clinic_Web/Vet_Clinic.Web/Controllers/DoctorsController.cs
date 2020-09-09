@@ -34,6 +34,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Doctors
+        [Authorize(Roles = "Admin, Agent, Customer, Doctor")]
         public IActionResult Index()
         {
             var doctor = _doctorRepository.GetAll().ToList();
@@ -42,6 +43,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Doctors/Details/5
+        [Authorize(Roles = "Admin, Agent, Customer, Doctor")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -60,6 +62,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Doctors/Create
+        [Authorize(Roles = "Admin, Agent")]
         public IActionResult Create()
         {
             return View();
@@ -123,12 +126,6 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.DateOfBirth > DateTime.Today)
-                {
-                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
-                    return View(model);
-                }
-
                 try
                 {
                     var path = model.ImageUrl;
@@ -165,7 +162,6 @@ namespace Vet_Clinic.Web.Controllers
         [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)
         {
-
             if (id == null)
             {
                 return new NotFoundViewResult("DoctorNotFound");

@@ -62,7 +62,7 @@ namespace Vet_Clinic.Web.Data
                     Pet = pet,
                     ServiceType = type,
                     Description = "Otite e orelhas sujas",
-                    Date = DateTime.Now.AddDays(-1)
+                    CreateDate = DateTime.Now.AddDays(-1)
                 });
                 await _context.SaveChangesAsync();
             }

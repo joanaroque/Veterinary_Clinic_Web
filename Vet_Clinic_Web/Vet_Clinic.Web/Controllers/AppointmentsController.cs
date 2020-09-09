@@ -12,7 +12,7 @@ using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Agent, Doctor")]
     public class AppointmentsController : Controller
     {
         private readonly IAppointmentRepository _appointmentRepository;

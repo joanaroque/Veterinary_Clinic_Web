@@ -68,6 +68,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             return View();
         }
+
         // POST: ServiceTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -86,7 +87,10 @@ namespace Vet_Clinic.Web.Controllers
             }
             return View(serviceType);
         }
+
         // GET: ServiceTypes/Edit/5
+        [HttpGet]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -138,7 +142,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // POST: ServiceType/Delete/5
-        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {

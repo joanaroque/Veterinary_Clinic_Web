@@ -195,8 +195,7 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired();
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("TIN")
                         .IsRequired();
@@ -247,8 +246,7 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("ObsRoom")
                         .IsRequired();
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired();
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("Specialty")
                         .IsRequired();
@@ -282,8 +280,6 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("CreatedById");
-
-                    b.Property<DateTime>("Date");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -339,8 +335,7 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired();
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("TIN")
                         .IsRequired();

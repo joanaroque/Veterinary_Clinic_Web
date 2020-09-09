@@ -159,18 +159,17 @@ namespace Vet_Clinic.Web.Helpers
             };
         }
 
-        public async Task<History> ToHistoryAsync(HistoryViewModel model, bool isNew)
+        public History ToHistory(HistoryViewModel model, bool isNew)
         {
             return new History
             {
-                Date = model.Date.ToUniversalTime(),
                 Description = model.Description,
                 CreatedBy = model.CreatedBy,
                 CreateDate = DateTime.Now,
                 UpdateDate = DateTime.Now,
                 Id = isNew ? 0 : model.Id,
-                Pet = await _context.Pets.FindAsync(model.PetId),
-                ServiceType = await _context.ServiceTypes.FindAsync(model.ServiceTypeId)
+                Pet =  model.Pet,
+                ServiceType = model.ServiceType
             };
         }
 
@@ -178,7 +177,6 @@ namespace Vet_Clinic.Web.Helpers
         {
             return new HistoryViewModel
             {
-                Date = history.Date,
                 Description = history.Description,
                 Id = history.Id,
                 ModifiedBy = history.ModifiedBy,

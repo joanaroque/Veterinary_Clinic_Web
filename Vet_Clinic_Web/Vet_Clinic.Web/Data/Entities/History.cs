@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 using Vet_Clinic.Web.CustomValidation;
@@ -15,16 +16,16 @@ namespace Vet_Clinic.Web.Data.Entities
         public string Description { get; set; }
 
 
+       
+
+        public User CreatedBy { get; set; }
+
+        [Display(Name = "Date")]
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         [CustomDateValidator(ErrorMessage = "Date must be more than or equal to Today's day")]
-        [NotInWeekendsValidator(ErrorMessage ="The Vet Clinic is closed on weekends")]
-        public DateTime Date { get; set; }
-
-        public User CreatedBy { get; set; }
-
-
+        [NotInWeekendsValidator(ErrorMessage = "The Vet Clinic is closed on weekends")]
         public DateTime CreateDate { get; set; }
 
 

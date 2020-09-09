@@ -18,7 +18,7 @@ namespace Vet_Clinic.Web.Helpers
 
         OwnerViewModel ToOwnerViewModel(Owner Owner);
 
-        Task<History> ToHistoryAsync(HistoryViewModel model, bool isNew);
+        History ToHistory(HistoryViewModel model, bool isNew);
 
         HistoryViewModel ToHistoryViewModel(History history);
 

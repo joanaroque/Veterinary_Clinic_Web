@@ -10,7 +10,7 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200907152812_InitialDb")]
+    [Migration("20200909101835_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,8 +197,7 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired();
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("TIN")
                         .IsRequired();
@@ -249,8 +248,7 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("ObsRoom")
                         .IsRequired();
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired();
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("Specialty")
                         .IsRequired();
@@ -284,8 +282,6 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("CreatedById");
-
-                    b.Property<DateTime>("Date");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -341,8 +337,7 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired();
+                    b.Property<string>("PhoneNumber");
 
                     b.Property<string>("TIN")
                         .IsRequired();

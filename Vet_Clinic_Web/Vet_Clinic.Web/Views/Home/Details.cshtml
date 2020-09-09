@@ -108,7 +108,7 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().Date)
+                                        @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().CreateDate)
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.Histories.FirstOrDefault().ServiceType.Name)
@@ -124,7 +124,7 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Date)
+                                            @Html.DisplayFor(modelItem => item.CreateDate)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.ServiceType.Name)

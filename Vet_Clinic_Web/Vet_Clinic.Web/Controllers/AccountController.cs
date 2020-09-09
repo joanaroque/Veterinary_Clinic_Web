@@ -169,7 +169,6 @@ namespace Vet_Clinic.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Register(RegisterNewViewModel model)
         {
             if (ModelState.IsValid)

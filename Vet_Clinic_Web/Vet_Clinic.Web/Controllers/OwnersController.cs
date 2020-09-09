@@ -14,6 +14,7 @@ using System.Collections.Generic;
 
 namespace Vet_Clinic.Web.Controllers
 {
+    [Authorize(Roles = "Admin, Agent")]
     public class OwnersController : Controller
     {
         private readonly IOwnerRepository _ownerRepository;
@@ -79,7 +80,6 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Create(OwnerViewModel ownerViewModel)
         {
             if (ModelState.IsValid)
@@ -110,7 +110,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // GET: Owners/Edit/5
-        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -133,7 +132,6 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(OwnerViewModel model)
         {
             if (ModelState.IsValid)
@@ -172,7 +170,6 @@ namespace Vet_Clinic.Web.Controllers
         // POST: Owners/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -200,6 +197,7 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddHistory(int? id)
         {
@@ -216,7 +214,7 @@ namespace Vet_Clinic.Web.Controllers
 
             var model = new HistoryViewModel
             {
-                Date = DateTime.Now,
+                CreateDate = DateTime.Now,
                 PetId = pet.Id,
                 ServiceTypes = _serviceTypesRepository.GetComboServiceTypes(),
             };
@@ -230,7 +228,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var history = await _converterHelper.ToHistoryAsync(model, true);
+                var history =  _converterHelper.ToHistory(model, true);
                 _context.Histories.Add(history);
                 await _context.SaveChangesAsync();
                 return RedirectToAction($"{nameof(DetailsPet)}/{model.PetId}");
@@ -303,6 +301,7 @@ namespace Vet_Clinic.Web.Controllers
                 }
 
                 var pet = _converterHelper.ToPet(model, path, true);
+                pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 await _ownerRepository.AddPetAsync(pet);
 
@@ -319,6 +318,8 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPet(int? id)
         {
             if (id == null)
@@ -363,6 +364,8 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
+        
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePet(int? id)
         {
             if (id == null)
@@ -387,6 +390,7 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction($"Details/{ownerId}");
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteHistory(int? id)
         {
             if (id == null)

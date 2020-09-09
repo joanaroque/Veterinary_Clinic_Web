@@ -12,6 +12,7 @@ using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Controllers
 {
+    [Authorize(Roles = "Admin, Agent, Doctor")]
     public class PetsController : Controller
     {
         private readonly IOwnerRepository _ownerRepository;
@@ -19,18 +20,21 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IConverterHelper _converterHelper;
         private readonly DataContext _context;
         private readonly IServiceTypesRepository _serviceTypesRepository;
+        private readonly IUserHelper _userHelper;
 
         public PetsController(IOwnerRepository ownerRepository,
             IImageHelper imageHelper,
             IConverterHelper converterHelper,
             DataContext context,
-            IServiceTypesRepository serviceTypesRepository)
+            IServiceTypesRepository serviceTypesRepository,
+             IUserHelper userHelper)
         {
             _ownerRepository = ownerRepository;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
             _context = context;
             _serviceTypesRepository = serviceTypesRepository;
+            _userHelper = userHelper;
         }
 
         // GET: Pets
@@ -65,7 +69,6 @@ namespace Vet_Clinic.Web.Controllers
 
        
         // GET: Pets/Edit/5
-        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,6 +79,7 @@ namespace Vet_Clinic.Web.Controllers
             var pet = await _context.Pets
                  .Include(p => p.Owner)
                  .Include(p => p.Specie)
+                 .Include(p => p.Histories)
                  .FirstOrDefaultAsync(p => p.Id == id.Value);
 
             if (pet == null)
@@ -93,7 +97,6 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(PetViewModel model)
         {
             if (ModelState.IsValid)
@@ -109,6 +112,7 @@ namespace Vet_Clinic.Web.Controllers
 
                     var pet = _converterHelper.ToPet(model, path, false);
 
+                    pet.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
                     await _ownerRepository.UpdatePetAsync(pet);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -130,7 +134,6 @@ namespace Vet_Clinic.Web.Controllers
         // POST: Pets/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,11 +147,12 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult PetNotFound()
+        public bool PetExists(int id)
         {
-            return View();
+            return _context.Pets.Any(p => p.Id == id);
         }
 
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteHistory(int? id)
         {
             if (id == null)
@@ -186,46 +190,27 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var view = new HistoryViewModel
-            {
-                Date = history.Date,
-                Description = history.Description,
-                Id = history.Id,
-                PetId = history.Pet.Id,
-                ServiceTypeId = history.ServiceType.Id,
-                ServiceTypes = _serviceTypesRepository.GetComboServiceTypes()
-            };
+            var view = _converterHelper.ToHistoryViewModel(history);
 
             return View(view);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditHistory(HistoryViewModel view)
+        public async Task<IActionResult> EditHistory(HistoryViewModel model)
         {
             if (ModelState.IsValid)
             {
-                if (view.Date > DateTime.Today)
-                {
-                    ModelState.AddModelError("DateOfBirth", "Invalid date of birth");
-                    return View(view);
-                }
+                var history = _converterHelper.ToHistory(model, false);
 
-                var history = new History
-                {
-                    Date = view.Date,
-                    Description = view.Description,
-                    Id = view.Id,
-                    Pet = await _context.Pets.FindAsync(view.PetId),
-                    ServiceType = await _context.ServiceTypes.FindAsync(view.ServiceTypeId)
-                };
+                history.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 _context.Histories.Update(history);
                 await _context.SaveChangesAsync();
-                return RedirectToAction($"{nameof(Details)}/{view.PetId}");
+                return RedirectToAction($"{nameof(Details)}/{model.PetId}");
             }
 
-            return View(view);
+            return View(model);
         }
 
         [ValidateAntiForgeryToken]
@@ -244,7 +229,7 @@ namespace Vet_Clinic.Web.Controllers
 
             var view = new HistoryViewModel
             {
-                Date = DateTime.Now,
+                CreateDate = DateTime.Now,
                 PetId = pet.Id,
                 ServiceTypes = _serviceTypesRepository.GetComboServiceTypes(),
             };
@@ -258,13 +243,9 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var history = new History
-                {
-                    Date = view.Date,
-                    Description = view.Description,
-                    Pet = await _context.Pets.FindAsync(view.PetId),
-                    ServiceType = await _context.ServiceTypes.FindAsync(view.ServiceTypeId)
-                };
+                var history = _converterHelper.ToHistory(view, true);
+
+                history.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 _context.Histories.Add(history);
                 await _context.SaveChangesAsync();
