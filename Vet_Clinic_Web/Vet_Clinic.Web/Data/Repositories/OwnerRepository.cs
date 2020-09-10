@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Syncfusion.EJ2.DropDowns;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
+
 using Vet_Clinic.Web.Data.Entities;
-using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Data.Repositories
 {

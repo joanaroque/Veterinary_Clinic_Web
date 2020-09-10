@@ -83,15 +83,9 @@ namespace Vet_Clinic.Web.Data.Entities
         public User ModifiedBy { get; set; }
 
 
-
-
-        [Display(Name = "Pet")]
         public ICollection<Pet> Pets { get; set; }
 
 
-
-       
-        [Display(Name = "Appointments")]
         public ICollection<Appointment> Appointments { get; set; }
 
 

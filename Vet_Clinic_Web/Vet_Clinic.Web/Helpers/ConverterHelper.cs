@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
@@ -24,7 +24,7 @@ namespace Vet_Clinic.Web.Helpers
         }
 
 
-        public  Pet ToPet(PetViewModel model, string path, bool isNew)
+        public Pet ToPet(PetViewModel model, string path, bool isNew)
         {
             var pet = new Pet
             {
@@ -38,8 +38,8 @@ namespace Vet_Clinic.Web.Helpers
                 DateOfBirth = model.DateOfBirth,
                 Appointments = model.Appointments,
                 Histories = model.Histories,
-                Specie =  model.Specie,
-                Owner =  model.Owner,
+                Specie = model.Specie,
+                Owner = model.Owner,
                 CreateDate = DateTime.Now,
                 CreatedBy = model.CreatedBy,
                 UpdateDate = DateTime.Now
@@ -168,7 +168,7 @@ namespace Vet_Clinic.Web.Helpers
                 CreateDate = DateTime.Now,
                 UpdateDate = DateTime.Now,
                 Id = isNew ? 0 : model.Id,
-                Pet =  model.Pet,
+                Pet = model.Pet,
                 ServiceType = model.ServiceType
             };
         }

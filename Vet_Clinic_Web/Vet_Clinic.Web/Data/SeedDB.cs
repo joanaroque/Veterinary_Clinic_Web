@@ -13,15 +13,12 @@ namespace Vet_Clinic.Web.Data
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
-        private readonly IImageHelper _imageHelper;
 
         public SeedDB(DataContext context,
-            IUserHelper userHelper,
-            IImageHelper imageHelper)
+            IUserHelper userHelper)
         {
             _context = context;
             _userHelper = userHelper;
-            _imageHelper = imageHelper;
         }
 
         public async Task SeedAsync()
@@ -44,23 +41,20 @@ namespace Vet_Clinic.Web.Data
 
         private async Task CheckOrCreateRoles()
         {
-            await _userHelper.CheckRoleAsync("Admin"); // see and do all
-            await _userHelper.CheckRoleAsync("Agent"); // crud agents, appointments, owners and Pets + register other agents and Doctor
-            await _userHelper.CheckRoleAsync("Doctor"); // crud Doctor and appointments 
-            await _userHelper.CheckRoleAsync("Customer"); // crud Pets and crud appointments (and await confirmation)
+            await _userHelper.CheckRoleAsync("Admin");
+            await _userHelper.CheckRoleAsync("Agent");
+            await _userHelper.CheckRoleAsync("Doctor");
+            await _userHelper.CheckRoleAsync("Customer");
         }
 
         private async Task FillHistoriesAsync()
         {
             if (!_context.Histories.Any())
             {
-                var pet = _context.Pets.FirstOrDefault();
-                var type = _context.ServiceTypes.FirstOrDefault();
-
                 _context.Histories.Add(new History
                 {
-                    Pet = pet,
-                    ServiceType = type,
+                    Pet = _context.Pets.FirstOrDefault(),
+                    ServiceType = _context.ServiceTypes.FirstOrDefault(),
                     Description = "Otite e orelhas sujas",
                     CreateDate = DateTime.Now.AddDays(-1)
                 });
@@ -72,35 +66,35 @@ namespace Vet_Clinic.Web.Data
         {
             if (!_context.Pets.Any())
             {
-                var owner = _context.Owners.FirstOrDefault();
-                var specie = _context.Species.FirstOrDefault();
-
                 _context.Pets.Add(new Pet
                 {
                     Name = "If",
-                    Owner = owner,
-                    Specie = specie,
+                    Owner = _context.Owners.FirstOrDefault(),
+                    Specie = _context.Species.FirstOrDefault(),
                     Breed = "Mongrel",
-                    //  ImageUrl = await _imageHelper.UploadImageAsync(_context.Pets .ImageFile, "Pets"),
+                    ImageUrl = ("~/images/Pets/e8ee3f9c-04a9-4677-b093-844009c5cda2.jpg"),
                     Gender = "Male",
                     Weight = 8,
                     Sterilization = true,
-                    DateOfBirth = DateTime.Now.AddYears(-1)
+                    DateOfBirth = DateTime.Now.AddYears(-1),
+                    Histories = _context.Histories.ToList(),
+                    Appointments = _context.Appointments.ToList()
                 });
 
                 _context.Pets.Add(new Pet
                 {
                     Name = "Else",
-                    Owner = owner,
-                    Specie = specie,
+                    Owner = _context.Owners.FirstOrDefault(),
+                    Specie = _context.Species.FirstOrDefault(),
                     Breed = "Berner Sennenhund",
-                    ImageUrl = "w*****",
+                    ImageUrl = ("~/images/Pets/bernesse.jpg"),
                     Gender = "Male",
-                    Weight = 8,
+                    Weight = 00,
                     Sterilization = true,
-                    DateOfBirth = DateTime.Now.AddYears(-7)
+                    DateOfBirth = DateTime.Now.AddYears(-7),
+                    Histories = _context.Histories.ToList(),
+                    Appointments = _context.Appointments.ToList()
                 });
-
 
                 await _context.SaveChangesAsync();
             }
@@ -131,13 +125,40 @@ namespace Vet_Clinic.Web.Data
                 {
                     Name = "Alexandra",
                     LastName = "Ramos",
-                    PhoneNumber = "874514747",
+                    PhoneNumber = "965214744",
                     Email = "alex@gmail.pt",
-                    TIN = "87545454",
-                    ImageUrl = "POR IMAGEM ************************************************",
+                    TIN = "9011401",
+                    ImageUrl = ("~/images/Assistants/v.jpg"),
                     Address = "Rua Zeca Afonso",
                     DateOfBirth = DateTime.Now.AddYears(-35)
                 });
+
+
+                _context.Assistants.Add(new Assistant
+                {
+                    Name = "Mariana",
+                    LastName = "Pedro",
+                    PhoneNumber = "965474544",
+                    Email = "pedro@gmail.pt",
+                    TIN = "125555",
+                    ImageUrl = ("~/images/Assistants/v1.jpg"),
+                    Address = "Rua Pedro Afonso",
+                    DateOfBirth = DateTime.Now.AddYears(-25)
+                });
+
+
+                _context.Assistants.Add(new Assistant
+                {
+                    Name = "Margarida",
+                    LastName = "Miguel",
+                    PhoneNumber = "874514747",
+                    Email = "miguel@gmail.pt",
+                    TIN = "21011",
+                    ImageUrl = ("~/images/Assistants/v3.jpg"),
+                    Address = "Rua Mario Afonso",
+                    DateOfBirth = DateTime.Now.AddYears(-30)
+                });
+
                 await _context.SaveChangesAsync();
             }
         }
@@ -190,8 +211,6 @@ namespace Vet_Clinic.Web.Data
         {
             if (!_context.Owners.Any())
             {
-                var pet = _context.Pets.FirstOrDefault();
-
                 _context.Owners.Add(new Owner
                 {
                     Name = "Joana",
@@ -200,7 +219,8 @@ namespace Vet_Clinic.Web.Data
                     PhoneNumber = "123456789",
                     Address = "Rua Adeus",
                     TIN = "44541",
-                    ImageUrl = "imagemmmmmmmmmmmmmmmmm",
+                    Pets = _context.Pets.ToList(),
+                    ImageUrl = ("~/images/Owners/8f264600-9d99-46ec-8b8f-776484ea5740.jpg"),
                     DateOfBirth = DateTime.Now.AddYears(-31).AddMonths(11).AddDays(27)
                 });
 
@@ -214,10 +234,9 @@ namespace Vet_Clinic.Web.Data
             {
                 _context.Doctors.Add(new Doctor
                 {
-
                     Name = "Antonio",
                     LastName = "Henrriques",
-                    PhoneNumber = "9856488",
+                    PhoneNumber = "98564881",
                     Email = "antoni@gmail.com",
                     Specialty = "Ortopedia",
                     MedicalLicense = "45345",
@@ -228,7 +247,91 @@ namespace Vet_Clinic.Web.Data
                     ImageUrl = ("~/images/Doctors/41d3c742-fb4d-4124-a975-96fb0ceaafd9.jpg"),
                     Address = "Rua do médico",
                     DateOfBirth = DateTime.Now.AddYears(-58)
+                });
 
+                _context.Doctors.Add(new Doctor
+                {
+                    Name = "Manuela",
+                    LastName = "Anotonio",
+                    PhoneNumber = "98564882",
+                    Email = "manu@gmail.com",
+                    Specialty = "Dermatologia",
+                    MedicalLicense = "45115",
+                    WorkStart = "9",
+                    WorkEnd = "13",
+                    ObsRoom = "2",
+                    TIN = "125111",
+                    ImageUrl = ("~/images/Doctors/d66a4c2a-6016-425c-bca9-ae8d39ec7f5a.jpg"),
+                    Address = "Rua do Manuel",
+                    DateOfBirth = DateTime.Now.AddYears(-40)
+                });
+
+                _context.Doctors.Add(new Doctor
+                {
+                    Name = "Patricio",
+                    LastName = "Pires",
+                    PhoneNumber = "98512345",
+                    Email = "pati@gmail.com",
+                    Specialty = "Clinica Geral",
+                    MedicalLicense = "12321",
+                    WorkStart = "9",
+                    WorkEnd = "13",
+                    ObsRoom = "3",
+                    TIN = "121",
+                    ImageUrl = ("~/images/Doctors/41d3c742-fb4d-4124-a975-96fb0ceaafd9.jpg"),
+                    Address = "Rua do Caderno",
+                    DateOfBirth = DateTime.Now.AddYears(-45)
+                });
+
+                _context.Doctors.Add(new Doctor
+                {
+                    Name = "Vasco",
+                    LastName = "Fernandes",
+                    PhoneNumber = "965444444",
+                    Email = "vasco@gmail.com",
+                    Specialty = "Ortodoncia",
+                    MedicalLicense = "125444",
+                    WorkStart = "13",
+                    WorkEnd = "18",
+                    ObsRoom = "4",
+                    TIN = "4511",
+                    ImageUrl = ("~/images/Doctors/e570f689-fb8b-4e2f-96f4-f114cdb7ee15.jpg"),
+                    Address = "Rua do Cão",
+                    DateOfBirth = DateTime.Now.AddYears(-58)
+                });
+
+                _context.Doctors.Add(new Doctor
+                {
+                    Name = "Margarida",
+                    LastName = "Manuela",
+                    PhoneNumber = "961248777",
+                    Email = "magio@gmail.com",
+                    Specialty = "Clinica Geral",
+                    MedicalLicense = "45345",
+                    WorkStart = "14",
+                    WorkEnd = "19",
+                    ObsRoom = "5",
+                    TIN = "2144",
+                    ImageUrl = ("~/images/Doctors/a47b4f0d-08be-4466-a84f-d17e57e41fda.jpg"),
+                    Address = "Rua da Avendia",
+                    DateOfBirth = DateTime.Now.AddYears(-58)
+                });
+
+                _context.Doctors.Add(new Doctor
+                {
+                    Name = "Joaquina",
+                    LastName = "Fonseca",
+                    PhoneNumber = "962025802",
+                    Email = "joca@gmail.com",
+                    Specialty = "Ortopedia",
+                    MedicalLicense = "1210",
+                    WorkStart = "9",
+                    WorkEnd = "13",
+                    ObsRoom = "1",
+                    TIN = "201",
+                    ImageUrl = ("~/images/Doctors/1d58f58a-5f9a-4c4f-9fc5-c75dd340005c.jpg"),
+                    Address = "Rua da Secretária",
+                    DateOfBirth = DateTime.Now.AddYears(-58)
                 });
 
                 await _context.SaveChangesAsync();
@@ -239,56 +342,49 @@ namespace Vet_Clinic.Web.Data
         {
             if (!_context.Appointments.Any())
             {
-                var owner = _context.Owners.FirstOrDefault();
-                var doctor = _context.Doctors.FirstOrDefault();
-                var pet = _context.Pets.FirstOrDefault();
-                var user = _context.Users.FirstOrDefault();
-
                 _context.Appointments.Add(new Appointment
                 {
                     CreateDate = DateTime.Now.AddDays(2),
                     AppointmentObs = "vacinas vacinas vacinas",
-                    Owner = owner,
-                    Doctor = doctor,
-                    Pet = pet,
-                    CreatedBy = user
+                    Owner = _context.Owners.FirstOrDefault(),
+                    Doctor = _context.Doctors.FirstOrDefault(),
+                    Pet = _context.Pets.FirstOrDefault(),
+                    CreatedBy = _context.Users.FirstOrDefault()
                 });
 
                 _context.Appointments.Add(new Appointment
                 {
                     CreateDate = DateTime.Now.AddDays(4),
                     AppointmentObs = "Otites",
-                    Owner = owner,
-                    Doctor = doctor,
-                    Pet = pet,
-                    CreatedBy = user
+                    Owner = _context.Owners.FirstOrDefault(),
+                    Doctor = _context.Doctors.FirstOrDefault(),
+                    Pet = _context.Pets.FirstOrDefault(),
+                    CreatedBy = _context.Users.FirstOrDefault()
                 });
 
                 _context.Appointments.Add(new Appointment
                 {
                     CreateDate = DateTime.Now.AddDays(5),
                     AppointmentObs = "Nao faz xixi",
-                    Owner = owner,
-                    Doctor = doctor,
-                    Pet = pet,
-                    CreatedBy = user
+                    Owner = _context.Owners.FirstOrDefault(),
+                    Doctor = _context.Doctors.FirstOrDefault(),
+                    Pet = _context.Pets.FirstOrDefault(),
+                    CreatedBy = _context.Users.FirstOrDefault()
                 });
 
                 _context.Appointments.Add(new Appointment
                 {
                     CreateDate = DateTime.Now.AddDays(5),
                     AppointmentObs = "Comichão na cabeça",
-                    Owner = owner,
-                    Doctor = doctor,
-                    Pet = pet,
-                    CreatedBy = user
+                    Owner = _context.Owners.FirstOrDefault(),
+                    Doctor = _context.Doctors.FirstOrDefault(),
+                    Pet = _context.Pets.FirstOrDefault(),
+                    CreatedBy = _context.Users.FirstOrDefault()
                 });
 
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
         }
-
     }
 }
 
