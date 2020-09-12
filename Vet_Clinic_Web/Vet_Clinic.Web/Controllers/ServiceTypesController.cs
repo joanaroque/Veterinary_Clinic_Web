@@ -77,11 +77,8 @@ namespace Vet_Clinic.Web.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name")] ServiceType serviceType)
         {
             if (ModelState.IsValid)
-            {
-                
+            {          
                await _serviceTypesRepository.CreateAsync(serviceType);
-
-                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }

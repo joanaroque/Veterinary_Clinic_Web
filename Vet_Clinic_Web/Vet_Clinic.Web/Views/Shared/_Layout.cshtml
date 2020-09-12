@@ -8,7 +8,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     @*este poe a barra superior correta, mas poe as tabelas pro lado..*@
-    @*<link rel="stylesheet" href="~/vendor/bootstrap/css/bootstrap.min.css">*@
+    <link rel="stylesheet" href="~/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/lib/font-awesome/css/bootstrap.css.map">
     <link rel="stylesheet" href="~/lib/font-awesome/css/bootstrap.css">
 
@@ -16,6 +16,7 @@
     <!-- Font Awesome  -->
     <link rel="stylesheet" href="~/fonts/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css">
+
 
 
     <link rel="stylesheet" href="~/css/main.css">
@@ -28,6 +29,19 @@
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+
+    <style>
+        li:hover {
+            background: #1ba090;
+        }
+
+        .navbar {
+            height: 5px;
+        }
+    </style>
+
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini ">
     <div class="wrapper">
@@ -43,17 +57,17 @@
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button" style="padding: 5px 5px;">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
 
                 <!-- Navbar Right Menu -->
-                <div class="navbar-custom-menu">
+                <div class="navbar-custom-menu"  style="overflow-wrap: break-word; margin-right:30px;">
                     <ul class="nav navbar-nav">
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator:</a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator</a>
                                 <ul class="dropdown-menu">
                                     <li><a asp-controller="Administrator" asp-action="ListUsers">Users</a></li>
                                     <li><a asp-controller="Administrator" asp-action="ListRoles">Roles</a></li>
@@ -64,17 +78,18 @@
                         <li class="user-body">
                             <div class="row">
                                 <div class="navbar-collapse collapse">
-                                    <ul class="nav navbar-nav navbar-right">
+                                    <ul class="nav navbar-nav">
                                         @if (User.Identity.IsAuthenticated)
                                         {
-                                            <li> <a asp-controller="Account" asp-action="ChangeUser"> @this.User.Identity.Name</a>  </li>
+                                            <li> 
+                                        <a asp-controller="Account" asp-action="ChangeUser"> @this.User.Identity.Name</a>  </li>
                                             <li class="navbar-custom-menu">
                                                 <a asp-controller="Account" asp-action="Logout">Logout</a>
                                             </li>
                                         }
                                         else
                                         {
-                                            <li class="nav-item d-none d-sm-inline-block">
+                                            <li >
                                                 <a asp-controller="Account" asp-action="Login">Login</a>
                                             </li>
                                         }
@@ -100,10 +115,7 @@
                         <p><i class="fa fa-stethoscope" aria-hidden="true"></i> Clinic <i class="fa fa-stethoscope" aria-hidden="true"></i></p>
                     </div>
                 </div>
-                <form class="form-inline ">
-                    <ul class="nav navbar-nav navbar-left">
-                    </ul>
-                </form>
+               
                 <!-- Sidebar Menu -->
 
                 <ul class="sidebar-menu" data-widget="tree">

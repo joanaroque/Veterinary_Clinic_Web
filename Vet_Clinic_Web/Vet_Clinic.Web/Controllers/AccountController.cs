@@ -185,9 +185,7 @@ namespace Vet_Clinic.Web.Controllers
                         UserName = model.UserName,
                         Address = model.Address,
                         PhoneNumber = model.PhoneNumber
-
                     };
-
                 }
 
                 var result = await _userHelper.AddUserAsync(user, model.Password);

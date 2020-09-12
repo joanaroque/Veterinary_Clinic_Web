@@ -30,40 +30,28 @@
                             <div class="col-sm-8">
                                 <dl class="dl-horizontal">
                                     <dt>
-                                        @Html.DisplayNameFor(model => model.Name)
+                                        @Html.DisplayNameFor(model => model.User.FirstName)
                                     </dt>
                                     <dd>
-                                        @Html.DisplayFor(model => model.Name)
+                                        @Html.DisplayFor(model => model.User.FirstName)
                                     </dd>
                                     <dt>
-                                        @Html.DisplayNameFor(model => model.LastName)
+                                        @Html.DisplayNameFor(model => model.User.LastName)
                                     </dt>
                                     <dd>
-                                        @Html.DisplayFor(model => model.LastName)
+                                        @Html.DisplayFor(model => model.User.LastName)
                                     </dd>
                                     <dt>
-                                        @Html.DisplayNameFor(model => model.TIN)
+                                        @Html.DisplayNameFor(model => model.User.Email)
                                     </dt>
                                     <dd>
-                                        @Html.DisplayFor(model => model.TIN)
+                                        @Html.DisplayFor(model => model.User.Email)
                                     </dd>
                                     <dt>
-                                        @Html.DisplayNameFor(model => model.DateOfBirth)
+                                        @Html.DisplayNameFor(model => model.User.Phone)
                                     </dt>
                                     <dd>
-                                        @Html.DisplayFor(model => model.DateOfBirth)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Email)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Email)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.PhoneNumber)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.PhoneNumber)
+                                        @Html.DisplayFor(model => model.User.Phone)
                                     </dd>
                                     <dt>
                                         # Pets
@@ -98,7 +86,7 @@
         else
         {
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-9 center-block">
                     <div style="text-align:center">
                         <h3 class="card-title">Pets</h3>
                     </div>
@@ -109,25 +97,13 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Name)
-                                        </th>
-                                        <th>
                                             @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().ImageUrl)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Breed)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Weight)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().DateOfBirth)
-                                        </th>
+                                            @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Name)
+                                        </th>         
                                         <th>
                                             @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Gender)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Sterilization)
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Specie.Description)
@@ -153,21 +129,8 @@
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Name)
                                                 </td>
-
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Breed)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Weight)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.DateOfBirth)
-                                                </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Gender)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Sterilization)
                                                 </td>
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.Specie.Description)

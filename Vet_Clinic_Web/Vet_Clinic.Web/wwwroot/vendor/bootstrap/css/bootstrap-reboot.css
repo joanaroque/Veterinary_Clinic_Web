@@ -173,7 +173,7 @@ img {
 }
 
 svg:not(:root) {
-  overflow: hidden;
+  overflow:auto;
 }
 
 a,

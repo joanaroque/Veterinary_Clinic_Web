@@ -35,7 +35,7 @@ body {
 }
 .wrapper:before,
 .wrapper:after {
-  content: " ";
+  content: "";
   display: table;
 }
 .wrapper:after {
@@ -124,7 +124,7 @@ body {
   max-width: 100%;
 }
 .fixed .wrapper {
-  overflow: hidden;
+  overflow:auto;
 }
 .hold-transition .content-wrapper,
 .hold-transition .right-side,
@@ -252,12 +252,13 @@ a:focus {
   float: left;
   background-color: transparent;
   background-image: none;
-  padding: 15px 15px;
+  padding: 5px 5px;
   font-family: fontAwesome;
 }
 .main-header .sidebar-toggle:before {
   content: "\f0c9";
 }
+
 .main-header .sidebar-toggle:hover {
   color: #fff;
 }
@@ -296,7 +297,7 @@ a:focus {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   padding: 0 15px;
   font-weight: 300;
-  overflow: hidden;
+  overflow:auto;
 }
 .main-header .logo .logo-lg {
   display: block;
@@ -463,7 +464,7 @@ a:focus {
   position: relative;
   width: 100%;
   padding: 10px;
-  overflow: hidden;
+  overflow:auto;
 }
 .user-panel:before,
 .user-panel:after {
@@ -656,14 +657,14 @@ a:focus {
 .main-sidebar .user-panel,
 .sidebar-menu > li.header {
   white-space: nowrap;
-  overflow: hidden;
+  overflow:auto;
 }
 .sidebar-menu:hover {
   overflow: visible;
 }
 .sidebar-form,
 .sidebar-menu > li.header {
-  overflow: hidden;
+  overflow:auto;
   text-overflow: clip;
 }
 .sidebar-menu li > a {
@@ -1007,7 +1008,7 @@ a:focus {
 }
 .navbar-nav > .notifications-menu > .dropdown-menu > li .menu > li > a {
   color: #444444;
-  overflow: hidden;
+  overflow:auto;
   text-overflow: ellipsis;
   padding: 10px;
 }
@@ -2067,7 +2068,7 @@ a:focus {
   display: block;
   font-size: 14px;
   white-space: nowrap;
-  overflow: hidden;
+  overflow:auto;
   text-overflow: ellipsis;
 }
 .info-box-text {
@@ -2207,7 +2208,7 @@ a:focus {
 }
 .btn.btn-file {
   position: relative;
-  overflow: hidden;
+  overflow:auto;
 }
 .btn.btn-file > input[type='file'] {
   position: absolute;
@@ -2628,7 +2629,7 @@ a:focus {
 .products-list .product-description {
   display: block;
   color: #999;
-  overflow: hidden;
+  overflow:auto;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -2940,7 +2941,7 @@ table.text-center th {
 .users-list-name {
   font-weight: 600;
   color: #444;
-  overflow: hidden;
+  overflow:auto;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -3382,7 +3383,7 @@ table.text-center th {
   padding-left: 44px;
   text-align: left;
   white-space: nowrap;
-  overflow: hidden;
+  overflow:auto;
   text-overflow: ellipsis;
 }
 .btn-social > :first-child {
@@ -3425,7 +3426,7 @@ table.text-center th {
   padding-left: 44px;
   text-align: left;
   white-space: nowrap;
-  overflow: hidden;
+  overflow:auto;
   text-overflow: ellipsis;
   height: 34px;
   width: 34px;
@@ -4909,7 +4910,7 @@ table.text-center th {
   clip: rect(0 0 0 0);
   height: 1px;
   margin: -1px;
-  overflow: hidden;
+  overflow:auto;
   padding: 0;
   position: absolute;
   width: 1px;
@@ -4929,7 +4930,7 @@ table.text-center th {
 }
 .chart {
   position: relative;
-  overflow: hidden;
+  overflow:auto;
   width: 100%;
 }
 .chart svg,

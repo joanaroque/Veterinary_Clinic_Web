@@ -250,7 +250,7 @@ img {
 }
 
 svg:not(:root) {
-    overflow: hidden;
+    overflow:auto;
 }
 
 a,
@@ -2659,7 +2659,7 @@ tbody.collapse.show {
 .collapsing {
     position: relative;
     height: 0;
-    overflow: hidden;
+    overflow:auto;
     transition: height 0.35s ease;
 }
 
@@ -2717,7 +2717,7 @@ tbody.collapse.show {
 .dropdown-divider {
     height: 0;
     margin: 0.5rem 0;
-    overflow: hidden;
+    overflow:auto;
     border-top: 1px solid #e9ecef;
 }
 
@@ -4410,7 +4410,7 @@ tbody.collapse.show {
 .progress {
     display: -ms-flexbox;
     display: flex;
-    overflow: hidden;
+    overflow:auto;
     font-size: 0.75rem;
     line-height: 1rem;
     text-align: center;
@@ -4740,7 +4740,7 @@ button.close {
 }
 
 .modal-open {
-    overflow: hidden;
+    overflow:auto;
 }
 
 .modal {
@@ -4751,7 +4751,7 @@ button.close {
     left: 0;
     z-index: 1050;
     display: none;
-    overflow: hidden;
+    overflow:auto;
     outline: 0;
 }
 
@@ -5178,7 +5178,7 @@ button.close {
 .carousel-inner {
     position: relative;
     width: 100%;
-    overflow: hidden;
+    overflow:auto;
 }
 
 .carousel-item {
@@ -5778,7 +5778,7 @@ a.bg-dark:focus, a.bg-dark:hover {
     display: block;
     width: 100%;
     padding: 0;
-    overflow: hidden;
+    overflow:auto;
 }
 
     .embed-responsive::before {
@@ -6647,7 +6647,7 @@ a.bg-dark:focus, a.bg-dark:hover {
     width: 1px;
     height: 1px;
     padding: 0;
-    overflow: hidden;
+    overflow:auto;
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     -webkit-clip-path: inset(50%);
@@ -8673,7 +8673,7 @@ a.bg-dark:focus, a.bg-dark:hover {
 }
 
 .text-truncate {
-    overflow: hidden;
+    overflow:auto;
     text-overflow: ellipsis;
     white-space: nowrap;
 }

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Layout\Layout.cshtml" />
     <Content Remove="Views\Pets\Create.cshtml" />
     <Content Remove="wwwroot\dist\js\jquery.min.js" />
     <Content Remove="wwwroot\dist\js\jquery.min.map" />
@@ -26,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Home\Index.cshtml" />
     <None Include="wwwroot\dist\css\adminlte.css.map" />
     <None Include="wwwroot\dist\css\adminlte.min.css.map" />
     <None Include="wwwroot\dist\js\adminlte.js" />
@@ -72,6 +74,13 @@
     <None Include="wwwroot\js\main.js" />
     <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\js\site.min.js" />
+    <None Include="wwwroot\Layout\images\default-image.jpg" />
+    <None Include="wwwroot\Layout\images\logoPet.png" />
+    <None Include="wwwroot\Layout\images\montargil.jpg" />
+    <None Include="wwwroot\Layout\jquery.js" />
+    <None Include="wwwroot\Layout\Layout.css" />
+    <None Include="wwwroot\Layout\nicepage.css" />
+    <None Include="wwwroot\Layout\nicepage.js" />
     <None Include="wwwroot\lib\font-awesome\css\bootstrap.css.map" />
     <None Include="wwwroot\lib\font-awesome\js\all.js" />
     <None Include="wwwroot\lib\font-awesome\js\all.min.js" />

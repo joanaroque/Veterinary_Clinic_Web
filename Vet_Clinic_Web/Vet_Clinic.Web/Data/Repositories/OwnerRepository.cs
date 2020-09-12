@@ -75,7 +75,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         {
             var list = _context.Owners.Select(p => new SelectListItem
             {
-                Text = p.Name,
+                Text = p.User.FirstName,
                 Value = p.Id.ToString()
 
             }).ToList();

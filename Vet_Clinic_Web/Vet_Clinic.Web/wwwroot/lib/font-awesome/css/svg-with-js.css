@@ -108,7 +108,7 @@ svg:not(:root).svg-inline--fa {
   line-height: 1;
   max-width: 5em;
   min-width: 1.5em;
-  overflow: hidden;
+  overflow:auto;
   padding: .25em;
   right: 0;
   text-overflow: ellipsis;
@@ -332,7 +332,7 @@ svg:not(:root).svg-inline--fa {
   clip: rect(0, 0, 0, 0);
   height: 1px;
   margin: -1px;
-  overflow: hidden;
+  overflow:auto;
   padding: 0;
   position: absolute;
   width: 1px; }

@@ -12,14 +12,14 @@
         <li class="active">Pets</li>
     </ol>
 </section>
-
+<br />
 <!-- Main content -->
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
 <section class="content">
     <div class="row">
-        <div class="col-md-10 center-block">
+        <div class="col-md-8 center-block">
             <div style="text-align:center">
                 <h3 class="card-title">Pets</h3>
             </div>
@@ -61,7 +61,7 @@
                                                 }
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Owner.Name)
+                                                @Html.DisplayFor(modelItem => item.Owner.User.FirstName)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Name)

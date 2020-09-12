@@ -40,7 +40,7 @@ namespace Vet_Clinic.Web.Controllers
 
         // GET: Appointments
         public IActionResult Index()
-        {
+        { 
             var appointment = _appointmentRepository.GetAll().ToList();
 
             return View(appointment);
@@ -134,10 +134,7 @@ namespace Vet_Clinic.Web.Controllers
                
                 await _appointmentRepository.CreateAsync(appointment);
 
-                await _context.SaveChangesAsync();
-
                 return RedirectToAction(nameof(Index));
-
             }
 
             model.Doctors = _doctorRepository.GetComboDoctors();

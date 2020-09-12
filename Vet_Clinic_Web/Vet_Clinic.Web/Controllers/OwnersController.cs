@@ -24,6 +24,8 @@ namespace Vet_Clinic.Web.Controllers
         private readonly DataContext _context;
         private readonly IServiceTypesRepository _serviceTypesRepository;
         private readonly ISpecieRepository _specieRepository;
+        private readonly IMailHelper _mailHelper;
+
 
         public OwnersController(IOwnerRepository OwnerRepository,
             IUserHelper userHelper,
@@ -31,7 +33,8 @@ namespace Vet_Clinic.Web.Controllers
             IConverterHelper converterHelper,
             DataContext context,
             IServiceTypesRepository serviceTypesRepository,
-            ISpecieRepository specieRepository)
+            ISpecieRepository specieRepository,
+            IMailHelper mailHelper)
         {
             _ownerRepository = OwnerRepository;
             _userHelper = userHelper;
@@ -40,12 +43,16 @@ namespace Vet_Clinic.Web.Controllers
             _context = context;
             _serviceTypesRepository = serviceTypesRepository;
             _specieRepository = specieRepository;
+            _mailHelper = mailHelper;
+
         }
 
         // GET: Owners
         public IActionResult Index()
         {
-            var owner = _ownerRepository.GetAll().ToList();
+            var owner = _context.Owners
+                .Include(o => o.User)
+                .Include(o => o.Pets);
 
             return View(owner);
         }
@@ -58,7 +65,13 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("OwnerNotFound");
             }
 
-            var owner = await _ownerRepository.GetOwnersWithPetsAsync(id.Value);
+            var owner = await _context.Owners
+                .Include(o => o.User)
+                .Include(o => o.Pets)
+                .ThenInclude(p => p.Specie)
+                .Include(o => o.Pets)
+                .ThenInclude(p => p.Histories)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (owner == null)
             {
@@ -80,33 +93,66 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(OwnerViewModel ownerViewModel)
+        public async Task<IActionResult> Create(RegisterNewViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var path = string.Empty;
-
-                if (ownerViewModel.ImageFile != null && ownerViewModel.ImageFile.Length > 0)
+                var user = new User
                 {
-                    path = await _imageHelper.UploadImageAsync(ownerViewModel.ImageFile, "Owners");
-
-                }
-
-                var owner = _converterHelper.ToOwner(ownerViewModel, path, true);
-
-                owner.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
-                var newOwner = new Owner
-                {
-                    Appointments = new List<Appointment>(),
-                    Pets = new List<Pet>()
+                    Address = model.Address,
+                    Email = model.UserName,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber,
+                    UserName = model.UserName
                 };
 
-                await _ownerRepository.CreateAsync(owner);
+                var response = await _userHelper.AddUserAsync(user, model.Password);
+                if (response.Succeeded)
+                {
+                    var userInDB = await _userHelper.GetUserByEmailAsync(model.UserName);
+                    await _userHelper.AddUSerToRoleAsync(userInDB, "Customer");
 
-                return RedirectToAction(nameof(Index));
+                    var creator = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    var owner = new Owner
+                    {
+                        Appointments = new List<Appointment>(),
+                        Pets = new List<Pet>(),
+                        User = userInDB,
+                        CreatedBy = creator,
+                        ModifiedBy = creator,
+                        CreateDate = DateTime.Now,
+                        UpdateDate = DateTime.Now                   
+                    };
+
+                    await _ownerRepository.CreateAsync(owner);
+
+                    try
+                    {
+                        var myToken = await _userHelper.GenerateEmailConfirmationTokenAsync(userInDB);
+                        var tokenLink = Url.Action("ConfirmEmail", "Account", new
+                        {
+                            userid = userInDB.Id,
+                            token = myToken
+                        }, protocol: HttpContext.Request.Scheme);
+
+                        _mailHelper.SendMail(model.UserName, "Email confirmation", $"<h1>Email Confirmation</h1>" +
+                            $"To allow the user, " +
+                            $"please click in this link:</br></br><a href = \"{tokenLink}\">Confirm Email</a>");
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError(string.Empty, ex.ToString());
+                        return View(model);
+                    }
+                }
+
+                ModelState.AddModelError(string.Empty, response.Errors.FirstOrDefault().Description);
             }
-            return View(ownerViewModel);
+
+            return View(model);
         }
 
         // GET: Owners/Edit/5
@@ -117,14 +163,24 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("OwnerNotFound");
             }
 
-            var Owner = await _ownerRepository.GetByIdAsync(id.Value);
-            if (Owner == null)
+            var owner = await _context.Owners
+                    .Include(o => o.User)
+                     .FirstOrDefaultAsync(o => o.Id == id.Value);
+            if (owner == null)
             {
                 return new NotFoundViewResult("OwnerNotFound");
             }
-            var view = _converterHelper.ToOwnerViewModel(Owner);
+            //todo: user é null
+            var model = new EditUserViewModel
+            {
+                Address = owner.User.Address,
+                FirstName = owner.User.FirstName,
+                Id = owner.Id.ToString(),
+                LastName = owner.User.LastName,
+                PhoneNumber = owner.User.PhoneNumber
+            };
 
-            return View(view);
+            return View(model);
         }
 
         // POST: Owners/Edit/5
@@ -132,38 +188,24 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(OwnerViewModel model)
+        public async Task<IActionResult> Edit(EditUserViewModel model)
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    var path = model.ImageUrl;
+                var owner = await _context.Owners
+                       .Include(o => o.User)
+                       .FirstOrDefaultAsync(o => o.Id.ToString() == model.Id);
+//                await _userManager.UpdateSecurityStampAsync(user);
 
-                    if (model.ImageFile != null && model.ImageFile.Length > 0)
-                    {
-                        path = await _imageHelper.UploadImageAsync(model.ImageFile, "Owners");
-                    }
+                owner.User.FirstName = model.FirstName;
+                owner.User.LastName = model.LastName;
+                owner.User.Address = model.Address;
+                owner.User.PhoneNumber = model.PhoneNumber;
 
-                    var owner = _converterHelper.ToOwner(model, path, false);
-
-                    owner.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
-                    await _ownerRepository.UpdateAsync(owner);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await _ownerRepository.ExistAsync(model.Id))
-                    {
-                        return new NotFoundViewResult("OwnerNotFound");
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _userHelper.UpdateUserAsync(owner.User);
                 return RedirectToAction(nameof(Index));
             }
+
             return View(model);
         }
 
@@ -228,7 +270,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var history =  _converterHelper.ToHistory(model, true);
+                var history = _converterHelper.ToHistory(model, true);
                 _context.Histories.Add(history);
                 await _context.SaveChangesAsync();
                 return RedirectToAction($"{nameof(DetailsPet)}/{model.PetId}");
@@ -306,20 +348,14 @@ namespace Vet_Clinic.Web.Controllers
                 await _ownerRepository.AddPetAsync(pet);
 
                 return RedirectToAction($"Details/{model.OwnerId}");
-            }else
-            {
-                var message = string.Join(" | ", ModelState.Values
-                                              .SelectMany(v => v.Errors)
-                                              .Select(e => e.ErrorMessage));
-
             }
+
             model.Species = _specieRepository.GetComboSpecies();
-           
+
             return View(model);
         }
 
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPet(int? id)
         {
             if (id == null)
@@ -327,14 +363,20 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var pet = await _ownerRepository.GetPetAsync(id.Value);
+            var pet = await _context.Pets
+                .Include(p => p.Owner)
+                .Include(p => p.Specie)
+                .Include(p => p.Histories)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (pet == null)
             {
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            return View(pet);
+            var view = _converterHelper.ToPetViewModel(pet);
+
+            return View(view);
         }
 
         [HttpPost]
@@ -347,10 +389,10 @@ namespace Vet_Clinic.Web.Controllers
 
                 if (model.ImageFile != null)
                 {
-                  path = await _imageHelper.UploadImageAsync(model.ImageFile, "Pets");
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile, "Pets");
                 }
 
-                var pet =  _converterHelper.ToPet(model, path, false);
+                var pet = _converterHelper.ToPet(model, path, false);
 
                 var ownerId = await _ownerRepository.UpdatePetAsync(pet);
                 if (ownerId != 0)
@@ -364,7 +406,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        
+
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePet(int? id)
         {
@@ -401,7 +443,7 @@ namespace Vet_Clinic.Web.Controllers
             var history = await _context.Histories
                 .Include(h => h.Pet)
                 .FirstOrDefaultAsync(h => h.Id == id.Value);
-          
+
             if (history == null)
             {
                 return new NotFoundViewResult("OwnerNotFound");

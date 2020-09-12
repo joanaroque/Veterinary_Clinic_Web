@@ -71,47 +71,6 @@ namespace Vet_Clinic.Web.Helpers
             };
         }
 
-        public Owner ToOwner(OwnerViewModel model, string path, bool isNew)
-        {
-            return new Owner
-            {
-                Id = isNew ? 0 : model.Id,
-                ImageUrl = path,
-                LastName = model.LastName,
-                Name = model.Name,
-                TIN = model.TIN,
-                PhoneNumber = model.PhoneNumber,
-                Email = model.Email,
-                Address = model.Address,
-                DateOfBirth = model.DateOfBirth,
-                CreatedBy = model.CreatedBy,
-                CreateDate = DateTime.Now,
-                UpdateDate = DateTime.Now,
-                Pets = model.Pets,
-                Appointments = model.Appointments
-            };
-        }
-
-        public OwnerViewModel ToOwnerViewModel(Owner owner)
-        {
-            return new OwnerViewModel
-            {
-                Id = owner.Id,
-                ImageUrl = owner.ImageUrl,
-                LastName = owner.LastName,
-                Name = owner.Name,
-                TIN = owner.TIN,
-                PhoneNumber = owner.PhoneNumber,
-                Email = owner.Email,
-                Address = owner.Address,
-                DateOfBirth = owner.DateOfBirth,
-                ModifiedBy = owner.ModifiedBy,
-                UpdateDate = DateTime.Now,
-                Pets = owner.Pets,
-                Appointments = owner.Appointments
-            };
-        }
-
         public Doctor ToDoctor(DoctorViewModel model, string path, bool isNew)
         {
             return new Doctor

@@ -14,10 +14,6 @@ namespace Vet_Clinic.Web.Helpers
 
         PetViewModel ToPetViewModel( Pet pet);
 
-        Owner ToOwner(OwnerViewModel model, string path, bool isNew);
-
-        OwnerViewModel ToOwnerViewModel(Owner Owner);
-
         History ToHistory(HistoryViewModel model, bool isNew);
 
         HistoryViewModel ToHistoryViewModel(History history);

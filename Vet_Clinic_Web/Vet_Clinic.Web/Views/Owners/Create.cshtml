@@ -1,4 +1,4 @@
-﻿@model Vet_Clinic.Web.Data.Entities.Owner
+﻿@model Vet_Clinic.Web.Models.RegisterNewViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -10,12 +10,14 @@
         <li class="active">Owners</li>
     </ol>
 </section>
+
+<br />
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-10 center-block">
+            <div class="col-md-6 center-block">
                 <div style="text-align:center">
                     <h3 class="card-title">New Owner</h3>
                 </div>
@@ -24,79 +26,46 @@
 
                         <form asp-action="Create" enctype="multipart/form-data">
 
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="Name" class="control-label"></label>
-                                                <input asp-for="Name" class="form-control" />
-                                                <span asp-validation-for="Name" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="LastName" class="control-label"></label>
-                                                <input asp-for="LastName" class="form-control" />
-                                                <span asp-validation-for="LastName" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <partial name="_User" />
 
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="Email" class="control-label"></label>
-                                                <input asp-for="Email" class="form-control" />
-                                                <span asp-validation-for="Email" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="TIN" class="control-label"></label>
-                                                <input type="number" asp-for="TIN" class="form-control" />
-                                                <span asp-validation-for="TIN" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="PhoneNumber"></label>
-                                                <input type="number" asp-for="PhoneNumber" class="form-control" />
-                                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="DateOfBirth" class="control-label"></label>
-                                                <input asp-for="DateOfBirth" class="form-control" />
-                                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label asp-for="Address" class="control-label"></label>
-                                                <input asp-for="Address" class="form-control" />
-                                                <span asp-validation-for="Address" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- /.box-body -->
-                                    <div class="form-group">
-                                        <a asp-action="Index" class="btn btn-warning pull-right">Back to List</a>
-                                        <input type="submit" value="Create" class="btn btn-success " />
+                            <div class="form-group">
+                                <input asp-for="UserName" type="email" class="form-control" placeholder="UserName">
+                                <div class="input-group-append">
+                                    <div class="input-group-text">
+                                        <span asp-validation-for="UserName" class="fas fa-user-check"></span>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- /.box-footer -->
-                        </form>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <input asp-for="Password" type="Password" class="form-control" placeholder="Password">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span asp-validation-for="Password" class="fas fa-lock"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <input asp-for="PasswordConfirm" type="Password" class="form-control" placeholder="PasswordConfirm">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span asp-validation-for="PasswordConfirm" class="fas fa-lock"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                <!-- /.box-body -->
+                                <div class="form-group">
+                                    <a asp-action="Index" class="btn btn-warning pull-right">Back to List</a>
+                                    <input type="submit" value="Create" class="btn btn-success " />
+                                </div>
+                                <!-- /.box-footer -->
+</form>
                     </div>
                 </div>
             </div>
@@ -109,5 +78,5 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @{await Html.RenderPartialAsync("_ValidationCurrencyPartial");}
-    
+
 }

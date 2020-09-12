@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.IO;
+
 using System.Linq;
 using System.Threading.Tasks;
+
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
@@ -77,7 +77,7 @@ namespace Vet_Clinic.Web.Controllers
         public async Task<IActionResult> Create(DoctorViewModel doctorViewModel)
         {
             if (ModelState.IsValid)
-            {            
+            {
                 var path = string.Empty;
 
                 if (doctorViewModel.ImageFile != null && doctorViewModel.ImageFile.Length > 0)
@@ -86,7 +86,7 @@ namespace Vet_Clinic.Web.Controllers
                 }
 
                 var doctor = _converterHelper.ToDoctor(doctorViewModel, path, true);
- 
+
                 doctor.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 await _doctorRepository.CreateAsync(doctor);

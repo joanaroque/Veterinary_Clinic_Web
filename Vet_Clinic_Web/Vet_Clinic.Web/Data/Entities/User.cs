@@ -22,5 +22,14 @@ namespace Vet_Clinic.Web.Data.Entities
         [Display(Name = "Full Name")]
         public string FullName => $"{FirstName} {LastName}";
 
+
+        [RegularExpression(@"\d{9}",
+         ErrorMessage = "Must insert the {0} correct.")]
+        [Display(Name = "Phone Number")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.PhoneNumber)]
+        public string Phone { get; set; }
+
+
     }
 }

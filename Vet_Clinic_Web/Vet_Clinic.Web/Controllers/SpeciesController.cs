@@ -78,8 +78,6 @@ namespace Vet_Clinic.Web.Controllers
             {
                 await _specie.CreateAsync(specie);
 
-                await _context.SaveChangesAsync();
-
                 return RedirectToAction(nameof(Index));
             }
 

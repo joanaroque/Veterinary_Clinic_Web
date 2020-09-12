@@ -1,20 +1,22 @@
-﻿@model Vet_Clinic.Web.Models.OwnerViewModel
+﻿@model Vet_Clinic.Web.Models.EditUserViewModel
 
 @{
     ViewData["Title"] = "Edit";
 }
 
-    <section class="content-header">
-        <ol class="breadcrumb">
-            <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
-            <li class="active">Owners</li>
-        </ol>
-    </section>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+        <li class="active">Owners</li>
+    </ol>
+</section>
+
+<br />
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-10 center-block">
+            <div class="col-md-7 center-block">
 
                 <div style="text-align:center">
                     <h3 class="card-title">Edit Owner</h3>
@@ -29,75 +31,16 @@
 
 
                             <div class="row center-block">
-                                <div class="col-sm-5">
-                                    <div class="form-group">
-                                        <label asp-for="Name" class="control-label"></label>
-                                        <input asp-for="Name" class="form-control" />
-                                        <span asp-validation-for="Name" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-1"> </div>
-                                    <div class="col-sm-5">
-                                        <div class="form-group">
-                                            <label asp-for="LastName" class="control-label"></label>
-                                            <input asp-for="LastName" class="form-control" />
-                                            <span asp-validation-for="LastName" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
 
-                            <div class="row center-block">
-                                <div class="col-sm-5">
-                                    <div class="form-group">
-                                        <label asp-for="Email" class="control-label"></label>
-                                        <input asp-for="Email" class="form-control" />
-                                        <span asp-validation-for="Email" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-1"> </div>
-                                <div class="col-sm-5">
-                                    <div class="form-group">
-                                        <label asp-for="TIN" class="control-label"></label>
-                                        <input type="number"  asp-for="TIN" class="form-control" />
-                                        <span asp-validation-for="TIN" class="text-danger"></span>
-                                    </div>
-                                </div>
+                                <partial name="_User" />
 
                             </div>
 
-                            <div class="row center-block">
-                                <div class="col-sm-5">
-                                    <div class="form-group">
-                                        <label asp-for="PhoneNumber"></label>
-                                        <input type="number" asp-for="PhoneNumber" class="form-control" />
-                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-1"> </div>
-                                <div class="col-sm-5">
-                                    <div class="form-group">
-                                        <label asp-for="DateOfBirth" class="control-label"></label>
-                                        <input asp-for="DateOfBirth" class="form-control" />
-                                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To List</a>
+                                <input type="submit" value="Save" class="btn btn-success " />
                             </div>
-
-                                <div class="row center-block">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <label asp-for="Address" class="control-label"></label>
-                                            <input asp-for="Address" class="form-control" />
-                                            <span asp-validation-for="Address" class="text-danger"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To List</a>
-                                    <input type="submit" value="Save" class="btn btn-success " />
-                                </div>
-</form>
+                        </form>
                     </div>
                 </div>
             </div>

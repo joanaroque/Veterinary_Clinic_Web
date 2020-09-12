@@ -10,7 +10,7 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200910111221_InitialDb")]
+    [Migration("20200912200915_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -314,41 +314,23 @@ namespace Vet_Clinic.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .IsRequired();
-
                     b.Property<DateTime>("CreateDate");
 
                     b.Property<string>("CreatedById");
 
-                    b.Property<DateTime?>("DateOfBirth")
-                        .IsRequired();
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<string>("ImageUrl");
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
-
                     b.Property<string>("ModifiedById");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<string>("TIN")
-                        .IsRequired();
-
                     b.Property<DateTime>("UpdateDate");
+
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("ModifiedById");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Owners");
                 });
@@ -494,6 +476,8 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<string>("PasswordHash");
 
+                    b.Property<string>("Phone");
+
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
@@ -636,6 +620,10 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
                         .WithMany()
                         .HasForeignKey("ModifiedById");
+
+                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Pet", b =>

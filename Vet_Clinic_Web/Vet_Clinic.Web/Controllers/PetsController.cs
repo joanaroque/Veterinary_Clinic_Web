@@ -40,9 +40,12 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Pets
         public IActionResult Index()
         {
-            var pet = _ownerRepository.GetAll().ToList();
+            return View(_context.Pets
+                 .Include(p => p.Owner)
+                 .ThenInclude(o => o.CreatedBy)
+                 .Include(p => p.Specie)
+                 .Include(p => p.Histories));
 
-            return View(pet);
         }
 
         // GET: Pets/Details/5
@@ -173,7 +176,7 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction($"{nameof(Details)}/{history.Pet.Id}");
         }
 
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> EditHistory(int? id)
         {
             if (id == null)

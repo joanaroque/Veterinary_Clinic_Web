@@ -21,41 +21,6 @@
                 <form asp-action="Register">
                     <div asp-validation-summary="ModelOnly"></div>
 
-
-                    <div class="input-group mb-3">
-                        <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span asp-validation-for="FirstName" class="fas fa-user"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span asp-validation-for="LastName" class="fas fa-user"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <input asp-for="Address" type="text" class="form-control" placeholder="Address">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span asp-validation-for="Address" class="fas fa-address-book"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <input asp-for="PhoneNumber" type="number" class="form-control" placeholder="Phone Number">
-                        <div class="input-group-text">
-                            <span asp-validation-for="PhoneNumber" class="fas fa-phone"></span>
-                        </div>
-                    </div>
-
                     <div class="input-group mb-3">
                         <input asp-for="UserName" type="text" class="form-control" placeholder="User Name">
                         <div class="input-group-append">
@@ -64,6 +29,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <partial name="_User" />
 
                     <div class="input-group mb-3">
                         <input asp-for="Password" type="Password" class="form-control" placeholder="Password">
@@ -87,7 +54,7 @@
                         <input type="submit" value="Register" class="btn btn-success btn-block" />
                     </div>
                 </form>
-
+                <br />
                 <a asp-action="Login" class="text-center">I already have a User Name</a>
             </div>
         </div>

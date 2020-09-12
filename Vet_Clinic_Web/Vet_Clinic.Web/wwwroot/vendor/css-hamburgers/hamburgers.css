@@ -304,7 +304,7 @@
    * Emphatic
    */
 .hamburger--emphatic {
-  overflow: hidden; }
+  overflow:auto; }
   .hamburger--emphatic .hamburger-inner {
     transition: background-color 0.2s 0.25s ease-in; }
     .hamburger--emphatic .hamburger-inner::before {
@@ -333,7 +333,7 @@
    * Emphatic Reverse
    */
 .hamburger--emphatic-r {
-  overflow: hidden; }
+  overflow:auto; }
   .hamburger--emphatic-r .hamburger-inner {
     transition: background-color 0.2s 0.25s ease-in; }
     .hamburger--emphatic-r .hamburger-inner::before {

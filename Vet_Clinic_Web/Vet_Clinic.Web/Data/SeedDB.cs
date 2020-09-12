@@ -211,17 +211,20 @@ namespace Vet_Clinic.Web.Data
         {
             if (!_context.Owners.Any())
             {
+                var user = new User
+                {
+                    Address = "Rua da programação",
+                    Email = "lala@yopmail.com",
+                    FirstName = "Joana",
+                    LastName = "Ramos",
+                    PhoneNumber = "965258888",
+                    UserName = "lala@yopmail.com"
+                };
+
                 _context.Owners.Add(new Owner
                 {
-                    Name = "Joana",
-                    LastName = "Ramos",
-                    Email = "lala@joana.pt",
-                    PhoneNumber = "123456789",
-                    Address = "Rua Adeus",
-                    TIN = "44541",
+                    User = user,
                     Pets = _context.Pets.ToList(),
-                    ImageUrl = ("~/images/Owners/8f264600-9d99-46ec-8b8f-776484ea5740.jpg"),
-                    DateOfBirth = DateTime.Now.AddYears(-31).AddMonths(11).AddDays(27)
                 });
 
                 await _context.SaveChangesAsync();

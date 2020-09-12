@@ -43,7 +43,8 @@ namespace Vet_Clinic.Web.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
-                    Address = table.Column<string>(maxLength: 100, nullable: true)
+                    Address = table.Column<string>(maxLength: 100, nullable: true),
+                    Phone = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -239,14 +240,7 @@ namespace Vet_Clinic.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: false),
-                    TIN = table.Column<string>(nullable: false),
-                    ImageUrl = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: false),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
                     CreatedById = table.Column<string>(nullable: true),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
@@ -264,6 +258,12 @@ namespace Vet_Clinic.Web.Migrations
                     table.ForeignKey(
                         name: "FK_Owners_AspNetUsers_ModifiedById",
                         column: x => x.ModifiedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Owners_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -582,6 +582,11 @@ namespace Vet_Clinic.Web.Migrations
                 name: "IX_Owners_ModifiedById",
                 table: "Owners",
                 column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Owners_UserId",
+                table: "Owners",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pets_CreatedById",

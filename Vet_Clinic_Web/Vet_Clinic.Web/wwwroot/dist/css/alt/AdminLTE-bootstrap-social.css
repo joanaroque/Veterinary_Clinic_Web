@@ -11,7 +11,7 @@
   padding-left: 44px;
   text-align: left;
   white-space: nowrap;
-  overflow: hidden;
+  overflow:auto;
   text-overflow: ellipsis;
 }
 .btn-social > :first-child {
@@ -54,7 +54,7 @@
   padding-left: 44px;
   text-align: left;
   white-space: nowrap;
-  overflow: hidden;
+  overflow:auto;
   text-overflow: ellipsis;
   height: 34px;
   width: 34px;

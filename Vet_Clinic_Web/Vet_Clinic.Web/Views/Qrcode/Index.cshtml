@@ -1,57 +1,104 @@
 ﻿@using Kendo.Mvc.UI
 
-<div class="demo-section">
-    <h3>E-mail</h3>
-    @(Html.Kendo().QRCode()
-            .Name("qrMail")
-            .Value("mailto:clientservice@telerik.com")
-            .Color("#e15613")
-            .Background("transparent")
-            .Size(120)
-    )
-</div>
-<div class="demo-section">
-    <h3>URL</h3>
-    @(Html.Kendo().QRCode()
-            .Name("qrUrl")
-            .Value("https://demos.telerik.com/kendo-ui/qrcode/index")
-            .ErrorCorrection(QRErrorCorrectionLevel.M)
-            .Size(120)
-            .Border(border => border.Color("#000000").Width(5))
-    )
-</div>
-<div class="demo-section">
-    <h3>Telephone</h3>
-    @(Html.Kendo().QRCode()
-            .Name("qrTelephone")
-            .Value("tel:+1-888-365-2779")
-            .ErrorCorrection(QRErrorCorrectionLevel.Q)
-            .Size(120)
-            .Color("#67a814")
-            .Border(border => border.Color("#67a814").Width(5))
-    )
-</div>
-<div class="demo-section">
-    <h3>Geo Location</h3>
-    @(Html.Kendo().QRCode()
-            .Name("qrGeoLocation")
-            .Value("geo:42.65049,23.37925,100")
-            .ErrorCorrection(QRErrorCorrectionLevel.H)
-            .Size(120)
-            .Color("#166a83")
-    )
-</div>
-
+<base href="https://demos.telerik.com/kendo-ui/qrcode/index">
 <style>
-    .demo-section {
-        display: inline-block;
-        margin: 17px;
-    }
-
-    .k-qrcode {
-        display: inline-block;
-        margin: 10px 0 0;
-        border: none;
+    html {
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
     }
 </style>
+
+
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.2.617/styles/kendo.common.min.css">
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.2.617/styles/kendo.default.min.css">
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.2.617/styles/kendo.default.mobile.min.css" />
+
+<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+
+
+<script src="https://kendo.cdn.telerik.com/2020.2.617/js/kendo.all.min.js"></script>
+
+
+
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.2.617/styles/kendo.rtl.min.css">
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2020.2.617/styles/kendo.mobile.all.min.css">
+<script src="https://kendo.cdn.telerik.com/2020.2.617/js/angular.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2020.2.617/js/jszip.min.js"></script>
+
+    <div id="example" class="k-content">
+        <div class="qr-wrapper">
+            <div class="demo-section">
+                <h3>E-mail</h3>
+                <div id="qrMail"></div>
+            </div>
+            <div class="demo-section">
+                <h3>URL</h3>
+                <div id="qrUrl"></div>
+            </div>
+            <div class="demo-section">
+                <h3>Telephone</h3>
+                <div id="qrTelephone"></div>
+            </div>
+            <div class="demo-section">
+                <h3>Geo Location</h3>
+                <div id="qrGeoLocation"></div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $("#qrMail").kendoQRCode({
+                    value: "mailto:clientservice@telerik.com",
+                    size: 120,
+                    color: "#e15613",
+                    background: "transparent"
+                });
+
+                $("#qrUrl").kendoQRCode({
+                    value: "https://demos.telerik.com/kendo-ui/qrcode/index",
+                    errorCorrection: "M",
+                    size: 120,
+                    border: {
+                        color: "#000000",
+                        width: 5
+                    }
+                });
+
+                $("#qrTelephone").kendoQRCode({
+                    value: "tel:+1-888-365-2779",
+                    errorCorrection: "Q",
+                    size: 120,
+                    color: "#67a814",
+                    border: {
+                        color: "#67a814",
+                        width: 5
+                    }
+                });
+
+                $("#qrGeoLocation").kendoQRCode({
+                    value: "geo:42.65049,23.37925,100",
+                    errorCorrection: "H",
+                    size: 120,
+                    color: "#166a83"
+                });
+            });
+
+        </script>
+
+        <style>
+            .demo-section {
+                display: inline-block;
+                margin: 15px 30px 15px 0;
+            }
+
+            .k-qrcode {
+                display: inline-block;
+                margin: 10px 0 0;
+                border: none;
+            }
+        </style>
+    </div>
+
+
+
 
