@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Vet_Clinic.Web.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class InitalDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -206,8 +206,8 @@ namespace Vet_Clinic.Web.Migrations
                     Specialty = table.Column<string>(nullable: false),
                     MedicalLicense = table.Column<string>(nullable: false),
                     ObsRoom = table.Column<string>(nullable: false),
-                    WorkStart = table.Column<string>(nullable: false),
-                    WorkEnd = table.Column<string>(nullable: false),
+                    WorkStart = table.Column<int>(nullable: false),
+                    WorkEnd = table.Column<int>(nullable: false),
                     TIN = table.Column<string>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: false),

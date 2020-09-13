@@ -10,8 +10,8 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200912200915_InitialDb")]
-    partial class InitialDb
+    [Migration("20200913142833_InitalDb")]
+    partial class InitalDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -258,11 +258,9 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<DateTime>("UpdateDate");
 
-                    b.Property<string>("WorkEnd")
-                        .IsRequired();
+                    b.Property<int>("WorkEnd");
 
-                    b.Property<string>("WorkStart")
-                        .IsRequired();
+                    b.Property<int>("WorkStart");
 
                     b.HasKey("Id");
 

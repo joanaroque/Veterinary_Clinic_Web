@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
+using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
 
@@ -27,13 +28,15 @@ namespace Vet_Clinic.Web.Controllers
         private readonly DataContext _context;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
+        private readonly IOwnerRepository _ownerRepository;
 
         public AccountController(IUserHelper userHelper,
             IConfiguration configuration,
              IMailHelper mailHelper,
              DataContext dataContext,
              SignInManager<User> signInManager,
-             UserManager<User> userManager)
+             UserManager<User> userManager,
+             IOwnerRepository ownerRepository)
         {
             _userHelper = userHelper;
             _configuration = configuration;
@@ -41,6 +44,7 @@ namespace Vet_Clinic.Web.Controllers
             _context = dataContext;
             _signInManager = signInManager;
             _userManager = userManager;
+            _ownerRepository = ownerRepository;
         }
 
         [HttpGet]
@@ -280,6 +284,19 @@ namespace Vet_Clinic.Web.Controllers
             {
                 await _userHelper.AddUSerToRoleAsync(user, "Customer");
             }
+
+            var owner = new Owner
+            {
+                Appointments = new List<Appointment>(),
+                Pets = new List<Pet>(),
+                User = user,
+                CreatedBy = user,
+                ModifiedBy = user,
+                CreateDate = DateTime.Now,
+                UpdateDate = DateTime.Now              
+            };
+
+            await _ownerRepository.CreateAsync(owner);
 
             return View();
         }

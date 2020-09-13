@@ -13,10 +13,6 @@ namespace Vet_Clinic.Web.Data.Entities
         [Display(Name = "Observations")]
         public string AppointmentObs { get; set; }
 
-        internal dynamic GetZooEventData() // todo whaaaaat
-        {
-            throw new NotImplementedException();
-        }
 
         public Doctor Doctor { get; set; }
 

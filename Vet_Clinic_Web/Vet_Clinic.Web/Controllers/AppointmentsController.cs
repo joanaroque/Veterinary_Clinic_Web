@@ -144,7 +144,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        public async Task<JsonResult> GetPetsAsync(int ownerId)
+        public async Task<JsonResult> GetPetsAsync(int ownerId) 
         {
             var pets = await _ownerRepository.GetOwnersWithPetsAsync(ownerId);
 

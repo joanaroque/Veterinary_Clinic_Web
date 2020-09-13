@@ -56,16 +56,14 @@ namespace Vet_Clinic.Web.Data.Entities
 
         [Required(ErrorMessage = "Must insert the {0}")]
         [Display(Name = "Work Start")]
-        [DataType(DataType.Currency)]
-        public string WorkStart { get; set; }
+        public int WorkStart { get; set; }
 
 
 
 
         [Required(ErrorMessage = "Must insert the {0}")]
         [Display(Name = "Work End")]
-        [DataType(DataType.Currency)]
-        public string WorkEnd { get; set; }
+        public int WorkEnd { get; set; }
 
 
         [Required(ErrorMessage = "Must insert the {0}")]

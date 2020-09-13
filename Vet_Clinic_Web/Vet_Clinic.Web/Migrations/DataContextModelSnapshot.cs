@@ -256,11 +256,9 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<DateTime>("UpdateDate");
 
-                    b.Property<string>("WorkEnd")
-                        .IsRequired();
+                    b.Property<int>("WorkEnd");
 
-                    b.Property<string>("WorkStart")
-                        .IsRequired();
+                    b.Property<int>("WorkStart");
 
                     b.HasKey("Id");
 

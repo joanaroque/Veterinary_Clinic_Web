@@ -37,11 +37,6 @@ namespace Vet_Clinic.Web.Models
 
         public IEnumerable<SelectListItem> Owners { get; set; }
 
-
-        public bool IsMine { get; set; }
-
-
-        public string Reserved => "Reserved";
     }
 
 }

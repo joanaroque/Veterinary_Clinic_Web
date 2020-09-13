@@ -86,6 +86,25 @@ namespace Vet_Clinic.Web.Data
             return View();
         }
 
+        public async Task<JsonResult> GetDoctorsAsync(DateTime createDate)
+        {
+            int appointmentHour = createDate.Hour;
+
+            var workingDoctors = await _context.Doctors
+                .Where(d => d.WorkStart < appointmentHour && d.WorkEnd > appointmentHour)
+                .ToListAsync();
+
+            // buscar as consultas para a mesma hora
+            var doctorsAlreadyScheduled = await _context.Appointments
+                    .Where(a => a.CreateDate.Equals(createDate))
+                    .Select(a => a.Doctor).ToListAsync();
+
+            var doctorsNotScheduled = workingDoctors.Except(doctorsAlreadyScheduled);
+
+
+            return Json(doctorsNotScheduled.OrderBy(d => d.Name));
+        }
+
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> MyPets()
         {
@@ -123,9 +142,6 @@ namespace Vet_Clinic.Web.Data
                 AppointmentObs = a.AppointmentObs
             }).ToList());
 
-            //list.Where(a => a.Owner != null && a.Owner.CreatedBy.UserName.ToLower()
-            //.Equals(User.Identity.Name.ToLower()));   
-
             return View(list);
         }
 
@@ -134,7 +150,6 @@ namespace Vet_Clinic.Web.Data
         public async Task<IActionResult> Schedule()
         {
             var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
 
             var owner = _context.Owners
                          .Where(a => a.User.Id == currentUser.Id).FirstOrDefault();
@@ -145,11 +160,11 @@ namespace Vet_Clinic.Web.Data
 
             var model = new AppointmentViewModel
             {
-
                 Doctors = _doctorRepository.GetComboDoctors(),
                 Pets = _ownerRepository.GetComboPets(owner.Id)
             };
 
+            model.Pets = _ownerRepository.GetComboPets(owner.Id);
             return View(model);
         }
 
@@ -160,18 +175,17 @@ namespace Vet_Clinic.Web.Data
         {
             if (ModelState.IsValid)
             {
-                var appointment = await _appointmentRepository.GetByIdAsync(model.Id);
+                var appointment = _converterHelper.ToAppointment(model, true);
 
-                if (appointment != null)
-                {
-                    appointment.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
-                    appointment.Pet = await _ownerRepository.GetPetAsync(model.PetId);
-                    appointment.Doctor = await _doctorRepository.GetByIdAsync(model.DoctorId);
+                appointment.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                    await _appointmentRepository.UpdateAsync(model);
-                    return RedirectToAction(nameof(MyAppointments));
-                }
+                await _appointmentRepository.CreateAsync(appointment);
+
+                return RedirectToAction(nameof(Index));
             }
+
+            model.Doctors = _doctorRepository.GetComboDoctors();
+            model.Pets = _ownerRepository.GetComboPets(model.OwnerId);
 
             model.Pets = _ownerRepository.GetComboPets(model.Id);
             return View(model);
@@ -329,7 +343,7 @@ namespace Vet_Clinic.Web.Data
 
                 // var owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
                 var owner = await _context.Owners.FindAsync(model.OwnerId);
-                
+
 
                 model.Owner = owner;
 
