@@ -87,22 +87,30 @@ namespace Vet_Clinic.Web.Data
         }
 
         [Authorize(Roles = "Admin, Customer")]
-        public IActionResult MyPets()
+        public async Task<IActionResult> MyPets()
         {
-            return View(_context.Pets
-                .Include(p => p.Appointments)
-                .Where(p => p.Owner.CreatedBy.Email.ToLower().Equals(User.Identity.Name.ToLower())));
+            var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+            var pet = _context.Pets
+                .Include(p => p.Owner)
+                .ThenInclude(p => p.User)
+                .Where(p => p.Owner.User.Id == currentUser.Id);
+
+            return View(pet);
         }
 
 
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> MyAppointments()
         {
+            var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
             var appointments = await _context.Appointments
+                .Include(a => a.Doctor)
                 .Include(a => a.Owner)
-                .ThenInclude(o => o.CreatedBy)
+                .ThenInclude(o => o.User)
                 .Include(a => a.Pet)
-                .Where(a => a.CreateDate >= DateTime.Today.ToUniversalTime()).ToListAsync();
+                .Where(a => a.Owner.User.Id == currentUser.Id).ToListAsync();
 
             var list = new List<AppointmentViewModel>(appointments.Select(a => new AppointmentViewModel
             {
@@ -115,45 +123,30 @@ namespace Vet_Clinic.Web.Data
                 AppointmentObs = a.AppointmentObs
             }).ToList());
 
-            list.Where(a => a.Owner != null && a.Owner.CreatedBy.UserName.ToLower()
-            .Equals(User.Identity.Name.ToLower()));   
+            //list.Where(a => a.Owner != null && a.Owner.CreatedBy.UserName.ToLower()
+            //.Equals(User.Identity.Name.ToLower()));   
 
             return View(list);
         }
 
         [HttpGet]
         [Authorize(Roles = "Admin, Customer")]
-        public async Task<IActionResult> Schedule(int? id)
+        public async Task<IActionResult> Schedule()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-            var agenda = await _appointmentRepository.GetByIdAsync(id.Value);
 
-            if (agenda == null)
-            {
-                return NotFound();
-            }
-
-            var owner = await _ownerRepository.GetByIdAsync(id.Value);
+            var owner = _context.Owners
+                         .Where(a => a.User.Id == currentUser.Id).FirstOrDefault();
             if (owner == null)
-            {
-                return NotFound();
-            }
-
-            var doctor = await _doctorRepository.GetByIdAsync(id.Value);
-            if (doctor == null)
             {
                 return NotFound();
             }
 
             var model = new AppointmentViewModel
             {
-                Id = agenda.Id,
-                OwnerId = owner.Id,
-                DoctorId = doctor.Id,
+
+                Doctors = _doctorRepository.GetComboDoctors(),
                 Pets = _ownerRepository.GetComboPets(owner.Id)
             };
 
@@ -218,6 +211,7 @@ namespace Vet_Clinic.Web.Data
 
             var pet = await _context.Pets
                 .Include(p => p.Owner)
+                .Include(p => p.Specie)
                 .FirstOrDefaultAsync(p => p.Id == id.Value);
 
             if (pet == null)
@@ -263,7 +257,7 @@ namespace Vet_Clinic.Web.Data
                 return NotFound();
             }
 
-            var pet =  await _ownerRepository.GetPetAsync(id.Value);
+            var pet = await _ownerRepository.GetPetAsync(id.Value);
 
             if (pet == null)
             {
@@ -282,7 +276,7 @@ namespace Vet_Clinic.Web.Data
             }
 
             var pet = await _ownerRepository.GetPetAsync(id.Value);
-                
+
             if (pet == null)
             {
                 return NotFound();
@@ -302,7 +296,8 @@ namespace Vet_Clinic.Web.Data
         public async Task<IActionResult> Create()
         {
             var owner = await _context.Owners
-                .FirstOrDefaultAsync(o => o.CreatedBy.Email.ToLower().Equals(User.Identity.Name.ToLower()));
+                .FirstOrDefaultAsync(o => o.User.Email.ToLower().Equals(User.Identity.Name.ToLower()));
+
             if (owner == null)
             {
                 return NotFound();
@@ -331,6 +326,17 @@ namespace Vet_Clinic.Web.Data
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, "Pets");
 
                 }
+
+                // var owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
+                var owner = await _context.Owners.FindAsync(model.OwnerId);
+                
+
+                model.Owner = owner;
+
+                // var specie = await _specieRepository.GetByIdAsync(model.SpecieId);
+                var specie = await _context.Species.FindAsync(model.SpecieId);
+
+                model.Specie = specie;
 
                 var pet = _converterHelper.ToPet(model, path, true);
                 pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);

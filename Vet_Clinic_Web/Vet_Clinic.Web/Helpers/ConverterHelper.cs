@@ -37,7 +37,7 @@ namespace Vet_Clinic.Web.Helpers
                 Sterilization = model.Sterilization,
                 DateOfBirth = model.DateOfBirth,
                 Appointments = model.Appointments,
-                Histories = model.Histories,
+                Histories = model.Histories,              
                 Specie = model.Specie,
                 Owner = model.Owner,
                 CreateDate = DateTime.Now,
@@ -66,6 +66,7 @@ namespace Vet_Clinic.Web.Helpers
                 SpecieId = pet.Specie.Id,
                 Species = _specieRepository.GetComboSpecies(),
                 ModifiedBy = pet.ModifiedBy,
+                CreateDate = pet.CreateDate,
                 UpdateDate = DateTime.Now,
 
             };

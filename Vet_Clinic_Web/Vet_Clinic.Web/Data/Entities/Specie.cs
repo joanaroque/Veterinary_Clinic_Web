@@ -6,6 +6,7 @@ namespace Vet_Clinic.Web.Data.Entities
 {
     public class Specie : IEntity
     {
+        [Key]
         public int Id { get; set; }
 
         [Display(Name = "Specie")]
@@ -27,6 +28,5 @@ namespace Vet_Clinic.Web.Data.Entities
 
 
         public virtual ICollection<Pet> Pets { get; set; }
-
     }
 }
