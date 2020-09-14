@@ -55,6 +55,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 await _userHelper.CheckRoleAsync(model.RoleName);
 
+
                 //if (result.Succeeded)
                 //{
                 //    return RedirectToAction("ListRoles");
@@ -73,7 +74,7 @@ namespace Vet_Clinic.Web.Controllers
         [HttpGet]
         public IActionResult ListRoles()
         {
-            var roles = _roleManager.Roles.ToList();
+            var roles = _roleManager.Roles;
             return View(roles);
         }
 

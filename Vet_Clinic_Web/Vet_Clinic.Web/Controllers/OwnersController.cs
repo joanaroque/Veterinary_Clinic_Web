@@ -240,7 +240,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddHistory(int? id)
         {
             if (id == null)
@@ -265,7 +264,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddHistory(HistoryViewModel model)
         {
             if (ModelState.IsValid)
@@ -293,6 +291,7 @@ namespace Vet_Clinic.Web.Controllers
                 .Include(p => p.Histories)
                 .ThenInclude(h => h.ServiceType)
                 .FirstOrDefaultAsync(o => o.Id == id.Value);
+
             if (pet == null)
             {
                 return new NotFoundViewResult("PetNotFound");
@@ -341,6 +340,14 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, path);
                 }
+
+                var owner = await _context.Owners.FindAsync(model.OwnerId);
+
+                model.Owner = owner;
+
+                var specie = await _context.Species.FindAsync(model.SpecieId);
+
+                model.Specie = specie;
 
                 var pet = _converterHelper.ToPet(model, path, true);
                 pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);

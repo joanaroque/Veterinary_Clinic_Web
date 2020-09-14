@@ -15,35 +15,36 @@
 <br />
 
 <section class="content">
-    <div class="row">
-        <div class="col-md-6 center-block">
-            <div style="text-align:center">
-                <h3 class="card-title">Manage User Roles</h3>
-            </div>
+    <form method="post">
+        <div class="row">
+            <div class="col-md-6 center-block">
+                <div style="text-align:center">
+                    <h3 class="card-title">Manage User Roles</h3>
+                </div>
 
-            <div class="box box-info" style="margin-top:10px">
-                @foreach (var role in Model)
-                {
-                    <div class="form-check m-4">
-                        <input type="hidden" asp-for="@role.RoleId" />
-                        <input type="hidden" asp-for="@role.RoleName" />
-                        <input asp-for="@role.IsSelected" class="form-check-input" />
-                        <label class="form-check-label" asp-for="@role.IsSelected">
-                            @role.RoleName
-                        </label>
-                    </div>
-                }
+                <div class="box box-info" style="margin-top:10px">
+                    @foreach (var role in Model)
+                    {
+                        <div class="form-check m-4">
+                            <input type="hidden" asp-for="@role.RoleId" />
+                            <input type="hidden" asp-for="@role.RoleName" />
+                            <input asp-for="@role.IsSelected" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@role.IsSelected">
+                                @role.RoleName
+                            </label>
+                        </div>
+                    }
 
-                <div asp-validation-summary="All" class="text-danger"></div>
+                    <div asp-validation-summary="All" class="text-danger"></div>
 
-                <form method="post">
                     <div class="card-footer">
                         <input type="submit" value="Save" class="btn btn-success" />
                         <a asp-action="EditUser" asp-route-id="@userId"
                            class="btn btn-warning  pull-right"><i class="fa fa-backward"></i> To Roles</a>
                     </div>
-                </form>
+
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 </section>

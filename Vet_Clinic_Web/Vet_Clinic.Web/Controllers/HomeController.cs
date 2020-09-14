@@ -104,7 +104,7 @@ namespace Vet_Clinic.Web.Data
 
             return Json(doctorsNotScheduled.OrderBy(d => d.Name));
         }
-
+        
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> MyPets()
         {
@@ -117,7 +117,6 @@ namespace Vet_Clinic.Web.Data
 
             return View(pet);
         }
-
 
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> MyAppointments()
@@ -190,7 +189,6 @@ namespace Vet_Clinic.Web.Data
             model.Pets = _ownerRepository.GetComboPets(model.Id);
             return View(model);
         }
-
 
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> UnSchedule(int? id)
@@ -268,14 +266,19 @@ namespace Vet_Clinic.Web.Data
         {
             if (id == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("PetNotFound");
             }
 
-            var pet = await _ownerRepository.GetPetAsync(id.Value);
+            var pet = await _context.Pets
+                .Include(p => p.Owner)
+                .ThenInclude(o => o.CreatedBy)
+                .Include(p => p.Histories)
+                .ThenInclude(h => h.ServiceType)
+                .FirstOrDefaultAsync(o => o.Id == id.Value);
 
             if (pet == null)
             {
-                return NotFound();
+                return new NotFoundViewResult("PetNotFound");
             }
 
             return View(pet);
@@ -341,13 +344,10 @@ namespace Vet_Clinic.Web.Data
 
                 }
 
-                // var owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
                 var owner = await _context.Owners.FindAsync(model.OwnerId);
-
 
                 model.Owner = owner;
 
-                // var specie = await _specieRepository.GetByIdAsync(model.SpecieId);
                 var specie = await _context.Species.FindAsync(model.SpecieId);
 
                 model.Specie = specie;

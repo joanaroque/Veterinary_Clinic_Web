@@ -144,6 +144,24 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
+        public async Task<JsonResult> GetDoctorsAsync(DateTime createDate)
+        {
+            int appointmentHour = createDate.Hour;
+
+            var workingDoctors = await _context.Doctors
+                .Where(d => d.WorkStart < appointmentHour && d.WorkEnd > appointmentHour)
+                .ToListAsync();
+
+            var doctorsAlreadyScheduled = await _context.Appointments
+                    .Where(a => a.CreateDate.Equals(createDate))
+                    .Select(a => a.Doctor).ToListAsync();
+
+            var doctorsNotScheduled = workingDoctors.Except(doctorsAlreadyScheduled);
+
+
+            return Json(doctorsNotScheduled.OrderBy(d => d.Name));
+        }
+
         public async Task<JsonResult> GetPetsAsync(int ownerId) 
         {
             var pets = await _ownerRepository.GetOwnersWithPetsAsync(ownerId);

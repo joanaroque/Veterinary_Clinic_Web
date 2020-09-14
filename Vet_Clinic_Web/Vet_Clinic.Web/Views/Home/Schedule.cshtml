@@ -62,9 +62,9 @@
                 $("#DoctorId").empty();
 
                 // Extract minutes field from selected date
-                var appointmentDate = new Date($("#CreateDate").val());
+                let appointmentDate = new Date($("#CreateDate").val());
 
-                var minutes = appointmentDate.getMinutes();
+                let minutes = appointmentDate.getMinutes();
 
                 // Validate if minutes are at 0, otherwise appointments cannot be scheduled
                 if (minutes > 0) {
