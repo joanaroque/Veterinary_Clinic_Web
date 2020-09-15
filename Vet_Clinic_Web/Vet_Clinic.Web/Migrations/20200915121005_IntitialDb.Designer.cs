@@ -10,8 +10,8 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200913142833_InitalDb")]
-    partial class InitalDb
+    [Migration("20200915121005_IntitialDb")]
+    partial class IntitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

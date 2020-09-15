@@ -7,21 +7,25 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+
 using System.Text;
-using Vet_Clinic.Web.Data.Repositories;
-using Vet_Clinic.Web.Data.Entities;
-using Vet_Clinic.Web.Helpers;
+
 using Vet_Clinic.Web.Data;
-using System.Threading.Tasks;
-using System;
+using Vet_Clinic.Web.Data.Entities;
+using Vet_Clinic.Web.Data.Repositories;
+using Vet_Clinic.Web.Helpers;
 
 namespace Vet_Clinic.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IHostingEnvironment _env;
+
+        public Startup(IConfiguration configuration,
+            IHostingEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
@@ -34,11 +38,11 @@ namespace Vet_Clinic.Web
                 cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
                 cfg.SignIn.RequireConfirmedEmail = true;
                 cfg.User.RequireUniqueEmail = true;
-                cfg.Password.RequireDigit = false; 
+                cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
-                cfg.Password.RequireLowercase = false;  
-                cfg.Password.RequireNonAlphanumeric = false;  
-                cfg.Password.RequireUppercase = false;  
+                cfg.Password.RequireLowercase = false;
+                cfg.Password.RequireNonAlphanumeric = false;
+                cfg.Password.RequireUppercase = false;
                 cfg.Password.RequiredLength = 6;
             })
                 .AddRoles<IdentityRole>()
@@ -75,7 +79,14 @@ namespace Vet_Clinic.Web
 
             services.AddDbContext<DataContext>(cfg =>
             {
-                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                if (_env.IsDevelopment())
+                {
+                    cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                }
+                else
+                {
+                    cfg.UseSqlServer(Configuration.GetConnectionString("SomeeConnection"));
+                }
             });
 
             services.AddTransient<SeedDB>();
@@ -136,7 +147,7 @@ namespace Vet_Clinic.Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-        
+
         }
     }
 }

@@ -1,59 +1,76 @@
 ﻿@model Vet_Clinic.Web.Models.AppointmentViewModel
 
-
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Schedule";
 }
 
-<h2>Schedule</h2>
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+        <li class="active">Appointments</li>
+    </ol>
+</section>
+<br />
+<br />
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-6 center-block">
 
-<h4>Appointment</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Schedule" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="OwnerId" />
+                <div style="text-align:center">
+                    <h3 class="card-title">Appointments</h3>
+                </div>
+
+                <div class="box box-info" style="margin-top:10px">
+                    <div class="box-header with-border">
+                        <form asp-action="Schedule" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="OwnerId" />
 
 
-            <div class="form-group">
-                <label asp-for="CreateDate" class="control-label"></label>
-                <input asp-for="CreateDate" class="form-control" />
-                <span asp-validation-for="CreateDate" class="text-danger"></span>
+                            <div class="form-group">
+                                <label asp-for="CreateDate" class="control-label"></label>
+                                <input asp-for="CreateDate" class="form-control" />
+                                <span asp-validation-for="CreateDate" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label asp-for="DoctorId" class="control-label"></label>
+                                <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-control"></select>
+                                <span asp-validation-for="DoctorId" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label asp-for="PetId" class="control-label"></label>
+                                <select asp-for="PetId" asp-items="Model.Pets" class="form-control"></select>
+                                <span asp-validation-for="PetId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="AppointmentObs" class="control-label"></label>
+                                <textarea asp-for="AppointmentObs" class="form-control"></textarea>
+                                <span asp-validation-for="AppointmentObs" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Schedule" class="btn btn-primary" />
+                                <a asp-action="MyAppointments" class="btn btn-warning pull-right"> To Appointments</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-
-            <div class="form-group">
-                <label asp-for="DoctorId" class="control-label"></label>
-                <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-control"></select>
-                <span asp-validation-for="DoctorId" class="text-danger"></span>
-            </div>
-
-
-            <div class="form-group">
-                <label asp-for="PetId" class="control-label"></label>
-                <select asp-for="PetId" asp-items="Model.Pets" class="form-control"></select>
-                <span asp-validation-for="PetId" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="AppointmentObs" class="control-label"></label>
-                <textarea asp-for="AppointmentObs" class="form-control"></textarea>
-                <span asp-validation-for="AppointmentObs" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Schedule" class="btn btn-primary" />
-                <a asp-action="MyAppointments" class="btn btn-warning pull-right"> To Appointments</a>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</section>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
 
     <script type="text/javascript">
         $(document).ready(function () {

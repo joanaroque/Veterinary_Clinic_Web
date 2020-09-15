@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Vet_Clinic.Web.Data.Entities;
@@ -160,6 +161,7 @@ namespace Vet_Clinic.Web.Data
             var model = new AppointmentViewModel
             {
                 Doctors = _doctorRepository.GetComboDoctors(),
+                OwnerId = owner.Id,
                 Pets = _ownerRepository.GetComboPets(owner.Id)
             };
 
@@ -171,22 +173,27 @@ namespace Vet_Clinic.Web.Data
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Schedule(AppointmentViewModel model)
-        {
+        {     
             if (ModelState.IsValid)
             {
                 var appointment = _converterHelper.ToAppointment(model, true);
 
                 appointment.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _appointmentRepository.CreateAsync(appointment);
+                Task response = _appointmentRepository.CreateAsync(appointment);
+                while (!response.IsCompleted)
+                {
+                    Thread.Sleep(300);
+                }
+                AggregateException exception = response.Exception;
 
-                return RedirectToAction(nameof(Index));
+
+                return RedirectToAction(nameof(MyAppointments));
             }
 
             model.Doctors = _doctorRepository.GetComboDoctors();
             model.Pets = _ownerRepository.GetComboPets(model.OwnerId);
 
-            model.Pets = _ownerRepository.GetComboPets(model.Id);
             return View(model);
         }
 

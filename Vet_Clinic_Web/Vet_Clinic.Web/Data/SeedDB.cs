@@ -33,7 +33,7 @@ namespace Vet_Clinic.Web.Data
             await FillOwnerAsync();
             await FillDoctorAsync();
             await FillAssistantAsync();
-            await FillAppointmentAsync();
+            await CheckAppointmentsAsync();
             await FillPetsAsync();
             await FillHistoriesAsync();
 
@@ -250,7 +250,7 @@ namespace Vet_Clinic.Web.Data
                     ImageUrl = ("~/images/Doctors/41d3c742-fb4d-4124-a975-96fb0ceaafd9.jpg"),
                     Address = "Rua do médico",
                     DateOfBirth = DateTime.Now.AddYears(-58)
-                    
+
                 });
 
                 _context.Doctors.Add(new Doctor
@@ -341,8 +341,19 @@ namespace Vet_Clinic.Web.Data
                 await _context.SaveChangesAsync();
             }
         }
+        private async Task CheckAppointmentsAsync()
+        {
+            if (!_context.Appointments.Any())
+            {
+                var owner = _context.Owners.FirstOrDefault();
+                var doctor = _context.Doctors.FirstOrDefault();
+                var user = _context.Users.FirstOrDefault();
+                FillAppointmentAsync(owner, doctor, user);
+                await _context.SaveChangesAsync();
+            }
 
-        private async Task FillAppointmentAsync()
+        }
+        private void FillAppointmentAsync(Owner owner, Doctor doctor, User user)
         {
             if (!_context.Appointments.Any())
             {
@@ -350,43 +361,41 @@ namespace Vet_Clinic.Web.Data
                 {
                     CreateDate = DateTime.Now.AddDays(2),
                     AppointmentObs = "vacinas vacinas vacinas",
-                    Owner = _context.Owners.FirstOrDefault(),
-                    Doctor = _context.Doctors.FirstOrDefault(),
-                    Pet = _context.Pets.FirstOrDefault(),
-                    CreatedBy = _context.Users.FirstOrDefault()
+                    Owner = owner,
+                    Doctor = doctor,
+                    Pet = owner.Pets.FirstOrDefault(),
+                    CreatedBy = user
                 });
 
                 _context.Appointments.Add(new Appointment
                 {
                     CreateDate = DateTime.Now.AddDays(4),
                     AppointmentObs = "Otites",
-                    Owner = _context.Owners.FirstOrDefault(),
-                    Doctor = _context.Doctors.FirstOrDefault(),
-                    Pet = _context.Pets.FirstOrDefault(),
-                    CreatedBy = _context.Users.FirstOrDefault()
+                    Owner = owner,
+                    Doctor = doctor,
+                    Pet = owner.Pets.FirstOrDefault(),
+                    CreatedBy = user
                 });
 
                 _context.Appointments.Add(new Appointment
                 {
                     CreateDate = DateTime.Now.AddDays(5),
                     AppointmentObs = "Nao faz xixi",
-                    Owner = _context.Owners.FirstOrDefault(),
-                    Doctor = _context.Doctors.FirstOrDefault(),
-                    Pet = _context.Pets.FirstOrDefault(),
-                    CreatedBy = _context.Users.FirstOrDefault()
+                    Owner = owner,
+                    Doctor = doctor,
+                    Pet = owner.Pets.FirstOrDefault(),
+                    CreatedBy = user
                 });
 
                 _context.Appointments.Add(new Appointment
                 {
                     CreateDate = DateTime.Now.AddDays(5),
                     AppointmentObs = "Comichão na cabeça",
-                    Owner = _context.Owners.FirstOrDefault(),
-                    Doctor = _context.Doctors.FirstOrDefault(),
-                    Pet = _context.Pets.FirstOrDefault(),
-                    CreatedBy = _context.Users.FirstOrDefault()
+                    Owner = owner,
+                    Doctor = doctor,
+                    Pet = owner.Pets.FirstOrDefault(),
+                    CreatedBy = user
                 });
-
-                await _context.SaveChangesAsync();
             }
         }
     }
