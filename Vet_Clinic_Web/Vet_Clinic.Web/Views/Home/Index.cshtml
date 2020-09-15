@@ -1,7 +1,15 @@
-﻿
+﻿<section class="content-header">
+    <div id="demo" style="font-size:20px; color:#0c7070;background-color:#f7f2dd;">
+    </div> 
+    <div>
+        <a asp-controller="Qrcode" asp-action="Index">
+            <i class="fa fa-qrcode"></i>
+            <span> Qrcode</span>
+        </a>
+    </div>
+</section>
 
 <section class="content-header">
-
     <h1>
         Home
         <small>Veterinary Clinic</small>
@@ -48,3 +56,14 @@
         </a>
     </div>
 </section>
+
+<script>
+    let d = new Date().toLocaleDateString("en-EN",
+        {
+            month: "long",
+            weekday: "long",
+            day: "2-digit",
+            year: "numeric"
+        })
+    document.getElementById("demo").innerHTML = d;
+</script>
