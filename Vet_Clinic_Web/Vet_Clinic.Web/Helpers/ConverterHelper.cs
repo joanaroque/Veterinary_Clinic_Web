@@ -188,6 +188,10 @@ namespace Vet_Clinic.Web.Helpers
 
         public Appointment ToAppointment(AppointmentViewModel model, bool isNew)
         {
+            Doctor doc = _context.Doctors.Find(model.DoctorId);
+            Owner owner = _context.Owners.Find(model.OwnerId);
+            Pet pet = _context.Pets.Find(model.PetId);
+
             return new Appointment
             {
                 Id = isNew ? 0 : model.Id,
@@ -195,9 +199,9 @@ namespace Vet_Clinic.Web.Helpers
                 UpdateDate = DateTime.Now,
                 AppointmentObs = model.AppointmentObs,
                 CreatedBy = model.CreatedBy,
-                Doctor = model.Doctor,
-                Pet = model.Pet,
-                Owner = model.Owner
+                Doctor = doc,
+                Pet = pet,
+                Owner = owner
             };
         }
 

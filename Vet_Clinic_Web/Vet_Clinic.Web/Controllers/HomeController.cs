@@ -105,7 +105,7 @@ namespace Vet_Clinic.Web.Data
 
             return Json(doctorsNotScheduled.OrderBy(d => d.Name));
         }
-        
+
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> MyPets()
         {
@@ -173,20 +173,14 @@ namespace Vet_Clinic.Web.Data
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Schedule(AppointmentViewModel model)
-        {     
+        {
             if (ModelState.IsValid)
             {
                 var appointment = _converterHelper.ToAppointment(model, true);
 
                 appointment.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-                //todo: 
-                Task response = _appointmentRepository.CreateAsync(appointment);
-                while (!response.IsCompleted)
-                {
-                    Thread.Sleep(300);
-                }
-                AggregateException exception = response.Exception;
 
+                await _appointmentRepository.CreateAsync(appointment);
 
                 return RedirectToAction(nameof(MyAppointments));
             }
