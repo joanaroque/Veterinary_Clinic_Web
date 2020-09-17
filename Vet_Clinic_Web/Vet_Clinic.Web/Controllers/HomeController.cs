@@ -125,10 +125,12 @@ namespace Vet_Clinic.Web.Data
             var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
             var appointments = await _context.Appointments
-                .Include(a => a.Doctor)
+               .Include(a => a.CreatedBy)
                 .Include(a => a.Owner)
                 .ThenInclude(o => o.User)
                 .Include(a => a.Pet)
+                .Include(a => a.Doctor)
+                .Where(a => a.CreateDate >= DateTime.Today.ToUniversalTime())
                 .Where(a => a.Owner.User.Id == currentUser.Id).ToListAsync();
 
             var list = new List<AppointmentViewModel>(appointments.Select(a => new AppointmentViewModel

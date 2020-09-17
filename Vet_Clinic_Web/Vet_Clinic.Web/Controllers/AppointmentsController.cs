@@ -41,7 +41,13 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Appointments
         public IActionResult Index()
         { 
-            var appointment = _appointmentRepository.GetAll().ToList();
+            var appointment = _context.Appointments
+                .Include(a => a.CreatedBy)
+                .Include(a => a.Owner)
+                .ThenInclude(o => o.User)
+                .Include(a => a.Pet)
+                .Include(a => a.Doctor)
+                .Where(a => a.CreateDate >= DateTime.Today.ToUniversalTime());
 
             return View(appointment);
         }
