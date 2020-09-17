@@ -93,6 +93,9 @@ namespace Vet_Clinic.Web.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
+            model.Doctors = _doctorRepository.GetComboDoctors();
+            model.Owners = _ownerRepository.GetComboOwners();
+            model.Pets = _ownerRepository.GetComboPets(model.OwnerId);
 
             return View(model);
         }

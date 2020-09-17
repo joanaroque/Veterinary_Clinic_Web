@@ -47,17 +47,8 @@
 
                 <!-- Navbar Right Menu -->
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav" style="padding-left:650px">
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                        {
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administrator</a>
-                                <ul class="dropdown-menu">
-                                    <li><a asp-area="" asp-controller="Administrator" asp-action="ListUsers">Users</a></li>
-                                    <li><a asp-area="" asp-controller="Administrator" asp-action="ListRoles">Roles</a></li>
-                                </ul>
-                            </li>
-                        }
+                    <ul class="nav navbar-nav">
+
                         <!-- Menu Body -->
                         <li class="user-body">
                             <ul class="nav navbar-nav navbar-right">
@@ -90,10 +81,10 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="~/dist/img/if1.jpg" class="img-circle" alt="User Image">
+                        <img src="~/images/Pets/ifif.png" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p><i class="fa fa-stethoscope" aria-hidden="true"></i> Clinic <i class="fa fa-stethoscope" aria-hidden="true"></i></p>
+                        <p><i class="fa fa-stethoscope" aria-hidden="true"></i> Pet City <i class="fa fa-stethoscope" aria-hidden="true"></i></p>
                     </div>
                 </div>
                 <form class="form-inline ">
@@ -107,6 +98,23 @@
 
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Agent") || User.IsInRole("Doctor"))
                     {
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li>
+                                <a asp-controller="Administrator" asp-action="ListUsers">
+                                    <i class="far fa-eye"></i>
+                                    <span> Users</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-controller="Administrator" asp-action="ListRoles">
+                                    <i class="far fa-eye"></i>
+                                    <span> Roles</span>
+                                </a>
+                            </li>
+
+
+                        }
                         <!-- Optionally, you can add icons to the links -->
                         <li class="active">
                             <a asp-controller="Appointments" asp-action="Index">

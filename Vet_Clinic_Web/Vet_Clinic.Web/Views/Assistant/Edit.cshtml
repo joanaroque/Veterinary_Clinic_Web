@@ -27,9 +27,7 @@
 
                         <form method="post" asp-action="Edit" enctype="multipart/form-data">
                             <div class="card-body">
-                                <div class="form-group">
-
-
+                                <div class="form-group">                             
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
@@ -63,17 +61,17 @@
                                                 <span asp-validation-for="TIN" class="text-danger"></span>
                                             </div>
                                         </div>
-                                        <div class="pull-right">
-
+                                        <div class="col-sm-4">
                                             @if (!string.IsNullOrEmpty(Model.ImageUrl))
                                             {
-                                                <img src="@Url.Content(Model.ImageUrl)" alt="Image" width="150" height="300" />
+                                                <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:150px;height:150px;max-width:100%; height:auto" />
                                             }
                                             else
                                             {
                                                 <img id="imgprw" alt="Image" width="150" height="300" />
                                             }
                                         </div>
+
                                     </div>
 
                                     <div class="row">
@@ -131,7 +129,8 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @{await Html.RenderPartialAsync("_ValidationCurrencyPartial");}
-    <script type="text/javascript">
+  
+  <script type="text/javascript">
         function imagePreview(input) {
             if (input.files && input.files[0]) {
                 let fildr = new FileReader();

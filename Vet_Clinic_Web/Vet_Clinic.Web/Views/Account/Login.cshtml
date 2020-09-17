@@ -1,7 +1,10 @@
 ﻿@model Vet_Clinic.Web.Models.LoginViewModel
+
 @{
     ViewData["Title"] = "Login";
 }
+
+
 
 <br />
 <div class="register-box" style="margin-top:20px; margin-bottom:10px">
@@ -57,22 +60,22 @@
                             <div>
                                 @foreach (var provider in Model.ExternalLogins)
                                 {
-                                <button  type="submit" class="btn btn-block  btn-foursquare"
-                                        name="provider" value="@provider.Name"
-                                        title="Login using your @provider.DisplayName account">
-                                    @provider.DisplayName
-                                </button>
+                                    <button type="submit" class="btn btn-block  btn-foursquare"
+                                            name="provider" value="@provider.Name"
+                                            title="Login using your @provider.DisplayName account">
+                                        @provider.DisplayName
+                                    </button>
 
                                     @*<a href="#" class="btn btn-block btn-primary">
-                                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                                    </a>
-                                    <a href="#" class="btn btn-block btn-danger">
-                                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                                    </a>*@
+                                            <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                                        </a>
+                                        <a href="#" class="btn btn-block btn-danger">
+                                            <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                                        </a>*@
                                 }
                             </div>
 
-                           
+
                         </div>
                     </form>
                 }
@@ -93,8 +96,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 }
-
-
-

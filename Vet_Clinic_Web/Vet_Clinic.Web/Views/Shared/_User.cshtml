@@ -1,7 +1,8 @@
 ﻿@model Vet_Clinic.Web.Models.EditUserViewModel
 
     <div class="form-group">
-        <input asp-for="FirstName"  class="form-control" placeholder="First Name">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" placeholder="First Name">
         <div class="input-group-append">
             <div class="input-group-text">
                 <span asp-validation-for="FirstName" class="fas fa-user"></span>
@@ -10,6 +11,7 @@
     </div>
 
     <div class="form-group">
+        <label asp-for="LastName"></label>
         <input asp-for="LastName" class="form-control" placeholder="Last Name">
         <div class="input-group-append">
             <div class="input-group-text">
@@ -19,6 +21,7 @@
     </div>
 
     <div class="form-group">
+        <label asp-for="Address"></label>
         <input asp-for="Address" class="form-control" placeholder="Address">
         <div class="input-group-append">
             <div class="input-group-text">
@@ -28,6 +31,7 @@
     </div>
 
     <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
         <input asp-for="PhoneNumber" type="tel" class="form-control" placeholder="PhoneNumber">
         <div class="input-group-append">
             <div class="input-group-text">
