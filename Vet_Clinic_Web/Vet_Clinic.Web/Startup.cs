@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -7,7 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-
+using Microsoft.Owin.Security;
+using System;
 using System.Text;
 
 using Vet_Clinic.Web.Data;
@@ -51,7 +55,6 @@ namespace Vet_Clinic.Web
 
             services.AddAuthentication()
 
-              .AddCookie()
               .AddJwtBearer(cfg =>
               {
                   cfg.TokenValidationParameters = new TokenValidationParameters
@@ -63,18 +66,30 @@ namespace Vet_Clinic.Web
                   };
               });
 
-            services.AddAuthentication()
+            services
+                .AddAuthentication()
+            
                 .AddGoogle(options =>
                 {
                     options.ClientId = Configuration["App:GoogleClientId"];
                     options.ClientSecret = Configuration["App:GoogleClientSecret"];
+                     options.SignInScheme = IdentityConstants.ExternalScheme;
                 })
-
                 .AddFacebook(options =>
                 {
                     options.ClientId = Configuration["App:FacebookClientId"];
                     options.ClientSecret = Configuration["App:FacebookClientSecret"];
-                });
+                     options.SignInScheme = IdentityConstants.ExternalScheme;
+                })
+
+                 .AddCookie(options =>
+                 {
+                     options.Cookie.Name = ".AspNet.ExternalCookie";
+                     options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                     options.LoginPath = new PathString("/Account/Login");
+                     options.LogoutPath = new PathString("/Account/Logout");
+                 });
+
 
 
             services.AddDbContext<DataContext>(cfg =>
@@ -135,6 +150,7 @@ namespace Vet_Clinic.Web
                 app.UseHsts();
             }
 
+          
             app.UseStatusCodePagesWithReExecute("/error/{0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();

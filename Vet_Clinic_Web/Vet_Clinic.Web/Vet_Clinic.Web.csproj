@@ -21,6 +21,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Graph" Version="3.8.0" />
+    <PackageReference Include="Microsoft.Owin.Security.Cookies" Version="4.1.1" />
+    <PackageReference Include="Microsoft.Owin.Security.Facebook" Version="4.1.1" />
+    <PackageReference Include="Microsoft.Owin.Security.Google" Version="4.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.10" />
     <PackageReference Include="Telerik.UI.for.AspNet.Core.Trial" Version="2020.2.617" />
   </ItemGroup>
@@ -73,6 +76,8 @@
     <None Include="wwwroot\js\main.js" />
     <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\js\site.min.js" />
+    <None Include="wwwroot\Layout\jquery.js" />
+    <None Include="wwwroot\Layout\nicepage.js" />
     <None Include="wwwroot\lib\font-awesome\css\bootstrap.css.map" />
     <None Include="wwwroot\lib\font-awesome\js\all.js" />
     <None Include="wwwroot\lib\font-awesome\js\all.min.js" />

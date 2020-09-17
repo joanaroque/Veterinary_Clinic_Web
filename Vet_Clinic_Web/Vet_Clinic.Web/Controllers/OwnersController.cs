@@ -170,7 +170,6 @@ namespace Vet_Clinic.Web.Controllers
             {
                 return new NotFoundViewResult("OwnerNotFound");
             }
-            //todo: user é null
             var model = new EditUserViewModel
             {
                 Address = owner.User.Address,
@@ -195,7 +194,6 @@ namespace Vet_Clinic.Web.Controllers
                 var owner = await _context.Owners
                        .Include(o => o.User)
                        .FirstOrDefaultAsync(o => o.Id.ToString() == model.Id);
-//                await _userManager.UpdateSecurityStampAsync(user);
 
                 owner.User.FirstName = model.FirstName;
                 owner.User.LastName = model.LastName;

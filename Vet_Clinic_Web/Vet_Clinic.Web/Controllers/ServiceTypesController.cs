@@ -159,7 +159,6 @@ namespace Vet_Clinic.Web.Controllers
 
             if (serviceType.Histories.Count > 0)
             {
-                ModelState.AddModelError(string.Empty, "This service Type can't be removed.");
                 return RedirectToAction(nameof(Index));
             }
 

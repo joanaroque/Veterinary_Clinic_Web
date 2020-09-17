@@ -115,16 +115,20 @@ namespace Vet_Clinic.Web.Controllers
 
             if (info == null)
             {
-                ModelState.AddModelError(string.Empty, "Error loading external login information.");
                 return View("Login", loginViewModel);
             }
 
             var signResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
-                                                                            info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+                info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
             if (signResult.Succeeded)
             {
                 return LocalRedirect(returnUrl);
+            }
+
+            else if (signResult.IsLockedOut)
+            {
+                return RedirectToAction(nameof(RecoverPassword));
             }
 
             else

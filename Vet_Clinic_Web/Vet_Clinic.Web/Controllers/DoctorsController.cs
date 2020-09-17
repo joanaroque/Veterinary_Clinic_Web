@@ -166,14 +166,24 @@ namespace Vet_Clinic.Web.Controllers
             {
                 return new NotFoundViewResult("DoctorNotFound");
             }
-
+    
             var doctor = await _doctorRepository.GetByIdAsync(id.Value);
+
+            //todo: onde o medico exista de hoje pra frente
+
+            //var appointment = await _context.Appointments
+            //        .Where()
+
+            //if (appointment)
+            //{
+
+            //}
+
 
             await _doctorRepository.DeleteAsync(doctor);
 
             return RedirectToAction(nameof(Index));
         }
-
 
         private bool DoctorExists(int id)
         {
