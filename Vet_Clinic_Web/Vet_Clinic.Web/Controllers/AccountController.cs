@@ -83,12 +83,13 @@ namespace Vet_Clinic.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public IActionResult ExternalLogin(string provider, string returnUrl)
         {
             var redirectUrl = Url.Action("ExternalLoginCallback", "Account",
                 new { ReturnUrl = returnUrl });
 
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
 
             return new ChallengeResult(provider, properties);
         }

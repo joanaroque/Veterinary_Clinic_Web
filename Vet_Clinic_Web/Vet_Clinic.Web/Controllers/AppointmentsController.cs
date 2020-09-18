@@ -40,7 +40,7 @@ namespace Vet_Clinic.Web.Controllers
 
         // GET: Appointments
         public IActionResult Index()
-        { 
+        {
             var appointment = _context.Appointments
                 .Include(a => a.CreatedBy)
                 .Include(a => a.Owner)
@@ -60,7 +60,12 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("AssistantNotFound");
             }
 
-            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
+            var appointment = await _context.Appointments
+                     .Include(p => p.Doctor)
+                      .Include(p => p.Pet)
+                       .Include(p => p.Owner)
+                       .FirstOrDefaultAsync(p => p.Id == id.Value);
+
             if (appointment == null)
             {
                 return new NotFoundViewResult("AppointmentNotFound");
@@ -80,19 +85,20 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var appointment = await _appointmentRepository.GetByIdAsync(model.Id);
+                var appointment = _converterHelper.ToAppointment(model, false);
 
                 if (appointment == null)
                 {
                     return new NotFoundViewResult("AppointmentNotFound");
                 }
 
-                appointment.Id = model.Id;
+                appointment.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                 await _appointmentRepository.UpdateAsync(appointment);
 
                 return RedirectToAction(nameof(Index));
             }
+
             model.Doctors = _doctorRepository.GetComboDoctors();
             model.Owners = _ownerRepository.GetComboOwners();
             model.Pets = _ownerRepository.GetComboPets(model.OwnerId);
@@ -105,10 +111,16 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (id == null)
             {
-                return new NotFoundViewResult("AssistantNotFound");
+                return new NotFoundViewResult("AppointmentNotFound");
             }
 
-            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
+            var appointment =  _context.Appointments
+                .Include(a => a.CreatedBy)
+                .Include(a => a.Owner)
+                .ThenInclude(o => o.User)
+                .Include(a => a.Pet)
+                .Include(a => a.Doctor)
+                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (appointment == null)
             {
@@ -140,7 +152,7 @@ namespace Vet_Clinic.Web.Controllers
                 var appointment = _converterHelper.ToAppointment(model, true);
 
                 appointment.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-               
+
                 await _appointmentRepository.CreateAsync(appointment);
 
                 return RedirectToAction(nameof(Index));
@@ -171,7 +183,7 @@ namespace Vet_Clinic.Web.Controllers
             return Json(doctorsNotScheduled.OrderBy(d => d.Name));
         }
 
-        public async Task<JsonResult> GetPetsAsync(int ownerId) 
+        public async Task<JsonResult> GetPetsAsync(int ownerId)
         {
             var pets = await _ownerRepository.GetOwnersWithPetsAsync(ownerId);
 

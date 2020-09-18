@@ -208,6 +208,9 @@ namespace Vet_Clinic.Web.Controllers
             {
                 var user = await _userHelper.GetUserByIdAsync(model[i].UserId);
 
+                await _userManager.UpdateSecurityStampAsync(user);
+
+
                 IdentityResult result = null;
 
                 //se o user ta selecionado e se nao é, já, membro do role
@@ -243,7 +246,6 @@ namespace Vet_Clinic.Web.Controllers
             var users = _userManager.Users;
             return View(users);
         }
-
 
         [HttpGet]
         public async Task<IActionResult> ManageUserRoles(string userId)
@@ -298,7 +300,6 @@ namespace Vet_Clinic.Web.Controllers
 
             if (!result.Succeeded)
             {
-                ModelState.AddModelError("", "Cannot remove user existing roles");
                 return View(model);
             }
 
@@ -308,12 +309,11 @@ namespace Vet_Clinic.Web.Controllers
 
             if (!result.Succeeded)
             {
-                ModelState.AddModelError("", "Cannot add selected roles to user");
                 return View(model);
             }
+
             return RedirectToAction("EditUser", new { Id = userId });
         }
-
 
         // GET: Administrator/Edit/5
         [HttpGet]

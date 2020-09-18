@@ -28,17 +28,30 @@
                         <form method="post" asp-action="Edit" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="OwnerId" />
+                            <input type="hidden" asp-for="DoctorId" />
+                            <input type="hidden" asp-for="PetId" />
+
                             <div class="card-body">
                                 <div class="form-group">
 
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label asp-for="Doctor" class="control-label"></label>
-                                                <input asp-for="Doctor" class="form-control" />
-                                                <span asp-validation-for="Doctor" class="text-danger"></span>
+                                                <label asp-for="CreateDate" class="control-label"></label>
+                                                <input asp-for="CreateDate" class="form-control" />
+                                                <span asp-validation-for="CreateDate" class="text-danger"></span>
                                             </div>
                                         </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label asp-for="DoctorId" class="control-label"></label>
+                                                <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-control"></select>
+                                                <span asp-validation-for="DoctorId" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label asp-for="Pet" class="control-label"></label>
@@ -46,10 +59,6 @@
                                                 <span asp-validation-for="Pet" class="text-danger"></span>
                                             </div>
                                         </div>
-                                    </div>
-
-
-                                    <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label asp-for="Owner" class="control-label"></label>
@@ -57,7 +66,6 @@
                                                 <span asp-validation-for="Owner" class="text-danger"></span>
                                             </div>
                                         </div>
-
                                     </div>
 
                                     <div class="row">
@@ -68,15 +76,7 @@
                                                 <span asp-validation-for="AppointmentObs" class="text-danger"></span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label asp-for="CreateDate" class="control-label"></label>
-                                                <input asp-for="CreateDate" class="form-control" />
-                                                <span asp-validation-for="CreateDate" class="text-danger"></span>
-                                            </div>
-                                        </div>
                                     </div>
-
                                 </div>
 
                                 <!-- /.box-body -->
@@ -97,31 +97,43 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
+<script type="text/javascript">
         $(document).ready(function () {
-            $("#OwnerId").change(function () {
-                $("#PetId").empty();
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GetPetsAsync")',
-                    dataType: 'json',
-                    data: { ownerId: $("#OwnerId").val() },
-                    success: function (pets) {
-                        $("#PetId").append('<option value="0">[Select a pet...]</option>');
-                        $.each(pets, function (i, pet) {
-                            $("#PetId").append('<option value="'
-                                + pet.id + '">'
-                                + pet.name + '</option>');
-                        });
-                    },
-                    error: function (ex) {
-                        alert('Failed to retrieve pets.' + ex.statusText);
-                    }
-                });
+            $("#CreateDate").change(function () {
+                //If date is selected and value is changed, clear doctor fields.
+                $("#DoctorId").empty();
+
+                // Extract minutes field from selected date
+                let appointmentDate = new Date($("#CreateDate").val());
+
+                let minutes = appointmentDate.getMinutes();
+
+                // Validate if minutes are at 0, otherwise appointments cannot be scheduled
+                if (minutes > 0) {
+                    alert('Appointments must be at specific hours.');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetDoctorsAsync")',
+                        dataType: 'json',
+                        data: { createDate: $("#CreateDate").val() },
+                        success: function (doctors) {
+                            $("#DoctorId").append('<option value="0">[Select a doctor...]</option>');
+                            $.each(doctors, function (i, doctor) {
+                                $("#DoctorId").append('<option value="'
+                                    + doctor.id + '">'
+                                    + doctor.name + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed to retrieve pets.' + ex.statusText);
+                        }
+                    });
+                }
                 return false;
             })
         });
-    </script>
+</script>
 
 }
 
