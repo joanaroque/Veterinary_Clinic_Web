@@ -210,7 +210,6 @@ namespace Vet_Clinic.Web.Controllers
 
                 await _userManager.UpdateSecurityStampAsync(user);
 
-
                 IdentityResult result = null;
 
                 //se o user ta selecionado e se nao é, já, membro do role

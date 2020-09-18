@@ -29,9 +29,9 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="Id" />
 
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label asp-for="CreateDate" class="control-label"></label>
-                                <input asp-for="CreateDate" class="form-control"/>
+                                <input asp-for="CreateDate" class="form-control" />
                                 <span asp-validation-for="CreateDate" class="text-danger"></span>
                             </div>
 
@@ -96,6 +96,44 @@
                         alert('Failed to retrieve pets.' + ex.statusText);
                     }
                 });
+                return false;
+            })
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#CreateDate").change(function () {
+                //If date is selected and value is changed, clear doctor fields.
+                $("#DoctorId").empty();
+
+                // Extract minutes field from selected date
+                let appointmentDate = new Date($("#CreateDate").val());
+
+                let minutes = appointmentDate.getMinutes();
+
+                // Validate if minutes are at 0, otherwise appointments cannot be scheduled
+                if (minutes > 0) {
+                    alert('Appointments must be at specific hours.');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetDoctorsAsync")',
+                        dataType: 'json',
+                        data: { createDate: $("#CreateDate").val() },
+                        success: function (doctors) {
+                            $("#DoctorId").append('<option value="0">[Select a doctor...]</option>');
+                            $.each(doctors, function (i, doctor) {
+                                $("#DoctorId").append('<option value="'
+                                    + doctor.id + '">'
+                                    + doctor.name + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed to retrieve pets.' + ex.statusText);
+                        }
+                    });
+                }
                 return false;
             })
         });
