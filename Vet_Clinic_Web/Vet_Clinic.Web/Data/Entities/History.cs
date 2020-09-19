@@ -16,8 +16,6 @@ namespace Vet_Clinic.Web.Data.Entities
         public string Description { get; set; }
 
 
-       
-
         public User CreatedBy { get; set; }
 
         [Display(Name = "Date")]

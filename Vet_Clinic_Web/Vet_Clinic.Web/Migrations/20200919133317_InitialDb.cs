@@ -387,6 +387,7 @@ namespace Vet_Clinic.Web.Migrations
                     PetId = table.Column<int>(nullable: true),
                     OwnerId = table.Column<int>(nullable: true),
                     CreatedById = table.Column<string>(nullable: true),
+                    ScheduledDate = table.Column<DateTime>(nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     ModifiedById = table.Column<string>(nullable: true)

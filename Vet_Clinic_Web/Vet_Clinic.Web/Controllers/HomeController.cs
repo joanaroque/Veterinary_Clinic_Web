@@ -87,17 +87,16 @@ namespace Vet_Clinic.Web.Data
             return View();
         }
 
-        public async Task<JsonResult> GetDoctorsAsync(DateTime createDate)
+        public async Task<JsonResult> GetDoctorsAsync(DateTime scheduledDate)
         {
-            int appointmentHour = createDate.Hour;
+            int appointmentHour = scheduledDate.Hour;
 
             var workingDoctors = await _context.Doctors
-                .Where(d => d.WorkStart < appointmentHour && d.WorkEnd > appointmentHour)
+                .Where(d => d.WorkStart <= appointmentHour && d.WorkEnd > appointmentHour)
                 .ToListAsync();
 
-            // buscar as consultas para a mesma hora
             var doctorsAlreadyScheduled = await _context.Appointments
-                    .Where(a => a.CreateDate.Equals(createDate))
+                    .Where(a => a.ScheduledDate.Equals(scheduledDate))
                     .Select(a => a.Doctor).ToListAsync();
 
             var doctorsNotScheduled = workingDoctors.Except(doctorsAlreadyScheduled);
@@ -125,24 +124,16 @@ namespace Vet_Clinic.Web.Data
             var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
             var appointments = await _context.Appointments
-               .Include(a => a.CreatedBy)
                 .Include(a => a.Owner)
                 .ThenInclude(o => o.User)
                 .Include(a => a.Pet)
                 .Include(a => a.Doctor)
-                .Where(a => a.CreateDate >= DateTime.Today.ToUniversalTime())
+                .Where(a => a.ScheduledDate >= DateTime.Today.ToUniversalTime())
                 .Where(a => a.Owner.User.Id == currentUser.Id).ToListAsync();
 
-            var list = new List<AppointmentViewModel>(appointments.Select(a => new AppointmentViewModel
-            {
-                CreateDate = DateTime.Now,
-                CreatedBy = a.CreatedBy,
-                Id = a.Id,
-                Doctor = a.Doctor,
-                Owner = a.Owner,
-                Pet = a.Pet,
-                AppointmentObs = a.AppointmentObs
-            }).ToList());
+            var list = new List<AppointmentViewModel>(appointments.
+                Select(a => _converterHelper.ToAppointmentViewModel(a)).
+                ToList());
 
             return View(list);
         }

@@ -216,7 +216,6 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddHistory(int? id)
         {
             if (id == null)

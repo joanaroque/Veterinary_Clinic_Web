@@ -41,13 +41,13 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Appointments
         public IActionResult Index()
         {
-            var appointment = _context.Appointments
+            var appointment = _context.Appointments // todo mostrar data da consulta
                 .Include(a => a.CreatedBy)
                 .Include(a => a.Owner)
                 .ThenInclude(o => o.User)
                 .Include(a => a.Pet)
                 .Include(a => a.Doctor)
-                .Where(a => a.CreateDate >= DateTime.Today.ToUniversalTime());
+                .Where(a => a.ScheduledDate >= DateTime.Today.ToUniversalTime());
 
             return View(appointment);
         }
@@ -62,8 +62,9 @@ namespace Vet_Clinic.Web.Controllers
 
             var appointment = await _context.Appointments
                      .Include(p => p.Doctor)
-                      .Include(p => p.Pet)
-                       .Include(p => p.Owner)
+                     .Include(p => p.Pet)
+                     .Include(p => p.Owner)
+                     .ThenInclude(p => p.User)
                        .FirstOrDefaultAsync(p => p.Id == id.Value);
 
             if (appointment == null)
@@ -83,7 +84,7 @@ namespace Vet_Clinic.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(AppointmentViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) // todo: nao passa o id do owner nem o id do pet!!
             {
                 var appointment = _converterHelper.ToAppointment(model, false);
 
@@ -99,35 +100,7 @@ namespace Vet_Clinic.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            model.Doctors = _doctorRepository.GetComboDoctors();
-            model.Owners = _ownerRepository.GetComboOwners();
-            model.Pets = _ownerRepository.GetComboPets(model.OwnerId);
-
             return View(model);
-        }
-
-        // GET: Appointment/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("AppointmentNotFound");
-            }
-
-            var appointment =  _context.Appointments
-                .Include(a => a.CreatedBy)
-                .Include(a => a.Owner)
-                .ThenInclude(o => o.User)
-                .Include(a => a.Pet)
-                .Include(a => a.Doctor)
-                 .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (appointment == null)
-            {
-                return new NotFoundViewResult("AppointmentNotFound");
-            }
-
-            return View(appointment);
         }
 
         public IActionResult Schedule()
@@ -165,16 +138,16 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        public async Task<JsonResult> GetDoctorsAsync(DateTime createDate)
+        public async Task<JsonResult> GetDoctorsAsync(DateTime scheduledDate)
         {
-            int appointmentHour = createDate.Hour;
+            int appointmentHour = scheduledDate.Hour;
 
             var workingDoctors = await _context.Doctors
-                .Where(d => d.WorkStart < appointmentHour && d.WorkEnd > appointmentHour)
+                .Where(d => d.WorkStart <= appointmentHour && d.WorkEnd > appointmentHour)
                 .ToListAsync();
 
             var doctorsAlreadyScheduled = await _context.Appointments
-                    .Where(a => a.CreateDate.Equals(createDate))
+                    .Where(a => a.ScheduledDate.Equals(scheduledDate))
                     .Select(a => a.Doctor).ToListAsync();
 
             var doctorsNotScheduled = workingDoctors.Except(doctorsAlreadyScheduled);
@@ -183,11 +156,11 @@ namespace Vet_Clinic.Web.Controllers
             return Json(doctorsNotScheduled.OrderBy(d => d.Name));
         }
 
-        public async Task<JsonResult> GetPetsAsync(int ownerId)
+        public JsonResult GetPetsAsync(int ownerId)
         {
-            var pets = await _ownerRepository.GetOwnersWithPetsAsync(ownerId);
+            var ownerPets =  _context.Pets.Where(p => p.Owner.Id == ownerId);
 
-            return Json(pets.Pets.OrderBy(p => p.Name));
+            return Json(ownerPets);
         }
 
 

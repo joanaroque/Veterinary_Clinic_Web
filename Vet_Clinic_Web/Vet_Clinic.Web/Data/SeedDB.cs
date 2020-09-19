@@ -357,7 +357,8 @@ namespace Vet_Clinic.Web.Data
         {
             _context.Appointments.Add(new Appointment
             {
-                CreateDate = DateTime.Now.AddDays(2),
+                ScheduledDate = DateTime.Now.AddMonths(2),
+                CreateDate = DateTime.Now.AddDays(-2),
                 AppointmentObs = "vacinas vacinas vacinas",
                 Owner = owner,
                 Doctor = doctor,
@@ -367,7 +368,8 @@ namespace Vet_Clinic.Web.Data
 
             _context.Appointments.Add(new Appointment
             {
-                CreateDate = DateTime.Now.AddDays(4),
+                ScheduledDate = DateTime.Now.AddMonths(2),
+                CreateDate = DateTime.Now.AddDays(-2),
                 AppointmentObs = "Otites",
                 Owner = owner,
                 Doctor = doctor,
@@ -377,7 +379,8 @@ namespace Vet_Clinic.Web.Data
 
             _context.Appointments.Add(new Appointment
             {
-                CreateDate = DateTime.Now.AddDays(5),
+                ScheduledDate = DateTime.Now.AddMonths(2),
+                CreateDate = DateTime.Now.AddDays(-2),
                 AppointmentObs = "Nao faz xixi",
                 Owner = owner,
                 Doctor = doctor,
@@ -387,7 +390,8 @@ namespace Vet_Clinic.Web.Data
 
             _context.Appointments.Add(new Appointment
             {
-                CreateDate = DateTime.Now.AddDays(5),
+                ScheduledDate = DateTime.Now.AddMonths(2),
+                CreateDate = DateTime.Now.AddDays(-2),
                 AppointmentObs = "Comichão na cabeça",
                 Owner = owner,
                 Doctor = doctor,

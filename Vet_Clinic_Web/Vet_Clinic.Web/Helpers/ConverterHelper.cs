@@ -195,7 +195,8 @@ namespace Vet_Clinic.Web.Helpers
             return new Appointment
             {
                 Id = isNew ? 0 : model.Id,
-                CreateDate = DateTime.Now,
+                ScheduledDate = model.ScheduledDate,
+                CreateDate = isNew? DateTime.Now : model.CreateDate,
                 UpdateDate = DateTime.Now,
                 AppointmentObs = model.AppointmentObs,
                 CreatedBy = model.CreatedBy,
@@ -205,17 +206,20 @@ namespace Vet_Clinic.Web.Helpers
             };
         }
 
-        public Appointment ToAppointmentViewModel(Appointment appointment)
+        public AppointmentViewModel ToAppointmentViewModel(Appointment appointment)
         {
             return new AppointmentViewModel
             {
                 Id = appointment.Id,
+                ScheduledDate = appointment.ScheduledDate,
                 ModifiedBy = appointment.ModifiedBy,
                 AppointmentObs = appointment.AppointmentObs,
-                UpdateDate = DateTime.Now,
+                UpdateDate = appointment.UpdateDate,
                 Doctor = appointment.Doctor,
                 Pet = appointment.Pet,
-                Owner = appointment.Owner
+                PetId = appointment.Pet.Id,
+                Owner = appointment.Owner,
+                OwnerId = appointment.Owner.Id
             };
         }
     }

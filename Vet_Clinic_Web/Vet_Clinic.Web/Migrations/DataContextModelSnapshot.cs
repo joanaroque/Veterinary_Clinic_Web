@@ -149,6 +149,8 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<int?>("PetId");
 
+                    b.Property<DateTime>("ScheduledDate");
+
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");

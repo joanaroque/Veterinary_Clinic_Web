@@ -18,7 +18,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         IEnumerable<SelectListItem> GetComboPets(int ownerId);
 
 
-        Task<Owner> GetOwnersWithPetsAsync(int ownerId);
+        Task<Owner> GetOwnerWithPetsAsync(int ownerId);
 
 
         Task AddPetAsync(Pet pet);

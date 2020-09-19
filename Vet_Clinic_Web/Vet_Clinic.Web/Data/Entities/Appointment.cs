@@ -26,12 +26,15 @@ namespace Vet_Clinic.Web.Data.Entities
         public User CreatedBy { get; set; }
 
 
-        [Display(Name = "Date")]
+        [Display(Name = "Scheduled Date")]
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
         [CustomDateValidator(ErrorMessage = "Date must be more than or equal to Today's day")]
         [NotInWeekendsValidator(ErrorMessage = "The Vet Clinic is closed on weekends")]
+        public DateTime ScheduledDate { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CreateDate { get; set; }
 
 

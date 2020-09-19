@@ -30,9 +30,9 @@
                             <input type="hidden" asp-for="Id" />
 
                             <div class="form-group">
-                                <label asp-for="CreateDate" class="control-label"></label>
-                                <input asp-for="CreateDate" class="form-control" />
-                                <span asp-validation-for="CreateDate" class="text-danger"></span>
+                                <label asp-for="ScheduledDate" class="control-label"></label>
+                                <input asp-for="ScheduledDate" class="form-control" />
+                                <span asp-validation-for="ScheduledDate" class="text-danger"></span>
                             </div>
 
 
@@ -93,6 +93,7 @@
                         });
                     },
                     error: function (ex) {
+                        console.log(ex);
                         alert('Failed to retrieve pets.' + ex.statusText);
                     }
                 });
@@ -103,15 +104,15 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("#CreateDate").change(function () {
+            $("#ScheduledDate").change(function () {
                 //If date is selected and value is changed, clear doctor fields.
                 $("#DoctorId").empty();
 
                 // Extract minutes field from selected date
-                let appointmentDate = new Date($("#CreateDate").val());
+                let appointmentDate = new Date($("#ScheduledDate").val());
 
                 let minutes = appointmentDate.getMinutes();
-
+                console.log('Minutes: ' + minutes);
                 // Validate if minutes are at 0, otherwise appointments cannot be scheduled
                 if (minutes > 0) {
                     alert('Appointments must be at specific hours.');
@@ -120,7 +121,7 @@
                         type: 'POST',
                         url: '@Url.Action("GetDoctorsAsync")',
                         dataType: 'json',
-                        data: { createDate: $("#CreateDate").val() },
+                        data: { scheduledDate: $("#ScheduledDate").val() },
                         success: function (doctors) {
                             $("#DoctorId").append('<option value="0">[Select a doctor...]</option>');
                             $.each(doctors, function (i, doctor) {

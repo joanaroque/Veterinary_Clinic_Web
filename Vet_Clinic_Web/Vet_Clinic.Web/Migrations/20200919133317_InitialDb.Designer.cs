@@ -10,7 +10,7 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200917120710_InitialDb")]
+    [Migration("20200919133317_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -150,6 +150,8 @@ namespace Vet_Clinic.Web.Migrations
                     b.Property<int?>("OwnerId");
 
                     b.Property<int?>("PetId");
+
+                    b.Property<DateTime>("ScheduledDate");
 
                     b.Property<DateTime>("UpdateDate");
 

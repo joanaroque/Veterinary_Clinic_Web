@@ -87,7 +87,6 @@ namespace Vet_Clinic.Web.Controllers
 
         // GET: ServiceTypes/Edit/5
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

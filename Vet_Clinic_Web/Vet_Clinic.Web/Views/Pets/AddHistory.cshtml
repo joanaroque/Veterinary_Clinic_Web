@@ -10,12 +10,12 @@
         <li class="active">Pets</li>
     </ol>
 </section>
-
+<br />
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-12">
+            <div class="col-md-6 center-block">
 
                 <div style="text-align:center">
                     <h3 class="card-title">New History</h3>
@@ -29,29 +29,25 @@
                             <input type="hidden" asp-for="PetId" />
                             <input type="hidden" asp-for="CreatedBy" />
 
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label asp-for="CreateDate" class="control-label"></label>
-                                        <input asp-for="CreateDate" class="form-control" />
-                                        <span asp-validation-for="CreateDate" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label asp-for="ServiceTypeId" class="control-label"></label>
-                                        <select asp-for="ServiceTypeId" asp-items="Model.ServiceTypes" class="form-control"></select>
-                                        <span asp-validation-for="ServiceTypeId" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label asp-for="Description" class="control-label"></label>
-                                        <textarea asp-for="Description" class="form-control"> </textarea>
-                                        <span asp-validation-for="Description" class="text-danger"></span>
-                                    </div>
-                                </div>
+
+                            <div class="form-group">
+                                <label asp-for="CreateDate" class="control-label"></label>
+                                <input asp-for="CreateDate" class="form-control" />
+                                <span asp-validation-for="CreateDate" class="text-danger"></span>
                             </div>
+
+                            <div class="form-group">
+                                <label asp-for="ServiceTypeId" class="control-label"></label>
+                                <select asp-for="ServiceTypeId" asp-items="Model.ServiceTypes" class="form-control"></select>
+                                <span asp-validation-for="ServiceTypeId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                <textarea asp-for="Description" class="form-control"> </textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+
                             <div class="form-group">
                                 <input type="submit" value="Create" class="btn btn-success" />
                                 <a asp-action="Details" asp-route-id="@Model.PetId" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To Pet</a>

@@ -20,7 +20,7 @@ namespace Vet_Clinic.Web.Data.Repositories
 
         public async Task AddPetAsync(Pet pet)
         {
-            var owner = await GetOwnersWithPetsAsync(pet.Owner.Id);
+            var owner = await GetOwnerWithPetsAsync(pet.Owner.Id);
             if (owner == null)
             {
                 return;
@@ -89,7 +89,7 @@ namespace Vet_Clinic.Web.Data.Repositories
             return list;
         }
 
-        public async Task<Owner> GetOwnersWithPetsAsync(int ownerId)
+        public async Task<Owner> GetOwnerWithPetsAsync(int ownerId)
         {
             return await _context.Owners
                 .Include(o => o.CreatedBy)
