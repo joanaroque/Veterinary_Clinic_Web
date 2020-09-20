@@ -41,16 +41,16 @@
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation" style="padding:0px">
                 <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button" style="padding: 10px 100px 10px 10px">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
 
                 <!-- Navbar Right Menu -->
                 <div class="navbar-collapse collapse">
-                    <section class="content-header pull-right">
+                    @*<section class="content-header pull-right">
                         <div id="demo" style="font-size:20px;font-weight:600; color:aliceblue">
                         </div>
-                        </section>
+                        </section>*@
                         <ul class="nav navbar-nav">
 
                             <!-- Menu Body -->
@@ -88,7 +88,7 @@
                         <img src="~/images/Assistants/eu.png"  class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p><i class="fa fa-stethoscope" aria-hidden="true"></i> Pet City <i class="fa fa-stethoscope" aria-hidden="true"></i></p>
+                        <p id="demo"></p>
                     </div>
                 </div>
                 <form class="form-inline ">
@@ -236,8 +236,8 @@
     <script>
         let d = new Date().toLocaleDateString("en-EN",
             {
-                month: "long",
-                weekday: "long",
+                month: "short",
+                weekday: "short",
                 day: "2-digit",
                 year: "numeric"
             })
