@@ -41,7 +41,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Appointments
         public IActionResult Index()
         {
-            var appointment = _context.Appointments // todo mostrar data da consulta
+            var appointment = _context.Appointments 
                 .Include(a => a.CreatedBy)
                 .Include(a => a.Owner)
                 .ThenInclude(o => o.User)
@@ -84,7 +84,7 @@ namespace Vet_Clinic.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(AppointmentViewModel model)
         {
-            if (ModelState.IsValid) // todo: nao passa o id do owner nem o id do pet!!
+            if (ModelState.IsValid) 
             {
                 var appointment = _converterHelper.ToAppointment(model, false);
 

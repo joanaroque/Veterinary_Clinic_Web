@@ -76,8 +76,6 @@
     <None Include="wwwroot\js\main.js" />
     <None Include="wwwroot\js\site.js" />
     <None Include="wwwroot\js\site.min.js" />
-    <None Include="wwwroot\Layout\jquery.js" />
-    <None Include="wwwroot\Layout\nicepage.js" />
     <None Include="wwwroot\lib\font-awesome\css\bootstrap.css.map" />
     <None Include="wwwroot\lib\font-awesome\js\all.js" />
     <None Include="wwwroot\lib\font-awesome\js\all.min.js" />

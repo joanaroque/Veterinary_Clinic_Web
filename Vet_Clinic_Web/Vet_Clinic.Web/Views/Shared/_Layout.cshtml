@@ -47,30 +47,34 @@
 
                 <!-- Navbar Right Menu -->
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
+                    <section class="content-header pull-right">
+                        <div id="demo" style="font-size:20px;font-weight:600; color:aliceblue">
+                        </div>
+                        </section>
+                        <ul class="nav navbar-nav">
 
-                        <!-- Menu Body -->
-                        <li class="user-body">
-                            <ul class="nav navbar-nav navbar-right">
-                                @if (User.Identity.IsAuthenticated)
-                                {
-                                    <li>
-                                        <a asp-area="" asp-controller="Account" asp-action="ChangeUser"> @this.User.Identity.Name</a>
-                                    </li>
-                                    <li>
-                                        <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li>
-                                        <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                                    </li>
-                                }
-                            </ul>
-                            <!-- /.row -->
-                        </li>
-                    </ul>
+                            <!-- Menu Body -->
+                            <li class="user-body">
+                                <ul class="nav navbar-nav navbar-right">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <li>
+                                            <a asp-area="" asp-controller="Account" asp-action="ChangeUser"> @this.User.Identity.Name</a>
+                                        </li>
+                                        <li>
+                                            <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                                        </li>
+                                    }
+                                </ul>
+                                <!-- /.row -->
+                            </li>
+                        </ul>
                 </div>
             </nav>
         </header>
@@ -81,7 +85,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="~/images/Pets/ifif.png" class="img-circle" alt="User Image">
+                        <img src="~/images/Assistants/eu.png"  class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p><i class="fa fa-stethoscope" aria-hidden="true"></i> Pet City <i class="fa fa-stethoscope" aria-hidden="true"></i></p>
@@ -229,7 +233,16 @@
     <script src="~/dist/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/dist/js/adminlte.min.js"></script>
-
+    <script>
+        let d = new Date().toLocaleDateString("en-EN",
+            {
+                month: "long",
+                weekday: "long",
+                day: "2-digit",
+                year: "numeric"
+            })
+        document.getElementById("demo").innerHTML = d;
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
