@@ -14,9 +14,9 @@
 <br />
 <section class="content">
     <div class="container-fluid">
-      
+        <div class="row">
             <!-- left column -->
-            <div class="col-md-8 center-block">
+            <div class="col-md-6 center-block">
 
                 <div style="text-align:center">
                     <h3 class="card-title">History</h3>
@@ -29,21 +29,17 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="PetId" />
 
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <partial name="_History" />
-
-                                    <div class="form-group">
-                                        <a asp-action="DetailsPet" asp-route-id="@Model.PetId" class="btn btn-warning pull-right">Back to List</a>
-                                        <input type="submit" value="Create" class="btn btn-primary" />
-
-                                    </div>
-                                </div>
+                           <div class="row center-block">
+                                <partial name="_History" />
+                            </div>
+                            <div class="form-group">
+                                <a asp-action="DetailsPet" asp-route-id="@Model.PetId" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To list</a>
+                                <input type="submit" value="Create" class="btn btn-primary" />
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-   
+    </div>
 </section>

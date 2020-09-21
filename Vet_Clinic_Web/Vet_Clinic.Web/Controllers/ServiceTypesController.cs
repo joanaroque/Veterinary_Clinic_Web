@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Vet_Clinic.Web.Data;
+
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
@@ -20,21 +18,17 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IConverterHelper _converterHelper;
         private readonly IServiceTypesRepository _serviceTypesRepository;
         private readonly IUserHelper _userHelper;
-        private readonly DataContext _context;
 
 
         public ServiceTypesController(IImageHelper imageHelper,
             IServiceTypesRepository serviceTypesRepository,
                         IUserHelper userHelper,
-                        IConverterHelper converterHelper,
-                        DataContext context)
+                        IConverterHelper converterHelper)
         {
             _serviceTypesRepository = serviceTypesRepository;
             _userHelper = userHelper;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
-            _context = context;
-
         }
 
         // GET: ServiceTypes
@@ -45,23 +39,6 @@ namespace Vet_Clinic.Web.Controllers
             return View(service);
         }
 
-        // GET: ServiceTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("ServiceTypeNotFound");
-            }
-
-            var serviceType = await _serviceTypesRepository.GetByIdAsync(id.Value);
-
-            if (serviceType == null)
-            {
-                return new NotFoundViewResult("ServiceTypeNotFound");
-            }
-
-            return View(serviceType);
-        }
 
         // GET: ServiceTypes/Create
         public IActionResult Create()
@@ -77,8 +54,8 @@ namespace Vet_Clinic.Web.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name")] ServiceType serviceType)
         {
             if (ModelState.IsValid)
-            {          
-               await _serviceTypesRepository.CreateAsync(serviceType);
+            {
+                await _serviceTypesRepository.CreateAsync(serviceType);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -94,7 +71,8 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("ServiceTypeNotFound");
             }
 
-            var serviceType = await _context.ServiceTypes.FindAsync(id);
+            var serviceType = await _serviceTypesRepository.GetByIdAsync(id.Value);
+
             if (serviceType == null)
             {
                 return new NotFoundViewResult("ServiceTypeNotFound");
@@ -107,23 +85,23 @@ namespace Vet_Clinic.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] ServiceType serviceType)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Description")]ServiceType serviceType)
         {
             if (id != serviceType.Id)
             {
-                return new NotFoundViewResult("ServiceTypeNotFound");
+                return new NotFoundViewResult("SpecieNotFound");
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(serviceType);
-                    await _context.SaveChangesAsync();
+                    await _serviceTypesRepository.UpdateAsync(serviceType);
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ServiceTypeExists(serviceType.Id))
+                    if (!await _serviceTypesRepository.ExistAsync(serviceType.Id))
                     {
                         return new NotFoundViewResult("ServiceTypeNotFound");
                     }
@@ -137,7 +115,9 @@ namespace Vet_Clinic.Web.Controllers
             return View(serviceType);
         }
 
+
         // POST: ServiceType/Delete/5
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -146,9 +126,7 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("ServiceTypeNotFound");
             }
 
-            var serviceType = await _context.ServiceTypes
-                 .Include(pt => pt.Histories)
-                .FirstOrDefaultAsync(pt => pt.Id == id);
+            var serviceType = await _serviceTypesRepository.GetServiceWithHistory(id.Value);
 
             if (serviceType == null)
             {
@@ -164,11 +142,6 @@ namespace Vet_Clinic.Web.Controllers
             await _serviceTypesRepository.DeleteAsync(serviceType);
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ServiceTypeExists(int id)
-        {
-            return _context.ServiceTypes.Any(e => e.Id == id);
         }
     }
 }

@@ -15,22 +15,17 @@ namespace Vet_Clinic.Web.Data.Repositories
         IEnumerable<SelectListItem> GetComboOwners();
 
 
-        IEnumerable<SelectListItem> GetComboPets(int ownerId);
-
-
         Task<Owner> GetOwnerWithPetsAsync(int ownerId);
 
 
-        Task AddPetAsync(Pet pet);
+        Task<Owner> GetOwnerWithUserAsync(EditUserViewModel model);
 
 
-        Task<int> UpdatePetAsync(Pet pet);
+        Task<Owner> GetOwnerWithUserByIdAsync(int userId);
 
 
-        Task<Pet> GetPetAsync(int id);
 
-
-        Task<int> DeletePetAsync(Pet pet);
+        Task<Owner> GetOwnerDetailsAsync(int ownerId);
 
     }
 }

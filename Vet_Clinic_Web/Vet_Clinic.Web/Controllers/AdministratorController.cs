@@ -19,7 +19,6 @@ namespace Vet_Clinic.Web.Controllers
     [Authorize(Roles = "Admin")]
     public class AdministratorController : Controller
     {
-        private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
         private readonly IMailHelper _mailHelper;
         private readonly IImageHelper _imageHelper;
@@ -27,14 +26,12 @@ namespace Vet_Clinic.Web.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
 
-        public AdministratorController(DataContext context,
-            IUserHelper userHelper,
+        public AdministratorController(IUserHelper userHelper,
             IMailHelper mailHelper,
             IImageHelper imageHelper,
             RoleManager<IdentityRole> roleManager,
             UserManager<User> userManager)
         {
-            _context = context;
             _userHelper = userHelper;
             _mailHelper = mailHelper;
             _imageHelper = imageHelper;

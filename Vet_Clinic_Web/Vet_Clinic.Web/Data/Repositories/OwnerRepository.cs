@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Vet_Clinic.Web.Data.Entities;
+using Vet_Clinic.Web.Models;
 
 namespace Vet_Clinic.Web.Data.Repositories
 {
@@ -18,58 +19,13 @@ namespace Vet_Clinic.Web.Data.Repositories
             _context = context;
         }
 
-        public async Task AddPetAsync(Pet pet)
-        {
-            var owner = await GetOwnerWithPetsAsync(pet.Owner.Id);
-            if (owner == null)
-            {
-                return;
-            }
-
-            owner.Pets.Add(pet);
-
-            _context.Owners.Update(owner);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<int> DeletePetAsync(Pet pet)
-        {
-            var owner = await _context.Owners.
-                Where(c => c.Pets.Any(p => p.Id == pet.Id))
-                .FirstOrDefaultAsync();
-
-            if (owner == null)
-            {
-                return 0;
-            }
-
-            _context.Pets.Remove(pet);
-            await _context.SaveChangesAsync();
-            return owner.Id;
-        }
 
         public IQueryable GetAllWithUsers()
         {
-            return _context.Owners.Include(p => p.CreatedBy);
-        }
-
-        public IEnumerable<SelectListItem> GetComboPets(int ownerId)
-        {
-            var list = _context.Pets.Where(p => p.Owner.Id == ownerId).Select(p => new SelectListItem
-            {
-                Text = p.Name,
-                Value = p.Id.ToString()
-
-            }).OrderBy(p => p.Text).ToList();
-
-            list.Insert(0, new SelectListItem
-            {
-                Text = "[Select a Pet...]",
-                Value = "0"
-            });
-
-            return list;
-        }
+            return _context.Owners
+                .Include(o => o.User)
+                .Include(o => o.Pets);
+        }      
 
         public IEnumerable<SelectListItem> GetComboOwners()
         {
@@ -89,6 +45,19 @@ namespace Vet_Clinic.Web.Data.Repositories
             return list;
         }
 
+        public async Task<Owner> GetOwnerDetailsAsync(int ownerId)
+        {
+            var owner = await _context.Owners
+               .Include(o => o.User)
+               .Include(o => o.Pets)
+               .ThenInclude(p => p.Specie)
+               .Include(o => o.Pets)
+               .ThenInclude(p => p.Histories)
+               .FirstOrDefaultAsync(m => m.Id == ownerId);
+
+            return owner;
+        }
+
         public async Task<Owner> GetOwnerWithPetsAsync(int ownerId)
         {
             return await _context.Owners
@@ -100,26 +69,22 @@ namespace Vet_Clinic.Web.Data.Repositories
                .FirstOrDefaultAsync(m => m.Id == ownerId);
         }
 
-        public async Task<Pet> GetPetAsync(int id)
+        public async Task<Owner> GetOwnerWithUserAsync(EditUserViewModel model)
         {
-            return await _context.Pets.FindAsync(id);
+            var owner = await _context.Owners
+                       .Include(o => o.User)
+                       .FirstOrDefaultAsync(o => o.Id.ToString() == model.Id);
+
+            return owner;
         }
 
-        public async Task<int> UpdatePetAsync(Pet pet)
+        public async Task<Owner> GetOwnerWithUserByIdAsync(int userId)
         {
-            var owner = _context.Owners
-                .Where(o => o.Pets.Any(p => p.Id == pet.Id))
-                .FirstOrDefault();
+            var owner = await _context.Owners
+                    .Include(o => o.User)
+                     .FirstOrDefaultAsync(o => o.Id == userId);
 
-            if (owner == null)
-            {
-                return 0;
-            }
-
-            _context.Pets.Update(pet);
-            await _context.SaveChangesAsync();
-
-            return pet.Id;
+            return owner;
         }
     }
 

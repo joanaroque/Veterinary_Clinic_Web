@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
@@ -18,19 +17,16 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
-        private readonly DataContext _context;
 
         public DoctorsController(IDoctorRepository doctorRepository,
             IUserHelper userHelper,
             IImageHelper imageHelper,
-            IConverterHelper converterHelper,
-            DataContext dataContext)
+            IConverterHelper converterHelper)
         {
             _doctorRepository = doctorRepository;
             _imageHelper = imageHelper;
             _userHelper = userHelper;
             _converterHelper = converterHelper;
-            _context = dataContext;
         }
 
         // GET: Doctors
@@ -106,6 +102,7 @@ namespace Vet_Clinic.Web.Controllers
             }
 
             var doctor = await _doctorRepository.GetByIdAsync(id.Value);
+
             if (doctor == null)
             {
                 return new NotFoundViewResult("DoctorNotFound");
@@ -166,7 +163,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 return new NotFoundViewResult("DoctorNotFound");
             }
-    
+
             var doctor = await _doctorRepository.GetByIdAsync(id.Value);
 
             //todo: onde o medico exista de hoje pra frente
@@ -183,11 +180,6 @@ namespace Vet_Clinic.Web.Controllers
             await _doctorRepository.DeleteAsync(doctor);
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool DoctorExists(int id)
-        {
-            return _context.Doctors.Any(d => d.Id == id);
         }
     }
 }

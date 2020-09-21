@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
@@ -37,6 +38,13 @@ namespace Vet_Clinic.Web
             });
 
             return list;
+        }
+
+        public async Task<ServiceType> GetServiceWithHistory(int id)
+        {
+           return await _context.ServiceTypes
+                 .Include(pt => pt.Histories)
+                .FirstOrDefaultAsync(pt => pt.Id == id);
         }
     }
 }

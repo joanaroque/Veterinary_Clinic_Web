@@ -26,7 +26,6 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IConfiguration _configuration;
         private readonly IMailHelper _mailHelper;
-        private readonly DataContext _context;
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly IOwnerRepository _ownerRepository;
@@ -34,7 +33,6 @@ namespace Vet_Clinic.Web.Controllers
         public AccountController(IUserHelper userHelper,
             IConfiguration configuration,
              IMailHelper mailHelper,
-             DataContext dataContext,
              SignInManager<User> signInManager,
              UserManager<User> userManager,
              IOwnerRepository ownerRepository)
@@ -42,7 +40,6 @@ namespace Vet_Clinic.Web.Controllers
             _userHelper = userHelper;
             _configuration = configuration;
             _mailHelper = mailHelper;
-            _context = dataContext;
             _signInManager = signInManager;
             _userManager = userManager;
             _ownerRepository = ownerRepository;

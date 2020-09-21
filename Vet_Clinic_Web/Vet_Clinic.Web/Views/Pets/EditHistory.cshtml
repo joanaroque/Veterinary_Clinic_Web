@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- left column -->
-            <div class="col-md-10 center-block">
+            <div class="col-md-6 center-block">
 
                 <div style="text-align:center">
                     <h3 class="card-title">Edit History</h3>
@@ -31,17 +31,13 @@
                             <input type="hidden" asp-for="PetId" />
                             <input type="hidden" asp-for="Id" />
 
-                            <div class="card-body">
-                                <div class="form-group">
+                            <div class="row center-block">
+                                <partial name="_History" />
+                            </div>
 
-
-                                    <partial name="_History" />
-
-                                    <div class="form-group">
-                                        <input type="submit" value="Save" class="btn btn-primary" />
-                                        <a asp-action="DetailsPet" asp-controller="Owners" asp-route-id="@Model.PetId" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To Pet</a>
-                                    </div>
-                                </div>
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                                <a asp-action="DetailsPet" asp-controller="Owners" asp-route-id="@Model.PetId" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To Pet</a>
                             </div>
 
                         </form>

@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Owin.Security;
 using System;
 using System.Text;
 
@@ -115,6 +114,8 @@ namespace Vet_Clinic.Web
             services.AddScoped<IServiceTypesRepository, ServiceTypesRepository>();
             services.AddScoped<ISpecieRepository, SpecieRepository>();
             services.AddScoped<IAssistantRepository, AssistantRepository>();
+            services.AddScoped<IHistoryRepository, HistoryRepository>();
+            services.AddScoped<IPetRepository, PetRepository>();
 
 
             services.Configure<CookiePolicyOptions>(options =>

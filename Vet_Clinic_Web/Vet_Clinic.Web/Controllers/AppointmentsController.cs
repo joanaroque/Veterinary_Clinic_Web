@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Graph;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +22,15 @@ namespace Vet_Clinic.Web.Controllers
         private readonly DataContext _context;
         private readonly IConverterHelper _converterHelper;
         private readonly IUserHelper _userHelper;
-
+        private readonly IPetRepository _petRepository;
 
         public AppointmentsController(IAppointmentRepository appointmentRepository,
             IDoctorRepository doctorRepository,
             IOwnerRepository ownerRepository,
             DataContext context,
             IConverterHelper converterHelper,
-            IUserHelper userHelper)
+            IUserHelper userHelper,
+            IPetRepository petRepository)
         {
             _appointmentRepository = appointmentRepository;
             _doctorRepository = doctorRepository;
@@ -36,6 +38,7 @@ namespace Vet_Clinic.Web.Controllers
             _context = context;
             _converterHelper = converterHelper;
             _userHelper = userHelper;
+            _petRepository = petRepository;
         }
 
         // GET: Appointments
@@ -65,7 +68,7 @@ namespace Vet_Clinic.Web.Controllers
                      .Include(p => p.Pet)
                      .Include(p => p.Owner)
                      .ThenInclude(p => p.User)
-                       .FirstOrDefaultAsync(p => p.Id == id.Value);
+                      .FirstOrDefaultAsync(p => p.Id == id.Value);
 
             if (appointment == null)
             {
@@ -109,7 +112,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 Doctors = _doctorRepository.GetComboDoctors(),
                 Owners = _ownerRepository.GetComboOwners(),
-                Pets = _ownerRepository.GetComboPets(0),
+                Pets = _petRepository.GetComboPets(0),
 
             };
 
@@ -133,7 +136,7 @@ namespace Vet_Clinic.Web.Controllers
 
             model.Doctors = _doctorRepository.GetComboDoctors();
             model.Owners = _ownerRepository.GetComboOwners();
-            model.Pets = _ownerRepository.GetComboPets(model.OwnerId);
+            model.Pets = _petRepository.GetComboPets(model.OwnerId);
 
             return View(model);
         }

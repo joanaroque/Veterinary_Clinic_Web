@@ -20,6 +20,7 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
+
         public AssistantController(IAssistantRepository assistantRepository,
             IUserHelper userHelper,
             IImageHelper imageHelper,

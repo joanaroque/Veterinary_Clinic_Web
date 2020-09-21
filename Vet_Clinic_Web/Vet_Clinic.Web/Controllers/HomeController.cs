@@ -25,6 +25,7 @@ namespace Vet_Clinic.Web.Data
         private readonly IImageHelper _imageHelper;
         private readonly DataContext _context;
         private readonly ISpecieRepository _specieRepository;
+        private readonly IPetRepository _petRepository;
         private readonly IConverterHelper _converterHelper;
         private readonly IUserHelper _userHelper;
 
@@ -33,6 +34,7 @@ namespace Vet_Clinic.Web.Data
         public HomeController(IAppointmentRepository appointmentRepository,
             IDoctorRepository doctorRepository,
             IOwnerRepository OwnerRepository,
+             IPetRepository petRepository,
             IImageHelper imageHelper,
              IUserHelper userHelper,
               IConverterHelper converterHelper,
@@ -44,6 +46,7 @@ namespace Vet_Clinic.Web.Data
             _ownerRepository = OwnerRepository;
             _context = context;
             _specieRepository = specieRepository;
+            _petRepository = petRepository;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
             _userHelper = userHelper;
@@ -89,26 +92,17 @@ namespace Vet_Clinic.Web.Data
 
         public async Task<JsonResult> GetDoctorsAsync(DateTime scheduledDate)
         {
-            int appointmentHour = scheduledDate.Hour;
+            var doctor = await _appointmentRepository.GetDoctorAsync(scheduledDate);
 
-            var workingDoctors = await _context.Doctors
-                .Where(d => d.WorkStart <= appointmentHour && d.WorkEnd > appointmentHour)
-                .ToListAsync();
-
-            var doctorsAlreadyScheduled = await _context.Appointments
-                    .Where(a => a.ScheduledDate.Equals(scheduledDate))
-                    .Select(a => a.Doctor).ToListAsync();
-
-            var doctorsNotScheduled = workingDoctors.Except(doctorsAlreadyScheduled);
-
-
-            return Json(doctorsNotScheduled.OrderBy(d => d.Name));
+            return Json(doctor.Name); // todo dividir em 2 metodos no repositorio
         }
 
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> MyPets()
         {
             var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+          // todo repositorio var owner = await _ownerRepository.GetByIdAsync(int.Parse(currentUser.Id));
 
             var pet = _context.Pets
                 .Include(p => p.Owner)
@@ -155,10 +149,10 @@ namespace Vet_Clinic.Web.Data
             {
                 Doctors = _doctorRepository.GetComboDoctors(),
                 OwnerId = owner.Id,
-                Pets = _ownerRepository.GetComboPets(owner.Id)
+                Pets = _petRepository.GetComboPets(owner.Id)
             };
 
-            model.Pets = _ownerRepository.GetComboPets(owner.Id);
+            model.Pets = _petRepository.GetComboPets(owner.Id);
             return View(model);
         }
 
@@ -179,7 +173,7 @@ namespace Vet_Clinic.Web.Data
             }
 
             model.Doctors = _doctorRepository.GetComboDoctors();
-            model.Pets = _ownerRepository.GetComboPets(model.OwnerId);
+            model.Pets = _petRepository.GetComboPets(model.OwnerId);
 
             return View(model);
         }
@@ -215,10 +209,7 @@ namespace Vet_Clinic.Web.Data
                 return NotFound();
             }
 
-            var pet = await _context.Pets
-                .Include(p => p.Owner)
-                .Include(p => p.Specie)
-                .FirstOrDefaultAsync(p => p.Id == id.Value);
+            var pet = await _petRepository.GetByIdAsync(id.Value);
 
             if (pet == null)
             {
@@ -248,7 +239,8 @@ namespace Vet_Clinic.Web.Data
                 var pet = _converterHelper.ToPet(model, path, false);
                 pet.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _ownerRepository.UpdatePetAsync(pet);
+                await _petRepository.UpdateAsync(pet);
+
                 return RedirectToAction(nameof(MyPets));
             }
 
@@ -263,12 +255,7 @@ namespace Vet_Clinic.Web.Data
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var pet = await _context.Pets
-                .Include(p => p.Owner)
-                .ThenInclude(o => o.CreatedBy)
-                .Include(p => p.Histories)
-                .ThenInclude(h => h.ServiceType)
-                .FirstOrDefaultAsync(o => o.Id == id.Value);
+            var pet = await _petRepository.GetByIdAsync(id.Value);
 
             if (pet == null)
             {
@@ -286,7 +273,7 @@ namespace Vet_Clinic.Web.Data
                 return NotFound();
             }
 
-            var pet = await _ownerRepository.GetPetAsync(id.Value);
+            var pet = await _petRepository.GetByIdAsync(id.Value);
 
             if (pet == null)
             {
@@ -298,7 +285,8 @@ namespace Vet_Clinic.Web.Data
                 return RedirectToAction(nameof(MyPets));
             }
 
-            await _ownerRepository.DeletePetAsync(pet);
+            await _petRepository.DeleteAsync(pet);
+
             return RedirectToAction(nameof(MyPets));
         }
 
@@ -349,7 +337,8 @@ namespace Vet_Clinic.Web.Data
                 var pet = _converterHelper.ToPet(model, path, true);
                 pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _ownerRepository.AddPetAsync(pet);
+                await _petRepository.CreateAsync(pet);
+
                 return RedirectToAction($"{nameof(MyPets)}");
             }
             return View(model);

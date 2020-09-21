@@ -75,8 +75,11 @@
                                                 @Html.DisplayFor(modelItem => item.WorkEnd)
                                             </td>
                                             <td>
+                                                
                                                 <input type="submit" value="Delete" class="btn btn-danger pull-right"
                                                        onclick="return confirm('Are you sure you want to delete @item.Name?')" />
+
+                                                @*<a asp-action="Delete" class="btn btn-danger pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>*@
                                                 <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
                                                 <a asp-action="Details" class="btn btn-warning pull-right" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
                                             </td>
