@@ -111,7 +111,6 @@ namespace Vet_Clinic.Web
             services.AddScoped<IDoctorRepository, DoctorRepository>();
             services.AddScoped<IAppointmentRepository, AppointmentRepository>();
             services.AddScoped<IOwnerRepository, OwnerRepository>();
-            services.AddScoped<IServiceTypesRepository, ServiceTypesRepository>();
             services.AddScoped<ISpecieRepository, SpecieRepository>();
             services.AddScoped<IAssistantRepository, AssistantRepository>();
             services.AddScoped<IHistoryRepository, HistoryRepository>();
@@ -135,7 +134,6 @@ namespace Vet_Clinic.Web
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddKendo();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

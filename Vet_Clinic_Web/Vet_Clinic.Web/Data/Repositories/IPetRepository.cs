@@ -20,5 +20,14 @@ namespace Vet_Clinic.Web.Data.Repositories
         Task<Pet> GetDetailsPetAsync(int petId);
 
 
+
+        Task<List<Pet>> GetPetFromOwnerAsync(int ownerId);
+
+
+
+        Task<List<Pet>> GetPetFromCurrentOwnerAsync(string currentUser);
+
+
+
     }
 }

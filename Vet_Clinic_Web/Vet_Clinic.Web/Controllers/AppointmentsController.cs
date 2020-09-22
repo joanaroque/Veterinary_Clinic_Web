@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Graph;
+
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Vet_Clinic.Web.Data;
+
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
@@ -19,7 +17,6 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IDoctorRepository _doctorRepository;
         private readonly IOwnerRepository _ownerRepository;
-        private readonly DataContext _context;
         private readonly IConverterHelper _converterHelper;
         private readonly IUserHelper _userHelper;
         private readonly IPetRepository _petRepository;
@@ -27,7 +24,6 @@ namespace Vet_Clinic.Web.Controllers
         public AppointmentsController(IAppointmentRepository appointmentRepository,
             IDoctorRepository doctorRepository,
             IOwnerRepository ownerRepository,
-            DataContext context,
             IConverterHelper converterHelper,
             IUserHelper userHelper,
             IPetRepository petRepository)
@@ -35,7 +31,6 @@ namespace Vet_Clinic.Web.Controllers
             _appointmentRepository = appointmentRepository;
             _doctorRepository = doctorRepository;
             _ownerRepository = ownerRepository;
-            _context = context;
             _converterHelper = converterHelper;
             _userHelper = userHelper;
             _petRepository = petRepository;
@@ -44,13 +39,7 @@ namespace Vet_Clinic.Web.Controllers
         // GET: Appointments
         public IActionResult Index()
         {
-            var appointment = _context.Appointments 
-                .Include(a => a.CreatedBy)
-                .Include(a => a.Owner)
-                .ThenInclude(o => o.User)
-                .Include(a => a.Pet)
-                .Include(a => a.Doctor)
-                .Where(a => a.ScheduledDate >= DateTime.Today.ToUniversalTime());
+            var appointment = _appointmentRepository.GetAllByDate();
 
             return View(appointment);
         }
@@ -63,12 +52,7 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("AssistantNotFound");
             }
 
-            var appointment = await _context.Appointments
-                     .Include(p => p.Doctor)
-                     .Include(p => p.Pet)
-                     .Include(p => p.Owner)
-                     .ThenInclude(p => p.User)
-                      .FirstOrDefaultAsync(p => p.Id == id.Value);
+            var appointment = await _appointmentRepository.GetAllWithUsers(id.Value);
 
             if (appointment == null)
             {
@@ -87,8 +71,13 @@ namespace Vet_Clinic.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(AppointmentViewModel model)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
+                
+                model.Doctor = await  _doctorRepository.GetByIdAsync(model.DoctorId);
+                model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
+                model.Pet = await _petRepository.GetByIdAsync(model.PetId);
+
                 var appointment = _converterHelper.ToAppointment(model, false);
 
                 if (appointment == null)
@@ -125,6 +114,9 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                model.Doctor = await _doctorRepository.GetByIdAsync(model.DoctorId);
+                model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
+                model.Pet = await _petRepository.GetByIdAsync(model.PetId);
                 var appointment = _converterHelper.ToAppointment(model, true);
 
                 appointment.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
@@ -145,13 +137,9 @@ namespace Vet_Clinic.Web.Controllers
         {
             int appointmentHour = scheduledDate.Hour;
 
-            var workingDoctors = await _context.Doctors
-                .Where(d => d.WorkStart <= appointmentHour && d.WorkEnd > appointmentHour)
-                .ToListAsync();
+            var workingDoctors = await _appointmentRepository.GetWorkingDoctorsAsync(appointmentHour);
 
-            var doctorsAlreadyScheduled = await _context.Appointments
-                    .Where(a => a.ScheduledDate.Equals(scheduledDate))
-                    .Select(a => a.Doctor).ToListAsync();
+            var doctorsAlreadyScheduled = await _appointmentRepository.GetScheduledDoctorsAsync(scheduledDate);
 
             var doctorsNotScheduled = workingDoctors.Except(doctorsAlreadyScheduled);
 
@@ -159,9 +147,9 @@ namespace Vet_Clinic.Web.Controllers
             return Json(doctorsNotScheduled.OrderBy(d => d.Name));
         }
 
-        public JsonResult GetPetsAsync(int ownerId)
+        public async Task<JsonResult> GetPetsAsync(int ownerId)
         {
-            var ownerPets =  _context.Pets.Where(p => p.Owner.Id == ownerId);
+            var ownerPets = await _petRepository.GetPetFromOwnerAsync(ownerId);
 
             return Json(ownerPets);
         }

@@ -18,7 +18,6 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IOwnerRepository _ownerRepository;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
-        private readonly IServiceTypesRepository _serviceTypesRepository;
         private readonly IUserHelper _userHelper;
         private readonly IPetRepository _petRepository;
         private readonly IHistoryRepository _historyRepository;
@@ -26,15 +25,13 @@ namespace Vet_Clinic.Web.Controllers
         public PetsController(IOwnerRepository ownerRepository,
             IImageHelper imageHelper,
             IConverterHelper converterHelper,
-            IServiceTypesRepository serviceTypesRepository,
-             IUserHelper userHelper,
+            IUserHelper userHelper,
              IPetRepository petRepository,
              IHistoryRepository historyRepository)
         {
             _ownerRepository = ownerRepository;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
-            _serviceTypesRepository = serviceTypesRepository;
             _userHelper = userHelper;
             _petRepository = petRepository;
             _historyRepository = historyRepository;
@@ -44,7 +41,7 @@ namespace Vet_Clinic.Web.Controllers
         public IActionResult Index()
         {
             var pet = _petRepository.GetAllWithUsers();
-
+    
             return View(pet);
 
         }
@@ -129,8 +126,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // POST: Pets/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -155,7 +150,7 @@ namespace Vet_Clinic.Web.Controllers
 
             var history = await _historyRepository.GetByIdAsync(id.Value);
 
-            if (history == null)
+            if (history == null)//TODO ESTE DELETE FUNCIONA :O
             {
                 return new NotFoundViewResult("PetNotFound");
             }
@@ -173,7 +168,7 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var history = await _historyRepository.GetHistoryWithPets(id.Value);
+            var history = await _historyRepository.GetByIdAsync(id.Value);
 
             if (history == null)
             {
@@ -200,10 +195,12 @@ namespace Vet_Clinic.Web.Controllers
                 return RedirectToAction($"{nameof(Details)}/{model.PetId}");
             }
 
+           //todo: model.ServiceType = _serviceTypesRepository.GetComboServiceTypes();
+
             return View(model);
         }
 
-        public async Task<IActionResult> AddHistory(int? id)
+        public async Task<IActionResult> AddHistory(int? id)//todo 
         {
             if (id == null)
             {
@@ -220,8 +217,7 @@ namespace Vet_Clinic.Web.Controllers
             var view = new HistoryViewModel
             {
                 CreateDate = DateTime.Now,
-                PetId = pet.Id,
-                ServiceTypes = _serviceTypesRepository.GetComboServiceTypes(),
+                PetId = pet.Id
             };
 
             return View(view);

@@ -10,7 +10,7 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200919133317_InitialDb")]
+    [Migration("20200922185647_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -291,8 +291,6 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.Property<int?>("PetId");
 
-                    b.Property<int?>("ServiceTypeId");
-
                     b.Property<DateTime>("UpdateDate");
 
                     b.HasKey("Id");
@@ -302,8 +300,6 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasIndex("ModifiedById");
 
                     b.HasIndex("PetId");
-
-                    b.HasIndex("ServiceTypeId");
 
                     b.ToTable("Histories");
                 });
@@ -384,33 +380,6 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasIndex("SpecieId");
 
                     b.ToTable("Pets");
-                });
-
-            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.ServiceType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("CreatedById");
-
-                    b.Property<string>("ModifiedById");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.ToTable("ServiceTypes");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Specie", b =>
@@ -605,10 +574,6 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasOne("Vet_Clinic.Web.Data.Entities.Pet", "Pet")
                         .WithMany("Histories")
                         .HasForeignKey("PetId");
-
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.ServiceType", "ServiceType")
-                        .WithMany("Histories")
-                        .HasForeignKey("ServiceTypeId");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Owner", b =>
@@ -643,17 +608,6 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasOne("Vet_Clinic.Web.Data.Entities.Specie", "Specie")
                         .WithMany("Pets")
                         .HasForeignKey("SpecieId");
-                });
-
-            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.ServiceType", b =>
-                {
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Specie", b =>

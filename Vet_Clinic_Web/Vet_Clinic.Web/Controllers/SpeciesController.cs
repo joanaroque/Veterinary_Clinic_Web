@@ -116,8 +116,6 @@ namespace Vet_Clinic.Web.Controllers
 
 
         // POST: Species/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

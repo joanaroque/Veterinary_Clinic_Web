@@ -29,7 +29,6 @@ namespace Vet_Clinic.Web.Data
 
             await FillUserAsync();
             await FillSpeciesAsync();
-            await FillServiceTypesAsync();
             await FillOwnerAsync();
             await FillDoctorAsync();     
             await CheckAppointmentsAsync();
@@ -54,7 +53,6 @@ namespace Vet_Clinic.Web.Data
                 _context.Histories.Add(new History
                 {
                     Pet = _context.Pets.FirstOrDefault(),
-                    ServiceType = _context.ServiceTypes.FirstOrDefault(),
                     Description = "Otite e orelhas sujas",
                     CreateDate = DateTime.Now.AddDays(-1)
                 });
@@ -195,18 +193,7 @@ namespace Vet_Clinic.Web.Data
             await _context.SaveChangesAsync();
         }
 
-        private async Task FillServiceTypesAsync()
-        {
-            if (!_context.ServiceTypes.Any())
-            {
-                _context.ServiceTypes.Add(new ServiceType { Name = "Appointment" });
-                _context.ServiceTypes.Add(new ServiceType { Name = "Emergency" });
-                _context.ServiceTypes.Add(new ServiceType { Name = "Vaccination" });
-
-                await _context.SaveChangesAsync();
-            }
-        }
-
+      
         private async Task FillOwnerAsync()
         {
             if (!_context.Owners.Any())

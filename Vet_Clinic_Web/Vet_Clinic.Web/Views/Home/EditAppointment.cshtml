@@ -1,0 +1,122 @@
+﻿@model Vet_Clinic.Web.Models.AppointmentViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<section class="content-header">
+    <ol class="breadcrumb">
+        <li><a asp-controller="Home"><i class="fas fa-home"></i> Home</a></li>
+        <li class="active">Appointments</li>
+    </ol>
+</section>
+<br />
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-5 center-block">
+
+                <div style="text-align:center">
+                    <h3 class="card-title">Edit Appointment</h3>
+                </div>
+
+                <div class="box box-info" style="margin-top:10px">
+                    <div class="box-header with-border">
+
+                        <form method="post" asp-action="Edit" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="PetId" />
+                            <input type="hidden" asp-for="OwnerId" />
+
+                            <div class="form-group">
+                                <label asp-for="ScheduledDate" class="control-label"></label>
+                                <input asp-for="ScheduledDate" class="form-control" />
+                                <span asp-validation-for="ScheduledDate" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="DoctorId" class="control-label"></label>
+                                <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-control"></select>
+                                <span asp-validation-for="DoctorId" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Pet" class="control-label"></label>
+                                <input asp-for="@Model.Pet.Name" class="form-control" disabled />
+                                <span asp-validation-for="Pet" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Owner" class="control-label"></label>
+                                <input asp-for="@Model.Owner.User.FullName" class="form-control" disabled/>
+                                <span asp-validation-for="Owner" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="AppointmentObs"></label>
+                                <textarea asp-for="AppointmentObs" class="form-control"> </textarea>
+                                <span asp-validation-for="AppointmentObs" class="text-danger"></span>
+                            </div>
+
+                            <!-- /.box-body -->
+                            <div class="form-group">
+                                <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To List</a>
+                                <input type="submit" value="Save" class="btn btn-primary " />
+                            </div>
+                            <!-- /.box-footer -->
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box -->
+</section>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#ScheduledDate").change(function () {
+                //If date is selected and value is changed, clear doctor fields.
+                $("#DoctorId").empty();
+
+                // Extract minutes field from selected date
+                let appointmentDate = new Date($("#ScheduledDate").val());
+
+                let minutes = appointmentDate.getMinutes();
+
+                // Validate if minutes are at 0, otherwise appointments cannot be scheduled
+                if (minutes > 0) {
+                    alert('Appointments must be at specific hours.');
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetDoctorsAsync")',
+                        dataType: 'json',
+                        data: { scheduledDate: $("#ScheduledDate").val() },
+                        success: function (doctors) {
+                            $("#DoctorId").append('<option value="0">[Select a doctor...]</option>');
+                            $.each(doctors, function (i, doctor) {
+                                $("#DoctorId").append('<option value="'
+                                    + doctor.id + '">'
+                                    + doctor.name + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed to retrieve pets.' + ex.statusText);
+                        }
+                    });
+                }
+                return false;
+            })
+        });
+    </script>
+
+}
+
+

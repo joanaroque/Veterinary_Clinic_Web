@@ -53,9 +53,24 @@ namespace Vet_Clinic.Web.Data.Repositories
                 .FirstOrDefaultAsync(p => p.Id == petId);
 
             return pet;
-
         }
 
-      
+        public async Task<List<Pet>> GetPetFromOwnerAsync(int ownerId)
+        {
+            var ownerPets = await _context.Pets.
+                Where(p => p.Owner.Id == ownerId).ToListAsync();
+
+            return ownerPets;
+        }
+
+        public async Task<List<Pet>> GetPetFromCurrentOwnerAsync(string currentUser)
+        {
+            var pet = await _context.Pets
+               .Include(p => p.Owner)
+               .ThenInclude(p => p.User)
+               .Where(p => p.Owner.User.Id == currentUser.ToString()).ToListAsync();
+
+            return pet;
+        }
     }
 }

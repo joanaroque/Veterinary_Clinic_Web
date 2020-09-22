@@ -4,6 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
+
+
 <section class="content-header">
 
     <ol class="breadcrumb">
@@ -15,11 +17,11 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <br />
 
-<p>
-    <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Create New</a>
-</p>
+<section>
+    <p>
+        <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Create New</a>
+    </p>
 
-<section class="content">
 
     <div class="row">
         <div class="col-md-9 center-block">
@@ -37,41 +39,35 @@
                                         @Html.DisplayNameFor(model => model.ImageUrl)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Name)  
+                                        @Html.DisplayNameFor(model => model.Name)
                                     </th>
-
                                     <th>
                                         @Html.DisplayNameFor(model => model.PhoneNumber)
                                     </th>
-
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    @using (Html.BeginForm("Delete", "Assistant", new { id = item.Id }))
-                                    {
-                                        <tr>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ImageUrl)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                            @Html.DisplayFor(modelItem => item.LastName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                        </td>
+                                        <td id="@item.Id">
+                                            <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                            <a asp-action="Details" class="btn btn-warning " asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger pull-right" id="btnDelete"><i class="fa fa-trash"></i></a>
 
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.ImageUrl)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Name)  @Html.DisplayFor(modelItem => item.LastName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.PhoneNumber)
-                                            </td>
-                                            <td>
-                                                <input type="submit" value="Delete" class="btn btn-danger pull-right"
-                                                       onclick="return confirm('Are you sure you want to delete @item.Name?')" />
-                                                <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
-                                                <a asp-action="Details" class="btn btn-warning pull-right" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
-                                            </td>
-
-                                        </tr>
-                                    }
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -82,12 +78,32 @@
     </div>
 </section>
 
+<partial name="_DeleteDialog" />
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#MyTable').DataTable();
         });
+            $(document).ready(function () {
+                let id = 0;
+                $('a[id*=btnDelete]').click(function () {
+                    debugger;
+                    id = $(this).parent()[0].id;
+                    $("#deleteDialog").modal('show');
+                    return false;
+                });
+                $("#btnNoDelete").click(function () {
+                    $("#deleteDialog").modal('hide');
+                    return false;
+                });
+                $("#btnYesDelete").click(function () {
+                    window.location.href = '/Assistant/Delete/' + id;
+                });
+            });
     </script>
 }

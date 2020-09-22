@@ -19,8 +19,6 @@ namespace Vet_Clinic.Web.Data
 
         public DbSet<History> Histories { get; set; }
 
-        public DbSet<ServiceType> ServiceTypes { get; set; }
-
         public DbSet<Assistant> Assistants { get; set; }
 
 

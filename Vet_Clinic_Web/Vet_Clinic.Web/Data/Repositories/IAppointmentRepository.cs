@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,12 +10,20 @@ namespace Vet_Clinic.Web.Data.Repositories
     public interface IAppointmentRepository : IGenericRepository<Appointment>
     {
 
-        IQueryable GetAllWithUsers();
-
-        IEnumerable<SelectListItem> GetComboAppointment();
+        IQueryable GetAllByDate();
 
 
-        Task<Doctor> GetDoctorAsync(DateTime scheduledDate);
+        Task<Appointment> GetAllWithUsers(int id);
+
+
+        Task<List<Doctor>> GetWorkingDoctorsAsync(int appointmentHour);
+
+
+        Task<List<Doctor>> GetScheduledDoctorsAsync(DateTime scheduledDate);
+
+
+        Task<List<Appointment>> GetAppointmentFromCurrentOwnerAsync(string currentUser);
+
 
     }
 }

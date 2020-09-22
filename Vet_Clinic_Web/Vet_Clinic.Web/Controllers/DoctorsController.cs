@@ -154,8 +154,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // POST: Doctors/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)
         {

@@ -18,7 +18,7 @@
     <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Create New</a>
 </p>
 
-<section class="content">
+
     <div class="row">
         <div class="col-md-10 center-block">
             <div style="text-align:center">
@@ -52,39 +52,31 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    @using (Html.BeginForm("Delete", "Doctors", new { id = item.Id }))
-                                    {
-
-                                        <tr>
-                                            <td>
-                                                @if (!string.IsNullOrEmpty(item.ImageUrl))
-                                                {
-                                                    <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
-                                                }
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Name) @Html.DisplayFor(modelItem => item.LastName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Specialty)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.WorkStart)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.WorkEnd)
-                                            </td>
-                                            <td>
-                                                
-                                                <input type="submit" value="Delete" class="btn btn-danger pull-right"
-                                                       onclick="return confirm('Are you sure you want to delete @item.Name?')" />
-
-                                                @*<a asp-action="Delete" class="btn btn-danger pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>*@
-                                                <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
-                                                <a asp-action="Details" class="btn btn-warning pull-right" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
-                                            </td>
-                                        </tr>
-                                    }
+                                    <tr>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                            {
+                                                <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name) @Html.DisplayFor(modelItem => item.LastName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Specialty)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.WorkStart)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.WorkEnd)
+                                        </td>
+                                        <td id="@item.Id">
+                                            <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                            <a asp-action="Details" class="btn btn-warning" asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger pull-right" id="btnDelete"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    </tr>
                                 }
                             </tbody>
                         </table>
@@ -94,7 +86,7 @@
             </div>
         </div>
     </div>
-</section>
+    <partial name="_DeleteDialog" />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -102,6 +94,22 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#MyTable').DataTable();
+        });
+        $(document).ready(function () {
+            let id = 0;
+            $('a[id*=btnDelete]').click(function () {
+                debugger;
+                id = $(this).parent()[0].id;
+                $("#deleteDialog").modal('show');
+                return false;
+            });
+            $("#btnNoDelete").click(function () {
+                $("#deleteDialog").modal('hide');
+                return false;
+            });
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Doctors/Delete/' + id;
+            });
         });
     </script>
 }

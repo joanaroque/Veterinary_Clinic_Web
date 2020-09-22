@@ -39,19 +39,17 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    @using (Html.BeginForm("Delete", "Species", new { id = item.Id }))
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Description)
-                                            </td>
-                                            <td>
-                                                <input type="submit" value="Delete" class="btn btn-danger pull-right"
-                                                       onclick="return confirm('Are you sure you want to delete @item.Description?')" />
-                                                <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
-                                            </td>
-                                        </tr>
-                                    }
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td id="@item.Id">
+                                        <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDelete"><i class="fa fa-trash"></i></a>
+
+                                    </td>
+                                </tr>
+
                                 }
                             </tbody>
                         </table>
@@ -62,12 +60,32 @@
     </div>
 </section>
 
+<partial name="_DeleteDialog" />
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#MyTable').DataTable();
+        });
+
+
+        $(document).ready(function () {
+            let id = 0;
+            $('a[id*=btnDelete]').click(function () {
+                debugger;
+                id = $(this).parent()[0].id;
+                $("#deleteDialog").modal('show');
+                return false;
+            });
+            $("#btnNoDelete").click(function () {
+                $("#deleteDialog").modal('hide');
+                return false;
+            });
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Species/Delete/' + id;
+            });
         });
     </script>
 

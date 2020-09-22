@@ -25,5 +25,8 @@ namespace Vet_Clinic.Web.Models
 
         public IEnumerable<SelectListItem> Species { get; set; }
 
+        public string OwnerFullName { get; set; }
+
+        public int HistoriesCount { get; set; }
     }
 }

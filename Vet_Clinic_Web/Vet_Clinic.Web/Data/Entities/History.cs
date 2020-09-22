@@ -22,7 +22,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [Required(ErrorMessage = "The field {0} is mandatory.")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
-        [CustomDateValidator(ErrorMessage = "Date must be more than or equal to Today's day")]
+        [CustomBirthDateValidator(ErrorMessage = "Date must be more than or equal to Today's day")]
         [NotInWeekendsValidator(ErrorMessage = "The Vet Clinic is closed on weekends")]
         public DateTime CreateDate { get; set; }
 
@@ -31,9 +31,6 @@ namespace Vet_Clinic.Web.Data.Entities
 
 
         public User ModifiedBy { get; set; }
-
-
-        public ServiceType ServiceType { get; set; }
 
 
         public Pet Pet { get; set; }

@@ -270,35 +270,6 @@ namespace Vet_Clinic.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ServiceTypes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    CreatedById = table.Column<string>(nullable: true),
-                    CreateDate = table.Column<DateTime>(nullable: false),
-                    UpdateDate = table.Column<DateTime>(nullable: false),
-                    ModifiedById = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ServiceTypes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ServiceTypes_AspNetUsers_CreatedById",
-                        column: x => x.CreatedById,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ServiceTypes_AspNetUsers_ModifiedById",
-                        column: x => x.ModifiedById,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Species",
                 columns: table => new
                 {
@@ -438,7 +409,6 @@ namespace Vet_Clinic.Web.Migrations
                     CreateDate = table.Column<DateTime>(nullable: false),
                     UpdateDate = table.Column<DateTime>(nullable: false),
                     ModifiedById = table.Column<string>(nullable: true),
-                    ServiceTypeId = table.Column<int>(nullable: true),
                     PetId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -460,12 +430,6 @@ namespace Vet_Clinic.Web.Migrations
                         name: "FK_Histories_Pets_PetId",
                         column: x => x.PetId,
                         principalTable: "Pets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Histories_ServiceTypes_ServiceTypeId",
-                        column: x => x.ServiceTypeId,
-                        principalTable: "ServiceTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -570,11 +534,6 @@ namespace Vet_Clinic.Web.Migrations
                 column: "PetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Histories_ServiceTypeId",
-                table: "Histories",
-                column: "ServiceTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Owners_CreatedById",
                 table: "Owners",
                 column: "CreatedById");
@@ -608,16 +567,6 @@ namespace Vet_Clinic.Web.Migrations
                 name: "IX_Pets_SpecieId",
                 table: "Pets",
                 column: "SpecieId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ServiceTypes_CreatedById",
-                table: "ServiceTypes",
-                column: "CreatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ServiceTypes_ModifiedById",
-                table: "ServiceTypes",
-                column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Species_CreatedById",
@@ -664,9 +613,6 @@ namespace Vet_Clinic.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pets");
-
-            migrationBuilder.DropTable(
-                name: "ServiceTypes");
 
             migrationBuilder.DropTable(
                 name: "Owners");

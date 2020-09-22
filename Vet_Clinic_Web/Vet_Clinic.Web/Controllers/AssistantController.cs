@@ -151,8 +151,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // POST: Assistant/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -161,6 +159,12 @@ namespace Vet_Clinic.Web.Controllers
             }
 
             var assistant = await _assistantRepository.GetByIdAsync(id.Value);
+
+            if (assistant == null)
+            {
+                return new NotFoundViewResult("AssistantNotFound");
+            }
+
             await _assistantRepository.DeleteAsync(assistant);
 
             return RedirectToAction(nameof(Index));

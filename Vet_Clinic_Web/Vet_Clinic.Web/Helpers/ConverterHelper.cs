@@ -9,17 +9,11 @@ namespace Vet_Clinic.Web.Helpers
 {
     public class ConverterHelper : IConverterHelper
     {
-        private readonly DataContext _context;
-        private readonly IServiceTypesRepository _serviceTypesRepository;
         private readonly ISpecieRepository _specieRepository;
 
         public ConverterHelper(
-           DataContext dataContext,
-           IServiceTypesRepository serviceTypesRepository,
            ISpecieRepository specieRepository)
         {
-            _context = dataContext;
-            _serviceTypesRepository = serviceTypesRepository;
             _specieRepository = specieRepository;
         }
 
@@ -68,6 +62,8 @@ namespace Vet_Clinic.Web.Helpers
                 ModifiedBy = pet.ModifiedBy,
                 CreateDate = pet.CreateDate,
                 UpdateDate = DateTime.Now,
+                OwnerFullName = pet.Owner.User.FullName,
+                HistoriesCount = pet.Histories.Count
 
             };
         }
@@ -128,8 +124,7 @@ namespace Vet_Clinic.Web.Helpers
                 CreateDate = DateTime.Now,
                 UpdateDate = DateTime.Now,
                 Id = isNew ? 0 : model.Id,
-                Pet = model.Pet,
-                ServiceType = model.ServiceType
+                Pet = model.Pet
             };
         }
 
@@ -141,9 +136,7 @@ namespace Vet_Clinic.Web.Helpers
                 Id = history.Id,
                 ModifiedBy = history.ModifiedBy,
                 UpdateDate = DateTime.Now,
-                PetId = history.Pet.Id,
-                ServiceTypeId = history.ServiceType.Id,
-                ServiceTypes = _serviceTypesRepository.GetComboServiceTypes()
+                PetId = history.Pet.Id
             };
         }
 
@@ -188,10 +181,7 @@ namespace Vet_Clinic.Web.Helpers
 
         public Appointment ToAppointment(AppointmentViewModel model, bool isNew)
         {
-            Doctor doc = _context.Doctors.Find(model.DoctorId);
-            Owner owner = _context.Owners.Find(model.OwnerId);
-            Pet pet = _context.Pets.Find(model.PetId);
-
+  
             return new Appointment
             {
                 Id = isNew ? 0 : model.Id,
@@ -200,9 +190,9 @@ namespace Vet_Clinic.Web.Helpers
                 UpdateDate = DateTime.Now,
                 AppointmentObs = model.AppointmentObs,
                 CreatedBy = model.CreatedBy,
-                Doctor = doc,
-                Pet = pet,
-                Owner = owner
+                Doctor = model.Doctor,
+                Pet = model.Pet,
+                Owner = model.Owner
             };
         }
 

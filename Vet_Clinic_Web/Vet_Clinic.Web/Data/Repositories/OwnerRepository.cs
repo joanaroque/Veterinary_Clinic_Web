@@ -45,6 +45,23 @@ namespace Vet_Clinic.Web.Data.Repositories
             return list;
         }
 
+        public async Task<Owner> GetCurrentUserOwner(string currentUser)
+        {
+            var owner = await _context.Owners
+                       .Where(a => a.User.Id == currentUser.ToString()).FirstOrDefaultAsync();
+
+            return owner;
+        }
+
+        public async Task<Owner> GetFirstOwnerAsync(string identityName)
+        {
+            var owner = await _context.Owners
+                 .FirstOrDefaultAsync(o => o.User.Email.ToLower()
+                 .Equals(identityName));
+
+            return owner;
+        }
+
         public async Task<Owner> GetOwnerDetailsAsync(int ownerId)
         {
             var owner = await _context.Owners

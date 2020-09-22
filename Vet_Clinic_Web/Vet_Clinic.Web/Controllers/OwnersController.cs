@@ -21,8 +21,7 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
-        private readonly DataContext _context;
-        private readonly IServiceTypesRepository _serviceTypesRepository;
+     
         private readonly ISpecieRepository _specieRepository;
         private readonly IMailHelper _mailHelper;
         private readonly IPetRepository _petRepository;
@@ -32,8 +31,7 @@ namespace Vet_Clinic.Web.Controllers
             IUserHelper userHelper,
             IImageHelper imageHelper,
             IConverterHelper converterHelper,
-            DataContext context,
-            IServiceTypesRepository serviceTypesRepository,
+
             ISpecieRepository specieRepository,
             IMailHelper mailHelper,
              IPetRepository petRepository,
@@ -43,8 +41,7 @@ namespace Vet_Clinic.Web.Controllers
             _userHelper = userHelper;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
-            _context = context;
-            _serviceTypesRepository = serviceTypesRepository;
+
             _specieRepository = specieRepository;
             _mailHelper = mailHelper;
             _petRepository = petRepository;
@@ -201,9 +198,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        // POST: Owners/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        // POST: Owners/Delete/5 
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -220,7 +215,6 @@ namespace Vet_Clinic.Web.Controllers
 
             if (owner.Pets.Count > 0)
             {
-                ModelState.AddModelError(string.Empty, "This Owner can't be removed.");
                 return RedirectToAction(nameof(Index));
             }
 
@@ -247,8 +241,7 @@ namespace Vet_Clinic.Web.Controllers
             var view = new HistoryViewModel
             {
                 CreateDate = DateTime.Now,
-                PetId = pet.Id,
-                ServiceTypes = _serviceTypesRepository.GetComboServiceTypes(),
+                PetId = pet.Id
             };
 
             return View(view);
@@ -257,7 +250,7 @@ namespace Vet_Clinic.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddHistory(HistoryViewModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)//todo: vem sem id do pet
             {
                 var history = _converterHelper.ToHistory(model, true);
 
@@ -265,10 +258,14 @@ namespace Vet_Clinic.Web.Controllers
 
                 await _historyRepository.CreateAsync(history);
 
+                model.Pet = await _petRepository.GetDetailsPetAsync(model.PetId);
+
+                var histories = _historyRepository.GetHistoriesFromPetId(model.PetId);
+
                 return RedirectToAction($"{nameof(DetailsPet)}/{model.PetId}");
+
             }
 
-            model.ServiceTypes = _serviceTypesRepository.GetComboServiceTypes();
             return View(model);
         }
 
@@ -324,14 +321,10 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, path);
                 }
+                model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
 
-                var owner = await _context.Owners.FindAsync(model.OwnerId);
 
-                model.Owner = owner;
-
-                var specie = await _context.Species.FindAsync(model.SpecieId);
-
-                model.Specie = specie;
+                model.Specie = await _specieRepository.GetByIdAsync(model.SpecieId);
 
                 var pet = _converterHelper.ToPet(model, path, true);
                 pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
@@ -419,7 +412,6 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction($"Details/{pet.Owner.Id}");
         }
 
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteHistory(int? id)
         {
             if (id == null)
@@ -427,14 +419,14 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            var history = await _historyRepository.GetHistoryWithPets(id.Value);
+            var history = await _historyRepository.GetByIdAsync(id.Value);
 
             if (history == null)
             {
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            await _historyRepository.DeleteAsync(history);//TODO ESTE DELETE FUNCIONA :O
+            await _historyRepository.DeleteAsync(history);
 
             return RedirectToAction($"{nameof(Details)}/{history.Pet.Id}");
         }

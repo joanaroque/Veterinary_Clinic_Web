@@ -2,7 +2,7 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.Collections.Generic;
 using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Data.Repositories
@@ -21,14 +21,12 @@ namespace Vet_Clinic.Web.Data.Repositories
             return _context.Histories.Include(p => p.CreatedBy);
         }
 
-        public async Task<History> GetHistoryWithPets(int petId)
-        {
-            var history = await _context.Histories
-                .Include(h => h.Pet)
-                .Include(h => h.ServiceType)
-                .FirstOrDefaultAsync(p => p.Id == petId);
+ 
 
-            return history;
+        public async Task<List<History>> GetHistoriesFromPetId(int petId)
+        {
+
+            return await _context.Histories.Where(p => p.Pet.Id == petId).ToListAsync();
         }
     }
 }

@@ -27,5 +27,11 @@ namespace Vet_Clinic.Web.Data.Repositories
 
         Task<Owner> GetOwnerDetailsAsync(int ownerId);
 
+
+        Task<Owner> GetCurrentUserOwner(string currentUser);
+
+
+        Task<Owner> GetFirstOwnerAsync(string identityName);
+
     }
 }
