@@ -154,18 +154,25 @@ namespace Vet_Clinic.Web.Data
         {
             if (ModelState.IsValid)
             {
+                try
+                {
+                    model.Doctor = await _doctorRepository.GetByIdAsync(model.DoctorId);
+                    model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
+                    model.Pet = await _petRepository.GetByIdAsync(model.PetId);
 
-                model.Doctor = await _doctorRepository.GetByIdAsync(model.DoctorId);
-                model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
-                model.Pet = await _petRepository.GetByIdAsync(model.PetId);
+                    var appointment = _converterHelper.ToAppointment(model, true);
 
-                var appointment = _converterHelper.ToAppointment(model, true);
+                    appointment.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                appointment.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    await _appointmentRepository.CreateAsync(appointment);
 
-                await _appointmentRepository.CreateAsync(appointment);
+                    return RedirectToAction(nameof(MyAppointments));
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
 
-                return RedirectToAction(nameof(MyAppointments));
             }
 
             model.Doctors = _doctorRepository.GetComboDoctors();
@@ -226,23 +233,30 @@ namespace Vet_Clinic.Web.Data
         {
             if (ModelState.IsValid)
             {
-
-                model.Doctor = await _doctorRepository.GetByIdAsync(model.DoctorId);
-                model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
-                model.Pet = await _petRepository.GetByIdAsync(model.PetId);
-
-                var appointment = _converterHelper.ToAppointment(model, false);
-
-                if (appointment == null)
+                try
                 {
-                    return new NotFoundViewResult("AppointmentNotFound");
+                    model.Doctor = await _doctorRepository.GetByIdAsync(model.DoctorId);
+                    model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
+                    model.Pet = await _petRepository.GetByIdAsync(model.PetId);
+
+                    var appointment = _converterHelper.ToAppointment(model, false);
+
+                    if (appointment == null)
+                    {
+                        return new NotFoundViewResult("AppointmentNotFound");
+                    }
+
+                    appointment.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+                    await _appointmentRepository.UpdateAsync(appointment);
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
                 }
 
-                appointment.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
-                await _appointmentRepository.UpdateAsync(appointment);
-
-                return RedirectToAction(nameof(Index));
             }
 
             return View(model);
@@ -284,12 +298,20 @@ namespace Vet_Clinic.Web.Data
 
                 }
 
-                var pet = _converterHelper.ToPet(model, path, false);
-                pet.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                try
+                {
+                    var pet = _converterHelper.ToPet(model, path, false);
+                    pet.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _petRepository.UpdateAsync(pet);
+                    await _petRepository.UpdateAsync(pet);
 
-                return RedirectToAction(nameof(MyPets));
+                    return RedirectToAction(nameof(MyPets));
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+
             }
 
             return View(model);
@@ -333,7 +355,15 @@ namespace Vet_Clinic.Web.Data
                 return RedirectToAction(nameof(MyPets));
             }
 
-            await _petRepository.DeleteAsync(pet);
+            try
+            {
+                await _petRepository.DeleteAsync(pet);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
+
 
             return RedirectToAction(nameof(MyPets));
         }
@@ -372,18 +402,25 @@ namespace Vet_Clinic.Web.Data
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, "Pets");
 
                 }
-                model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
+                try
+                {
+                    model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
 
-               
-                model.Specie = await _specieRepository.GetByIdAsync(model.SpecieId);
+
+                    model.Specie = await _specieRepository.GetByIdAsync(model.SpecieId);
 
 
-                var pet = _converterHelper.ToPet(model, path, true);
-                pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    var pet = _converterHelper.ToPet(model, path, true);
+                    pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _petRepository.CreateAsync(pet);
+                    await _petRepository.CreateAsync(pet);
 
-                return RedirectToAction($"{nameof(MyPets)}");
+                    return RedirectToAction($"{nameof(MyPets)}");
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
             return View(model);
         }

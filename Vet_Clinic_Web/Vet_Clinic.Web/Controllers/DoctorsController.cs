@@ -81,13 +81,32 @@ namespace Vet_Clinic.Web.Controllers
                     path = await _imageHelper.UploadImageAsync(doctorViewModel.ImageFile, "Doctors");
                 }
 
-                var doctor = _converterHelper.ToDoctor(doctorViewModel, path, true);
+                try
+                {
+                    var doctor = _converterHelper.ToDoctor(doctorViewModel, path, true);
 
-                doctor.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    doctor.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _doctorRepository.CreateAsync(doctor);
+                    await _doctorRepository.CreateAsync(doctor);
 
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "There are a record with the same name.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+
             }
             return View(doctorViewModel);
         }
@@ -173,12 +192,23 @@ namespace Vet_Clinic.Web.Controllers
             {
                 await _doctorRepository.DeleteAsync(doctor);
             }
-            catch (Exception ex)
-            {
 
-                ModelState.AddModelError(string.Empty, ex.Message);
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                {
+                    ModelState.AddModelError(string.Empty, "This Doctor already has scheduled appointments.\nFirst unschedule the appointment");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                }
             }
-            
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
+
             return RedirectToAction(nameof(Index));
         }
     }

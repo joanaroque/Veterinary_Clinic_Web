@@ -10,7 +10,7 @@ using Vet_Clinic.Web.Data;
 namespace Vet_Clinic.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200922185647_InitialDb")]
+    [Migration("20200925200022_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,6 +212,9 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.HasIndex("ModifiedById");
 
+                    b.HasIndex("Email", "TIN")
+                        .IsUnique();
+
                     b.ToTable("Assistants");
                 });
 
@@ -269,6 +272,9 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("ModifiedById");
+
+                    b.HasIndex("Email", "MedicalLicense", "TIN", "Specialty")
+                        .IsUnique();
 
                     b.ToTable("Doctors");
                 });
@@ -403,6 +409,9 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
+
+                    b.HasIndex("Description")
+                        .IsUnique();
 
                     b.HasIndex("ModifiedById");
 

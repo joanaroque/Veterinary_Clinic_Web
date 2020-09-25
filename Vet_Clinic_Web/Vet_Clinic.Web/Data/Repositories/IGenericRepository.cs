@@ -5,10 +5,7 @@ namespace Vet_Clinic.Web.Data.Repositories
 {
     public interface IGenericRepository<T> where T : class 
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+
         IQueryable<T> GetAll();
 
         Task<T> GetByIdAsync(int id);

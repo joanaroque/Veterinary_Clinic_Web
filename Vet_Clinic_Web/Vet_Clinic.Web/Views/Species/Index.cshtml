@@ -44,9 +44,8 @@
                                         @Html.DisplayFor(modelItem => item.Description)
                                     </td>
                                     <td id="@item.Id">
-                                        <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
                                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDelete"><i class="fa fa-trash"></i></a>
-
+                                        <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
                                     </td>
                                 </tr>
 

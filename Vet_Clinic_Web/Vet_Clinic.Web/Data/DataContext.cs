@@ -41,6 +41,26 @@ namespace Vet_Clinic.Web.Data
             }
 
             base.OnModelCreating(modelBuilder);
+
+            //*******************************************************************************
+            modelBuilder.Entity<Specie>()
+                .HasIndex(s => s.Description)
+                 .IsUnique();
+
+            modelBuilder.Entity<Doctor>()
+                 .HasIndex(d => d.MedicalLicense)
+                 .IsUnique();
+
+            modelBuilder.Entity<Doctor>()
+                .HasIndex(d => d.TIN)
+                .IsUnique();
+
+            modelBuilder.Entity<Assistant>()
+               .HasIndex(a => a.TIN)
+               .IsUnique();
+
+
+            //*******************************************************************************
         }
 
     }

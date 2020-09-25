@@ -23,7 +23,7 @@
 
 <section class="content">
     <div class="row">
-        <div class="col-md-7 center-block">
+        <div class="col-md-12 center-block">
             <div style="text-align:center">
                 <h3 class="card-title">List of Roles</h3>
             </div>
@@ -35,26 +35,29 @@
                     {
                         @using (Html.BeginForm("DeleteRole", "Administrator", new { id = role.Id }))
                         {
-                            <div class="card mb-3">
-                                <div class="card-header">
-                                    Role Id: @role.Id
-                                </div>
-                                <div class="card-body">
-                                    <h4 class="card-title">@role.Name</h4>
-                                </div>
-                                <div class="card-footer">
-                                    <a asp-controller="Administrator" asp-action="EditRole"
-                                       asp-route-id="@role.Id" class="btn btn-info">
-                                        <i class="fa fa-edit"></i> Edit
-                                    </a>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        Role Id: @role.Id
+                    </div>
+                    <br />
 
-                                    <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
+                    <div class="card-body">
+                        <h4 class="card-title">@role.Name</h4>
+                    </div>
+                    <br />
+                    <div class="card-footer">
+                        <a asp-controller="Administrator" asp-action="EditRole"
+                           asp-route-id="@role.Id" class="btn btn-info">
+                            <i class="fa fa-edit"></i> Edit
+                        </a>
 
-                                        <input type="submit" value="Delete" class="btn btn-danger pull-right"
-                                               onclick="return confirm('Are you sure you want to delete @role.Name?')" />
-                                    </form>
-                                </div>
-                            </div>
+                        <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
+
+                            <input type="submit" value="Delete" class="btn btn-danger pull-right"
+                                   onclick="return confirm('Are you sure you want to delete @role.Name?')" />
+                        </form>
+                    </div>
+                </div>
                             }
                         }
                     }

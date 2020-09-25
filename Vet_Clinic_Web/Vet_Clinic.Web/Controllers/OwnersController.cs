@@ -21,7 +21,6 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
-     
         private readonly ISpecieRepository _specieRepository;
         private readonly IMailHelper _mailHelper;
         private readonly IPetRepository _petRepository;
@@ -31,7 +30,6 @@ namespace Vet_Clinic.Web.Controllers
             IUserHelper userHelper,
             IImageHelper imageHelper,
             IConverterHelper converterHelper,
-
             ISpecieRepository specieRepository,
             IMailHelper mailHelper,
              IPetRepository petRepository,
@@ -41,7 +39,6 @@ namespace Vet_Clinic.Web.Controllers
             _userHelper = userHelper;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
-
             _specieRepository = specieRepository;
             _mailHelper = mailHelper;
             _petRepository = petRepository;
@@ -218,7 +215,15 @@ namespace Vet_Clinic.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            await _ownerRepository.DeleteAsync(owner);
+            try
+            {
+                await _ownerRepository.DeleteAsync(owner);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
+
 
             return RedirectToAction(nameof(Index));
         }
@@ -252,17 +257,24 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)//todo: vem sem id do pet
             {
-                var history = _converterHelper.ToHistory(model, true);
+                try
+                {
+                    var history = _converterHelper.ToHistory(model, true);
 
-                history.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    history.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _historyRepository.CreateAsync(history);
+                    await _historyRepository.CreateAsync(history);
 
-                model.Pet = await _petRepository.GetDetailsPetAsync(model.PetId);
+                    model.Pet = await _petRepository.GetDetailsPetAsync(model.PetId);
 
-                var histories = _historyRepository.GetHistoriesFromPetId(model.PetId);
+                    var histories = _historyRepository.GetHistoriesFromPetId(model.PetId);
 
-                return RedirectToAction($"{nameof(DetailsPet)}/{model.PetId}");
+                    return RedirectToAction($"{nameof(DetailsPet)}/{model.PetId}");
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
 
             }
 
@@ -321,17 +333,25 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, path);
                 }
-                model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
+                try
+                {
+                    model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
 
 
-                model.Specie = await _specieRepository.GetByIdAsync(model.SpecieId);
+                    model.Specie = await _specieRepository.GetByIdAsync(model.SpecieId);
 
-                var pet = _converterHelper.ToPet(model, path, true);
-                pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    var pet = _converterHelper.ToPet(model, path, true);
+                    pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _petRepository.CreateAsync(pet);
+                    await _petRepository.CreateAsync(pet);
 
-                return RedirectToAction($"Details/{model.OwnerId}");
+                    return RedirectToAction($"Details/{model.OwnerId}");
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+
             }
 
             model.Species = _specieRepository.GetComboSpecies();
@@ -373,11 +393,17 @@ namespace Vet_Clinic.Web.Controllers
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, "Pets");
                 }
 
-                var pet = _converterHelper.ToPet(model, path, false);
-                pet.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                try
+                {
+                    var pet = _converterHelper.ToPet(model, path, false);
+                    pet.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _petRepository.UpdateAsync(pet);
-                
+                    await _petRepository.UpdateAsync(pet);
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
 
             model.Species = _specieRepository.GetComboSpecies();
@@ -407,7 +433,14 @@ namespace Vet_Clinic.Web.Controllers
                 return RedirectToAction($"{nameof(Details)}/{pet.Owner.Id}");
             }
 
-             await _petRepository.DeleteAsync(pet);
+            try
+            {
+                await _petRepository.DeleteAsync(pet);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
 
             return RedirectToAction($"Details/{pet.Owner.Id}");
         }
@@ -426,8 +459,14 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            await _historyRepository.DeleteAsync(history);
-
+            try
+            {
+                await _historyRepository.DeleteAsync(history);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
             return RedirectToAction($"{nameof(Details)}/{history.Pet.Id}");
         }
 

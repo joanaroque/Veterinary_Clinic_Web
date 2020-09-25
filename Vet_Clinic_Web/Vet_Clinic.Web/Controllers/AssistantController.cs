@@ -80,13 +80,32 @@ namespace Vet_Clinic.Web.Controllers
                     path = await _imageHelper.UploadImageAsync(model.ImageFile, "Assistants");
                 }
 
-                var assistant = _converterHelper.ToAssistant(model, path, true);
+                try
+                {
+                    var assistant = _converterHelper.ToAssistant(model, path, true);
 
-                assistant.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    assistant.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _assistantRepository.CreateAsync(assistant);
+                    await _assistantRepository.CreateAsync(assistant);
 
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "There are an Assistant with the same name.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+
             }
             return View(model);
         }
@@ -128,6 +147,7 @@ namespace Vet_Clinic.Web.Controllers
                         path = await _imageHelper.UploadImageAsync(model.ImageFile, "Assistants");
                     }
 
+
                     var assistant = _converterHelper.ToAssistant(model, path, false);
 
                     assistant.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
@@ -165,8 +185,26 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("AssistantNotFound");
             }
 
-            await _assistantRepository.DeleteAsync(assistant);
-
+            try
+            {
+                await _assistantRepository.DeleteAsync(assistant);
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                {
+                    ModelState.AddModelError(string.Empty, "This Doctor already has scheduled appointments.\nFirst unschedule the appointment");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                }
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
+           
             return RedirectToAction(nameof(Index));
         }
 

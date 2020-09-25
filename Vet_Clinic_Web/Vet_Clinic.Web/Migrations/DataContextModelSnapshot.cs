@@ -210,6 +210,9 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.HasIndex("ModifiedById");
 
+                    b.HasIndex("Email", "TIN")
+                        .IsUnique();
+
                     b.ToTable("Assistants");
                 });
 
@@ -267,6 +270,9 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("ModifiedById");
+
+                    b.HasIndex("Email", "MedicalLicense", "TIN", "Specialty")
+                        .IsUnique();
 
                     b.ToTable("Doctors");
                 });
@@ -401,6 +407,9 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
+
+                    b.HasIndex("Description")
+                        .IsUnique();
 
                     b.HasIndex("ModifiedById");
 

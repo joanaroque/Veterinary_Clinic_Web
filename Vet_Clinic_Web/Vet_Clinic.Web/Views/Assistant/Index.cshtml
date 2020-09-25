@@ -24,7 +24,7 @@
 
 
     <div class="row">
-        <div class="col-md-9 center-block">
+        <div class="col-md-12 center-block">
             <div style="text-align:center">
                 <h3 class="card-title">Assistant</h3>
             </div>
@@ -52,7 +52,10 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.ImageUrl)
+                                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                            {
+                                                <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:100px;height:150px;max-width:100%; height:auto" />
+                                            }
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Name)

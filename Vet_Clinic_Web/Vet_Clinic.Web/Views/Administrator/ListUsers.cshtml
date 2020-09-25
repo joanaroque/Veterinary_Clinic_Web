@@ -20,7 +20,7 @@
 
 <section class="content">
     <div class="row">
-        <div class="col-md-7 center-block">
+        <div class="col-md-12 center-block">
             <div style="text-align:center">
                 <h3 class="card-title">List of Users</h3>
             </div>
@@ -33,10 +33,11 @@
                     {
                         @using (Html.BeginForm("DeleteUser", "Administrator", new { id = user.Id }))
                         {
+                            <br />
                             <div class="card-header">
                                 User Id : @user.Id
                             </div>
-
+                            <br />
                             <div class="card-body">
                                 <h4 class="card-title">@user.UserName</h4>
                             </div>

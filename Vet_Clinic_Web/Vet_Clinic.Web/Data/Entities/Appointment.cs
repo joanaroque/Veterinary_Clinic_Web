@@ -34,7 +34,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [NotInWeekendsValidator(ErrorMessage = "The Vet Clinic is closed on weekends")]
         public DateTime ScheduledDate { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+
         public DateTime CreateDate { get; set; }
 
 

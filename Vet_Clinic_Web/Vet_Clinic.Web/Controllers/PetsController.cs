@@ -41,7 +41,7 @@ namespace Vet_Clinic.Web.Controllers
         public IActionResult Index()
         {
             var pet = _petRepository.GetAllWithUsers();
-    
+
             return View(pet);
 
         }
@@ -106,7 +106,7 @@ namespace Vet_Clinic.Web.Controllers
                     var pet = _converterHelper.ToPet(model, path, false);
 
                     pet.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-                  
+
                     await _petRepository.UpdateAsync(pet);
                 }
                 catch (DbUpdateConcurrencyException)
@@ -135,7 +135,14 @@ namespace Vet_Clinic.Web.Controllers
 
             var pet = await _petRepository.GetByIdAsync(id.Value);
 
-            await _petRepository.DeleteAsync(pet);
+            try
+            {
+                await _petRepository.DeleteAsync(pet);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -155,7 +162,14 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            await _historyRepository.DeleteAsync(history);
+            try
+            {
+                await _historyRepository.DeleteAsync(history);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
 
             return RedirectToAction($"{nameof(Details)}/{history.Pet.Id}");
         }
@@ -186,16 +200,22 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var history = _converterHelper.ToHistory(model, false);
+                try
+                {
+                    var history = _converterHelper.ToHistory(model, false);
 
-                history.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    history.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _historyRepository.UpdateAsync(history);
+                    await _historyRepository.UpdateAsync(history);
 
-                return RedirectToAction($"{nameof(Details)}/{model.PetId}");
+                    return RedirectToAction($"{nameof(Details)}/{model.PetId}");
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+
             }
-
-           //todo: model.ServiceType = _serviceTypesRepository.GetComboServiceTypes();
 
             return View(model);
         }
@@ -229,13 +249,20 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var history = _converterHelper.ToHistory(view, true);
+                try
+                {
+                    var history = _converterHelper.ToHistory(view, true);
 
-                history.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    history.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _historyRepository.CreateAsync(history);
+                    await _historyRepository.CreateAsync(history);
 
-                return RedirectToAction($"{nameof(Details)}/{view.PetId}");
+                    return RedirectToAction($"{nameof(Details)}/{view.PetId}");
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
 
             return View(view);

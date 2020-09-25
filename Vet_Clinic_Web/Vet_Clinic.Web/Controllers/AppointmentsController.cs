@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using System;
 using System.Linq;
@@ -73,23 +74,30 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                model.Doctor = await  _doctorRepository.GetByIdAsync(model.DoctorId);
-                model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
-                model.Pet = await _petRepository.GetByIdAsync(model.PetId);
-
-                var appointment = _converterHelper.ToAppointment(model, false);
-
-                if (appointment == null)
+                try
                 {
-                    return new NotFoundViewResult("AppointmentNotFound");
+                    model.Doctor = await _doctorRepository.GetByIdAsync(model.DoctorId);
+                    model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
+                    model.Pet = await _petRepository.GetByIdAsync(model.PetId);
+
+                    var appointment = _converterHelper.ToAppointment(model, false);
+
+                    if (appointment == null)
+                    {
+                        return new NotFoundViewResult("AppointmentNotFound");
+                    }
+
+                    appointment.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+                    await _appointmentRepository.UpdateAsync(appointment);
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
                 }
 
-                appointment.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
-                await _appointmentRepository.UpdateAsync(appointment);
-
-                return RedirectToAction(nameof(Index));
             }
 
             return View(model);
@@ -114,16 +122,24 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                model.Doctor = await _doctorRepository.GetByIdAsync(model.DoctorId);
-                model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
-                model.Pet = await _petRepository.GetByIdAsync(model.PetId);
-                var appointment = _converterHelper.ToAppointment(model, true);
+                try
+                {
+                    model.Doctor = await _doctorRepository.GetByIdAsync(model.DoctorId);
+                    model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
+                    model.Pet = await _petRepository.GetByIdAsync(model.PetId);
+                    var appointment = _converterHelper.ToAppointment(model, true);
 
-                appointment.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                    appointment.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-                await _appointmentRepository.CreateAsync(appointment);
+                    await _appointmentRepository.CreateAsync(appointment);
 
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
+
             }
 
             model.Doctors = _doctorRepository.GetComboDoctors();
@@ -162,11 +178,19 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("AppointmentNotFound");
             }
 
-            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
-            await _appointmentRepository.DeleteAsync(appointment);
+            try
+            {
+                var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
+                await _appointmentRepository.DeleteAsync(appointment);
+
+
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
 
             return RedirectToAction(nameof(Index));
-
         }
 
         public IActionResult NotAuthorized()

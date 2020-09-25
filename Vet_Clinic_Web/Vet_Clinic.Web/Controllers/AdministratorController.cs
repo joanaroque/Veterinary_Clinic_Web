@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +22,6 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly IMailHelper _mailHelper;
         private readonly IImageHelper _imageHelper;
-
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
 
@@ -50,18 +49,22 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _userHelper.CheckRoleAsync(model.RoleName);
+                try
+                {
+                    await _userHelper.CheckRoleAsync(model.RoleName);
+                }
 
-
-                //if (result.Succeeded)
-                //{
-                //    return RedirectToAction("ListRoles");
-                //}
-
-                //foreach (IdentityError error in result.Errors)
-                //{
-                //    ModelState.AddModelError("", error.Description);
-                //}
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "There are a role with the same name.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
 
             }
             return View(model);
@@ -113,7 +116,6 @@ namespace Vet_Clinic.Web.Controllers
 
             foreach (var user in _userManager.Users)
             {
-
                 if (await _userHelper.IsUserInRoleAsync(user, role.Name))
                 {
                     model.Users.Add(user.UserName);
@@ -128,26 +130,45 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var role = await _roleManager.FindByIdAsync(model.Id);
-
-                if (role == null)
+                try
                 {
-                    return new NotFoundViewResult("AdminNotFound");
+                    var role = await _roleManager.FindByIdAsync(model.Id);
+
+                    if (role == null)
+                    {
+                        return new NotFoundViewResult("AdminNotFound");
+                    }
+
+                    role.Name = model.RoleName;
+
+                    var result = await _roleManager.UpdateAsync(role);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("ListRoles");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "There are a role with the same name.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
                 }
 
-                role.Name = model.RoleName;
-
-                var result = await _roleManager.UpdateAsync(role);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("ListRoles");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
 
             }
             return View(model);

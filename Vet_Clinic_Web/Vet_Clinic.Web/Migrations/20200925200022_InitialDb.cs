@@ -509,6 +509,12 @@ namespace Vet_Clinic.Web.Migrations
                 column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Assistants_Email_TIN",
+                table: "Assistants",
+                columns: new[] { "Email", "TIN" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Doctors_CreatedById",
                 table: "Doctors",
                 column: "CreatedById");
@@ -517,6 +523,12 @@ namespace Vet_Clinic.Web.Migrations
                 name: "IX_Doctors_ModifiedById",
                 table: "Doctors",
                 column: "ModifiedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Doctors_Email_MedicalLicense_TIN_Specialty",
+                table: "Doctors",
+                columns: new[] { "Email", "MedicalLicense", "TIN", "Specialty" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Histories_CreatedById",
@@ -572,6 +584,12 @@ namespace Vet_Clinic.Web.Migrations
                 name: "IX_Species_CreatedById",
                 table: "Species",
                 column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Species_Description",
+                table: "Species",
+                column: "Description",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Species_ModifiedById",

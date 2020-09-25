@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Vet_Clinic.Web.CustomValidation;
 
 namespace Vet_Clinic.Web.Data.Entities
 {
@@ -9,6 +8,7 @@ namespace Vet_Clinic.Web.Data.Entities
     {
         [Key]
         public int Id { get; set; }
+
 
         public User User { get; set; }
 

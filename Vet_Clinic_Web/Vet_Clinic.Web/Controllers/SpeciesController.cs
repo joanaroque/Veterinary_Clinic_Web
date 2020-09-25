@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,26 +14,29 @@ namespace Vet_Clinic.Web.Controllers
     [Authorize(Roles = "Admin, Agent")]
     public class SpeciesController : Controller
     {
-        private readonly ISpecieRepository _specie;
+        private readonly ISpecieRepository _specieRepository;
         private readonly IUserHelper _userHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly IPetRepository _petRepository;
         private readonly IImageHelper _imageHelper;
 
         public SpeciesController(IImageHelper imageHelper,
             ISpecieRepository specieRepository,
            IUserHelper userHelper,
-             IConverterHelper converterHelper)
+             IConverterHelper converterHelper,
+             IPetRepository petRepository)
         {
-            _specie = specieRepository;
+            _specieRepository = specieRepository;
             _userHelper = userHelper;
             _converterHelper = converterHelper;
+            _petRepository = petRepository;
             _imageHelper = imageHelper;
         }
 
         // GET: Species
         public IActionResult Index()
         {
-            var specie = _specie.GetAll().ToList();
+            var specie = _specieRepository.GetAll().ToList();
 
             return View(specie);
         }
@@ -53,9 +56,27 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _specie.CreateAsync(specie);
+                try
+                {
+                    await _specieRepository.CreateAsync(specie);
 
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "There are a Specie with the same name.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
 
             return View(specie);
@@ -70,7 +91,7 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("SpecieNotFound");
             }
 
-            var specie = await _specie.GetByIdAsync(id.Value);
+            var specie = await _specieRepository.GetByIdAsync(id.Value);
 
             if (specie == null)
             {
@@ -95,12 +116,12 @@ namespace Vet_Clinic.Web.Controllers
             {
                 try
                 {
-                    await _specie.UpdateAsync(specie);
+                    await _specieRepository.UpdateAsync(specie);
 
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await _specie.ExistAsync(specie.Id))
+                    if (!await _specieRepository.ExistAsync(specie.Id))
                     {
                         return new NotFoundViewResult("SpecieNotFound");
                     }
@@ -123,21 +144,31 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("SpecieNotFound");
             }
 
-            var species = await _specie.GetByIdAsync(id.Value);
+            var specie = await _specieRepository.GetByIdAsync(id.Value);
 
-            if (species == null)
+
+            if (specie == null)
             {
                 return new NotFoundViewResult("SpecieNotFound");
             }
 
-            if (species.Pets.Count > 0)
+            var pets = await _petRepository.GetPetBySpecieAsync(id.Value);
+
+
+            if (pets.Count > 0)
             {
                 ModelState.AddModelError(string.Empty, "This specie can't be removed.");
                 return RedirectToAction(nameof(Index));
             }
 
-            await _specie.DeleteAsync(species);
-
+            try
+            {
+                await _specieRepository.DeleteAsync(specie);
+            }
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
             return RedirectToAction(nameof(Index));
         }
     }

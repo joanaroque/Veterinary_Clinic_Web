@@ -72,5 +72,14 @@ namespace Vet_Clinic.Web.Data.Repositories
 
             return pet;
         }
+
+        public async Task<List<Pet>> GetPetBySpecieAsync(int specieId)
+        {
+            var pets = await _context.Pets
+                .Include(p => p.Specie)
+                .Where(p => p.Specie.Id == specieId).ToListAsync();
+
+            return pets;
+        }
     }
 }

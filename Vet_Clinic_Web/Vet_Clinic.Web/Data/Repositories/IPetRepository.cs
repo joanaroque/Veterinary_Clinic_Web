@@ -47,5 +47,8 @@ namespace Vet_Clinic.Web.Data.Repositories
         /// <returns>the pets of the owner who is received, including the user who created him</returns>
         Task<List<Pet>> GetPetFromCurrentOwnerAsync(string currentUser);
 
+
+
+        Task<List<Pet>> GetPetBySpecieAsync(int specieId);
     }
 }
