@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -164,19 +164,21 @@ namespace Vet_Clinic.Web.Controllers
 
             var doctor = await _doctorRepository.GetByIdAsync(id.Value);
 
-            //todo: onde o medico exista de hoje pra frente
+            if (doctor == null)
+            {
+                return new NotFoundViewResult("DoctorNotFound");
+            }
 
-            //var appointment = await _context.Appointments
-            //        .Where()
+            try
+            {
+                await _doctorRepository.DeleteAsync(doctor);
+            }
+            catch (Exception ex)
+            {
 
-            //if (appointment)
-            //{
-
-            //}
-
-
-            await _doctorRepository.DeleteAsync(doctor);
-
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
+            
             return RedirectToAction(nameof(Index));
         }
     }
