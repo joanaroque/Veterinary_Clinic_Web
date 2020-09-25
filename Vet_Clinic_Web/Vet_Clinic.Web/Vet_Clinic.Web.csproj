@@ -118,6 +118,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\dist\img\credit\" />
     <Folder Include="wwwroot\lib\jquery-validate\" />
   </ItemGroup>
 
