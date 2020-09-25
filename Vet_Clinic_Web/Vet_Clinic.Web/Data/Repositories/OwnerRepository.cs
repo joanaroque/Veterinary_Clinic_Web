@@ -48,7 +48,8 @@ namespace Vet_Clinic.Web.Data.Repositories
         public async Task<Owner> GetCurrentUserOwner(string currentUser)
         {
             var owner = await _context.Owners
-                       .Where(a => a.User.Id == currentUser.ToString()).FirstOrDefaultAsync();
+                       .Where(a => a.User.Id == currentUser.ToString())
+                       .FirstOrDefaultAsync();
 
             return owner;
         }

@@ -57,8 +57,8 @@ namespace Vet_Clinic.Web.Data.Repositories
 
         public async Task<List<Pet>> GetPetFromOwnerAsync(int ownerId)
         {
-            var ownerPets = await _context.Pets.
-                Where(p => p.Owner.Id == ownerId).ToListAsync();
+            var ownerPets = await _context.Pets
+                .Where(p => p.Owner.Id == ownerId).ToListAsync();
 
             return ownerPets;
         }

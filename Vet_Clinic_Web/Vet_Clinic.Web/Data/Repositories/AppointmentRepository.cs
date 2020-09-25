@@ -18,7 +18,8 @@ namespace Vet_Clinic.Web.Data.Repositories
         public AppointmentRepository(DataContext context) : base(context)
         {
             _context = context;
-        }    
+        }
+
 
         public IQueryable GetAllByDate()
         {
@@ -39,11 +40,11 @@ namespace Vet_Clinic.Web.Data.Repositories
                      .Include(p => p.Pet)
                      .Include(p => p.Owner)
                      .ThenInclude(p => p.User)
-                      .FirstOrDefaultAsync(p => p.Id == id);
+                     .FirstOrDefaultAsync(p => p.Id == id);
         }
 
 
-        public  async Task<List<Doctor>> GetWorkingDoctorsAsync(int appointmentHour)
+        public async Task<List<Doctor>> GetWorkingDoctorsAsync(int appointmentHour)
         {
             var workingDoctors = await _context.Doctors
                 .Where(d => d.WorkStart <= appointmentHour && d.WorkEnd > appointmentHour)
@@ -61,6 +62,7 @@ namespace Vet_Clinic.Web.Data.Repositories
 
             return doctorsAlreadyScheduled;
         }
+
 
         public async Task<List<Appointment>> GetAppointmentFromCurrentOwnerAsync(string currentUser)
         {
