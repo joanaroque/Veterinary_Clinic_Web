@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,13 +30,19 @@ namespace Vet_Clinic.Web.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly IOwnerRepository _ownerRepository;
+        private readonly ILog _log;
+
+        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _env;
 
         public AccountController(IUserHelper userHelper,
             IConfiguration configuration,
              IMailHelper mailHelper,
              SignInManager<User> signInManager,
              UserManager<User> userManager,
-             IOwnerRepository ownerRepository)
+             IOwnerRepository ownerRepository,
+             ILog log,
+             Microsoft.AspNetCore.Hosting.IHostingEnvironment env
+             )
         {
             _userHelper = userHelper;
             _configuration = configuration;
@@ -43,6 +50,8 @@ namespace Vet_Clinic.Web.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
             _ownerRepository = ownerRepository;
+            _log = log;
+            _env = env;
         }
 
         [HttpGet]
@@ -93,7 +102,7 @@ namespace Vet_Clinic.Web.Controllers
             return new ChallengeResult(provider, properties);
         }
 
-       
+
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
@@ -211,6 +220,11 @@ namespace Vet_Clinic.Web.Controllers
                     token = myToken
                 }, protocol: HttpContext.Request.Scheme);
 
+                if (!_env.IsDevelopment())
+                {
+                    _log.Append("Mail client is not available on non-development environment");
+                }
+                else { 
                 _mailHelper.SendMail(model.UserName, "Email confirmation",
                    $"<table style = 'max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;'>" +
                     $"  <tr>" +
@@ -251,7 +265,7 @@ namespace Vet_Clinic.Web.Controllers
                     $" </td >" +
                     $"</tr>" +
                     $"</table>");
-
+                }
                 ViewBag.Message = "The instructions to allow your user has been sent to email.";
 
                 return View(model);
@@ -297,7 +311,7 @@ namespace Vet_Clinic.Web.Controllers
                 CreatedBy = user,
                 ModifiedBy = user,
                 CreateDate = DateTime.Now,
-                UpdateDate = DateTime.Now              
+                UpdateDate = DateTime.Now
             };
 
             await _ownerRepository.CreateAsync(owner);

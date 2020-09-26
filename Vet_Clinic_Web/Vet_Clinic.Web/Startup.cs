@@ -67,18 +67,18 @@ namespace Vet_Clinic.Web
 
             services
                 .AddAuthentication()
-            
+
                 //.AddGoogle(options =>
                 //{
                 //    options.ClientId = Configuration["App:GoogleClientId"];
                 //    options.ClientSecret = Configuration["App:GoogleClientSecret"];
-                //     options.SignInScheme = IdentityConstants.ExternalScheme;
+                //    options.SignInScheme = IdentityConstants.ExternalScheme;
                 //})
                 //.AddFacebook(options =>
                 //{
                 //    options.ClientId = Configuration["App:FacebookClientId"];
                 //    options.ClientSecret = Configuration["App:FacebookClientSecret"];
-                //     options.SignInScheme = IdentityConstants.ExternalScheme;
+                //    options.SignInScheme = IdentityConstants.ExternalScheme;
                 //})
 
                  .AddCookie(options =>
@@ -115,6 +115,7 @@ namespace Vet_Clinic.Web
             services.AddScoped<IAssistantRepository, AssistantRepository>();
             services.AddScoped<IHistoryRepository, HistoryRepository>();
             services.AddScoped<IPetRepository, PetRepository>();
+            services.AddScoped<ILog, Log>();
 
 
             services.Configure<CookiePolicyOptions>(options =>
@@ -126,8 +127,8 @@ namespace Vet_Clinic.Web
 
             services.ConfigureApplicationCookie(options =>
             {
-                //options.LoginPath = "/Account/Login";
-                //options.LogoutPath = "/Account/Logout"; // para casos de users anonimos
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout"; // para casos de users anonimos
                 options.AccessDeniedPath = "/Account/NotAuthorized";
 
             });

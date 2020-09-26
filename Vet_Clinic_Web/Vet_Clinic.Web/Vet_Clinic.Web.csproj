@@ -101,6 +101,8 @@
     <None Include="wwwroot\lib\font-awesome\webfonts\fa-regular-400.woff2" />
     <None Include="wwwroot\lib\font-awesome\webfonts\fa-solid-900.svg" />
     <None Include="wwwroot\lib\font-awesome\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\login\js\jquery-2.2.3.min.js" />
+    <None Include="wwwroot\login\js\jquery.vide.min.js" />
     <None Include="wwwroot\vendor\bootstrap\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\vendor\bootstrap\css\bootstrap-grid.min.css.map" />
     <None Include="wwwroot\vendor\bootstrap\css\bootstrap-reboot.css.map" />
@@ -120,7 +122,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\dist\img\credit\" />
     <Folder Include="wwwroot\lib\jquery-validate\" />
-    <Folder Include="wwwroot\login\" />
     <Folder Include="wwwroot\register\" />
   </ItemGroup>
 
