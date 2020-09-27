@@ -52,7 +52,10 @@
                             </div>
                         </div>
                     </div>
-
+                    @if (User.IsInRole("Admin"))
+                    {
+                        
+                    }
                     <div class="col-4">
                         <input type="submit" value="Register" class="btn btn-success btn-block" />
                     </div>

@@ -48,6 +48,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         {
             var pet = await _context.Pets
                 .Include(p => p.Owner)
+                .ThenInclude(o => o.User)
                 .Include(p => p.Specie)
                 .Include(p => p.Histories)
                 .FirstOrDefaultAsync(p => p.Id == petId);

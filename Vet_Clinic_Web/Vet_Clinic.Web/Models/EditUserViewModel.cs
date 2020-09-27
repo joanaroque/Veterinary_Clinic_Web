@@ -33,5 +33,9 @@ namespace Vet_Clinic.Web.Models
 
 
         public IEnumerable<SelectListItem> Roles { get; set; }
+
+
+        [Display(Name = "Role")]
+        public string SelectedRole { get; set; }
     }
 }

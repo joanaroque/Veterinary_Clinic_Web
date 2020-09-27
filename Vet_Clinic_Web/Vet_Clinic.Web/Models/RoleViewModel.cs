@@ -3,7 +3,7 @@ using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Models
 {
-    public class UserRolesViewModel 
+    public class RoleViewModel 
     {
 
         public string RoleId { get; set; }

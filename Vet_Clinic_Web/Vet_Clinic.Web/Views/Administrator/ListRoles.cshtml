@@ -17,8 +17,8 @@
 <br />
 
 
-    <a class="btn btn-primary mb-3" style="width:auto" asp-action="CreateRole"
-       asp-controller="Administrator"><i class="glyphicon glyphicon-plus"></i> Add new role</a>
+<a class="btn btn-primary mb-3" style="width:auto" asp-action="CreateRole"
+   asp-controller="Administrator"><i class="glyphicon glyphicon-plus"></i> Add new role</a>
 
 
 <section class="content">
@@ -35,32 +35,32 @@
                     {
                         @using (Html.BeginForm("DeleteRole", "Administrator", new { id = role.Id }))
                         {
-                <div class="card mb-3">
-                    <div class="card-header">
-                        Role Id: @role.Id
-                    </div>
-                    <br />
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    Role Id: @role.Id
+                                </div>
+                                <br />
 
-                    <div class="card-body">
-                        <h4 class="card-title">@role.Name</h4>
-                    </div>
-                    <br />
-                    <div class="card-footer">
-                        <a asp-controller="Administrator" asp-action="EditRole"
-                           asp-route-id="@role.Id" class="btn btn-info">
-                            <i class="fa fa-edit"></i> Edit
-                        </a>
+                                <div class="card-body">
+                                    <h4 class="card-title">@role.Name</h4>
+                                </div>
+                                <br />
+                                <div class="card-footer">
+                                    <a asp-controller="Administrator" asp-action="EditRole"
+                                       asp-route-id="@role.Id" class="btn btn-info">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </a>
 
-                        <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
+                                    <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
 
-                            <input type="submit" value="Delete" class="btn btn-danger pull-right"
-                                   onclick="return confirm('Are you sure you want to delete @role.Name?')" />
-                        </form>
-                    </div>
-                </div>
-                            }
+                                        <input type="submit" value="Delete" class="btn btn-danger pull-right"
+                                               onclick="return confirm('Are you sure you want to delete @role.Name?')" />
+                                    </form>
+                                </div>
+                            </div>
                         }
                     }
+                }
                 else
                 {
                     <div class="card">

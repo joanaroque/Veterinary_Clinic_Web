@@ -212,50 +212,50 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
-         {
-            var role = await _roleManager.FindByIdAsync(roleId);
+        //[HttpPost]
+        //public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
+        // {
+        //    var role = await _roleManager.FindByIdAsync(roleId);
 
-            if (role == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
+        //    if (role == null)
+        //    {
+        //        return new NotFoundViewResult("UserNotFound");
+        //    }
 
-            for (int i = 0; i < model.Count; i++)
-            {
-                var user = await _userHelper.GetUserByIdAsync(model[i].UserId);
+        //    for (int i = 0; i < model.Count; i++)
+        //    {
+        //        var user = await _userHelper.GetUserByIdAsync(model[i].UserId);
 
-                await _userManager.UpdateSecurityStampAsync(user);
+        //        await _userManager.UpdateSecurityStampAsync(user);
 
-                IdentityResult result = null;
+        //        IdentityResult result = null;
 
-                //se o user ta selecionado e se nao é, já, membro do role
-                if (model[i].IsSelected && !(await _userHelper.IsUserInRoleAsync(user, role.Name)))
-                {
-                    result = await _userHelper.AddUSerToRoleAsync(user, role.Name);
-                }
-                //se o user nao ta selecionado e se já é membro do role
-                else if (!model[i].IsSelected && await _userHelper.IsUserInRoleAsync(user, role.Name))
-                {
-                    result = await _userManager.RemoveFromRoleAsync(user, role.Name);
-                }
-                else
-                {                  
-                    continue;
-                }
+        //        //se o user ta selecionado e se nao é, já, membro do role
+        //        if (model[i].IsSelected && !(await _userHelper.IsUserInRoleAsync(user, role.Name)))
+        //        {
+        //            result = await _userHelper.AddUSerToRoleAsync(user, role.Name);
+        //        }
+        //        //se o user nao ta selecionado e se já é membro do role
+        //        else if (!model[i].IsSelected && await _userHelper.IsUserInRoleAsync(user, role.Name))
+        //        {
+        //            result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+        //        }
+        //        else
+        //        {                  
+        //            continue;
+        //        }
 
-                if (result.Succeeded)
-                {
-                    if (i < (model.Count - 1))
-                        continue;
-                    else
-                        return RedirectToAction("EditRole", new { Id = roleId });
-                }
-            }
+        //        if (result.Succeeded)
+        //        {
+        //            if (i < (model.Count - 1))
+        //                continue;
+        //            else
+        //                return RedirectToAction("EditRole", new { Id = roleId });
+        //        }
+        //    }
 
-            return RedirectToAction("EditRole", new { Id = roleId });
-        }
+        //    return RedirectToAction("EditRole", new { Id = roleId });
+        //} // todo apagar
 
         [HttpGet]
         public IActionResult ListUsers()
@@ -276,11 +276,11 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("UserNotFound");
             }
 
-            var model = new List<UserRolesViewModel>();
+            var model = new List<RoleViewModel>();
 
             foreach (var role in _roleManager.Roles.ToList())
             {
-                var userRoles = new UserRolesViewModel
+                var userRoles = new RoleViewModel
                 {
                     RoleId = role.Id,
                     RoleName = role.Name
@@ -303,7 +303,7 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ManageUserRoles(List<UserRolesViewModel> model, string userId)
+        public async Task<IActionResult> ManageUserRoles(List<RoleViewModel> model, string userId)
         {
             var user = await _userHelper.GetUserByIdAsync(userId);
 
@@ -361,7 +361,7 @@ namespace Vet_Clinic.Web.Controllers
                     {
                         Selected = userRoles.Contains(x.Name),
                         Text = x.Name,
-                        Value = x.Name
+                        Value = x.Id
                     })
             };
 
@@ -389,9 +389,26 @@ namespace Vet_Clinic.Web.Controllers
                 user.Address = editUser.Address;
                 user.PhoneNumber = editUser.PhoneNumber;
 
+                var selectedRole = await _roleManager.FindByIdAsync(editUser.SelectedRole);
 
+                // Remover roles já associados ao user, o que não foi o selecionado.
+                foreach (var currentRole in _roleManager.Roles.ToList())
+                {
+                    var isSelectedRole = selectedRole.Name.Equals(currentRole.Name);
+                    if (!isSelectedRole && await _userHelper.IsUserInRoleAsync(user, currentRole.Name))
+                    {
+                        // Remover do role
+                       await _userManager.RemoveFromRoleAsync(user, currentRole.Name);
+                    }
+                }
+
+                // Atribuir novo role
+                await _userHelper.AddUSerToRoleAsync(user, selectedRole.Name);
+
+                // Atualizar user após atribuir novo role.
                 var result = await _userHelper.UpdateUserAsync(user);
 
+                // Se a operação de atualização for com sucesso, enviar para a pagina de listagem de utilizadores.
                 if (result.Succeeded)
                 {
                     return RedirectToAction("ListUsers");

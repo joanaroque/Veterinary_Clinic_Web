@@ -67,6 +67,17 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label asp-for="SelectedRole" class="control-label"></label>
+                                                <select  asp-for="SelectedRole" class="form-control" asp-items="@Model.Roles" ></select>
+                                                <span asp-validation-for="SelectedRole" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div asp-validation-summary="All" class="text-danger"></div>
 
 
@@ -75,7 +86,8 @@
                                         <a asp-action="ListUsers" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To Users</a>
                                     </div>
                                 </div>
-                                    <div class="card">
+
+                                @*<div class="card">
                                         <div class="card-header">
                                             <h3>User Roles</h3>
                                         </div>
@@ -96,9 +108,9 @@
                                            class="btn btn-foursquare">
                                             Manage Roles
                                         </a>
-                                    </div>
-                                </div>
-                            
+                                    </div>*@
+                            </div>
+
                         </form>
                     </div>
                 </div>

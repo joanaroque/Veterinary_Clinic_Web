@@ -24,7 +24,8 @@ namespace Vet_Clinic.Web.Data.Repositories
         {
             return _context.Owners
                 .Include(o => o.User)
-                .Include(o => o.Pets);
+                .Include(o => o.Pets)
+                .Include(o => o.Appointments);
         }      
 
         public IEnumerable<SelectListItem> GetComboOwners()
@@ -67,6 +68,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         {
             var owner = await _context.Owners
                .Include(o => o.User)
+               .Include(o => o.Appointments)
                .Include(o => o.Pets)
                .ThenInclude(p => p.Specie)
                .Include(o => o.Pets)

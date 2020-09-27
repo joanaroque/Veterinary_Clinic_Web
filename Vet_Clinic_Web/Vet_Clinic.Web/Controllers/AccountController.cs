@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,7 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Vet_Clinic.Web.Data;
+
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
@@ -31,8 +29,7 @@ namespace Vet_Clinic.Web.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IOwnerRepository _ownerRepository;
         private readonly ILog _log;
-
-        private readonly Microsoft.AspNetCore.Hosting.IHostingEnvironment _env;
+        private readonly IHostingEnvironment _env;
 
         public AccountController(IUserHelper userHelper,
             IConfiguration configuration,
@@ -41,7 +38,7 @@ namespace Vet_Clinic.Web.Controllers
              UserManager<User> userManager,
              IOwnerRepository ownerRepository,
              ILog log,
-             Microsoft.AspNetCore.Hosting.IHostingEnvironment env
+             IHostingEnvironment env
              )
         {
             _userHelper = userHelper;
@@ -56,15 +53,14 @@ namespace Vet_Clinic.Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl)
+        public IActionResult Login()
         {
-            LoginViewModel model = new LoginViewModel
+            if (User.Identity.IsAuthenticated)
             {
-                ReturnUrl = returnUrl,
-                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
-            };
+                return RedirectToAction("Index", "Home");
+            }
 
-            return View(model);
+            return View();
         }
 
         [HttpPost]
@@ -89,89 +85,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public IActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            var redirectUrl = Url.Action("ExternalLoginCallback", "Account",
-                new { ReturnUrl = returnUrl });
-
-            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, _userManager.GetUserId(User));
-
-            return new ChallengeResult(provider, properties);
-        }
-
-
-        [AllowAnonymous]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
-        {
-            returnUrl = returnUrl ?? Url.Content("~/");
-
-            LoginViewModel loginViewModel = new LoginViewModel
-            {
-                ReturnUrl = returnUrl,
-                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
-            };
-
-            if (remoteError != null)
-            {
-                ModelState.AddModelError(string.Empty, $"Error from external provider: {remoteError}");
-                return View("Login", loginViewModel);
-            }
-
-            var info = await _signInManager.GetExternalLoginInfoAsync();
-
-            if (info == null)
-            {
-                return View("Login", loginViewModel);
-            }
-
-            var signResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
-                info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
-
-            if (signResult.Succeeded)
-            {
-                return LocalRedirect(returnUrl);
-            }
-
-            else if (signResult.IsLockedOut)
-            {
-                return RedirectToAction(nameof(RecoverPassword));
-            }
-
-            else
-            {
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                if (email != null)
-                {
-                    var user = await _userHelper.GetUserByEmailAsync(email);
-                    if (user == null)
-                    {
-                        user = new User
-                        {
-                            FirstName = _userManager.FindByNameAsync(email).ToString(),
-                            LastName = _userManager.FindByNameAsync(email).ToString(),
-                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-                            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                        };
-
-                        await _userManager.CreateAsync(user);
-                    }
-
-                    await _userManager.AddLoginAsync(user, info);
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    return LocalRedirect(returnUrl);
-                }
-
-                ViewBag.ErrorTittle = $"Error claim not received from: {info.LoginProvider}";
-
-                return View("Error");
-            }
-
-        }
-
+   
         public async Task<IActionResult> Logout()
         {
             await _userHelper.LogoutAsync();
@@ -224,47 +138,48 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     _log.Append("Mail client is not available on non-development environment");
                 }
-                else { 
-                _mailHelper.SendMail(model.UserName, "Email confirmation",
-                   $"<table style = 'max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;'>" +
-                    $"  <tr>" +
-                    $"    <td style = 'background-color: #34495e; text-align: center; padding: 0'>" +
-                    $"       <a href = '***************************' >" +
-                    $"         <img width = '20%' style = 'display:block; margin: 1.5% 3%' src= '***************************'>" +
-                    $"       </a>" +
-                    $"  </td>" +
-                    $"  </tr>" +
-                    $"  <tr>" +
-                    $"  <td style = 'padding: 0'>" +
-                    $"     <img style = 'padding: 0; display: block' src = '***************************' width = '100%'>" +
-                    $"  </td>" +
-                    $"</tr>" +
-                    $"<tr>" +
-                    $" <td style = 'background-color: #ecf0f1'>" +
-                    $"      <div style = 'color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif'>" +
-                    $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello, welcome </h1>" +
-                    $"                    <p style = 'margin: 2px; font-size: 15px'>" +
-                    $"                      The best specialized Veterinary Clinic in Lisbon focused on providing medical and surgical services<br>" +
-                    $"                      applying the most current techniques for accurate diagnoses and timely treatments..<br>" +
-                    $"                      Among the services we have:</p>" +
-                    $"      <ul style = 'font-size: 15px;  margin: 10px 0'>" +
-                    $"        <li> Emergencies.</li>" +
-                    $"        <li> Internal medicine.</li>" +
-                    $"        <li> Radiology.</li>" +
-                    $"        <li> Laboratory and cabinet tests.</li>" +
-                    $"      </ul>" +
-                    $"  <div style = 'width: 100%;margin:20px 0; display: inline-block;text-align: center'>" +
-                    $"    <img style = 'padding: 0; width: 200px; margin: 5px' src = '***************************'>" +
-                    $"  </div>" +
-                    $"  <div style = 'width: 100%; text-align: center'>" +
-                    $"    <h2 style = 'color: #e67e22; margin: 0 0 7px' >Email Confirmation </h2>" +
-                    $"    To allow the user, please click in this link:</br></br> " +
-                    $"    <a style ='text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db' href = \"{tokenLink}\">Confirm Email</a>" +
-                    $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > Joana Veterinary Clinic 2020 </p>" +
-                    $"  </div>" +
-                    $" </td >" +
-                    $"</tr>" +
-                    $"</table>");
+                else
+                {
+                    _mailHelper.SendMail(model.UserName, "Email confirmation",
+                       $"<table style = 'max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;'>" +
+                        $"  <tr>" +
+                        $"    <td style = 'background-color: #34495e; text-align: center; padding: 0'>" +
+                        $"       <a href = '***************************' >" +
+                        $"         <img width = '20%' style = 'display:block; margin: 1.5% 3%' src= '***************************'>" +
+                        $"       </a>" +
+                        $"  </td>" +
+                        $"  </tr>" +
+                        $"  <tr>" +
+                        $"  <td style = 'padding: 0'>" +
+                        $"     <img style = 'padding: 0; display: block' src = '***************************' width = '100%'>" +
+                        $"  </td>" +
+                        $"</tr>" +
+                        $"<tr>" +
+                        $" <td style = 'background-color: #ecf0f1'>" +
+                        $"      <div style = 'color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif'>" +
+                        $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello, welcome </h1>" +
+                        $"                    <p style = 'margin: 2px; font-size: 15px'>" +
+                        $"                      The best specialized Veterinary Clinic in Lisbon focused on providing medical and surgical services<br>" +
+                        $"                      applying the most current techniques for accurate diagnoses and timely treatments..<br>" +
+                        $"                      Among the services we have:</p>" +
+                        $"      <ul style = 'font-size: 15px;  margin: 10px 0'>" +
+                        $"        <li> Emergencies.</li>" +
+                        $"        <li> Internal medicine.</li>" +
+                        $"        <li> Radiology.</li>" +
+                        $"        <li> Laboratory and cabinet tests.</li>" +
+                        $"      </ul>" +
+                        $"  <div style = 'width: 100%;margin:20px 0; display: inline-block;text-align: center'>" +
+                        $"    <img style = 'padding: 0; width: 200px; margin: 5px' src = '***************************'>" +
+                        $"  </div>" +
+                        $"  <div style = 'width: 100%; text-align: center'>" +
+                        $"    <h2 style = 'color: #e67e22; margin: 0 0 7px' >Email Confirmation </h2>" +
+                        $"    To allow the user, please click in this link:</br></br> " +
+                        $"    <a style ='text-decoration: none; border-radius: 5px; padding: 11px 23px; color: white; background-color: #3498db' href = \"{tokenLink}\">Confirm Email</a>" +
+                        $"    <p style = 'color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0' > Joana Veterinary Clinic 2020 </p>" +
+                        $"  </div>" +
+                        $" </td >" +
+                        $"</tr>" +
+                        $"</table>");
                 }
                 ViewBag.Message = "The instructions to allow your user has been sent to email.";
 
