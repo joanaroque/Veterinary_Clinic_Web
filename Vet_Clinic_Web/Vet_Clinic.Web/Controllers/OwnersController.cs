@@ -255,19 +255,19 @@ namespace Vet_Clinic.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddHistory(HistoryViewModel model)
         {
-            if (ModelState.IsValid)//todo: vem sem id do pet
+            if (ModelState.IsValid)
             {
                 try
                 {
+                    model.Pet = await _petRepository.GetDetailsPetAsync(model.PetId);
+
                     var history = _converterHelper.ToHistory(model, true);
 
                     history.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                     await _historyRepository.CreateAsync(history);
 
-                    model.Pet = await _petRepository.GetDetailsPetAsync(model.PetId);
-
-                    var histories = _historyRepository.GetHistoriesFromPetId(model.PetId);
+                    var histories = _historyRepository.GetHistoriesFromPetIdAsync(model.PetId);
 
                     return RedirectToAction($"{nameof(DetailsPet)}/{model.PetId}");
                 }

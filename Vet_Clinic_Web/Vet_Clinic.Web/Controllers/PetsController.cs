@@ -220,7 +220,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> AddHistory(int? id)//todo 
+        public async Task<IActionResult> AddHistory(int? id)
         {
             if (id == null)
             {
@@ -247,15 +247,19 @@ namespace Vet_Clinic.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddHistory(HistoryViewModel view)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid) 
             {
                 try
                 {
+                    view.Pet = await _petRepository.GetDetailsPetAsync(view.PetId);
+
                     var history = _converterHelper.ToHistory(view, true);
 
                     history.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                     await _historyRepository.CreateAsync(history);
+
+                    var histories = _historyRepository.GetHistoriesFromPetIdAsync(view.PetId);
 
                     return RedirectToAction($"{nameof(Details)}/{view.PetId}");
                 }

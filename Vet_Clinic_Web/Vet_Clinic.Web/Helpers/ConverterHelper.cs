@@ -121,7 +121,7 @@ namespace Vet_Clinic.Web.Helpers
             {
                 Description = model.Description,
                 CreatedBy = model.CreatedBy,
-                CreateDate = DateTime.Now,
+                CreateDate = isNew ? DateTime.Now : model.CreateDate,
                 UpdateDate = DateTime.Now,
                 Id = isNew ? 0 : model.Id,
                 Pet = model.Pet
@@ -155,7 +155,7 @@ namespace Vet_Clinic.Web.Helpers
                 Address = model.Address,
                 DateOfBirth = model.DateOfBirth,
                 CreatedBy = model.CreatedBy,
-                CreateDate = DateTime.Now,
+                CreateDate = isNew ? DateTime.Now : model.CreateDate,
                 UpdateDate = DateTime.Now
             };
         }

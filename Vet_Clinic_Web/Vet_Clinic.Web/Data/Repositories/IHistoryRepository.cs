@@ -23,7 +23,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         /// </summary>
         /// <param name="petId">pet id</param>
         /// <returns>the pet associated with the history</returns>
-        Task<List<History>> GetHistoriesFromPetId(int petId);
+        Task<List<History>> GetHistoriesFromPetIdAsync(int petId);
 
     }
 }

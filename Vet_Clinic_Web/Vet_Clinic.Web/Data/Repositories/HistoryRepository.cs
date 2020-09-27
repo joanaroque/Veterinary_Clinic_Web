@@ -22,11 +22,14 @@ namespace Vet_Clinic.Web.Data.Repositories
         }
 
 
-      
-        public async Task<List<History>> GetHistoriesFromPetId(int petId)
+
+        public async Task<List<History>> GetHistoriesFromPetIdAsync(int petId)
         {
-            return await _context.Histories
+
+            var history = await _context.Histories
                 .Where(p => p.Pet.Id == petId).ToListAsync();
+
+            return history;
         }
     }
 }
