@@ -77,5 +77,30 @@ namespace Vet_Clinic.Web.Data.Repositories
 
             return appointments;
         }
+
+        public IQueryable GetAllPastAppointments()
+        {
+            return _context.Appointments
+                .Include(a => a.CreatedBy)
+                .Include(a => a.Owner)
+                .ThenInclude(o => o.User)
+                .Include(a => a.Pet)
+                .Include(a => a.Doctor)
+                .Where(a => a.ScheduledDate < DateTime.Today.ToUniversalTime());
+        }
+
+        public async Task<List<Appointment>> GetPastAppointmentFromCurrentOwnerAsync(string currentUser)
+        {
+            var appointments = await _context.Appointments
+                .Include(a => a.Owner)
+                .ThenInclude(o => o.User)
+                .Include(a => a.Pet)
+                .Include(a => a.Doctor)
+                .Where(a => a.ScheduledDate < DateTime.Today.ToUniversalTime())
+                .Where(a => a.Owner.User.Id == currentUser.ToString()).ToListAsync();
+
+
+            return appointments;
+        }
     }
 }

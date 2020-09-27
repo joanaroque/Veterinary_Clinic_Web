@@ -123,6 +123,15 @@ namespace Vet_Clinic.Web.Data
             return View(list);
         }
 
+
+        public IActionResult OwnerAppointmentsHistory()
+        {
+            var appointment = _appointmentRepository.GetAllPastAppointments();
+
+            return View(appointment);
+        }
+
+
         [HttpGet]
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Schedule()

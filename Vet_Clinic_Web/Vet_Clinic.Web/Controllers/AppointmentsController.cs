@@ -45,6 +45,13 @@ namespace Vet_Clinic.Web.Controllers
             return View(appointment);
         }
 
+        public IActionResult AppointmentsHistory()
+        {
+            var appointment = _appointmentRepository.GetAllPastAppointments();
+
+            return View(appointment);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
