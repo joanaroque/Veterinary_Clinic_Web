@@ -37,5 +37,8 @@ namespace Vet_Clinic.Web.Models
 
         [Display(Name = "Role")]
         public string SelectedRole { get; set; }
+
+
+
     }
 }
