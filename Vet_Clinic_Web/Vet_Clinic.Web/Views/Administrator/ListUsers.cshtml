@@ -20,74 +20,94 @@
 
 <section class="content">
     <div class="row">
-        <div class="col-md-12 center-block">
+        <div class="col-md-6 center-block">
             <div style="text-align:center">
-                <h3 class="card-title">List of Users</h3>
+                <h3 class="card-title">Users</h3>
             </div>
             <div class="box box-info" style="margin-top:10px">
-
-                @if (Model.Any())
-                {
-
-                    foreach (var user in Model)
+                <div class="box-header with-border">
+                    @if (Model.Any())
                     {
-                        @using (Html.BeginForm("DeleteUser", "Administrator", new { id = user.Id }))
-                        {
-                            <br />
-                            <div class="card-header">
-                                User Id : @user.Id
-                            </div>
-                            <br />
-                            <div class="card-body">
-                                <h4 class="card-title">@user.UserName</h4>
-                            </div>
+                    <div class="panel-body">
+                        <table class="table table-hover table-responsive table-striped" id="MyTable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => user.UserName)
+                                        </td>
+                                        <td id="@user.Id">
+                                            <a asp-controller="Administrator" asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-info"> <i class="fa fa-edit"></i> </a>
+                                            <a asp-controller="Administrator" asp-action="DetailsUser" class="btn btn-warning" asp-route-id="@user.Id"> <i class="fa fa-list"></i>  </a>
+                                            <a asp-action="DeleteUser" asp-route-id="@user.Id" class="btn btn-danger pull-right" id="btnDelete"><i class="fa fa-trash"></i></a>
 
-                            <div class="card-footer">
-                                <form asp-action="DeleteUser" asp-route-id="@user.Id" method="post">
-                                    <a asp-controller="Administrator" asp-action="EditUser"
-                                       asp-route-id="@user.Id" class="btn btn-info">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-
-                                    <a asp-controller="Administrator" asp-action="DetailsUser"
-                                       class="btn btn-warning"
-                                       asp-route-id="@user.Id">
-                                        <i class="fa fa-list"></i>
-                                    </a>
-
-                                    <input type="submit" value="Delete" class="btn btn-danger pull-right"
-                                           onclick="return confirm('Are you sure you want to delete @user.FullName?')" />
-                                </form>
-                            </div>
-                        }
-                    }
-                }
-                else
-                {
-                    <div class="card">
-                        <div class="card-header">
-                            No users created yet
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                Use the button below to create a user
-                            </h5>
-                            <a class="btn btn-primary" style="width:auto"
-                               asp-controller="Account" asp-action="Register">
-                                Add new user
-                            </a>
-                        </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
-                }
+                    }
+                    else
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                No users created yet
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Use the button below to create a user
+                                </h5>
+                                <a class="btn btn-primary" style="width:auto"
+                                   asp-controller="Account" asp-action="Register">
+                                    Add new user
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_DeleteDialog" />
 
 
-    <script src="~/js/main.js"></script>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-}
+        <script src="~/js/main.js"></script>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                let id = 0;
+                $('a[id*=btnDelete]').click(function () {
+                    debugger;
+                    id = $(this).parent()[0].id;
+                    $("#deleteDialog").modal('show');
+                    return false;
+                });
+                $("#btnNoDelete").click(function () {
+                    $("#deleteDialog").modal('hide');
+                    return false;
+                });
+                $("#btnYesDelete").click(function () {
+                    window.location.href = '/Assistant/Delete/' + id;
+                });
+            });
+
+        </script>
+
+    }
+

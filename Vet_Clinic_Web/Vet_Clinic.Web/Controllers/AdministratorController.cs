@@ -38,37 +38,37 @@ namespace Vet_Clinic.Web.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet]
-        public IActionResult CreateRole()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public IActionResult CreateRole()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _userHelper.CheckRoleAsync(model.RoleName);
-                }
+        //[HttpPost]
+        //public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            await _userHelper.CheckRoleAsync(model.RoleName);
+        //        }
 
-                catch (DbUpdateException dbUpdateException)
-                {
-                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a role with the same name.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-                    }
-                }
+        //        catch (DbUpdateException dbUpdateException)
+        //        {
+        //            if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+        //            {
+        //                ModelState.AddModelError(string.Empty, "There are a role with the same name.");
+        //            }
+        //            else
+        //            {
+        //                ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+        //            }
+        //        }
 
-            }
-            return View(model);
-        }
+        //    }
+        //    return View(model);
+        //} // todo apagar
 
 
         [HttpGet]
@@ -97,120 +97,120 @@ namespace Vet_Clinic.Web.Controllers
             return View(user);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> EditRole(string id)
-        {
-            var role = await _roleManager.FindByIdAsync(id);
+        //[HttpGet]
+        //public async Task<IActionResult> EditRole(string id)
+        //{
+        //    var role = await _roleManager.FindByIdAsync(id);
 
-            if (role == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
+        //    if (role == null)
+        //    {
+        //        return new NotFoundViewResult("UserNotFound");
+        //    }
 
-            var model = new EditRoleViewModel
-            {
-                Id = role.Id,
-                RoleName = role.Name
-            };
-
-
-            foreach (var user in _userManager.Users)
-            {
-                if (await _userHelper.IsUserInRoleAsync(user, role.Name))
-                {
-                    model.Users.Add(user.UserName);
-                }
-            }
-
-            return View(model);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> EditRole(EditRoleViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var role = await _roleManager.FindByIdAsync(model.Id);
-
-                    if (role == null)
-                    {
-                        return new NotFoundViewResult("AdminNotFound");
-                    }
-
-                    role.Name = model.RoleName;
-
-                    var result = await _roleManager.UpdateAsync(role);
-
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("ListRoles");
-                    }
-
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                }
-                catch (DbUpdateException dbUpdateException)
-                {
-                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-                    {
-                        ModelState.AddModelError(string.Empty, "There are a role with the same name.");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-                    }
-                }
-                catch (Exception exception)
-                {
-                    ModelState.AddModelError(string.Empty, exception.Message);
-                }
+        //    var model = new EditRoleViewModel
+        //    {
+        //        Id = role.Id,
+        //        RoleName = role.Name
+        //    };
 
 
-            }
-            return View(model);
+        //    foreach (var user in _userManager.Users)
+        //    {
+        //        if (await _userHelper.IsUserInRoleAsync(user, role.Name))
+        //        {
+        //            model.Users.Add(user.UserName);
+        //        }
+        //    }
 
-        }
+        //    return View(model);
+        //}
 
-        [HttpGet]
-        public async Task<IActionResult> EditUsersInRole(string roleId)
-        {
-            ViewBag.roleId = roleId;
+        //[HttpPost]
+        //public async Task<IActionResult> EditRole(EditRoleViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            var role = await _roleManager.FindByIdAsync(model.Id);
 
-            var role = await _roleManager.FindByIdAsync(roleId);
+        //            if (role == null)
+        //            {
+        //                return new NotFoundViewResult("AdminNotFound");
+        //            }
 
-            if (role == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
+        //            role.Name = model.RoleName;
 
-            var model = new List<UserRoleViewModel>();
+        //            var result = await _roleManager.UpdateAsync(role);
 
-            foreach (var user in _userManager.Users.ToList())
-            {
-                var userRoleViewModel = new UserRoleViewModel
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName
-                };
+        //            if (result.Succeeded)
+        //            {
+        //                return RedirectToAction("ListRoles");
+        //            }
 
-                if (await _userHelper.IsUserInRoleAsync(user, role.Name))
-                {
-                    userRoleViewModel.IsSelected = true;
-                }
-                else
-                {
-                    userRoleViewModel.IsSelected = false;
-                }
+        //            foreach (var error in result.Errors)
+        //            {
+        //                ModelState.AddModelError("", error.Description);
+        //            }
+        //        }
+        //        catch (DbUpdateException dbUpdateException)
+        //        {
+        //            if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+        //            {
+        //                ModelState.AddModelError(string.Empty, "There are a role with the same name.");
+        //            }
+        //            else
+        //            {
+        //                ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+        //            }
+        //        }
+        //        catch (Exception exception)
+        //        {
+        //            ModelState.AddModelError(string.Empty, exception.Message);
+        //        }
 
-                model.Add(userRoleViewModel);
-            }
 
-            return View(model);
-        }
+        //    }
+        //    return View(model);
+
+        //} // todo apagar
+
+        //[HttpGet]
+        //public async Task<IActionResult> EditUsersInRole(string roleId)
+        //{
+        //    ViewBag.roleId = roleId;
+
+        //    var role = await _roleManager.FindByIdAsync(roleId);
+
+        //    if (role == null)
+        //    {
+        //        return new NotFoundViewResult("UserNotFound");
+        //    }
+
+        //    var model = new List<UserRoleViewModel>();
+
+        //    foreach (var user in _userManager.Users.ToList())
+        //    {
+        //        var userRoleViewModel = new UserRoleViewModel
+        //        {
+        //            UserId = user.Id,
+        //            UserName = user.UserName
+        //        };
+
+        //        if (await _userHelper.IsUserInRoleAsync(user, role.Name))
+        //        {
+        //            userRoleViewModel.IsSelected = true;
+        //        }
+        //        else
+        //        {
+        //            userRoleViewModel.IsSelected = false;
+        //        }
+
+        //        model.Add(userRoleViewModel);
+        //    }
+
+        //    return View(model); //todo apagar
+        //}
 
         //[HttpPost]
         //public async Task<IActionResult> EditUsersInRole(List<UserRoleViewModel> model, string roleId)
@@ -260,81 +260,82 @@ namespace Vet_Clinic.Web.Controllers
         [HttpGet]
         public IActionResult ListUsers()
         {
-            var users = _userManager.Users;
+            var users = _userManager.Users.ToList();
+
             return View(users);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ManageUserRoles(string userId)
-        {
-            ViewBag.userId = userId;
+        //[HttpGet]
+        //public async Task<IActionResult> ManageUserRoles(string userId)
+        //{
+        //    ViewBag.userId = userId;
 
-            var user = await _userHelper.GetUserByIdAsync(userId);
+        //    var user = await _userHelper.GetUserByIdAsync(userId);
 
-            if (user == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
+        //    if (user == null)
+        //    {
+        //        return new NotFoundViewResult("UserNotFound");
+        //    }
 
-            var model = new List<RoleViewModel>();
+        //    var model = new List<RoleViewModel>();
 
-            foreach (var role in _roleManager.Roles.ToList())
-            {
-                var userRoles = new RoleViewModel
-                {
-                    RoleId = role.Id,
-                    RoleName = role.Name
-                };
+        //    foreach (var role in _roleManager.Roles.ToList())
+        //    {
+        //        var userRoles = new RoleViewModel
+        //        {
+        //            RoleId = role.Id,
+        //            RoleName = role.Name
+        //        };
 
-                if (await _userHelper.IsUserInRoleAsync(user, role.Name))
-                {
-                    userRoles.IsSelected = true;
-                }
+        //        if (await _userHelper.IsUserInRoleAsync(user, role.Name))
+        //        {
+        //            userRoles.IsSelected = true;
+        //        }
 
-                else
-                {
-                    userRoles.IsSelected = false;
-                }
+        //        else
+        //        {
+        //            userRoles.IsSelected = false;
+        //        }
 
-                model.Add(userRoles);
-            }
+        //        model.Add(userRoles);
+        //    }
 
-            return View(model);
-        }
+        //    return View(model); //todo apagar
+        //}
 
-        [HttpPost]
-        public async Task<IActionResult> ManageUserRoles(List<RoleViewModel> model, string userId)
-        {
-            var user = await _userHelper.GetUserByIdAsync(userId);
+        //[HttpPost]
+        //public async Task<IActionResult> ManageUserRoles(List<RoleViewModel> model, string userId)
+        //{
+        //    var user = await _userHelper.GetUserByIdAsync(userId);
 
-            if (user == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
+        //    if (user == null)
+        //    {
+        //        return new NotFoundViewResult("UserNotFound");
+        //    }
 
-            var roles = await _userManager.GetRolesAsync(user);
+        //    var roles = await _userManager.GetRolesAsync(user);
 
-            await _userManager.UpdateSecurityStampAsync(user);
+        //    await _userManager.UpdateSecurityStampAsync(user);
 
 
-            var result = await _userManager.RemoveFromRolesAsync(user, roles);
+        //    var result = await _userManager.RemoveFromRolesAsync(user, roles);
 
-            if (!result.Succeeded)
-            {
-                return View(model);
-            }
+        //    if (!result.Succeeded)
+        //    {
+        //        return View(model);
+        //    }
 
-            result = await _userManager.AddToRolesAsync(user,
-                model.Where(x => x.IsSelected)
-                      .Select(y => y.RoleName));
+        //    result = await _userManager.AddToRolesAsync(user,
+        //        model.Where(x => x.IsSelected)
+        //              .Select(y => y.RoleName));
 
-            if (!result.Succeeded)
-            {
-                return View(model);
-            }
+        //    if (!result.Succeeded)
+        //    {
+        //        return View(model);
+        //    }
 
-            return RedirectToAction("EditUser", new { Id = userId });
-        }
+        //    return RedirectToAction("EditUser", new { Id = userId });
+        //} // todo apagar
 
         // GET: Administrator/Edit/5
         [HttpGet]

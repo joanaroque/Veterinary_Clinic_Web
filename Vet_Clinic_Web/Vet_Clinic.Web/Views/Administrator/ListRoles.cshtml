@@ -16,78 +16,103 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <br />
 
-
-<a class="btn btn-primary mb-3" style="width:auto" asp-action="CreateRole"
-   asp-controller="Administrator"><i class="glyphicon glyphicon-plus"></i> Add new role</a>
-
-
 <section class="content">
     <div class="row">
-        <div class="col-md-12 center-block">
+        <div class="col-md-6 center-block">
             <div style="text-align:center">
-                <h3 class="card-title">List of Roles</h3>
+                <h3 class="card-title">Roles</h3>
             </div>
             <div class="box box-info" style="margin-top:10px">
+                <div class="box-header with-border">
 
-                @if (Model.Any())
-                {
-                    @foreach (var role in Model)
+                    @if (Model.Any())
                     {
-                        @using (Html.BeginForm("DeleteRole", "Administrator", new { id = role.Id }))
-                        {
-                            <div class="card mb-3">
-                                <div class="card-header">
-                                    Role Id: @role.Id
-                                </div>
-                                <br />
 
-                                <div class="card-body">
-                                    <h4 class="card-title">@role.Name</h4>
-                                </div>
-                                <br />
-                                <div class="card-footer">
-                                    <a asp-controller="Administrator" asp-action="EditRole"
-                                       asp-route-id="@role.Id" class="btn btn-info">
-                                        <i class="fa fa-edit"></i> Edit
-                                    </a>
+                        <div class="panel-body">
+                            <table class="table table-hover table-responsive table-striped" id="MyTable">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Role
+                                        </th>
+                                        <th>
+                                            Role Id
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var role in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => role.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => role.Id)
+                                            </td>
+                                            <td id="@role.Id">
+                                                <a asp-action="DeleteRole" asp-route-id="@role.Id" class="btn btn-danger pull-right" id="btnDelete"><i class="fa fa-trash"></i></a>
 
-                                    <form asp-action="DeleteRole" asp-route-id="@role.Id" method="post">
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
 
-                                        <input type="submit" value="Delete" class="btn btn-danger pull-right"
-                                               onclick="return confirm('Are you sure you want to delete @role.Name?')" />
-                                    </form>
-                                </div>
-                            </div>
-                        }
+
                     }
-                }
-                else
-                {
-                    <div class="card">
-                        <div class="card-header">
-                            No roles created yet
+                    else
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                No roles created yet
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    Use the button below to create a role
+                                </h5>
+                                <a class="btn btn-primary" style="width:auto"
+                                   asp-controller="Admin" asp-action="CreateRole">
+                                    Create Role
+                                </a>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                Use the button below to create a role
-                            </h5>
-                            <a class="btn btn-primary" style="width:auto"
-                               asp-controller="Admin" asp-action="CreateRole">
-                                Create Role
-                            </a>
-                        </div>
-                    </div>
-                }
+                    }
 
+                </div>
             </div>
         </div>
     </div>
-
 </section>
 
+
+<partial name="_DeleteDialog" />
 
 @section Scripts {
 
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/main.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            let id = 0;
+            $('a[id*=btnDelete]').click(function () {
+                debugger;
+                id = $(this).parent()[0].id;
+                $("#deleteDialog").modal('show');
+                return false;
+            });
+            $("#btnNoDelete").click(function () {
+                $("#deleteDialog").modal('hide');
+                return false;
+            });
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Assistant/Delete/' + id;
+            });
+        });
+
+    </script>
 }

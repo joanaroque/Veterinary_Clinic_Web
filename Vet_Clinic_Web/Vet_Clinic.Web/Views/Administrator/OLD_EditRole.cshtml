@@ -35,7 +35,7 @@
                                         <div class="col-sm-7">
                                             <div class="form-group">
                                                 <label asp-for="Id" class="control-label"></label>
-                                                <input asp-for="Id" class="form-control">
+                                                <input asp-for="Id" class="form-control" disabled>
                                             </div>
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -73,14 +73,6 @@
                                         <h5 class="card-title">None at the moment</h5>
                                     }
                                 </div>
-
-                                <div class="card-footer">
-                                    <a asp-controller="Administrator" asp-action="EditUsersInRole"
-                                       asp-route-roleId="@Model.Id" class="btn btn-foursquare">
-                                        Add or remove users from this role
-                                    </a>
-                                </div>
-
                             </div>
                         </form>
                     </div>
