@@ -15,19 +15,19 @@
 <br />
 
 <a asp-action="Register" class="btn btn-primary" asp-controller="Account">
-    <i class="glyphicon glyphicon-plus"></i> Add new user
+    <i class="glyphicon glyphicon-plus"></i> Register new user
 </a>
 
-<section class="content">
-    <div class="row">
-        <div class="col-md-6 center-block">
-            <div style="text-align:center">
-                <h3 class="card-title">Users</h3>
-            </div>
-            <div class="box box-info" style="margin-top:10px">
-                <div class="box-header with-border">
-                    @if (Model.Any())
-                    {
+<div class="register" style="margin-top:10px; margin-bottom:10px">
+
+    <div class="container-fluid">
+        <div style="text-align:center">
+            <h3 class="card-title">Users</h3>
+        </div>
+        <div class="box box-info" style="margin-top:10px">
+            <div class="box-header with-border">
+                @if (Model.Any())
+                {
                     <div class="panel-body">
                         <table class="table table-hover table-responsive table-striped" id="MyTable">
                             <thead>
@@ -56,29 +56,29 @@
                             </tbody>
                         </table>
                     </div>
-                    }
-                    else
-                    {
-                        <div class="card">
-                            <div class="card-header">
-                                No users created yet
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    Use the button below to create a user
-                                </h5>
-                                <a class="btn btn-primary" style="width:auto"
-                                   asp-controller="Account" asp-action="Register">
-                                    Add new user
-                                </a>
-                            </div>
+                }
+                else
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            No users created yet
                         </div>
-                    }
-                </div>
-            </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                Use the button below to create a user
+                            </h5>
+                            <a class="btn btn-primary" style="width:auto"
+                               asp-controller="Account" asp-action="Register">
+                                Add new user
+                            </a>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
-    </section>
+    </div>
+</div>
+
 
     <partial name="_DeleteDialog" />
 

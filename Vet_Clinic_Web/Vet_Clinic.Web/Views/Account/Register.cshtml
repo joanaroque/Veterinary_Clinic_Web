@@ -15,46 +15,33 @@
             <h3 class="card-title">Register New User</h3>
         </div>
 
-        <div class="box box-info">
+        <div class="box box-info" style="margin-top:10px">
+
             <div class="box-header with-border">
 
                 <form asp-action="Register">
                     <div asp-validation-summary="ModelOnly"></div>
 
-                    <div class="input-group mb-3">
+                    <div class="form-group">
                         <input asp-for="UserName" type="text" class="form-control" placeholder="User Name">
-                        <label asp-for="UserName"></label>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span asp-validation-for="UserName" class="fas fa-envelope"></span>
-                            </div>
-                        </div>
+                        <span asp-validation-for="UserName" class="fas fa-envelope"></span>
                     </div>
 
                     <partial name="_User" />
 
-                    <div class="input-group mb-3">
+                    <div class="form-group">
                         <input asp-for="Password" type="Password" class="form-control" placeholder="Password">
-                        <label asp-for="Password"></label>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span asp-validation-for="Password" class="fas fa-lock"></span>
-                            </div>
-                        </div>
+                        <span asp-validation-for="Password" class="fas fa-lock"></span>
                     </div>
 
-                    <div class="input-group mb-3">
+                    <div class="form-group">
                         <input asp-for="PasswordConfirm" type="Password" class="form-control" placeholder="Confirm Password">
-                        <label asp-for="PasswordConfirm"></label>
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span asp-validation-for="PasswordConfirm" class="fas fa-lock"></span>
-                            </div>
-                        </div>
+                        <span asp-validation-for="PasswordConfirm" class="fas fa-lock"></span>
                     </div>
+
                     @if (User.IsInRole("Admin"))
                     {
-                        
+
                     }
                     <div class="col-4">
                         <input type="submit" value="Register" class="btn btn-success btn-block" />

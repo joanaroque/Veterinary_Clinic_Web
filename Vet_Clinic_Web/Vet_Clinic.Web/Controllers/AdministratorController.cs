@@ -38,41 +38,9 @@ namespace Vet_Clinic.Web.Controllers
             _userManager = userManager;
         }
 
-        //[HttpGet]
-        //public IActionResult CreateRole()
-        //{
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            await _userHelper.CheckRoleAsync(model.RoleName);
-        //        }
-
-        //        catch (DbUpdateException dbUpdateException)
-        //        {
-        //            if (dbUpdateException.InnerException.Message.Contains("duplicate"))
-        //            {
-        //                ModelState.AddModelError(string.Empty, "There are a role with the same name.");
-        //            }
-        //            else
-        //            {
-        //                ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
-        //            }
-        //        }
-
-        //    }
-        //    return View(model);
-        //} // todo apagar
-
 
         [HttpGet]
-        public IActionResult ListRoles() // todo retirar metodos e views redundantes !!!
+        public IActionResult ListRoles() 
         {
             var roles = _roleManager.Roles;
             return View(roles);

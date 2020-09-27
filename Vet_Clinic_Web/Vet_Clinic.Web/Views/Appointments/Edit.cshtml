@@ -12,70 +12,66 @@
 </section>
 <br />
 
-<section class="content">
+<div class="register-box" style="margin-top:10px; margin-bottom:0px">
+
     <div class="container-fluid">
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-5 center-block">
 
-                <div style="text-align:center">
-                    <h3 class="card-title">Edit Appointment</h3>
-                </div>
+        <div style="text-align:center">
+            <h3 class="card-title">Edit Appointment</h3>
+        </div>
 
-                <div class="box box-info" style="margin-top:10px">
-                    <div class="box-header with-border">
+        <div class="box box-info" style="margin-top:10px">
+            <div class="box-header with-border">
 
-                        <form method="post" asp-action="Edit" enctype="multipart/form-data">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="hidden" asp-for="Id" />
-                            <input type="hidden" asp-for="PetId" />
-                            <input type="hidden" asp-for="OwnerId" />
+                <form method="post" asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="PetId" />
+                    <input type="hidden" asp-for="OwnerId" />
 
-                            <div class="form-group">
-                                <label asp-for="ScheduledDate" class="control-label"></label>
-                                <input asp-for="ScheduledDate" class="form-control" />
-                                <span asp-validation-for="ScheduledDate" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="DoctorId" class="control-label"></label>
-                                <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-control"></select>
-                                <span asp-validation-for="DoctorId" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="Pet" class="control-label"></label>
-                                <input asp-for="@Model.Pet.Name" class="form-control" disabled />
-                                <span asp-validation-for="Pet" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="Owner" class="control-label"></label>
-                                <input asp-for="@Model.Owner.User.FullName" class="form-control" disabled/>
-                                <span asp-validation-for="Owner" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-group">
-                                <label asp-for="AppointmentObs"></label>
-                                <textarea asp-for="AppointmentObs" class="form-control"> </textarea>
-                                <span asp-validation-for="AppointmentObs" class="text-danger"></span>
-                            </div>
-
-                            <!-- /.box-body -->
-                            <div class="form-group">
-                                <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To List</a>
-                                <input type="submit" value="Save" class="btn btn-primary " />
-                            </div>
-                            <!-- /.box-footer -->
-
-                        </form>
+                    <div class="form-group">
+                        <label asp-for="ScheduledDate" class="control-label"></label>
+                        <input asp-for="ScheduledDate" class="form-control" />
+                        <span asp-validation-for="ScheduledDate" class="text-danger"></span>
                     </div>
-                </div>
+
+                    <div class="form-group">
+                        <label asp-for="DoctorId" class="control-label"></label>
+                        <select asp-for="DoctorId" asp-items="Model.Doctors" class="form-control"></select>
+                        <span asp-validation-for="DoctorId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Pet" class="control-label"></label>
+                        <input asp-for="@Model.Pet.Name" class="form-control" disabled />
+                        <span asp-validation-for="Pet" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Owner" class="control-label"></label>
+                        <input asp-for="@Model.Owner.User.FullName" class="form-control" disabled />
+                        <span asp-validation-for="Owner" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="AppointmentObs"></label>
+                        <textarea asp-for="AppointmentObs" class="form-control"> </textarea>
+                        <span asp-validation-for="AppointmentObs" class="text-danger"></span>
+                    </div>
+
+                    <!-- /.box-body -->
+                    <div class="form-group">
+                        <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To List</a>
+                        <input type="submit" value="Save" class="btn btn-primary " />
+                    </div>
+                    <!-- /.box-footer -->
+
+                </form>
             </div>
         </div>
     </div>
-    <!-- /.box -->
-</section>
+</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

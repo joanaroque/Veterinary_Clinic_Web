@@ -17,8 +17,9 @@
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
-<section class="content">
-    <div class="row">
+<div class="register" style="margin-top:10px; margin-bottom:10px">
+
+    <div class="container-fluid">
         <div class="col-md-11 center-block">
             <div style="text-align:center">
                 <h3 class="card-title">Pets</h3>
@@ -82,35 +83,34 @@
             </div>
         </div>
     </div>
-</section>
+    </div>
+    <partial name="_DeleteDialog" />
 
-<partial name="_DeleteDialog" />
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#MyTable').DataTable();
-        });
-
-
-        $(document).ready(function () {
-            let id = 0;
-            $('a[id*=btnDelete]').click(function () {
-                debugger;
-                id = $(this).parent()[0].id;
-                $("#deleteDialog").modal('show');
-                return false;
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#MyTable').DataTable();
             });
-            $("#btnNoDelete").click(function () {
-                $("#deleteDialog").modal('hide');
-                return false;
-            });
-            $("#btnYesDelete").click(function () {
-                window.location.href = '/Pets/Delete/' + id;
-            });
-        });
-    </script>
 
-}
+
+            $(document).ready(function () {
+                let id = 0;
+                $('a[id*=btnDelete]').click(function () {
+                    debugger;
+                    id = $(this).parent()[0].id;
+                    $("#deleteDialog").modal('show');
+                    return false;
+                });
+                $("#btnNoDelete").click(function () {
+                    $("#deleteDialog").modal('hide');
+                    return false;
+                });
+                $("#btnYesDelete").click(function () {
+                    window.location.href = '/Pets/Delete/' + id;
+                });
+            });
+        </script>
+
+    }

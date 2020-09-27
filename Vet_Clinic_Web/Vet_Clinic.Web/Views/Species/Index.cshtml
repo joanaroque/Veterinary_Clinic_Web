@@ -18,9 +18,9 @@
     <a asp-action="Create" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Create New</a>
 </p>
 
-<section class="content">
-    <div class="row">
-        <div class="col-md-8 center-block">
+<div class="register" style="margin-top:10px; margin-bottom:0px">
+
+    <div class="container-fluid">
             <div style="text-align:center">
                 <h3 class="card-title">Species</h3>
             </div>
@@ -39,15 +39,16 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Description)
-                                    </td>
-                                    <td id="@item.Id">
-                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDelete"><i class="fa fa-trash"></i></a>
-                                        <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td id="@item.Id">
+                                            <a asp-action="Edit" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" id="btnDelete"><i class="fa fa-trash"></i> Delete</a>
+
+                                        </td>
+                                    </tr>
 
                                 }
                             </tbody>
@@ -57,35 +58,34 @@
             </div>
         </div>
     </div>
-</section>
 
-<partial name="_DeleteDialog" />
+    <partial name="_DeleteDialog" />
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#MyTable').DataTable();
-        });
-
-
-        $(document).ready(function () {
-            let id = 0;
-            $('a[id*=btnDelete]').click(function () {
-                debugger;
-                id = $(this).parent()[0].id;
-                $("#deleteDialog").modal('show');
-                return false;
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#MyTable').DataTable();
             });
-            $("#btnNoDelete").click(function () {
-                $("#deleteDialog").modal('hide');
-                return false;
-            });
-            $("#btnYesDelete").click(function () {
-                window.location.href = '/Species/Delete/' + id;
-            });
-        });
-    </script>
 
-}
+
+            $(document).ready(function () {
+                let id = 0;
+                $('a[id*=btnDelete]').click(function () {
+                    debugger;
+                    id = $(this).parent()[0].id;
+                    $("#deleteDialog").modal('show');
+                    return false;
+                });
+                $("#btnNoDelete").click(function () {
+                    $("#deleteDialog").modal('hide');
+                    return false;
+                });
+                $("#btnYesDelete").click(function () {
+                    window.location.href = '/Species/Delete/' + id;
+                });
+            });
+        </script>
+
+    }

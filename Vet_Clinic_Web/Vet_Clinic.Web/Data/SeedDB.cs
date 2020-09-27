@@ -164,6 +164,7 @@ namespace Vet_Clinic.Web.Data
         private async Task FillUserAsync()
         {
             var user = await _userHelper.GetUserByEmailAsync("joanatpsi@gmail.com");
+
             if (user == null)
             {
                 user = new User
@@ -198,7 +199,7 @@ namespace Vet_Clinic.Web.Data
         {
             if (!_context.Owners.Any())
             {
-                var user = new User
+                var user1 = new User
                 {
                     Address = "Rua da programação",
                     Email = "lala@yopmail.com",
@@ -210,7 +211,56 @@ namespace Vet_Clinic.Web.Data
 
                 _context.Owners.Add(new Owner
                 {
-                    User = user,
+                    User = user1,
+                    Pets = _context.Pets.ToList(),
+                });
+
+                var user2 = new User
+                {
+                    Address = "Rua da Amélia",
+                    Email = "ameliaamleia@yopmail.com",
+                    FirstName = "Rosa",
+                    LastName = "Maria",
+                    PhoneNumber = "965258888",
+                    UserName = "ameliaamleia@yopmail.com"
+                };
+
+                _context.Owners.Add(new Owner
+                {
+                    User = user2,
+                    Pets = _context.Pets.ToList(),
+                });
+
+                var user3 = new User
+                {
+                    Address = "Rua dos Açores",
+                    Email = "acorescores@yopmail.com",
+                    FirstName = "Maria",
+                    LastName = "Teresa",
+                    PhoneNumber = "965258888",
+                    UserName = "acorescores@yopmail.com"
+                };
+
+                _context.Owners.Add(new Owner
+                {
+                    User = user3,
+                    Pets = _context.Pets.ToList(),
+                });
+
+
+                var user4 = new User
+                {
+                    Address = "Rua do Bosque",
+                    Email = "bosquebosque@yopmail.com",
+                    FirstName = "Sofia",
+                    LastName = "Fernandes",
+                    PhoneNumber = "965258888",
+                    UserName = "bosquebosque@yopmail.com"
+                };
+
+                _context.Owners.Add(new Owner
+                {
+                    User = user4,
                     Pets = _context.Pets.ToList(),
                 });
 

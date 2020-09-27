@@ -12,147 +12,145 @@
 </section>
 <br />
 
-<section class="content">
+<div class="register" style="margin-top:10px; margin-bottom:10px">
+
     <div class="container-fluid">
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-9 center-block">
 
-                <div style="text-align:center">
-                    <h3 class="card-title">Pet</h3>
-                </div>
+        <div style="text-align:center">
+            <h3 class="card-title">Pet</h3>
+        </div>
 
-                <div class="box box-info" style="margin-top:10px">
-                    <div class="box-header with-border">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <dl class="dl-horizontal">
-                                    <dt>
-                                        Owner
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Owner.User.FirstName)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Name)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Name)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Breed)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Breed)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.DateOfBirth)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.DateOfBirth)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Sterilization)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Sterilization)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Gender)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Gender)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Weight)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Weight)
-                                    </dd>
-                                </dl>
-                            </div>
-                            <div class="col-md-4">
-                                @if (!string.IsNullOrEmpty(Model.ImageUrl))
-                                {
-                                    <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:200px;height:200px;max-height: 100%; width: auto;" />
-                                }
-                            </div>
-                        </div>
-                        <div>
-                            <a asp-action="EditPet" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                            <a asp-action="AddHistory" asp-route-id="@Model.Id" class="btn btn-foursquare center-block"><i class="fa fa-history"></i> Add History <i class="fa fa-history"></i></a>
-                            <a asp-action="Details" asp-route-id="@Model.Owner.Id" class="btn btn-success pull-right"><i class="fa fa-backward"></i> To Owner</a>
-                        </div>
+        <div class="box box-info" style="margin-top:10px">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div class="col-md-8">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                Owner
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Owner.User.FirstName)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Breed)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Breed)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DateOfBirth)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.DateOfBirth)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Sterilization)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Sterilization)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Gender)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Gender)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Weight)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Weight)
+                            </dd>
+                        </dl>
                     </div>
+                    <div class="col-md-4">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:200px;height:200px;max-height: 100%; width: auto;" />
+                        }
+                    </div>
+                </div>
+                <div>
+                    <a asp-action="EditPet" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                    <a asp-action="AddHistory" asp-route-id="@Model.Id" class="btn btn-foursquare"><i class="fa fa-history"></i> Add History <i class="fa fa-history"></i></a>
+                    <a asp-action="Details" asp-route-id="@Model.Owner.Id" class="btn btn-success pull-right"><i class="fa fa-backward"></i> To Owner</a>
                 </div>
             </div>
         </div>
-        <br />
+    </div>
+</div>
+<br />
 
 
-        @if (Model.Histories.Count == 0)
-        {
+@if (Model.Histories.Count == 0)
+{
+    <div style="text-align:center">
+        <h3 class="card-title">Pet History</h3>
+    </div>
+
+    <div class="box box-info center-block">
+
+        <div class="form-control">
+            <h4> No histories added yet.</h4>
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="register" style="margin-top:10px; margin-bottom:0px">
+
+        <div class="container-fluid">
             <div style="text-align:center">
                 <h3 class="card-title">Pet History</h3>
             </div>
+            <div class="box box-info" style="margin-top:10px">
 
-            <div class="box box-info center-block">
-
-                <div class="form-control">
-                    <h4> No histories added yet.</h4>
-                </div>
-            </div>
-
-        }
-        else
-        {
-            <div class="row">
-                <div class="col-md-9 center-block">
-                    <div style="text-align:center">
-                        <h3 class="card-title">Pet History</h3>
-                    </div>
-                    <div class="box box-info" style="margin-top:10px">
-
-                        <div class="box-header with-border">
-                            <div class="panel-body">
-                                <table class="table table-hover table-responsive table-striped" id="MyTable">
-                                    <thead>
+                <div class="box-header with-border">
+                    <div class="panel-body">
+                        <table class="table table-hover table-responsive table-striped" id="MyTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Histories)
+                                {
+                                    @using (Html.BeginForm("DeleteHistory", "Owners", new { id = item.Id }))
+                                    {
                                         <tr>
-                                            <th>Date</th>
-                                            <th>Description</th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CreateDate)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-danger pull-right"
+                                                   onclick="return confirm('Are you sure you want to delete @item.Description?')"><i class="fa fa-trash"></i> Delete</a>
+                                                <a asp-action="EditHistory" asp-controller="Pets" class="btn btn-info" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.Histories)
-                                        {
-                                            @using (Html.BeginForm("DeleteHistory", "Owners", new { id = item.Id }))
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.CreateDate)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.Description)
-                                                    </td>
-                                                    <td>
-                                                        <a  class="btn btn-danger pull-right"
-                                                               onclick="return confirm('Are you sure you want to delete @item.Description?')" ><i class="fa fa-trash"></i></a>
-                                                        <a asp-action="EditHistory" asp-controller="Pets" class="btn btn-info" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i></a>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                    }
+                                }
+                            </tbody>
+                        </table>
                     </div>
-
                 </div>
             </div>
-        }
+
+        </div>
     </div>
-</section>
+}
+
 
 
 @section Scripts {
