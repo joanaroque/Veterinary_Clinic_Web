@@ -113,7 +113,6 @@ namespace Vet_Clinic.Web
             services.AddScoped<IOwnerRepository, OwnerRepository>();
             services.AddScoped<ISpecieRepository, SpecieRepository>();
             services.AddScoped<IAssistantRepository, AssistantRepository>();
-            services.AddScoped<IHistoryRepository, HistoryRepository>();
             services.AddScoped<IPetRepository, PetRepository>();
             services.AddScoped<ILog, Log>();
 

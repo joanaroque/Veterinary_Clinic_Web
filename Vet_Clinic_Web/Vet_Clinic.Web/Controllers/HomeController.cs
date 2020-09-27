@@ -359,7 +359,7 @@ namespace Vet_Clinic.Web.Data
                 return NotFound();
             }
 
-            if (pet.Histories.Count > 0)
+            if (pet.Appointments.Count > 0)
             {
                 return RedirectToAction(nameof(MyPets));
             }

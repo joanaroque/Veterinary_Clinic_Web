@@ -13,7 +13,7 @@
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
-<<div class="register-box" style="margin-top:10px; margin-bottom:10px">
+<div class="register" style="margin-top:10px; margin-bottom:10px">
 
     <div class="container-fluid">
 
@@ -79,7 +79,7 @@
 <hr />
 @if (Model.Pets.Count == 0)
 {
-    <h4>Not pets added yet.</h4>
+    <h4>No pets added yet.</h4>
 }
 else
 {
@@ -107,9 +107,6 @@ else
                             <th>
                                 @Html.DisplayNameFor(model => model.Pets.FirstOrDefault().Specie.Description)
                             </th>
-                            <th>
-                                # Histories
-                            </th>
                             <th></th>
                         </tr>
                     </thead>
@@ -131,9 +128,6 @@ else
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Specie.Description)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Histories.Count)
                                 </td>
                                 <td id="@item.Id">
                                     <a asp-action="EditPet" class="btn btn-info" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>

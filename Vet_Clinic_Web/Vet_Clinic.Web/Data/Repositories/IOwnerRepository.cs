@@ -36,19 +36,11 @@ namespace Vet_Clinic.Web.Data.Repositories
 
 
         /// <summary>
-        /// get the attributes of the owners, including the user who created it, for the user received
+        /// get the attributes of the owners, including the user who created it, for the Owner ID received
         /// </summary>
-        /// <param name="model"> model user</param>
-        /// <returns>attributes of the owners, including the user who created it, for the user received</returns>
-        Task<Owner> GetOwnerWithUserAsync(EditUserViewModel model);
-
-
-        /// <summary>
-        /// get the attributes of the owners, including the user who created it, for the user ID received
-        /// </summary>
-        /// <param name="userId">Id user</param>
-        /// <returns>attributes of the owners, including the user who created it, for the user ID received</returns>
-        Task<Owner> GetOwnerWithUserByIdAsync(int userId);
+        /// <param name="ownerId">Id owner</param>
+        /// <returns>attributes of the owners, including the user who created it, for the owner ID received</returns>
+        Task<Owner> GetOwnerWithUserByIdAsync(int ownerId);
 
 
         /// <summary>

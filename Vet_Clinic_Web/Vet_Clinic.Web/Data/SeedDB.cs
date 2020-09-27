@@ -33,7 +33,6 @@ namespace Vet_Clinic.Web.Data
             await FillDoctorAsync();     
             await CheckAppointmentsAsync();
             await FillPetsAsync();
-            await FillHistoriesAsync();
             await FillAssistantAsync();
 
         }
@@ -44,21 +43,7 @@ namespace Vet_Clinic.Web.Data
             await _userHelper.CheckRoleAsync("Agent");
             await _userHelper.CheckRoleAsync("Doctor");
             await _userHelper.CheckRoleAsync("Customer");
-        }
-
-        private async Task FillHistoriesAsync()
-        {
-            if (!_context.Histories.Any())
-            {
-                _context.Histories.Add(new History
-                {
-                    Pet = _context.Pets.FirstOrDefault(),
-                    Description = "Otite e orelhas sujas",
-                    CreateDate = DateTime.Now.AddDays(-1)
-                });
-                await _context.SaveChangesAsync();
-            }
-        }
+        }    
 
         private async Task FillPetsAsync()
         {
@@ -75,7 +60,6 @@ namespace Vet_Clinic.Web.Data
                     Weight = 8,
                     Sterilization = true,
                     DateOfBirth = DateTime.Now.AddYears(-1),
-                    Histories = _context.Histories.ToList(),
                     Appointments = _context.Appointments.ToList()
                 });
 
@@ -90,7 +74,6 @@ namespace Vet_Clinic.Web.Data
                     Weight = 00,
                     Sterilization = true,
                     DateOfBirth = DateTime.Now.AddYears(-7),
-                    Histories = _context.Histories.ToList(),
                     Appointments = _context.Appointments.ToList()
                 });
 
@@ -348,7 +331,7 @@ namespace Vet_Clinic.Web.Data
                     PhoneNumber = "961248777",
                     Email = "magio@gmail.com",
                     Specialty = "Clinica Geral",
-                    MedicalLicense = "45345",
+                    MedicalLicense = "1234",
                     WorkStart = 14,
                     WorkEnd = 19,
                     ObsRoom = "5",
@@ -430,6 +413,39 @@ namespace Vet_Clinic.Web.Data
                 ScheduledDate = DateTime.Now.AddMonths(2),
                 CreateDate = DateTime.Now.AddDays(-2),
                 AppointmentObs = "Comichão na cabeça",
+                Owner = owner,
+                Doctor = doctor,
+                Pet = owner.Pets.FirstOrDefault(),
+                CreatedBy = user
+            });
+
+            _context.Appointments.Add(new Appointment
+            {
+                ScheduledDate = DateTime.Now.AddMonths(-15),
+                CreateDate = DateTime.Now.AddDays(2),
+                AppointmentObs = "Não come há 1 dia",
+                Owner = owner,
+                Doctor = doctor,
+                Pet = owner.Pets.FirstOrDefault(),
+                CreatedBy = user
+            });
+
+            _context.Appointments.Add(new Appointment
+            {
+                ScheduledDate = DateTime.Now.AddMonths(-13),
+                CreateDate = DateTime.Now.AddDays(6),
+                AppointmentObs = "Não quer andar",
+                Owner = owner,
+                Doctor = doctor,
+                Pet = owner.Pets.FirstOrDefault(),
+                CreatedBy = user
+            });
+
+            _context.Appointments.Add(new Appointment
+            {
+                ScheduledDate = DateTime.Now.AddMonths(-20),
+                CreateDate = DateTime.Now.AddDays(-2),
+                AppointmentObs = "Queixas da perna direita",
                 Owner = owner,
                 Doctor = doctor,
                 Pet = owner.Pets.FirstOrDefault(),

@@ -72,7 +72,6 @@ namespace Vet_Clinic.Web.Data.Repositories
                .Include(o => o.Pets)
                .ThenInclude(p => p.Specie)
                .Include(o => o.Pets)
-               .ThenInclude(p => p.Histories)
                .FirstOrDefaultAsync(m => m.Id == ownerId);
 
             return owner;
@@ -85,24 +84,14 @@ namespace Vet_Clinic.Web.Data.Repositories
                .Include(o => o.Pets)
                .ThenInclude(p => p.Specie)
                .Include(o => o.Pets)
-               .ThenInclude(p => p.Histories)
                .FirstOrDefaultAsync(m => m.Id == ownerId);
         }
 
-        public async Task<Owner> GetOwnerWithUserAsync(EditUserViewModel model)
-        {
-            var owner = await _context.Owners
-                       .Include(o => o.User)
-                       .FirstOrDefaultAsync(o => o.Id.ToString() == model.Id);
-
-            return owner;
-        }
-
-        public async Task<Owner> GetOwnerWithUserByIdAsync(int userId)
+        public async Task<Owner> GetOwnerWithUserByIdAsync(int ownerId)
         {
             var owner = await _context.Owners
                     .Include(o => o.User)
-                     .FirstOrDefaultAsync(o => o.Id == userId);
+                     .FirstOrDefaultAsync(o => o.Id == ownerId);
 
             return owner;
         }

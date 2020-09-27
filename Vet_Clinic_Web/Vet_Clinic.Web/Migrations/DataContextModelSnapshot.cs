@@ -210,7 +210,7 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.HasIndex("ModifiedById");
 
-                    b.HasIndex("Email", "TIN")
+                    b.HasIndex("TIN")
                         .IsUnique();
 
                     b.ToTable("Assistants");
@@ -269,43 +269,15 @@ namespace Vet_Clinic.Web.Migrations
 
                     b.HasIndex("CreatedById");
 
+                    b.HasIndex("MedicalLicense")
+                        .IsUnique();
+
                     b.HasIndex("ModifiedById");
 
-                    b.HasIndex("Email", "MedicalLicense", "TIN", "Specialty")
+                    b.HasIndex("TIN")
                         .IsUnique();
 
                     b.ToTable("Doctors");
-                });
-
-            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.History", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreateDate");
-
-                    b.Property<string>("CreatedById");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("ModifiedById");
-
-                    b.Property<int?>("PetId");
-
-                    b.Property<DateTime>("UpdateDate");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("ModifiedById");
-
-                    b.HasIndex("PetId");
-
-                    b.ToTable("Histories");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Owner", b =>
@@ -566,21 +538,6 @@ namespace Vet_Clinic.Web.Migrations
                     b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
                         .WithMany()
                         .HasForeignKey("ModifiedById");
-                });
-
-            modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.History", b =>
-                {
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById");
-
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.User", "ModifiedBy")
-                        .WithMany()
-                        .HasForeignKey("ModifiedById");
-
-                    b.HasOne("Vet_Clinic.Web.Data.Entities.Pet", "Pet")
-                        .WithMany("Histories")
-                        .HasForeignKey("PetId");
                 });
 
             modelBuilder.Entity("Vet_Clinic.Web.Data.Entities.Owner", b =>

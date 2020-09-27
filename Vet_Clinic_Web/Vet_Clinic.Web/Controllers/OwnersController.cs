@@ -24,7 +24,6 @@ namespace Vet_Clinic.Web.Controllers
         private readonly ISpecieRepository _specieRepository;
         private readonly IMailHelper _mailHelper;
         private readonly IPetRepository _petRepository;
-        private readonly IHistoryRepository _historyRepository;
 
         public OwnersController(IOwnerRepository OwnerRepository,
             IUserHelper userHelper,
@@ -32,8 +31,7 @@ namespace Vet_Clinic.Web.Controllers
             IConverterHelper converterHelper,
             ISpecieRepository specieRepository,
             IMailHelper mailHelper,
-             IPetRepository petRepository,
-             IHistoryRepository historyRepository)
+             IPetRepository petRepository)
         {
             _ownerRepository = OwnerRepository;
             _userHelper = userHelper;
@@ -42,7 +40,6 @@ namespace Vet_Clinic.Web.Controllers
             _specieRepository = specieRepository;
             _mailHelper = mailHelper;
             _petRepository = petRepository;
-            _historyRepository = historyRepository;
         }
 
         // GET: Owners
@@ -180,14 +177,24 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var owner = await _ownerRepository.GetOwnerWithUserAsync(model);
+               var user = await _userHelper.GetUserByIdAsync(model.Id);
 
-                owner.User.FirstName = model.FirstName;
-                owner.User.LastName = model.LastName;
-                owner.User.Address = model.Address;
-                owner.User.PhoneNumber = model.PhoneNumber;
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Address = model.Address;
+                user.PhoneNumber = model.PhoneNumber;
 
-                await _userHelper.UpdateUserAsync(owner.User);
+                await _userHelper.UpdateUserAsync(user);
+
+
+                //var owner = await _ownerRepository.GetOwnerWithUserByIdAsync(model.Id);
+
+                // owner.User.FirstName = model.FirstName;
+                // owner.User.LastName = model.LastName;
+                // owner.User.Address = model.Address;
+                // owner.User.PhoneNumber = model.PhoneNumber;
+
+                //await _userHelper.UpdateUserAsync(owner.User);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -228,59 +235,7 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AddHistory(int? id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("OwnerNotFound");
-            }
-
-            var pet = await _petRepository.GetByIdAsync(id.Value);
-
-            if (pet == null)
-            {
-                return new NotFoundViewResult("PetNotFound");
-            }
-
-            var view = new HistoryViewModel
-            {
-                CreateDate = DateTime.Now,
-                PetId = pet.Id
-            };
-
-            return View(view);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddHistory(HistoryViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    model.Pet = await _petRepository.GetDetailsPetAsync(model.PetId);
-
-                    var history = _converterHelper.ToHistory(model, true);
-
-                    history.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
-                    await _historyRepository.CreateAsync(history);
-
-                    var histories = _historyRepository.GetHistoriesFromPetIdAsync(model.PetId);
-
-                    return RedirectToAction($"{nameof(DetailsPet)}/{model.PetId}");
-                }
-                catch (Exception exception)
-                {
-                    ModelState.AddModelError(string.Empty, exception.Message);
-                }
-
-            }
-
-            return View(model);
-        }
-
+      
         public async Task<IActionResult> DetailsPet(int? id)
         {
             if (id == null)
@@ -323,7 +278,7 @@ namespace Vet_Clinic.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddPet(PetViewModel model)
+        public async Task<IActionResult> AddPet(PetViewModel model) //todo
         {
             if (ModelState.IsValid)
             {
@@ -335,10 +290,10 @@ namespace Vet_Clinic.Web.Controllers
                 }
                 try
                 {
-                    model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
+                    model.Owner = await _ownerRepository.GetOwnerWithUserByIdAsync(model.OwnerId);
 
 
-                    model.Specie = await _specieRepository.GetByIdAsync(model.SpecieId);
+                    model.Specie = await _specieRepository.GetSpecieById(model.SpecieId);
 
                     var pet = _converterHelper.ToPet(model, path, true);
                     pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
@@ -353,8 +308,6 @@ namespace Vet_Clinic.Web.Controllers
                 }
 
             }
-
-            model.Species = _specieRepository.GetComboSpecies();
 
             return View(model);
         }
@@ -427,7 +380,7 @@ namespace Vet_Clinic.Web.Controllers
                 return new NotFoundViewResult("PetNotFound");
             }
 
-            if (pet.Histories.Count > 0)
+            if (pet.Appointments.Count > 0)
             {
                 ModelState.AddModelError(string.Empty, "The pet can't be deleted because it has related records.");
                 return RedirectToAction($"{nameof(Details)}/{pet.Owner.Id}");
@@ -444,31 +397,5 @@ namespace Vet_Clinic.Web.Controllers
 
             return RedirectToAction($"Details/{pet.Owner.Id}");
         }
-
-        public async Task<IActionResult> DeleteHistory(int? id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("PetNotFound");
-            }
-
-            var history = await _historyRepository.GetByIdAsync(id.Value);
-
-            if (history == null)
-            {
-                return new NotFoundViewResult("PetNotFound");
-            }
-
-            try
-            {
-                await _historyRepository.DeleteAsync(history);
-            }
-            catch (Exception exception)
-            {
-                ModelState.AddModelError(string.Empty, exception.Message);
-            }
-            return RedirectToAction($"{nameof(Details)}/{history.Pet.Id}");
-        }
-
     }
 }

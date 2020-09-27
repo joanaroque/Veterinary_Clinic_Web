@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Models;
@@ -31,7 +30,6 @@ namespace Vet_Clinic.Web.Helpers
                 Sterilization = model.Sterilization,
                 DateOfBirth = model.DateOfBirth,
                 Appointments = model.Appointments,
-                Histories = model.Histories,              
                 Specie = model.Specie,
                 Owner = model.Owner,
                 CreateDate = DateTime.Now,
@@ -55,7 +53,6 @@ namespace Vet_Clinic.Web.Helpers
                 Sterilization = pet.Sterilization,
                 DateOfBirth = pet.DateOfBirth,
                 Appointments = pet.Appointments,
-                Histories = pet.Histories,
                 OwnerId = pet.Owner.Id,
                 SpecieId = pet.Specie.Id,
                 Species = _specieRepository.GetComboSpecies(),
@@ -63,7 +60,6 @@ namespace Vet_Clinic.Web.Helpers
                 CreateDate = pet.CreateDate,
                 UpdateDate = DateTime.Now,
                 OwnerFullName = pet.Owner.User.FullName,
-                HistoriesCount = pet.Histories.Count
 
             };
         }
@@ -115,32 +111,6 @@ namespace Vet_Clinic.Web.Helpers
             };
         }
 
-        public History ToHistory(HistoryViewModel model, bool isNew)
-        {
-            return new History
-            {
-                Description = model.Description,
-                CreatedBy = model.CreatedBy,
-                CreateDate = isNew ? DateTime.Now : model.CreateDate,
-                UpdateDate = DateTime.Now,
-                Id = isNew ? 0 : model.Id,
-                Pet = model.Pet
-            };
-        }
-
-        public HistoryViewModel ToHistoryViewModel(History history)
-        {
-            return new HistoryViewModel
-            {
-                Description = history.Description,
-                Id = history.Id,
-                ModifiedBy = history.ModifiedBy,
-                UpdateDate = DateTime.Now,
-                PetId = history.Pet.Id
-            };
-        }
-
-
         public Assistant ToAssistant(AssistantViewModel model, string path, bool isNew)
         {
             return new Assistant
@@ -181,12 +151,12 @@ namespace Vet_Clinic.Web.Helpers
 
         public Appointment ToAppointment(AppointmentViewModel model, bool isNew)
         {
-  
+
             return new Appointment
             {
                 Id = isNew ? 0 : model.Id,
                 ScheduledDate = model.ScheduledDate,
-                CreateDate = isNew? DateTime.Now : model.CreateDate,
+                CreateDate = isNew ? DateTime.Now : model.CreateDate,
                 UpdateDate = DateTime.Now,
                 AppointmentObs = model.AppointmentObs,
                 CreatedBy = model.CreatedBy,

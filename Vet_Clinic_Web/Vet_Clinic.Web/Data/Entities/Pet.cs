@@ -60,8 +60,6 @@ namespace Vet_Clinic.Web.Data.Entities
         public ICollection<Appointment> Appointments { get; set; }
 
 
-        public ICollection<History> Histories { get; set; }
-
 
         public User CreatedBy { get; set; }
 

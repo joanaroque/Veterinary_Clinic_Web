@@ -398,42 +398,6 @@ namespace Vet_Clinic.Web.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Histories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(maxLength: 100, nullable: false),
-                    CreatedById = table.Column<string>(nullable: true),
-                    CreateDate = table.Column<DateTime>(nullable: false),
-                    UpdateDate = table.Column<DateTime>(nullable: false),
-                    ModifiedById = table.Column<string>(nullable: true),
-                    PetId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Histories", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Histories_AspNetUsers_CreatedById",
-                        column: x => x.CreatedById,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Histories_AspNetUsers_ModifiedById",
-                        column: x => x.ModifiedById,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Histories_Pets_PetId",
-                        column: x => x.PetId,
-                        principalTable: "Pets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Appointments_CreatedById",
                 table: "Appointments",
@@ -509,9 +473,9 @@ namespace Vet_Clinic.Web.Migrations
                 column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Assistants_Email_TIN",
+                name: "IX_Assistants_TIN",
                 table: "Assistants",
-                columns: new[] { "Email", "TIN" },
+                column: "TIN",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -520,30 +484,21 @@ namespace Vet_Clinic.Web.Migrations
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Doctors_MedicalLicense",
+                table: "Doctors",
+                column: "MedicalLicense",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Doctors_ModifiedById",
                 table: "Doctors",
                 column: "ModifiedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctors_Email_MedicalLicense_TIN_Specialty",
+                name: "IX_Doctors_TIN",
                 table: "Doctors",
-                columns: new[] { "Email", "MedicalLicense", "TIN", "Specialty" },
+                column: "TIN",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Histories_CreatedById",
-                table: "Histories",
-                column: "CreatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Histories_ModifiedById",
-                table: "Histories",
-                column: "ModifiedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Histories_PetId",
-                table: "Histories",
-                column: "PetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Owners_CreatedById",
@@ -621,16 +576,13 @@ namespace Vet_Clinic.Web.Migrations
                 name: "Assistants");
 
             migrationBuilder.DropTable(
-                name: "Histories");
-
-            migrationBuilder.DropTable(
                 name: "Doctors");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Pets");
 
             migrationBuilder.DropTable(
-                name: "Pets");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Owners");

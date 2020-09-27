@@ -20,21 +20,18 @@ namespace Vet_Clinic.Web.Controllers
         private readonly IConverterHelper _converterHelper;
         private readonly IUserHelper _userHelper;
         private readonly IPetRepository _petRepository;
-        private readonly IHistoryRepository _historyRepository;
 
         public PetsController(IOwnerRepository ownerRepository,
             IImageHelper imageHelper,
             IConverterHelper converterHelper,
             IUserHelper userHelper,
-             IPetRepository petRepository,
-             IHistoryRepository historyRepository)
+             IPetRepository petRepository)
         {
             _ownerRepository = ownerRepository;
             _imageHelper = imageHelper;
             _converterHelper = converterHelper;
             _userHelper = userHelper;
             _petRepository = petRepository;
-            _historyRepository = historyRepository;
         }
 
         // GET: Pets
@@ -145,131 +142,6 @@ namespace Vet_Clinic.Web.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-        }
-
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteHistory(int? id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("PetNotFound");
-            }
-
-            var history = await _historyRepository.GetByIdAsync(id.Value);
-
-            if (history == null)//TODO ESTE DELETE FUNCIONA :O
-            {
-                return new NotFoundViewResult("PetNotFound");
-            }
-
-            try
-            {
-                await _historyRepository.DeleteAsync(history);
-            }
-            catch (Exception exception)
-            {
-                ModelState.AddModelError(string.Empty, exception.Message);
-            }
-
-            return RedirectToAction($"{nameof(Details)}/{history.Pet.Id}");
-        }
-
-
-        public async Task<IActionResult> EditHistory(int? id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("PetNotFound");
-            }
-
-            var history = await _historyRepository.GetByIdAsync(id.Value);
-
-            if (history == null)
-            {
-                return new NotFoundViewResult("PetNotFound");
-            }
-
-            var view = _converterHelper.ToHistoryViewModel(history);
-
-            return View(view);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditHistory(HistoryViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var history = _converterHelper.ToHistory(model, false);
-
-                    history.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
-                    await _historyRepository.UpdateAsync(history);
-
-                    return RedirectToAction($"{nameof(Details)}/{model.PetId}");
-                }
-                catch (Exception exception)
-                {
-                    ModelState.AddModelError(string.Empty, exception.Message);
-                }
-
-            }
-
-            return View(model);
-        }
-
-        public async Task<IActionResult> AddHistory(int? id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("PetNotFound");
-            }
-
-            var pet = await _petRepository.GetByIdAsync(id.Value);
-
-            if (pet == null)
-            {
-                return new NotFoundViewResult("PetNotFound");
-            }
-
-            var view = new HistoryViewModel
-            {
-                CreateDate = DateTime.Now,
-                PetId = pet.Id
-            };
-
-            return View(view);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddHistory(HistoryViewModel view)
-        {
-            if (ModelState.IsValid) 
-            {
-                try
-                {
-                    view.Pet = await _petRepository.GetDetailsPetAsync(view.PetId);
-
-                    var history = _converterHelper.ToHistory(view, true);
-
-                    history.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-
-                    await _historyRepository.CreateAsync(history);
-
-                    var histories = _historyRepository.GetHistoriesFromPetIdAsync(view.PetId);
-
-                    return RedirectToAction($"{nameof(Details)}/{view.PetId}");
-                }
-                catch (Exception exception)
-                {
-                    ModelState.AddModelError(string.Empty, exception.Message);
-                }
-            }
-
-            return View(view);
         }
     }
 }

@@ -22,8 +22,7 @@ namespace Vet_Clinic.Web.Data.Repositories
             return _context.Pets
                  .Include(p => p.Owner)
                  .ThenInclude(o => o.CreatedBy)
-                 .Include(p => p.Specie)
-                 .Include(p => p.Histories);
+                 .Include(p => p.Specie);
         }
 
         public IEnumerable<SelectListItem> GetComboPets(int ownerId)
@@ -50,7 +49,6 @@ namespace Vet_Clinic.Web.Data.Repositories
                 .Include(p => p.Owner)
                 .ThenInclude(o => o.User)
                 .Include(p => p.Specie)
-                .Include(p => p.Histories)
                 .FirstOrDefaultAsync(p => p.Id == petId);
 
             return pet;

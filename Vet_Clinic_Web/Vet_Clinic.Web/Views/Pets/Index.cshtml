@@ -40,9 +40,7 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Gender)
                                     </th>
-                                    <th>
-                                        Histories
-                                    </th>
+
                                     <th></th>
                                 </tr>
                             </thead>
@@ -63,9 +61,6 @@
                                             @Html.DisplayFor(modelItem => item.Gender)
                                         </td>
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Histories.Count)
-                                        </td>
                                         <td id="@item.Id">
 
                                             <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>

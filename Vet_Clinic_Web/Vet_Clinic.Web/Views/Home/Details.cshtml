@@ -1,4 +1,4 @@
-﻿@model Vet_Clinic.Web.Data.Entities.Pet
+﻿@model Vet_Clinic.Web.Models.PetViewModel
 @{
     ViewData["Title"] = "Details";
 }
@@ -88,69 +88,7 @@
                 </div>
             </div>
         </div>
-   
-    <hr />
-    @if (Model.Histories.Count == 0)
-    {
-        <div style="text-align:center">
-            <h3 class="card-title">Pet History</h3>
-        </div>
 
-        <div class="box box-info center-block">
-
-            <div class="form-control">
-                <h4> No histories added yet.</h4>
-            </div>
-        </div>
-
-    }
-    else
-    {
-        <div class="row">
-            <div class="col-md-9 center-block">
-                <div style="text-align:center">
-                    <h3 class="card-title">Pet History</h3>
-                </div>
-                <div class="box box-info" style="margin-top:10px">
-
-                    <div class="box-header with-border">
-                        <div class="panel-body">
-                            <table class="table table-hover table-responsive table-striped" id="MyTable">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.Histories)
-                                    {
-                                        @using (Html.BeginForm("DeleteHistory", "Owners", new { id = item.Id }))
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.CreateDate)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Description)
-                                                </td>
-                                                <td>
-                                                    <input type="submit" value="Delete" class="btn btn-danger pull-right"
-                                                           onclick="return confirm('Are you sure you want to delete @item.Description?')" />
-                                                    <a asp-action="EditHistory" asp-controller="Pets" class="btn btn-info pull-right" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    }
     </div>
 </section>
 
