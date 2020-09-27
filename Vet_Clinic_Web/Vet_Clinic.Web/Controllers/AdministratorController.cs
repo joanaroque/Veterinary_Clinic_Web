@@ -72,7 +72,7 @@ namespace Vet_Clinic.Web.Controllers
 
 
         [HttpGet]
-        public IActionResult ListRoles()
+        public IActionResult ListRoles() // todo retirar metodos e views redundantes !!!
         {
             var roles = _roleManager.Roles;
             return View(roles);
@@ -313,6 +313,10 @@ namespace Vet_Clinic.Web.Controllers
             }
 
             var roles = await _userManager.GetRolesAsync(user);
+
+            await _userManager.UpdateSecurityStampAsync(user);
+
+
             var result = await _userManager.RemoveFromRolesAsync(user, roles);
 
             if (!result.Succeeded)
