@@ -25,7 +25,7 @@ namespace Vet_Clinic.Web.Data.Repositories
 
 
         // TODO comentar
-        Task<Specie> GetSpecieById(int specieId);
+        Task<Specie> GetSpecieByIdAsync(int specieId);
 
 
     }

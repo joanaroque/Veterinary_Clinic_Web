@@ -23,5 +23,10 @@ namespace Vet_Clinic.Web.Data.Repositories
         /// <returns>list of doctors</returns>
         IEnumerable<SelectListItem> GetComboDoctors();
 
+
+
+
+        Task<Doctor> GetDoctorByIdAsync(int doctorId);
+
     }
 }

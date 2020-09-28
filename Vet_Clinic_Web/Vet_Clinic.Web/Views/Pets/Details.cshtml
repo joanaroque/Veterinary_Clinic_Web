@@ -83,7 +83,6 @@
                 </div>
                 <div>
                     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                    <a asp-action="AddHistory" asp-route-id="@Model.Id" class="btn btn-foursquare"><i class="fa fa-history"></i> Add History <i class="fa fa-history"></i></a>
                     <a asp-action="Index" asp-route-id="@Model.Owner.Id" class="btn btn-success pull-right"><i class="fa fa-backward"></i> Back</a>
                 </div>
             </div>
@@ -97,5 +96,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 }

@@ -124,11 +124,17 @@ namespace Vet_Clinic.Web.Data
         }
 
 
-        public IActionResult OwnerAppointmentsHistory()
+        public async Task<IActionResult> OwnerAppointmentsHistory()
         {
-            var appointment = _appointmentRepository.GetAllPastAppointments();
+            var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-            return View(appointment);
+            var appointments = await _appointmentRepository.GetPastAppointmentFromCurrentOwnerAsync(currentUser.Id);
+
+            var list = new List<AppointmentViewModel>(appointments.
+                Select(a => _converterHelper.ToAppointmentViewModel(a)).
+                ToList());
+
+            return View(list);
         }
 
 
@@ -165,9 +171,9 @@ namespace Vet_Clinic.Web.Data
             {
                 try
                 {
-                    model.Doctor = await _doctorRepository.GetByIdAsync(model.DoctorId);
-                    model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
-                    model.Pet = await _petRepository.GetByIdAsync(model.PetId);
+                    model.Doctor = await _doctorRepository.GetDoctorByIdAsync(model.DoctorId);
+                    model.Owner = await _ownerRepository.GetOwnerWithUserByIdAsync(model.OwnerId);
+                    model.Pet = await _petRepository.GetPetByAsync(model.PetId);
 
                     var appointment = _converterHelper.ToAppointment(model, true);
 
@@ -413,11 +419,10 @@ namespace Vet_Clinic.Web.Data
                 }
                 try
                 {
-                    model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
+                    model.Owner = await _ownerRepository.GetOwnerWithUserByIdAsync(model.OwnerId);
 
 
-                    model.Specie = await _specieRepository.GetByIdAsync(model.SpecieId);
-
+                    model.Specie = await _specieRepository.GetSpecieByIdAsync(model.SpecieId);
 
                     var pet = _converterHelper.ToPet(model, path, true);
                     pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);

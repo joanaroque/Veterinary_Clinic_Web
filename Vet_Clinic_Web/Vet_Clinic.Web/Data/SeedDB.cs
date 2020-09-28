@@ -188,7 +188,7 @@ namespace Vet_Clinic.Web.Data
                     Email = "lala@yopmail.com",
                     FirstName = "Joana",
                     LastName = "Ramos",
-                    PhoneNumber = "965258888",
+                    PhoneNumber = "96595888",
                     UserName = "lala@yopmail.com",
                     EmailConfirmed = true
                 };
@@ -220,7 +220,7 @@ namespace Vet_Clinic.Web.Data
                 Email = "ameliaamleia@yopmail.com",
                 FirstName = "Rosa",
                 LastName = "Maria",
-                PhoneNumber = "965258888",
+                PhoneNumber = "96151588",
                 UserName = "ameliaamleia@yopmail.com",
                 EmailConfirmed = true
             };
@@ -253,7 +253,7 @@ namespace Vet_Clinic.Web.Data
                 Email = "acorescores@yopmail.com",
                 FirstName = "Maria",
                 LastName = "Teresa",
-                PhoneNumber = "965258888",
+                PhoneNumber = "96521598",
                 UserName = "acorescores@yopmail.com",
                 EmailConfirmed = true
             };
@@ -284,7 +284,7 @@ namespace Vet_Clinic.Web.Data
                 Email = "bosquebosque@yopmail.com",
                 FirstName = "Sofia",
                 LastName = "Fernandes",
-                PhoneNumber = "965258888",
+                PhoneNumber = "96512388",
                 UserName = "bosquebosque@yopmail.com",
                 EmailConfirmed = true
             };

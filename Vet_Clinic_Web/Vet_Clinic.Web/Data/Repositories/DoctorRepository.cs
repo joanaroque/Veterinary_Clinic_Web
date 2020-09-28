@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Data.Repositories
@@ -42,5 +42,13 @@ namespace Vet_Clinic.Web.Data.Repositories
             return list;
         }
 
+        public async Task<Doctor> GetDoctorByIdAsync(int doctorId)
+        {
+            var doctor = await _context.Doctors
+               .Include(d => d.CreatedBy)
+               .Where(d => d.Id == doctorId).FirstOrDefaultAsync();
+
+            return doctor;
+        }
     }
 }

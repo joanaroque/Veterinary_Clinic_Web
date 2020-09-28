@@ -278,7 +278,7 @@ namespace Vet_Clinic.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddPet(PetViewModel model) //todo
+        public async Task<IActionResult> AddPet(PetViewModel model) 
         {
             if (ModelState.IsValid)
             {
@@ -292,8 +292,7 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     model.Owner = await _ownerRepository.GetOwnerWithUserByIdAsync(model.OwnerId);
 
-
-                    model.Specie = await _specieRepository.GetSpecieById(model.SpecieId);
+                    model.Specie = await _specieRepository.GetSpecieByIdAsync(model.SpecieId);
 
                     var pet = _converterHelper.ToPet(model, path, true);
                     pet.CreatedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);

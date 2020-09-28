@@ -80,5 +80,14 @@ namespace Vet_Clinic.Web.Data.Repositories
 
             return pets;
         }
+
+        public async Task<Pet> GetPetByAsync(int petId)
+        {
+            var pet = await _context.Pets
+               .Include(p => p.CreatedBy)
+               .Where(p => p.Id == petId).FirstOrDefaultAsync();
+
+            return pet;
+        }
     }
 }

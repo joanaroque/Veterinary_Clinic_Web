@@ -1,4 +1,5 @@
-﻿@model Vet_Clinic.Web.Models.PetViewModel
+﻿@model Vet_Clinic.Web.Data.Entities.Pet
+
 @{
     ViewData["Title"] = "Details";
 }
@@ -10,87 +11,78 @@
     </ol>
 </section>
 
-<!-- Main content -->
+<br />
 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
-<br />   
-<section class="content">
+<div class="register-box" style="margin-top:10px; margin-bottom:10px">
+
     <div class="container-fluid">
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-9 center-block">
 
-                <div style="text-align:center">
-                    <h3 class="card-title">Pet</h3>
+        <div style="text-align:center">
+            <h3 class="card-title">My Pet</h3>
+        </div>
+
+        <div class="box box-info" style="margin-top:10px">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div class="col-md-8">
+                        <dl class="dl-horizontal">
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Name)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Breed)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Breed)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.DateOfBirth)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.DateOfBirth)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Sterilization)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Sterilization)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Gender)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Gender)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Weight)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Weight)
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-4">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:200px;height:200px;max-height: 100%; width: auto;" />
+                        }
+                    </div>
                 </div>
 
-                <div class="box box-info" style="margin-top:10px">
-                    <div class="box-header with-border">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <dl class="dl-horizontal">
-                                    <dt>
-                                        Owner
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Owner.User.FirstName)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Name)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Name)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Breed)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Breed)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.DateOfBirth)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.DateOfBirth)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Sterilization)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Sterilization)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Gender)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Gender)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Weight)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Weight)
-                                    </dd>
-                                </dl>
-                            </div>
-                            <div class="col-md-4">
-                                @if (!string.IsNullOrEmpty(Model.ImageUrl))
-                                {
-                                    <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:200px;height:200px;max-height: 100%; width: auto;" />
-                                }
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                        <a asp-action="MyPets" asp-route-id="@Model.Id" class="btn btn-info pull-right"><i class="fa fa-history"></i> Back to My Pets</a>
-                    </div>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> </a>
+                    <a asp-action="MyPets" asp-route-id="@Model.Id" class="btn btn-info pull-right"><i class="fa fa-backward"></i> </a>
                 </div>
             </div>
         </div>
-
     </div>
-</section>
+</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

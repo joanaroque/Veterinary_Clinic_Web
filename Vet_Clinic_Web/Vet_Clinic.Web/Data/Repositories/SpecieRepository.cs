@@ -22,7 +22,7 @@ namespace Vet_Clinic.Web.Data.Repositories
             return _context.Species.Include(s => s.CreatedBy);
         }
 
-        public async Task<Specie> GetSpecieById(int specieId)
+        public async Task<Specie> GetSpecieByIdAsync(int specieId)
         {
             var specie = await _context.Species
                 .Include(s => s.CreatedBy)
