@@ -21,6 +21,8 @@
 
                 <form asp-action="Register">
                     <div asp-validation-summary="ModelOnly"></div>
+                   @* <input type="hidden" asp-for="Token" />*@
+                    <input type="hidden" asp-for="Id" />
 
                     <div class="form-group">
                         <input asp-for="UserName" type="text" class="form-control" placeholder="User Name">

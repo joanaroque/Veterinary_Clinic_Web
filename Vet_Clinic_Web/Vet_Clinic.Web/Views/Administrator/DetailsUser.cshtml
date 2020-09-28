@@ -13,63 +13,59 @@
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 <br />
-<section class="content">
+<div class="register-box" style="margin-top:10px; margin-bottom:10px">
+
     <div class="container-fluid">
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-7 center-block">
+        <div style="text-align:center">
+            <h3 class="card-title">User</h3>
+        </div>
 
-                <div style="text-align:center">
-                    <h3 class="card-title">User</h3>
+        <div class="box box-info" style="margin-top:10px">
+            <div class="box-header with-border">
+
+                <div class="row">
+                    <div class="col-sm-8">
+                        <dl class="dl-horizontal pull-left">
+
+                            <dt>
+                                @Html.DisplayNameFor(model => model.FirstName)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.FirstName)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.LastName)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.LastName)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Address)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Address)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.Email)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.Email)
+                            </dd>
+                            <dt>
+                                @Html.DisplayNameFor(model => model.PhoneNumber)
+                            </dt>
+                            <dd>
+                                @Html.DisplayFor(model => model.PhoneNumber)
+                            </dd>
+                        </dl>
+                    </div>
                 </div>
-
-                <div class="box box-info" style="margin-top:10px">
-                    <div class="box-header with-border">
-
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <dl class="dl-horizontal">
-
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.FirstName)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.FirstName)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.LastName)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.LastName)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Address)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Address)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.Email)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.Email)
-                                    </dd>
-                                    <dt>
-                                        @Html.DisplayNameFor(model => model.PhoneNumber)
-                                    </dt>
-                                    <dd>
-                                        @Html.DisplayFor(model => model.PhoneNumber)
-                                    </dd>
-                                </dl>
-                            </div>
-                        </div>
-                        <div>
-                            <a asp-action="EditUser" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                            <a asp-action="ListUsers" class="btn btn-success  pull-right"><i class="fa fa-backward"></i> To List</a>
-                        </div>
-                    </div>
-                    </div>
+                <div>
+                    <a asp-action="EditUser" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                    <a asp-action="ListUsers" class="btn btn-success  pull-right"><i class="fa fa-backward"></i> To List</a>
                 </div>
             </div>
         </div>
-</section>
+    </div>
+</div>
+

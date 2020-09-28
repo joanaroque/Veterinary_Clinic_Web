@@ -30,7 +30,7 @@ namespace Vet_Clinic.Web.Data
             await FillUserAsync();
             await FillSpeciesAsync();
             await FillOwnerAsync();
-            await FillDoctorAsync();     
+            await FillDoctorAsync();
             await CheckAppointmentsAsync();
             await FillPetsAsync();
             await FillAssistantAsync();
@@ -43,7 +43,7 @@ namespace Vet_Clinic.Web.Data
             await _userHelper.CheckRoleAsync("Agent");
             await _userHelper.CheckRoleAsync("Doctor");
             await _userHelper.CheckRoleAsync("Customer");
-        }    
+        }
 
         private async Task FillPetsAsync()
         {
@@ -177,7 +177,7 @@ namespace Vet_Clinic.Web.Data
             await _context.SaveChangesAsync();
         }
 
-      
+
         private async Task FillOwnerAsync()
         {
             if (!_context.Owners.Any())
@@ -189,8 +189,21 @@ namespace Vet_Clinic.Web.Data
                     FirstName = "Joana",
                     LastName = "Ramos",
                     PhoneNumber = "965258888",
-                    UserName = "lala@yopmail.com"
+                    UserName = "lala@yopmail.com",
+                    EmailConfirmed = true
                 };
+
+                await _userHelper.AddUserAsync(user1, "dbgfd34534");
+
+                var token1 = await _userHelper.GenerateEmailConfirmationTokenAsync(user1);
+                await _userHelper.ConfirmEmailAsync(user1, token1);
+
+                var isInRole1 = await _userHelper.IsUserInRoleAsync(user1, "Customer");
+
+                if (!isInRole1)
+                {
+                    await _userHelper.AddUSerToRoleAsync(user1, "Customer");
+                }
 
                 _context.Owners.Add(new Owner
                 {
@@ -198,58 +211,106 @@ namespace Vet_Clinic.Web.Data
                     Pets = _context.Pets.ToList(),
                 });
 
-                var user2 = new User
-                {
-                    Address = "Rua da Amélia",
-                    Email = "ameliaamleia@yopmail.com",
-                    FirstName = "Rosa",
-                    LastName = "Maria",
-                    PhoneNumber = "965258888",
-                    UserName = "ameliaamleia@yopmail.com"
-                };
-
-                _context.Owners.Add(new Owner
-                {
-                    User = user2,
-                    Pets = _context.Pets.ToList(),
-                });
-
-                var user3 = new User
-                {
-                    Address = "Rua dos Açores",
-                    Email = "acorescores@yopmail.com",
-                    FirstName = "Maria",
-                    LastName = "Teresa",
-                    PhoneNumber = "965258888",
-                    UserName = "acorescores@yopmail.com"
-                };
-
-                _context.Owners.Add(new Owner
-                {
-                    User = user3,
-                    Pets = _context.Pets.ToList(),
-                });
-
-
-                var user4 = new User
-                {
-                    Address = "Rua do Bosque",
-                    Email = "bosquebosque@yopmail.com",
-                    FirstName = "Sofia",
-                    LastName = "Fernandes",
-                    PhoneNumber = "965258888",
-                    UserName = "bosquebosque@yopmail.com"
-                };
-
-                _context.Owners.Add(new Owner
-                {
-                    User = user4,
-                    Pets = _context.Pets.ToList(),
-                });
-
-                await _context.SaveChangesAsync();
             }
+
+            //*****************************************************************
+            var user2 = new User
+            {
+                Address = "Rua da Amélia",
+                Email = "ameliaamleia@yopmail.com",
+                FirstName = "Rosa",
+                LastName = "Maria",
+                PhoneNumber = "965258888",
+                UserName = "ameliaamleia@yopmail.com",
+                EmailConfirmed = true
+            };
+
+            await _userHelper.AddUserAsync(user2, "53454drff");
+
+            var token2 = await _userHelper.GenerateEmailConfirmationTokenAsync(user2);
+            await _userHelper.ConfirmEmailAsync(user2, token2);
+
+            var isInRol2 = await _userHelper.IsUserInRoleAsync(user2, "Customer");
+
+            if (!isInRol2)
+            {
+                await _userHelper.AddUSerToRoleAsync(user2, "Customer");
+            }
+
+            _context.Owners.Add(new Owner
+            {
+                User = user2,
+                Pets = _context.Pets.ToList()
+            });
+
+
+
+
+            //*****************************************************************************
+            var user3 = new User
+            {
+                Address = "Rua dos Açores",
+                Email = "acorescores@yopmail.com",
+                FirstName = "Maria",
+                LastName = "Teresa",
+                PhoneNumber = "965258888",
+                UserName = "acorescores@yopmail.com",
+                EmailConfirmed = true
+            };
+
+            await _userHelper.AddUserAsync(user3, "dgfd45435");
+
+            var token3 = await _userHelper.GenerateEmailConfirmationTokenAsync(user3);
+            await _userHelper.ConfirmEmailAsync(user3, token3);
+
+            var isInRol3 = await _userHelper.IsUserInRoleAsync(user3, "Customer");
+
+            if (!isInRol3)
+            {
+                await _userHelper.AddUSerToRoleAsync(user3, "Customer");
+            }
+            _context.Owners.Add(new Owner
+            {
+                User = user3,
+                Pets = _context.Pets.ToList(),
+            });
+
+
+
+            //****************************************************************************
+            var user4 = new User
+            {
+                Address = "Rua do Bosque",
+                Email = "bosquebosque@yopmail.com",
+                FirstName = "Sofia",
+                LastName = "Fernandes",
+                PhoneNumber = "965258888",
+                UserName = "bosquebosque@yopmail.com",
+                EmailConfirmed = true
+            };
+
+            await _userHelper.AddUserAsync(user4, "FWEGERgre45456");
+
+            var token4 = await _userHelper.GenerateEmailConfirmationTokenAsync(user4);
+            await _userHelper.ConfirmEmailAsync(user4, token4);
+
+            var isInRol4 = await _userHelper.IsUserInRoleAsync(user4, "Customer");
+
+            if (!isInRol4)
+            {
+                await _userHelper.AddUSerToRoleAsync(user4, "Customer");
+            }
+
+            _context.Owners.Add(new Owner
+            {
+                User = user4,
+                Pets = _context.Pets.ToList(),
+            });
+
+
+            await _context.SaveChangesAsync();
         }
+
 
         private async Task FillDoctorAsync()
         {

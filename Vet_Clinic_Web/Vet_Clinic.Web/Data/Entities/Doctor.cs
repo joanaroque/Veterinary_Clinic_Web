@@ -53,14 +53,14 @@ namespace Vet_Clinic.Web.Data.Entities
         public string ObsRoom { get; set; }
 
 
-
+        [DoctorShedule(ErrorMessage = "The hour must be greater than 9h.")]
         [Required(ErrorMessage = "Must insert the {0}")]
         [Display(Name = "Work Start")]
         public int WorkStart { get; set; }
 
 
 
-
+        [DoctorShedule(ErrorMessage = "The hour must be less than 20h.")]
         [Required(ErrorMessage = "Must insert the {0}")]
         [Display(Name = "Work End")]
         public int WorkEnd { get; set; }

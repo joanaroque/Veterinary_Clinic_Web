@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
+
 using System.ComponentModel.DataAnnotations;
 
 namespace Vet_Clinic.Web.Data.Entities
 {
     public class User : IdentityUser
-    { 
+    {
         [Required(ErrorMessage = "Must insert the {0}")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
@@ -25,7 +25,7 @@ namespace Vet_Clinic.Web.Data.Entities
 
         [RegularExpression(@"\d{9}",
          ErrorMessage = "Must insert the {0} correct.")]
-        [Display(Name = "Phone Number")]
+        [Display(Name = "Telephone")]
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
