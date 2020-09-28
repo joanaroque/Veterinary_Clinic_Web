@@ -250,9 +250,9 @@ namespace Vet_Clinic.Web.Data
             {
                 try
                 {
-                    model.Doctor = await _doctorRepository.GetByIdAsync(model.DoctorId);
-                    model.Owner = await _ownerRepository.GetByIdAsync(model.OwnerId);
-                    model.Pet = await _petRepository.GetByIdAsync(model.PetId);
+                    model.Doctor = await _doctorRepository.GetDoctorByIdAsync(model.DoctorId);
+                    model.Owner = await _ownerRepository.GetOwnerWithUserByIdAsync(model.OwnerId);
+                    model.Pet = await _petRepository.GetPetByAsync(model.PetId);
 
                     var appointment = _converterHelper.ToAppointment(model, false);
 

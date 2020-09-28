@@ -120,7 +120,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\dist\img\credit\" />
     <Folder Include="wwwroot\lib\jquery-validate\" />
-    <Folder Include="wwwroot\login\images\" />
+    <Folder Include="wwwroot\login\" />
     <Folder Include="wwwroot\register\" />
   </ItemGroup>
 
