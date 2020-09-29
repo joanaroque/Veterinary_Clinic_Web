@@ -42,7 +42,7 @@ namespace Vet_Clinic.Web.Helpers
 
         public PetViewModel ToPetViewModel(Pet pet)
         {
-            return new PetViewModel
+            return new PetViewModel // todo
             {
                 Id = pet.Id,
                 Name = pet.Name,
