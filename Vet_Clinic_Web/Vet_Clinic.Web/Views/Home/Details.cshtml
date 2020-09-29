@@ -15,7 +15,7 @@
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 
-<div class="register-box" style="margin-top:10px; margin-bottom:10px">
+<div class="register" style="margin-top:10px; margin-bottom:10px">
 
     <div class="container-fluid">
 
@@ -75,8 +75,8 @@
                 </div>
 
                 <div>
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> </a>
-                    <a asp-action="MyPets" asp-route-id="@Model.Id" class="btn btn-info pull-right"><i class="fa fa-backward"></i> </a>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+                    <a asp-action="MyPets" asp-route-id="@Model.Id" class="btn btn-info pull-right"><i class="fa fa-backward"></i> To Pets</a>
                 </div>
             </div>
         </div>

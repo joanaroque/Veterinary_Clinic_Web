@@ -48,9 +48,7 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                @using (Html.BeginForm("Delete", "Pets", new { id = item.Id }))
-                                {
-                                    <tr>
+                               <tr>
                                         <td>
                                             @if (!string.IsNullOrEmpty(item.ImageUrl))
                                             {
@@ -75,7 +73,7 @@
                                         </td>
                                     </tr>
                                 }
-                            }
+                            
                         </tbody>
                     </table>
                 </div>

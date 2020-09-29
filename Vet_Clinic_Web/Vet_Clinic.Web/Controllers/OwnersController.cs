@@ -186,15 +186,6 @@ namespace Vet_Clinic.Web.Controllers
                 await _userHelper.UpdateUserAsync(user);
 
 
-                //var owner = await _ownerRepository.GetOwnerWithUserByIdAsync(model.Id);
-
-                // owner.User.FirstName = model.FirstName;
-                // owner.User.LastName = model.LastName;
-                // owner.User.Address = model.Address;
-                // owner.User.PhoneNumber = model.PhoneNumber;
-
-                //await _userHelper.UpdateUserAsync(owner.User);
-
                 return RedirectToAction(nameof(Index));
             }
 
@@ -350,6 +341,9 @@ namespace Vet_Clinic.Web.Controllers
                     pet.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
                     await _petRepository.UpdateAsync(pet);
+
+                    return RedirectToAction($"Details/{model.OwnerId}");
+
                 }
                 catch (Exception exception)
                 {

@@ -32,7 +32,7 @@ namespace Vet_Clinic.Web.Helpers
                 Appointments = model.Appointments,
                 Specie = model.Specie,
                 Owner = model.Owner,
-                CreateDate = DateTime.Now,
+                CreateDate = isNew ? DateTime.Now : model.CreateDate,
                 CreatedBy = model.CreatedBy,
                 UpdateDate = DateTime.Now
             };
@@ -83,7 +83,7 @@ namespace Vet_Clinic.Web.Helpers
                 Address = model.Address,
                 DateOfBirth = model.DateOfBirth,
                 CreatedBy = model.CreatedBy,
-                CreateDate = DateTime.Now,
+                CreateDate = isNew ? DateTime.Now : model.CreateDate,
                 UpdateDate = DateTime.Now,
             };
         }

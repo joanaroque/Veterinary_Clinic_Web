@@ -17,20 +17,14 @@ namespace Vet_Clinic.Web.Controllers
     public class AdministratorController : Controller
     {
         private readonly IUserHelper _userHelper;
-        private readonly IMailHelper _mailHelper;
-        private readonly IImageHelper _imageHelper;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
 
         public AdministratorController(IUserHelper userHelper,
-            IMailHelper mailHelper,
-            IImageHelper imageHelper,
             RoleManager<IdentityRole> roleManager,
             UserManager<User> userManager)
         {
             _userHelper = userHelper;
-            _mailHelper = mailHelper;
-            _imageHelper = imageHelper;
             _roleManager = roleManager;
             _userManager = userManager;
         }
@@ -43,27 +37,7 @@ namespace Vet_Clinic.Web.Controllers
             return View(roles);
         }
 
-        // GET: Administrator/Details/5
-        public async Task<IActionResult> DetailsUser(string id)
-        {
-            if (id == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
-            var user = await _userHelper.GetUserByIdAsync(id);
-
-
-            if (user == null)
-            {
-                return new NotFoundViewResult("UserNotFound");
-            }
-
-            return View(user);
-        }
-
-
-
+      
         [HttpGet]
         public IActionResult ListUsers()
         {

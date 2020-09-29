@@ -53,6 +53,6 @@ namespace Vet_Clinic.Web.Data.Repositories
 
 
 
-        Task<Pet> GetPetByAsync(int petId);
+        Task<Pet> GetByIdWithIncludesAsync(int petId);
     }
 }

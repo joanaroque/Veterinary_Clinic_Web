@@ -173,7 +173,7 @@ namespace Vet_Clinic.Web.Data
                 {
                     model.Doctor = await _doctorRepository.GetDoctorByIdAsync(model.DoctorId);
                     model.Owner = await _ownerRepository.GetOwnerWithUserByIdAsync(model.OwnerId);
-                    model.Pet = await _petRepository.GetPetByAsync(model.PetId);
+                    model.Pet = await _petRepository.GetByIdWithIncludesAsync(model.PetId);
 
                     var appointment = _converterHelper.ToAppointment(model, true);
 
@@ -204,17 +204,17 @@ namespace Vet_Clinic.Web.Data
                 return NotFound();
             }
 
-            var agenda = await _appointmentRepository.GetByIdAsync(id.Value);
+            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
 
-            if (agenda == null)
+            if (appointment == null)
             {
                 return NotFound();
             }
-            agenda.Pet = null;
-            agenda.Owner = null;
-            agenda.Doctor = null;
+            appointment.Pet = null;
+            appointment.Owner = null;
+            appointment.Doctor = null;
 
-            await _appointmentRepository.UpdateAsync(agenda);
+            await _appointmentRepository.UpdateAsync(appointment);
             return RedirectToAction(nameof(MyAppointments));
         }
 
@@ -252,7 +252,7 @@ namespace Vet_Clinic.Web.Data
                 {
                     model.Doctor = await _doctorRepository.GetDoctorByIdAsync(model.DoctorId);
                     model.Owner = await _ownerRepository.GetOwnerWithUserByIdAsync(model.OwnerId);
-                    model.Pet = await _petRepository.GetPetByAsync(model.PetId);
+                    model.Pet = await _petRepository.GetByIdWithIncludesAsync(model.PetId);
 
                     var appointment = _converterHelper.ToAppointment(model, false);
 
@@ -286,7 +286,7 @@ namespace Vet_Clinic.Web.Data
                 return NotFound();
             }
 
-            var pet = await _petRepository.GetByIdAsync(id.Value);
+            var pet = await _petRepository.GetByIdWithIncludesAsync(id.Value);
 
             if (pet == null)
             {
@@ -315,6 +315,12 @@ namespace Vet_Clinic.Web.Data
 
                 try
                 {
+
+                    model.Owner = await _ownerRepository.GetOwnerWithUserByIdAsync(model.OwnerId);
+
+                    model.Specie = await _specieRepository.GetSpecieByIdAsync(model.SpecieId);
+
+
                     var pet = _converterHelper.ToPet(model, path, false);
                     pet.ModifiedBy = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
@@ -328,6 +334,7 @@ namespace Vet_Clinic.Web.Data
                 }
 
             }
+            model.Species = _specieRepository.GetComboSpecies();
 
             return View(model);
         }

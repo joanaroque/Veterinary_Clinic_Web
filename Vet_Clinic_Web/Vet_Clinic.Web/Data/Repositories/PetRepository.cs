@@ -81,10 +81,12 @@ namespace Vet_Clinic.Web.Data.Repositories
             return pets;
         }
 
-        public async Task<Pet> GetPetByAsync(int petId)
+        public async Task<Pet> GetByIdWithIncludesAsync(int petId)
         {
             var pet = await _context.Pets
                .Include(p => p.CreatedBy)
+               .Include(p => p.Owner).ThenInclude(o => o.User)
+               .Include(p => p.Specie)
                .Where(p => p.Id == petId).FirstOrDefaultAsync();
 
             return pet;
