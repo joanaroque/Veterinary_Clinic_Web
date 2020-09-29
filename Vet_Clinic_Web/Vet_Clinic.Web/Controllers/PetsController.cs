@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Vet_Clinic.Web.Data.Repositories;

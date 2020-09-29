@@ -21,7 +21,7 @@
 
                 <form asp-action="Register">
                     <div asp-validation-summary="ModelOnly"></div>
-                   @* <input type="hidden" asp-for="Token" />*@
+                    @* <input type="hidden" asp-for="Token" />*@
                     <input type="hidden" asp-for="Id" />
 
                     <div class="form-group">
@@ -40,11 +40,6 @@
                         <input asp-for="PasswordConfirm" type="Password" class="form-control" placeholder="Confirm Password">
                         <span asp-validation-for="PasswordConfirm" class="fas fa-lock"></span>
                     </div>
-
-                    @if (User.IsInRole("Admin"))
-                    {
-
-                    }
                     <div class="col-4">
                         <input type="submit" value="Register" class="btn btn-success btn-block" />
                     </div>

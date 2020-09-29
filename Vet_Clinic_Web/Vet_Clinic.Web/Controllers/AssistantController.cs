@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
@@ -182,7 +181,7 @@ namespace Vet_Clinic.Web.Controllers
             {
                 ModelState.AddModelError(string.Empty, exception.Message);
             }
-           
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -118,10 +118,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\dist\img\credit\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="wwwroot\lib\jquery-validate\" />
     <Folder Include="wwwroot\login\" />
-    <Folder Include="wwwroot\register\" />
   </ItemGroup>
 
 </Project>

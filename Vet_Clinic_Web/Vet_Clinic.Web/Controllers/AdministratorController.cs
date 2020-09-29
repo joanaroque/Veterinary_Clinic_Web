@@ -2,13 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+
 using System.Linq;
 using System.Threading.Tasks;
 
-using Vet_Clinic.Web.Data;
 using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
@@ -40,7 +37,7 @@ namespace Vet_Clinic.Web.Controllers
 
 
         [HttpGet]
-        public IActionResult ListRoles() 
+        public IActionResult ListRoles()
         {
             var roles = _roleManager.Roles;
             return View(roles);
@@ -138,7 +135,7 @@ namespace Vet_Clinic.Web.Controllers
                     if (!isSelectedRole && await _userHelper.IsUserInRoleAsync(user, currentRole.Name))
                     {
                         // Remover do role
-                       await _userManager.RemoveFromRoleAsync(user, currentRole.Name);
+                        await _userManager.RemoveFromRoleAsync(user, currentRole.Name);
                     }
                 }
 
@@ -167,7 +164,7 @@ namespace Vet_Clinic.Web.Controllers
         // POST: Administrator/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteUser(string id)
+        public async Task<IActionResult> DeleteUser(string id) // todo VER
         {
             var user = await _userHelper.GetUserByIdAsync(id);
 

@@ -3,61 +3,71 @@
     ViewData["Title"] = "ChangeUser";
 }
 
-<br />
-<br />
-<br />
-<div class="register-box" style="margin-top:10px; margin-bottom:10px">
+@{
+    Layout = null;
+}
 
-    <div class="container-fluid">
+<!DOCTYPE html>
+<html lang="zxx">
 
-        <!-- left column -->
+<head>
+    <title>Vet Clinic - Login</title>
 
-        <div style="text-align:center">
-            <h3 class="card-title">Change User</h3>
-        </div>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-        <div class="box box-info">
-            <div class="box-header with-border">
+    <!-- Style -->
+    <link rel="stylesheet" href="~/login/css/style.css" type="text/css" media="all" />
 
-                <form method="post">
-                    <div asp-validation-summary="ModelOnly"></div>
+</head>
 
-                    <div class="input-group mb-3">
-                        <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span asp-validation-for="FirstName" class="fas fa-user"></span>
-                            </div>
+<body>
+    <!-- login form -->
+    <section class="w3l-login-form" style="background: url('../../images/Pets/asa.jpeg')no-repeat center fixed;">
+        <div id="form-section">
+            <div class="wrapper">
+
+                <!-- logo -->
+                <div class="logo">
+                    <a class="brand-logo" href="index.html">Change User</a>
+                </div>
+                <!-- //logo -->
+                <!-- form -->
+                <div class="login-form">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly"></div>
+
+                        <div class="form-fields d-grid">
+                            <input asp-for="FirstName" type="text" name="FirstName" placeholder="First Name" />
+                            <span asp-validation-for="FirstName"></span>
+                            <br />
+                            <input asp-for="LastName" type="text" name="LastName" placeholder="Last Name" />
+                            <span asp-validation-for="LastName"></span>
                         </div>
-                    </div>
 
-                    <div class="input-group mb-3">
-                        <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span asp-validation-for="LastName" class="fas fa-user"></span>
-                            </div>
-                        </div>
-                    </div>
+                        <button type="submit">Update</button>
+                    </form>
+                </div>
 
-                    <div class="form-group">
-                        <input type="submit" value="Update" class="btn btn-warning" />
-                        <a asp-action="ChangePassword" class="btn btn-success pull-right">Change Password</a>
-                    </div>
-                </form>
-                <br />
-
-            </div>
-            <div class="text-success">
-                <p>
-                    @ViewBag.Message
-                </p>
+                <div class="new-signup">
+                    <p class="signup"><a asp-action="Register" class="signuplink">Register now</a></p>
+                </div>
+                <!-- //form -->
+                <div class="text-success">
+                    <p>
+                        @ViewBag.Message
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+    <!-- /login form -->
+</body>
+</html>
 
-<br />
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

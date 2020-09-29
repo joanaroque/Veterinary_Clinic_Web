@@ -47,7 +47,7 @@ namespace Vet_Clinic.Web
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequireUppercase = false;
                 cfg.Password.RequiredLength = 6;
-                cfg.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@";
+               // cfg.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@";
 
             })
                 .AddRoles<IdentityRole>()
@@ -151,6 +151,7 @@ namespace Vet_Clinic.Web
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
 
           
             app.UseStatusCodePagesWithReExecute("/error/{0}");

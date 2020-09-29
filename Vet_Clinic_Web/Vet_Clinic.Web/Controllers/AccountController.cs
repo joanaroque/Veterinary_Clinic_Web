@@ -52,7 +52,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -64,7 +63,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -134,12 +132,12 @@ namespace Vet_Clinic.Web.Controllers
                     token = myToken
                 }, protocol: HttpContext.Request.Scheme);
 
-                if (!_env.IsDevelopment())
-                {
-                    _log.Append("Mail client is not available on non-development environment");
-                }
-                else
-                {
+                //if (!_env.IsDevelopment())
+                //{
+                //    _log.Append("Mail client is not available on non-development environment");
+                //}
+                //else
+                //{
                     _mailHelper.SendMail(model.UserName, "Email confirmation",
                        $"<table style = 'max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;'>" +
                         $"  <tr>" +
@@ -180,7 +178,7 @@ namespace Vet_Clinic.Web.Controllers
                         $" </td >" +
                         $"</tr>" +
                         $"</table>");
-                }
+                //}
                 ViewBag.Message = "The instructions to allow your user has been sent to email.";
 
                 return View(model);

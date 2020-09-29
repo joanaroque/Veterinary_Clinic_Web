@@ -7,10 +7,13 @@ namespace Vet_Clinic.Web.Helpers
     public class MailHelper : IMailHelper
     {
         private readonly IConfiguration _configuration;
+        private readonly ILog _log;
 
-        public MailHelper(IConfiguration configuration)
+        public MailHelper(IConfiguration configuration, ILog log)
         {
             _configuration = configuration;
+            _log = log;
+
         }
 
         public void SendMail(string to, string subject, string body)
@@ -20,6 +23,8 @@ namespace Vet_Clinic.Web.Helpers
             var smtp = _configuration["Mail:Smtp"];
             var port = _configuration["Mail:Port"];
             var password = _configuration["Mail:Password"];
+
+            _log.Append("nameFrom: " + nameFrom + "| from: " + from + " |smtp :" + port + "|password: " + password);
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(nameFrom, from));

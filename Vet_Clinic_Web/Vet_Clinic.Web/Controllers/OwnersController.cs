@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
 using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Vet_Clinic.Web.Data.Repositories;
+
 using Vet_Clinic.Web.Data.Entities;
+using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
-using Vet_Clinic.Web.Data;
-using System.Collections.Generic;
 
 namespace Vet_Clinic.Web.Controllers
 {
@@ -109,7 +108,7 @@ namespace Vet_Clinic.Web.Controllers
                         CreatedBy = creator,
                         ModifiedBy = creator,
                         CreateDate = DateTime.Now,
-                        UpdateDate = DateTime.Now                   
+                        UpdateDate = DateTime.Now
                     };
 
                     await _ownerRepository.CreateAsync(owner);
@@ -177,7 +176,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-               var user = await _userHelper.GetUserByIdAsync(model.Id);
+                var user = await _userHelper.GetUserByIdAsync(model.Id);
 
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
@@ -235,7 +234,7 @@ namespace Vet_Clinic.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-      
+
         public async Task<IActionResult> DetailsPet(int? id)
         {
             if (id == null)
@@ -278,7 +277,7 @@ namespace Vet_Clinic.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddPet(PetViewModel model) 
+        public async Task<IActionResult> AddPet(PetViewModel model)
         {
             if (ModelState.IsValid)
             {
