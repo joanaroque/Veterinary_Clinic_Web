@@ -64,11 +64,11 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.PhoneNumber)
                                         </td>
-                                        <td id="@item.Id">
+                                        <td>
                                             <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.Id"><i class="glyphicon glyphicon-pencil"></i> </a>
                                             <a asp-action="Details" class="btn btn-warning " asp-route-id="@item.Id"><i class="fa fa-list"></i> </a>
-                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger pull-right" id="btnDelete"><i class="fa fa-trash"></i></a>
-
+                                            <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Are you sure you want to delete @item.Name?')"
+                                               class="btn btn-danger pull-right" id="btnDelete"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 }
@@ -81,7 +81,6 @@
     </div>
 </section>
 
-<partial name="_DeleteDialog" />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
@@ -92,21 +91,7 @@
         $(document).ready(function () {
             $('#MyTable').DataTable();
         });
-            $(document).ready(function () {
-                let id = 0;
-                $('a[id*=btnDelete]').click(function () {
-                    debugger;
-                    id = $(this).parent()[0].id;
-                    $("#deleteDialog").modal('show');
-                    return false;
-                });
-                $("#btnNoDelete").click(function () {
-                    $("#deleteDialog").modal('hide');
-                    return false;
-                });
-                $("#btnYesDelete").click(function () {
-                    window.location.href = '/Assistant/Delete/' + id;
-                });
-            });
+
+    
     </script>
 }

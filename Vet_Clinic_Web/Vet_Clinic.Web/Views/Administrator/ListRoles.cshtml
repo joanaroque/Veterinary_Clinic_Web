@@ -51,9 +51,9 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => role.Id)
                                             </td>
-                                            <td id="@role.Id">
-                                                <a asp-action="DeleteRole" asp-route-id="@role.Id" class="btn btn-danger pull-right" id="btnDelete"><i class="fa fa-trash"></i></a>
-
+                                            <td>
+                                                <a asp-controller="Administrator" asp-action="DeleteRole" asp-route-id="@role.Id" onclick="return confirm('Are you sure you want to delete @role.Name?')"
+                                                   class="btn btn-danger pull-right" id="btnDelete"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     }
@@ -74,7 +74,7 @@
                                     Use the button below to create a role
                                 </h5>
                                 <a class="btn btn-primary" style="width:auto"
-                                   asp-controller="Admin" asp-action="CreateRole">
+                                   asp-controller="Administrator" asp-action="CreateRole">
                                     Create Role
                                 </a>
                             </div>
@@ -88,7 +88,6 @@
 </section>
 
 
-<partial name="_DeleteDialog" />
 
 @section Scripts {
 
@@ -96,23 +95,6 @@
     <script src="~/js/main.js"></script>
 
     <script type="text/javascript">
-
-        $(document).ready(function () {
-            let id = 0;
-            $('a[id*=btnDelete]').click(function () {
-                debugger;
-                id = $(this).parent()[0].id;
-                $("#deleteDialog").modal('show');
-                return false;
-            });
-            $("#btnNoDelete").click(function () {
-                $("#deleteDialog").modal('hide');
-                return false;
-            });
-            $("#btnYesDelete").click(function () {
-                window.location.href = '/Assistant/Delete/' + id;
-            });
-        });
 
     </script>
 }

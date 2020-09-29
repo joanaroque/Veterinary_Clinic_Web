@@ -132,27 +132,7 @@ namespace Vet_Clinic.Web.Controllers
                     token = myToken
                 }, protocol: HttpContext.Request.Scheme);
 
-                //if (!_env.IsDevelopment())
-                //{
-                //    _log.Append("Mail client is not available on non-development environment");
-                //}
-                //else
-                //{
                     _mailHelper.SendMail(model.UserName, "Email confirmation",
-                       $"<table style = 'max-width: 600px; padding: 10px; margin:0 auto; border-collapse: collapse;'>" +
-                        $"  <tr>" +
-                        $"    <td style = 'background-color: #34495e; text-align: center; padding: 0'>" +
-                        $"       <a href = '***************************' >" +
-                        $"         <img width = '20%' style = 'display:block; margin: 1.5% 3%' src= '***************************'>" +
-                        $"       </a>" +
-                        $"  </td>" +
-                        $"  </tr>" +
-                        $"  <tr>" +
-                        $"  <td style = 'padding: 0'>" +
-                        $"     <img style = 'padding: 0; display: block' src = '***************************' width = '100%'>" +
-                        $"  </td>" +
-                        $"</tr>" +
-                        $"<tr>" +
                         $" <td style = 'background-color: #ecf0f1'>" +
                         $"      <div style = 'color: #34495e; margin: 4% 10% 2%; text-align: justify;font-family: sans-serif'>" +
                         $"            <h1 style = 'color: #e67e22; margin: 0 0 7px' > Hello, welcome </h1>" +
@@ -167,7 +147,6 @@ namespace Vet_Clinic.Web.Controllers
                         $"        <li> Laboratory and cabinet tests.</li>" +
                         $"      </ul>" +
                         $"  <div style = 'width: 100%;margin:20px 0; display: inline-block;text-align: center'>" +
-                        $"    <img style = 'padding: 0; width: 200px; margin: 5px' src = '***************************'>" +
                         $"  </div>" +
                         $"  <div style = 'width: 100%; text-align: center'>" +
                         $"    <h2 style = 'color: #e67e22; margin: 0 0 7px' >Email Confirmation </h2>" +
@@ -178,7 +157,7 @@ namespace Vet_Clinic.Web.Controllers
                         $" </td >" +
                         $"</tr>" +
                         $"</table>");
-                //}
+
                 ViewBag.Message = "The instructions to allow your user has been sent to email.";
 
                 return View(model);

@@ -163,7 +163,6 @@ namespace Vet_Clinic.Web.Controllers
 
         // POST: Administrator/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUser(string id) // todo VER
         {
             var user = await _userHelper.GetUserByIdAsync(id);
