@@ -71,6 +71,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(view);
         }
 
+        /// <summary>
+        /// updates the appointmnet
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>updated model</returns>
         // POST: Assistant/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -122,6 +127,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// gets the doctor, the owner and the pet to create the appointment
+        /// </summary>
+        /// <param name="model">model appointment</param>
+        /// <returns>model appointment</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Schedule(AppointmentViewModel model)
@@ -156,6 +166,13 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// picks up doctors who work within the desired time 
+        /// and doctors who already have an appointment for that date
+        /// and removes the busy
+        /// </summary>
+        /// <param name="scheduledDate">intended date</param>
+        /// <returns>available doctors</returns>
         public async Task<JsonResult> GetDoctorsAsync(DateTime scheduledDate)
         {
             int appointmentHour = scheduledDate.Hour;
@@ -166,9 +183,9 @@ namespace Vet_Clinic.Web.Controllers
 
             var doctorsNotScheduled = workingDoctors.Except(doctorsAlreadyScheduled);
 
-
             return Json(doctorsNotScheduled.OrderBy(d => d.Name));
         }
+
 
         public async Task<JsonResult> GetPetsAsync(int ownerId)
         {

@@ -38,8 +38,7 @@ namespace Vet_Clinic.Web.Controllers
              UserManager<User> userManager,
              IOwnerRepository ownerRepository,
              ILog log,
-             IHostingEnvironment env
-             )
+             IHostingEnvironment env)
         {
             _userHelper = userHelper;
             _configuration = configuration;
@@ -50,6 +49,7 @@ namespace Vet_Clinic.Web.Controllers
             _log = log;
             _env = env;
         }
+
 
         [HttpGet]
         public IActionResult Login()

@@ -27,8 +27,6 @@ namespace Vet_Clinic.Web.Data
         private readonly IConverterHelper _converterHelper;
         private readonly IUserHelper _userHelper;
 
-
-
         public HomeController(IAppointmentRepository appointmentRepository,
             IDoctorRepository doctorRepository,
             IOwnerRepository OwnerRepository,
@@ -86,6 +84,14 @@ namespace Vet_Clinic.Web.Data
             return View();
         }
 
+
+        /// <summary>
+        /// picks up doctors who work within the desired time 
+        /// and doctors who already have an appointment for that date
+        /// and removes the busy
+        /// </summary>
+        /// <param name="scheduledDate">intended date</param>
+        /// <returns>available doctors</returns>
         public async Task<JsonResult> GetDoctorsAsync(DateTime scheduledDate)
         {
             int appointmentHour = scheduledDate.Hour;
@@ -99,6 +105,10 @@ namespace Vet_Clinic.Web.Data
             return Json(doctorsNotScheduled.OrderBy(d => d.Name));
         }
 
+        /// <summary>
+        /// gets the user and fetches the current user's (owner) pets
+        /// </summary>
+        /// <returns>the pet of current owner</returns>
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> MyPets()
         {
@@ -109,6 +119,10 @@ namespace Vet_Clinic.Web.Data
             return View(pet);
         }
 
+        /// <summary>
+        /// get the user and get the list of appointments for the current user
+        /// </summary>
+        /// <returns>the current user appointments list</returns>
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> MyAppointments()
         {
@@ -124,6 +138,10 @@ namespace Vet_Clinic.Web.Data
         }
 
 
+        /// <summary>
+        /// get the user and get the list of past appointments for the current user
+        /// </summary>
+        /// <returns>the current user past appointments list</returns>
         public async Task<IActionResult> OwnerAppointmentsHistory()
         {
             var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
@@ -137,7 +155,10 @@ namespace Vet_Clinic.Web.Data
             return View(list);
         }
 
-
+        /// <summary>
+        ///  gets the user, get information about the current user(owner), instantiate a new appointment model
+        /// </summary>
+        /// <returns>returns the new model</returns>
         [HttpGet]
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Schedule()
@@ -162,6 +183,12 @@ namespace Vet_Clinic.Web.Data
             return View(model);
         }
 
+
+        /// <summary>
+        /// gets the doctor, the owner and the pet to create the appointment
+        /// </summary>
+        /// <param name="model">model appointment</param>
+        /// <returns>model appointment</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Customer")]
@@ -196,6 +223,11 @@ namespace Vet_Clinic.Web.Data
             return View(model);
         }
 
+        /// <summary>
+        /// try to get the appointment by id and delete it,
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns>view with appointments list</returns>
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> UnSchedule(int? id)
         {
@@ -204,19 +236,19 @@ namespace Vet_Clinic.Web.Data
                 return NotFound();
             }
 
-            var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
-
-            if (appointment == null)
+            try
             {
-                return NotFound();
+                var appointment = await _appointmentRepository.GetByIdAsync(id.Value);
+                await _appointmentRepository.DeleteAsync(appointment);
             }
-            appointment.Pet = null;
-            appointment.Owner = null;
-            appointment.Doctor = null;
 
-            await _appointmentRepository.UpdateAsync(appointment);
+            catch (Exception exception)
+            {
+                ModelState.AddModelError(string.Empty, exception.Message);
+            }
             return RedirectToAction(nameof(MyAppointments));
         }
+
 
         [HttpGet]
         public async Task<IActionResult> EditAppointment(int? id)
@@ -239,6 +271,13 @@ namespace Vet_Clinic.Web.Data
             return View(view);
         }
 
+        /// <summary>
+        ///  get the doctor, the owner and the pet, 
+        ///  convert from model to entity,
+        ///  get the user you edited and update
+        /// </summary>
+        /// <param name="model">model appointment</param>
+        /// <returns>the updated model</returns>
         // POST: Assistant/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -298,6 +337,11 @@ namespace Vet_Clinic.Web.Data
             return View(model);
         }
 
+        /// <summary>
+        /// updates the current owner's pet information
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>model updated</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Customer")]
@@ -338,6 +382,7 @@ namespace Vet_Clinic.Web.Data
 
             return View(model);
         }
+
 
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Details(int? id)
@@ -411,6 +456,11 @@ namespace Vet_Clinic.Web.Data
             return View(model);
         }
 
+        /// <summary>
+        /// create a new pet model
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>new pet model</returns>
         [HttpPost]
         [Authorize(Roles = "Admin, Customer")]
         public async Task<IActionResult> Create(PetViewModel model)

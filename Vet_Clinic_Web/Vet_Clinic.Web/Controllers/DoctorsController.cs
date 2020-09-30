@@ -65,6 +65,11 @@ namespace Vet_Clinic.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// create a new doctor
+        /// </summary>
+        /// <param name="doctorViewModel">model</param>
+        /// <returns>new doctor</returns>
         // POST: Doctors/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -122,6 +127,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(view);
         }
 
+        /// <summary>
+        /// update the doctor
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>view doctor updated</returns>
         // POST: Doctors/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -162,6 +172,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// delete doctor
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns>view model index</returns>
         // POST: Doctors/Delete/5
         [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)

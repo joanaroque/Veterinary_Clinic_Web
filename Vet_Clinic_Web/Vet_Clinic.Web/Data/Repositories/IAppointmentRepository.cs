@@ -49,7 +49,7 @@ namespace Vet_Clinic.Web.Data.Repositories
 
 
         /// <summary>
-        ///  get the attributes of queries where the dates are future and the user is the current one
+        ///  get the attributes of appointment where the dates are future and the user is the current one
         /// </summary>
         /// <param name="currentUser">current user</param>
         /// <returns>appointment from current user </returns>
@@ -57,6 +57,12 @@ namespace Vet_Clinic.Web.Data.Repositories
 
 
 
+
+        /// <summary>
+        ///  get the attributes of past appointment where the dates are future and the user is the current one
+        /// </summary>
+        /// <param name="currentUser">current user</param>
+        /// <returns>appointment from current user </returns>
         Task<List<Appointment>> GetPastAppointmentFromCurrentOwnerAsync(string currentUser);
 
     }

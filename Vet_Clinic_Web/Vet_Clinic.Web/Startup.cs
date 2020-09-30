@@ -41,13 +41,12 @@ namespace Vet_Clinic.Web
                 cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
                 cfg.SignIn.RequireConfirmedEmail = true;
                 cfg.User.RequireUniqueEmail = true;
-                cfg.Password.RequireDigit = false;
+                cfg.Password.RequireDigit = true;
                 cfg.Password.RequiredUniqueChars = 0;
-                cfg.Password.RequireLowercase = false;
-                cfg.Password.RequireNonAlphanumeric = false;
-                cfg.Password.RequireUppercase = false;
+                cfg.Password.RequireLowercase = true;
+                cfg.Password.RequireNonAlphanumeric = true;
+                cfg.Password.RequireUppercase = true;
                 cfg.Password.RequiredLength = 6;
-               // cfg.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@";
 
             })
                 .AddRoles<IdentityRole>()

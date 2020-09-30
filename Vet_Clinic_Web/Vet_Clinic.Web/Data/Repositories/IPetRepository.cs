@@ -48,11 +48,19 @@ namespace Vet_Clinic.Web.Data.Repositories
         Task<List<Pet>> GetPetFromCurrentOwnerAsync(string currentUser);
 
 
-        //todo comentar
+        /// <summary>
+        /// gets the pets include your specie 
+        /// </summary>
+        /// <param name="specieId">specie Id</param>
+        /// <returns></returns>
         Task<List<Pet>> GetPetBySpecieAsync(int specieId);
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="petId">pet Id</param>
+        /// <returns></returns>
         Task<Pet> GetByIdWithIncludesAsync(int petId);
     }
 }

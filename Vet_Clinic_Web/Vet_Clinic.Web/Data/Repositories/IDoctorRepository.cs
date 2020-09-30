@@ -25,7 +25,11 @@ namespace Vet_Clinic.Web.Data.Repositories
 
 
 
-
+        /// <summary>
+        /// gets the doctor, including who created it
+        /// </summary>
+        /// <param name="doctorId">doctor Id</param>
+        /// <returns></returns>
         Task<Doctor> GetDoctorByIdAsync(int doctorId);
 
     }

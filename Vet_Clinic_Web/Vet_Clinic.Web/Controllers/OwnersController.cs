@@ -49,6 +49,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(owner); 
         }
 
+        /// <summary>
+        /// show owner details
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns>view owner details</returns>
         // GET: Owners/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -74,6 +79,11 @@ namespace Vet_Clinic.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// creates owner and user associated
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>view model new user</returns>
         // POST: Owners/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -167,6 +177,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// updates the owner user
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>view model update user</returns>
         // POST: Owners/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -185,13 +200,17 @@ namespace Vet_Clinic.Web.Controllers
 
                 await _userHelper.UpdateUserAsync(user);
 
-
                 return RedirectToAction(nameof(Index));
             }
 
             return View(model);
         }
 
+        /// <summary>
+        /// delete the user owner
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns>view index</returns>
         // POST: Owners/Delete/5 
         public async Task<IActionResult> Delete(int? id)
         {
@@ -226,6 +245,11 @@ namespace Vet_Clinic.Web.Controllers
         }
 
 
+        /// <summary>
+        /// shows the details of the pet of the respective owner
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns>view with details</returns>
         public async Task<IActionResult> DetailsPet(int? id)
         {
             if (id == null)
@@ -243,6 +267,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(pet);
         }
 
+        /// <summary>
+        /// creates a pet from that owner
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns>view create</returns>
         public async Task<IActionResult> AddPet(int? id)
         {
             if (id == null)
@@ -266,6 +295,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// creates a pet from that owner
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>view with new pet</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPet(PetViewModel model)
@@ -322,6 +356,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(view);
         }
 
+        /// <summary>
+        /// update the pet
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>updated pet</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPet(PetViewModel model)
@@ -356,7 +395,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
-
+        /// <summary>
+        /// delete that owner's pet
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns>owner details view</returns>
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePet(int? id)
         {

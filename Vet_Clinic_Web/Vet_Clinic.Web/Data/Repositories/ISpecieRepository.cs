@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using Vet_Clinic.Web.Data.Entities;
 
 namespace Vet_Clinic.Web.Data.Repositories
@@ -24,7 +26,11 @@ namespace Vet_Clinic.Web.Data.Repositories
 
 
 
-        // TODO comentar
+        /// <summary>
+        /// get the species including the user, where the id is the one entered
+        /// </summary>
+        /// <param name="specieId">specie Id</param>
+        /// <returns>the species including the user, where the id is the one entered</returns>
         Task<Specie> GetSpecieByIdAsync(int specieId);
 
 

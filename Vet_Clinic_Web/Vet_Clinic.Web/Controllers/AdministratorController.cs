@@ -79,6 +79,17 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// gets the user by id
+        /// assign new properties to current user
+        /// Remove roles already associated with the user, which was not selected
+        /// If the role has not selected and is in use, I remove the role
+        /// Assign new role
+        /// Update user after assigning new role
+        /// If the update operation is successful, send to the user list page
+        /// </summary>
+        /// <param name="editUser"></param>
+        /// <returns></returns>
         // POST: Administrator/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -102,24 +113,19 @@ namespace Vet_Clinic.Web.Controllers
 
                 var selectedRole = await _roleManager.FindByIdAsync(editUser.SelectedRole);
 
-                // Remover roles já associados ao user, o que não foi o selecionado.
                 foreach (var currentRole in _roleManager.Roles.ToList())
                 {
                     var isSelectedRole = selectedRole.Name.Equals(currentRole.Name);
                     if (!isSelectedRole && await _userHelper.IsUserInRoleAsync(user, currentRole.Name))
                     {
-                        // Remover do role
                         await _userManager.RemoveFromRoleAsync(user, currentRole.Name);
                     }
                 }
 
-                // Atribuir novo role
                 await _userHelper.AddUSerToRoleAsync(user, selectedRole.Name);
 
-                // Atualizar user após atribuir novo role.
                 var result = await _userHelper.UpdateUserAsync(user);
 
-                // Se a operação de atualização for com sucesso, enviar para a pagina de listagem de utilizadores.
                 if (result.Succeeded)
                 {
                     return RedirectToAction("ListUsers");
@@ -129,7 +135,6 @@ namespace Vet_Clinic.Web.Controllers
                 {
                     ModelState.AddModelError("", error.Description);
                 }
-
             }
 
             return View(editUser);

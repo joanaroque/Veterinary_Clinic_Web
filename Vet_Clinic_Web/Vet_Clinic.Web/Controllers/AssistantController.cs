@@ -63,6 +63,11 @@ namespace Vet_Clinic.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// create a new model assistant
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>view model assistant</returns>
         // POST: Assistant/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -117,6 +122,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(view);
         }
 
+        /// <summary>
+        /// update the assistant
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>updated model</returns>
         // POST: Assistant/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -158,6 +168,11 @@ namespace Vet_Clinic.Web.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// delete assistant
+        /// </summary>
+        /// <param name="id">user id</param>
+        /// <returns>index view</returns>
         // POST: Assistant/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
