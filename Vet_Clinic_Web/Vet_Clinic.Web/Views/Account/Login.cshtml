@@ -4,7 +4,7 @@
     ViewData["Title"] = "Login";
 }
 
-@{ 
+@{
     Layout = null;
 }
 
@@ -22,7 +22,8 @@
     <!-- Style -->
     <link rel="stylesheet" href="~/login/css/style.css" type="text/css" media="all" />
 
-   
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
 </head>
 
 <body>
@@ -49,10 +50,12 @@
                             </span>
                         </div>
 
-                        <div class="agile_label">
-                            <input asp-for="RememberMe" type="checkbox" id="check3" name="check3" value="show password">
-                            <label asp-for="RememberMe" class="check" for="check3">Remember me?</label>
+                        <div class="checkbox">
+                            <label><input asp-for="RememberMe" type="checkbox"> Remember me</label>
+                            <span asp-validation-for="RememberMe" ></span>
                         </div>
+
+
 
                         <button type="submit">Login</button>
                     </form>
@@ -66,6 +69,7 @@
 
             </div>
         </div>
+
     </section>
     <!-- /login form -->
 </body>
@@ -75,5 +79,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-  @*  <script src="https://apis.google.com/js/platform.js" async defer></script>*@
+
 }

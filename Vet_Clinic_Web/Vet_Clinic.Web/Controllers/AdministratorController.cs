@@ -137,7 +137,7 @@ namespace Vet_Clinic.Web.Controllers
 
         // POST: Administrator/Delete/5
         [HttpPost]
-        public async Task<IActionResult> DeleteUser(string id) // todo VER
+        public async Task<IActionResult> DeleteUser(string id) 
         {
             var user = await _userHelper.GetUserByIdAsync(id);
 

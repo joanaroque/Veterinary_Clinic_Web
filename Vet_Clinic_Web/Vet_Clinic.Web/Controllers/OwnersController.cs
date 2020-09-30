@@ -46,7 +46,7 @@ namespace Vet_Clinic.Web.Controllers
         {
             var owner = _ownerRepository.GetAllWithUsers();
 
-            return View(owner); // todo expressionMetaData!!!!
+            return View(owner); 
         }
 
         // GET: Owners/Details/5

@@ -113,7 +113,7 @@ namespace Vet_Clinic.Web.Data
         public async Task<IActionResult> MyAppointments()
         {
             var currentUser = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
-            //todo
+
             var appointments = await _appointmentRepository.GetAppointmentFromCurrentOwnerAsync(currentUser.Id);
 
             var list = new List<AppointmentViewModel>(appointments.

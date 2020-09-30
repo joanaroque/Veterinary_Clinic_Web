@@ -26,6 +26,7 @@ namespace Vet_Clinic.Web.Data.Entities
         public User CreatedBy { get; set; }
 
 
+
         [Display(Name = "Scheduled Date")]
         [Required(ErrorMessage = "Must insert the {0}")]
         [DataType(DataType.DateTime)]
