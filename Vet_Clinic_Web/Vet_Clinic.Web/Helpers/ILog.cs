@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Vet_Clinic.Web.Helpers
+﻿namespace Vet_Clinic.Web.Helpers
 {
     public interface ILog
     {
-         void Append(string message);
+        /// <summary>
+        /// shows the date now with the information
+        /// </summary>
+        /// <param name="message">information</param>
+        void Append(string message);
     }
 }

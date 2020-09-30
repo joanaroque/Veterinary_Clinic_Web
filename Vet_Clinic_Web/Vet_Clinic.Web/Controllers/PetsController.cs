@@ -42,6 +42,7 @@ namespace Vet_Clinic.Web.Controllers
 
         }
 
+
         // GET: Pets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -81,6 +82,12 @@ namespace Vet_Clinic.Web.Controllers
             return View(view);
         }
 
+
+        /// <summary>
+        /// update the pet
+        /// </summary>
+        /// <param name="model">model</param>
+        /// <returns>updated pet</returns>
         // POST: Pets/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

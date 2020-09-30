@@ -47,6 +47,11 @@ namespace Vet_Clinic.Web.Controllers
             return View();
         }
 
+        /// <summary>
+        /// create a new specie
+        /// </summary>
+        /// <param name="specie">specie entity</param>
+        /// <returns>new specie</returns>
         // POST: Species/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -100,6 +105,12 @@ namespace Vet_Clinic.Web.Controllers
             return View(specie);
         }
 
+        /// <summary>
+        /// updates the specie
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="specie">specie entity</param>
+        /// <returns>updated specie</returns>
         // POST: Species/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -136,6 +147,11 @@ namespace Vet_Clinic.Web.Controllers
         }
 
 
+        /// <summary>
+        /// delete the specie
+        /// </summary>
+        /// <param name="id">specie id</param>
+        /// <returns>index view</returns>
         // POST: Species/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

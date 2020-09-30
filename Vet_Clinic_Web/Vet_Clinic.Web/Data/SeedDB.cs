@@ -45,6 +45,9 @@ namespace Vet_Clinic.Web.Data
             await _userHelper.CheckRoleAsync("Customer");
         }
 
+        /// <summary>
+        /// populate pets with information
+        /// </summary>
         private async Task FillPetsAsync()
         {
             if (!_context.Pets.Any())
@@ -82,6 +85,9 @@ namespace Vet_Clinic.Web.Data
         }
 
 
+        /// <summary>
+        /// populate species with information
+        /// </summary>
         private async Task FillSpeciesAsync()
         {
             if (!_context.Species.Any())
@@ -98,6 +104,10 @@ namespace Vet_Clinic.Web.Data
             }
         }
 
+
+        /// <summary>
+        /// populate assistants with information
+        /// </summary>
         private async Task FillAssistantAsync()
         {
             if (!_context.Assistants.Any())
@@ -144,6 +154,11 @@ namespace Vet_Clinic.Web.Data
             }
         }
 
+
+        /// <summary>
+        /// populate user with information,
+        /// assigns him a role
+        /// </summary>
         private async Task FillUserAsync()
         {
             var user = await _userHelper.GetUserByEmailAsync("joana.ramos.roque@formandos.cinel.pt");
@@ -178,9 +193,11 @@ namespace Vet_Clinic.Web.Data
         }
 
 
+        /// <summary>
+        /// populate owner with information
+        /// </summary>
         private async Task FillOwnerAsync()
         {
-            //***************************************************************************************************************************************
 
             if (!_context.Owners.Any())
             {
@@ -215,12 +232,13 @@ namespace Vet_Clinic.Web.Data
 
             }
 
-            //***************************************************************************************************************************************
-
             await _context.SaveChangesAsync();
         }
 
 
+        /// <summary>
+        /// populate doctor with information
+        /// </summary>
         private async Task FillDoctorAsync()
         {
             if (!_context.Doctors.Any())
@@ -331,6 +349,11 @@ namespace Vet_Clinic.Web.Data
                 await _context.SaveChangesAsync();
             }
         }
+
+
+        /// <summary>
+        /// get the first owner, the first doctor and the first user
+        /// </summary>
         private async Task CheckAppointmentsAsync()
         {
             if (!_context.Appointments.Any())
@@ -343,6 +366,11 @@ namespace Vet_Clinic.Web.Data
             }
 
         }
+
+
+        /// <summary>
+        /// populate Appointment with information
+        /// </summary>
         private void FillAppointmentAsync(Owner owner, Doctor doctor, User user)
         {
             _context.Appointments.Add(new Appointment

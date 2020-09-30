@@ -88,8 +88,8 @@ namespace Vet_Clinic.Web.Controllers
         /// Update user after assigning new role
         /// If the update operation is successful, send to the user list page
         /// </summary>
-        /// <param name="editUser"></param>
-        /// <returns></returns>
+        /// <param name="editUser">model edit user</param>
+        /// <returns>updated user</returns>
         // POST: Administrator/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

@@ -175,7 +175,7 @@ namespace Vet_Clinic.Web.Controllers
         /// <summary>
         /// delete doctor
         /// </summary>
-        /// <param name="id">user id</param>
+        /// <param name="id"> id</param>
         /// <returns>view model index</returns>
         // POST: Doctors/Delete/5
         [Authorize(Roles = "Admin, Agent")]

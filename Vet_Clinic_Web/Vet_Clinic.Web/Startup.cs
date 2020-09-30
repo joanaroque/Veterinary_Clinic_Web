@@ -129,7 +129,7 @@ namespace Vet_Clinic.Web
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout"; // para casos de users anonimos
+                options.LogoutPath = "/Account/Logout"; 
                 options.AccessDeniedPath = "/Account/NotAuthorized";
 
             });

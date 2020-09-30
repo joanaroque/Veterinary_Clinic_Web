@@ -41,7 +41,6 @@ namespace Vet_Clinic.Web.Data
 
             base.OnModelCreating(modelBuilder);
 
-            //*******************************************************************************
             modelBuilder.Entity<Specie>()
                 .HasIndex(s => s.Description)
                  .IsUnique();
@@ -58,8 +57,6 @@ namespace Vet_Clinic.Web.Data
                .HasIndex(a => a.TIN)
                .IsUnique();
 
-
-            //*******************************************************************************
         }
 
     }

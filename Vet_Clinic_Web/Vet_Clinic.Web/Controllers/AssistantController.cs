@@ -171,7 +171,7 @@ namespace Vet_Clinic.Web.Controllers
         /// <summary>
         /// delete assistant
         /// </summary>
-        /// <param name="id">user id</param>
+        /// <param name="id"> id</param>
         /// <returns>index view</returns>
         // POST: Assistant/Delete/5
         public async Task<IActionResult> Delete(int? id)
