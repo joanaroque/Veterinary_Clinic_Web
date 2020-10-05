@@ -174,9 +174,11 @@ namespace Vet_Clinic.Web.Data
                     PhoneNumber = "965214744",
                     Address = "Rua da Programação",
                     EmailConfirmed = true
+                    //,                    SecurityStamp = Guid.NewGuid().ToString()
+
                 };
 
-                await _userHelper.AddUserAsync(user, "123456");
+                var identityResult = await _userHelper.AddUserAsync(user, "gfdGF545++");
 
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                 await _userHelper.ConfirmEmailAsync(user, token);
@@ -212,7 +214,7 @@ namespace Vet_Clinic.Web.Data
                     EmailConfirmed = true
                 };
 
-                await _userHelper.AddUserAsync(user1, "123456");
+                await _userHelper.AddUserAsync(user1, "gfdGF545++");
 
                 var token1 = await _userHelper.GenerateEmailConfirmationTokenAsync(user1);
                 await _userHelper.ConfirmEmailAsync(user1, token1);
