@@ -16,6 +16,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         IQueryable GetAllByDate();
 
 
+        Task<List<Appointment>> GetAllByDateAsync();
 
         /// <summary>
         ///   get the attributes of past appointments
@@ -64,6 +65,8 @@ namespace Vet_Clinic.Web.Data.Repositories
         /// <param name="currentUser">current user</param>
         /// <returns>appointment from current user </returns>
         Task<List<Appointment>> GetPastAppointmentFromCurrentOwnerAsync(string currentUser);
+
+        Task<List<Appointment>> GetAppointmentsByDoctorEmailAsync(string userEmail);
 
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Vet_Clinic.Web.CustomValidation;
 
 namespace Vet_Clinic.Web.Data.Entities
@@ -13,42 +11,13 @@ namespace Vet_Clinic.Web.Data.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Must insert the {0}")]
-        public string Name { get; set; }
-
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-
-
-        [RegularExpression(@"\d{9}",
-         ErrorMessage = "Must insert the {0} correct.")]
-        [Display(Name = "Phone Number")]
-        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
-        [DataType(DataType.PhoneNumber)]
-        public string PhoneNumber { get; set; }
-
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        [EmailAddress]
-        public string Email { get; set; }
-
-
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        [DataType(DataType.Currency)]
-        public string TIN { get; set; }
-
 
 
         [Display(Name = "Photo")]
         public string ImageUrl { get; set; }
 
 
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        public string Address { get; set; }
+        public User User { get; set; }
 
 
 

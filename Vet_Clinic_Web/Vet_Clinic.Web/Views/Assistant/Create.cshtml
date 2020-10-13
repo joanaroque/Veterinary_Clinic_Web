@@ -28,90 +28,38 @@
                         <form asp-action="Create" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                            <div class="card-body">
-                                <div class="form-group">
+                            <partial name="_User" />
 
-                                    <div class="pull-right">
-                                        <img id="imgprw" alt="Image" width="150" height="300"/>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="Name" class="control-label"></label>
-                                                <input asp-for="Name" class="form-control" />
-                                                <span asp-validation-for="Name" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="LastName" class="control-label"></label>
-                                                <input asp-for="LastName" class="form-control" />
-                                                <span asp-validation-for="LastName" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="pull-right">
+                                <img id="imgprw" alt="Image" width="150" height="300" />
+                            </div>
 
 
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="Email" class="control-label"></label>
-                                                <input asp-for="Email" class="form-control" />
-                                                <span asp-validation-for="Email" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="TIN" class="control-label"></label>
-                                                <input type="number" asp-for="TIN" class="form-control" />
-                                                <span asp-validation-for="TIN" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="row">
 
-
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="PhoneNumber" class="control-label"></label>
-                                                <input type="tel" asp-for="PhoneNumber" class="form-control" />
-                                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="DateOfBirth" class="control-label"></label>
-                                                <input asp-for="DateOfBirth" class="form-control" />
-                                                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="Address" class="control-label"></label>
-                                                <input asp-for="Address" class="form-control" />
-                                                <span asp-validation-for="Address" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-group">
-                                                <label asp-for="ImageFile" class="control-label"></label>
-                                                <input type="file" class="form-control" onchange="imagePreview(this)"/>
-                                                <span asp-validation-for="ImageFile" class="text-danger"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                <div class="col-sm-5">
                                     <div class="form-group">
-                                        <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To List</a>
-                                        <input type="submit" value="Create" class="btn btn-success " />
+                                        <label asp-for="DateOfBirth" class="control-label"></label>
+                                        <input asp-for="DateOfBirth" class="form-control" />
+                                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label asp-for="ImageFile" class="control-label"></label>
+                                        <input type="file" class="form-control" onchange="imagePreview(this)" />
+                                        <span asp-validation-for="ImageFile" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <a asp-action="Index" class="btn btn-warning pull-right"><i class="fa fa-backward"></i> To List</a>
+                                <input type="submit" value="Create" class="btn btn-success " />
+                            </div>
+
                         </form>
                     </div>
                 </div>

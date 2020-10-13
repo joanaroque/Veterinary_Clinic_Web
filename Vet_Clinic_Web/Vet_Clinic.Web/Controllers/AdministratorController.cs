@@ -49,7 +49,7 @@ namespace Vet_Clinic.Web.Controllers
 
         // GET: Administrator/Edit/5
         [HttpGet]
-        public async Task<IActionResult> EditUser(string id)
+        public async Task<IActionResult> EditUser(string id) // todo passar o role
         {
             var user = await _userHelper.GetUserByIdAsync(id);
 
@@ -141,7 +141,6 @@ namespace Vet_Clinic.Web.Controllers
         }
 
         // POST: Administrator/Delete/5
-        [HttpPost]
         public async Task<IActionResult> DeleteUser(string id) 
         {
             var user = await _userHelper.GetUserByIdAsync(id);
@@ -168,7 +167,6 @@ namespace Vet_Clinic.Web.Controllers
             }
         }
 
-        [HttpPost]
         public async Task<IActionResult> DeleteRole(string id)
         {
             var role = await _roleManager.FindByIdAsync(id);

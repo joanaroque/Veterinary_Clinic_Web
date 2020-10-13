@@ -5,6 +5,7 @@ namespace Vet_Clinic.Web.Models
 {
     public class LoginViewModel
     {
+
         [Required]
         [EmailAddress]
         [Display(Name = "User Name")]

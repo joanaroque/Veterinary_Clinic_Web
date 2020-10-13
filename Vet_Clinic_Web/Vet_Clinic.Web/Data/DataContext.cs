@@ -49,13 +49,6 @@ namespace Vet_Clinic.Web.Data
                  .HasIndex(d => d.MedicalLicense)
                  .IsUnique();
 
-            modelBuilder.Entity<Doctor>()
-                .HasIndex(d => d.TIN)
-                .IsUnique();
-
-            modelBuilder.Entity<Assistant>()
-               .HasIndex(a => a.TIN)
-               .IsUnique();
 
         }
 

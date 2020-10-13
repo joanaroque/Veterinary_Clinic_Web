@@ -32,5 +32,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         /// <returns></returns>
         Task<Doctor> GetDoctorByIdAsync(int doctorId);
 
+        bool IsEmailFromDoctor(string email);
+
     }
 }

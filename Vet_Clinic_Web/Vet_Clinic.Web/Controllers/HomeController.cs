@@ -102,7 +102,7 @@ namespace Vet_Clinic.Web.Data
 
             var doctorsNotScheduled = workingDoctors.Except(doctorsAlreadyScheduled);
 
-            return Json(doctorsNotScheduled.OrderBy(d => d.Name));
+            return Json(doctorsNotScheduled.OrderBy(d => d.User.FullName));
         }
 
         /// <summary>

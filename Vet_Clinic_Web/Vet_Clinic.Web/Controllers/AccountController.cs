@@ -59,7 +59,7 @@ namespace Vet_Clinic.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return View();
+           return View();
         }
 
         [HttpPost]

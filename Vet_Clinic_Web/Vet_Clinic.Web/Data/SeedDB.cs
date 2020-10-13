@@ -13,12 +13,15 @@ namespace Vet_Clinic.Web.Data
     {
         private readonly DataContext _context;
         private readonly IUserHelper _userHelper;
+        private readonly UserManager<User> _userManager;
 
         public SeedDB(DataContext context,
-            IUserHelper userHelper)
+            IUserHelper userHelper,
+             UserManager<User> userManager)
         {
             _context = context;
             _userHelper = userHelper;
+            _userManager = userManager;
         }
 
         public async Task SeedAsync()
@@ -112,42 +115,40 @@ namespace Vet_Clinic.Web.Data
         {
             if (!_context.Assistants.Any())
             {
+                var user1 = new User
+                {
+                    Address = "Rua Zeca Afonso",
+                    Email = "alexxxx@yopmail.com",
+                    FirstName = "Alexandra",
+                    LastName = "Ramos",
+                    PhoneNumber = "96595088",
+                    UserName = "alexxxx@yopmail.com",
+                    EmailConfirmed = true
+                };
+
                 _context.Assistants.Add(new Assistant
                 {
-                    Name = "Alexandra",
-                    LastName = "Ramos",
-                    PhoneNumber = "965214744",
-                    Email = "alex@gmail.pt",
-                    TIN = "9011401",
+                    User = user1,
                     ImageUrl = ("~/images/Assistants/v.jpg"),
-                    Address = "Rua Zeca Afonso",
                     DateOfBirth = DateTime.Now.AddYears(-35)
                 });
 
-
-                _context.Assistants.Add(new Assistant
+                var user2 = new User
                 {
-                    Name = "Mariana",
-                    LastName = "Pedro",
-                    PhoneNumber = "965474544",
-                    Email = "pedro@gmail.pt",
-                    TIN = "125555",
-                    ImageUrl = ("~/images/Assistants/v1.jpg"),
                     Address = "Rua Pedro Afonso",
-                    DateOfBirth = DateTime.Now.AddYears(-25)
-                });
-
+                    Email = "afooonsooo@yopmail.com",
+                    FirstName = "Mariana",
+                    LastName = "Pedro",
+                    PhoneNumber = "96590088",
+                    UserName = "afooonsooo@yopmail.com",
+                    EmailConfirmed = true
+                };
 
                 _context.Assistants.Add(new Assistant
                 {
-                    Name = "Margarida",
-                    LastName = "Miguel",
-                    PhoneNumber = "874514747",
-                    Email = "miguel@gmail.pt",
-                    TIN = "21011",
-                    ImageUrl = ("~/images/Assistants/v3.jpg"),
-                    Address = "Rua Mario Afonso",
-                    DateOfBirth = DateTime.Now.AddYears(-30)
+                    User = user2,
+                    ImageUrl = ("~/images/Assistants/v1.jpg"),
+                    DateOfBirth = DateTime.Now.AddYears(-25)
                 });
 
                 await _context.SaveChangesAsync();
@@ -174,11 +175,10 @@ namespace Vet_Clinic.Web.Data
                     PhoneNumber = "965214744",
                     Address = "Rua da Programação",
                     EmailConfirmed = true
-                    //,                    SecurityStamp = Guid.NewGuid().ToString()
 
                 };
 
-                var identityResult = await _userHelper.AddUserAsync(user, "gfdGF545++");
+                await _userHelper.AddUserAsync(user, "gfdGF545++");
 
                 var token = await _userHelper.GenerateEmailConfirmationTokenAsync(user);
                 await _userHelper.ConfirmEmailAsync(user, token);
@@ -245,108 +245,53 @@ namespace Vet_Clinic.Web.Data
         {
             if (!_context.Doctors.Any())
             {
+                var user1 = new User
+                {
+                    Address = "Rua da medicos",
+                    Email = "sfddsf@yopmail.com",
+                    FirstName = "Anotnio",
+                    LastName = "Henrriques",
+                    PhoneNumber = "96592888",
+                    UserName = "sfddsf@yopmail.com",
+                    EmailConfirmed = true
+                };
+
                 _context.Doctors.Add(new Doctor
                 {
-                    Name = "Antonio",
-                    LastName = "Henrriques",
-                    PhoneNumber = "98564881",
-                    Email = "antoni@gmail.com",
+                    User = user1,
                     Specialty = "Ortopedia",
                     MedicalLicense = "45345",
                     WorkStart = 9,
                     WorkEnd = 13,
                     ObsRoom = "8",
-                    TIN = "4342",
                     ImageUrl = ("~/images/Doctors/41d3c742-fb4d-4124-a975-96fb0ceaafd9.jpg"),
-                    Address = "Rua do médico",
                     DateOfBirth = DateTime.Now.AddYears(-58)
 
                 });
 
+                var user2 = new User
+                {
+                    Address = "Rua do Manuel",
+                    Email = "manu@gmail.com",
+                    FirstName = "Manuela",
+                    LastName = "Anotonio",
+                    PhoneNumber = "96512888",
+                    UserName = "manu@gmail.com",
+                    EmailConfirmed = true
+                };
+
                 _context.Doctors.Add(new Doctor
                 {
-                    Name = "Manuela",
-                    LastName = "Anotonio",
-                    PhoneNumber = "98564882",
-                    Email = "manu@gmail.com",
+                    User = user2,
                     Specialty = "Dermatologia",
                     MedicalLicense = "45115",
                     WorkStart = 9,
                     WorkEnd = 13,
                     ObsRoom = "2",
-                    TIN = "125111",
                     ImageUrl = ("~/images/Doctors/d66a4c2a-6016-425c-bca9-ae8d39ec7f5a.jpg"),
-                    Address = "Rua do Manuel",
                     DateOfBirth = DateTime.Now.AddYears(-40)
                 });
 
-                _context.Doctors.Add(new Doctor
-                {
-                    Name = "Patricio",
-                    LastName = "Pires",
-                    PhoneNumber = "98512345",
-                    Email = "pati@gmail.com",
-                    Specialty = "Clinica Geral",
-                    MedicalLicense = "12321",
-                    WorkStart = 9,
-                    WorkEnd = 13,
-                    ObsRoom = "3",
-                    TIN = "121",
-                    ImageUrl = ("~/images/Doctors/41d3c742-fb4d-4124-a975-96fb0ceaafd9.jpg"),
-                    Address = "Rua do Caderno",
-                    DateOfBirth = DateTime.Now.AddYears(-45)
-                });
-
-                _context.Doctors.Add(new Doctor
-                {
-                    Name = "Vasco",
-                    LastName = "Fernandes",
-                    PhoneNumber = "965444444",
-                    Email = "vasco@gmail.com",
-                    Specialty = "Ortodoncia",
-                    MedicalLicense = "125444",
-                    WorkStart = 13,
-                    WorkEnd = 18,
-                    ObsRoom = "4",
-                    TIN = "4511",
-                    ImageUrl = ("~/images/Doctors/e570f689-fb8b-4e2f-96f4-f114cdb7ee15.jpg"),
-                    Address = "Rua do Cão",
-                    DateOfBirth = DateTime.Now.AddYears(-58)
-                });
-
-                _context.Doctors.Add(new Doctor
-                {
-                    Name = "Margarida",
-                    LastName = "Manuela",
-                    PhoneNumber = "961248777",
-                    Email = "magio@gmail.com",
-                    Specialty = "Clinica Geral",
-                    MedicalLicense = "1234",
-                    WorkStart = 14,
-                    WorkEnd = 19,
-                    ObsRoom = "5",
-                    TIN = "2144",
-                    ImageUrl = ("~/images/Doctors/a47b4f0d-08be-4466-a84f-d17e57e41fda.jpg"),
-                    Address = "Rua da Avendia",
-                    DateOfBirth = DateTime.Now.AddYears(-58)
-                });
-
-                _context.Doctors.Add(new Doctor
-                {
-                    Name = "Joaquina",
-                    LastName = "Fonseca",
-                    PhoneNumber = "962025802",
-                    Email = "joca@gmail.com",
-                    Specialty = "Ortopedia",
-                    MedicalLicense = "1210",
-                    WorkStart = 9,
-                    WorkEnd = 13,
-                    ObsRoom = "1",
-                    TIN = "201",
-                    ImageUrl = ("~/images/Doctors/1d58f58a-5f9a-4c4f-9fc5-c75dd340005c.jpg"),
-                    Address = "Rua da Secretária",
-                    DateOfBirth = DateTime.Now.AddYears(-58)
-                });
 
                 await _context.SaveChangesAsync();
             }

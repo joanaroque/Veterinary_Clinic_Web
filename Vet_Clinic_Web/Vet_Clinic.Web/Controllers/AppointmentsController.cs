@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Vet_Clinic.Web.Data.Entities;
 using Vet_Clinic.Web.Data.Repositories;
 using Vet_Clinic.Web.Helpers;
 using Vet_Clinic.Web.Models;
@@ -36,13 +37,27 @@ namespace Vet_Clinic.Web.Controllers
             _petRepository = petRepository;
         }
 
-        // GET: Appointments
-        public IActionResult Index()
+        //// GET: Appointments
+        public async Task<IActionResult> Index()
         {
-            var appointment = _appointmentRepository.GetAllByDate();
+            var isEmailFromDoctor = _doctorRepository.IsEmailFromDoctor(User.Identity.Name);
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
 
-            return View(appointment);
+            var isUserAdmin = await _userHelper.IsUserInRoleAsync(user, "Admin");
+            List<Appointment> appointments;
+
+            if (isEmailFromDoctor && !isUserAdmin)
+            {
+                appointments = await _appointmentRepository.GetAppointmentsByDoctorEmailAsync(User.Identity.Name);
+            }
+            else
+            {
+                appointments = await _appointmentRepository.GetAllByDateAsync();
+            }
+
+            return View(appointments);
         }
+
 
         public IActionResult AppointmentsHistory()
         {
@@ -183,7 +198,7 @@ namespace Vet_Clinic.Web.Controllers
 
             var doctorsNotScheduled = workingDoctors.Except(doctorsAlreadyScheduled);
 
-            return Json(doctorsNotScheduled.OrderBy(d => d.Name));
+            return Json(doctorsNotScheduled.OrderBy(d => d.User.FullName));
         }
 
 

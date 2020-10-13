@@ -9,28 +9,7 @@ namespace Vet_Clinic.Web.Data.Entities
         [Key]
         public int Id { get; set; }
 
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        public string Name { get; set; }
-
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        [Display(Name = "Last Name")]
-        public string LastName { get; set; }
-
-
-        [Display(Name = "Phone Number")]
-        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
-        [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"\d{9}",
-         ErrorMessage = "Must insert the {0} correct.")]
-        public string PhoneNumber { get; set; }
-
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        [EmailAddress]
-        public string Email { get; set; }
-
+        public User User { get; set; }
 
 
         [Required(ErrorMessage = "Must insert the {0}")]
@@ -43,7 +22,6 @@ namespace Vet_Clinic.Web.Data.Entities
         [DataType(DataType.Currency)]
         [Display(Name = "Medical License nrº")]
         public string MedicalLicense { get; set; }
-
 
 
 
@@ -66,19 +44,12 @@ namespace Vet_Clinic.Web.Data.Entities
         public int WorkEnd { get; set; }
 
 
-        [Required(ErrorMessage = "Must insert the {0}")]
-        [DataType(DataType.Currency)]
-        public string TIN { get; set; }
-
 
 
         [Display(Name = "Photo")]
         public string ImageUrl { get; set; }
 
 
-
-        [Required(ErrorMessage = "Must insert the {0}")]
-        public string Address { get; set; }
 
 
 

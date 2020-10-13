@@ -1,8 +1,5 @@
 ﻿@model Vet_Clinic.Web.Models.LoginViewModel
 
-@{
-    ViewData["Title"] = "Login";
-}
 
 @{
     Layout = null;
@@ -34,7 +31,7 @@
 
                 <!-- logo -->
                 <div class="logo">
-                    <a class="brand-logo" href="index.html">Welcome Back!</a>
+                    <a class="brand-logo">Welcome Back!</a>
                 </div>
                 <!-- //logo -->
                 <!-- form -->
@@ -43,10 +40,10 @@
                         <div asp-validation-summary="ModelOnly"></div>
                         <div class="form-fields d-grid">
                             <span asp-validation-for="UserName">
-                                <input asp-for="UserName" type="text" name="username" placeholder="Username" />
+                                <input asp-for="UserName" type="text" name="UserName" placeholder="Username" />
                             </span>
                             <span asp-validation-for="Password">
-                                <input asp-for="Password" type="password" name="password" placeholder="Password" />
+                                <input asp-for="Password" type="password" name="Password" placeholder="Password" />
                             </span>
                         </div>
 

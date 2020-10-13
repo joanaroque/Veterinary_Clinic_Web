@@ -28,7 +28,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         {
             var list = _context.Doctors.Select(p => new SelectListItem
             {
-                Text = p.Name,
+                Text = p.User.FullName,
                 Value = p.Id.ToString()
 
             }).OrderBy(p => p.Text).ToList();
@@ -49,6 +49,13 @@ namespace Vet_Clinic.Web.Data.Repositories
                .Where(d => d.Id == doctorId).FirstOrDefaultAsync();
 
             return doctor;
+        }
+
+        public bool IsEmailFromDoctor(string email)
+        {
+            var doctorsWithEmail = _context.Doctors.Where(d => d.User.Email.Equals(email)).Count();
+
+            return doctorsWithEmail > 0;
         }
     }
 }

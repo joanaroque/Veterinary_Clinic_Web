@@ -42,7 +42,7 @@ namespace Vet_Clinic.Web.Helpers
 
         public PetViewModel ToPetViewModel(Pet pet)
         {
-            return new PetViewModel 
+            return new PetViewModel
             {
                 Id = pet.Id,
                 Name = pet.Name,
@@ -70,17 +70,11 @@ namespace Vet_Clinic.Web.Helpers
             {
                 Id = isNew ? 0 : model.Id,
                 ImageUrl = path,
-                LastName = model.LastName,
                 Specialty = model.Specialty,
                 MedicalLicense = model.MedicalLicense,
-                Name = model.Name,
-                TIN = model.TIN,
-                PhoneNumber = model.PhoneNumber,
-                Email = model.Email,
                 WorkStart = model.WorkStart,
                 WorkEnd = model.WorkEnd,
                 ObsRoom = model.ObsRoom,
-                Address = model.Address,
                 DateOfBirth = model.DateOfBirth,
                 CreatedBy = model.CreatedBy,
                 CreateDate = isNew ? DateTime.Now : model.CreateDate,
@@ -94,17 +88,11 @@ namespace Vet_Clinic.Web.Helpers
             {
                 Id = doctor.Id,
                 ImageUrl = doctor.ImageUrl,
-                LastName = doctor.LastName,
                 Specialty = doctor.Specialty,
-                MedicalLicense = doctor.MedicalLicense,
-                Name = doctor.Name,
-                TIN = doctor.TIN,
-                PhoneNumber = doctor.PhoneNumber,
-                Email = doctor.Email,
+                MedicalLicense = doctor.MedicalLicense,              
                 WorkStart = doctor.WorkStart,
                 WorkEnd = doctor.WorkEnd,
                 ObsRoom = doctor.ObsRoom,
-                Address = doctor.Address,
                 DateOfBirth = doctor.DateOfBirth,
                 ModifiedBy = doctor.ModifiedBy,
                 UpdateDate = DateTime.Now
@@ -116,13 +104,7 @@ namespace Vet_Clinic.Web.Helpers
             return new Assistant
             {
                 Id = isNew ? 0 : model.Id,
-                ImageUrl = path,
-                LastName = model.LastName,
-                Name = model.Name,
-                TIN = model.TIN,
-                PhoneNumber = model.PhoneNumber,
-                Email = model.Email,
-                Address = model.Address,
+                ImageUrl = path,   
                 DateOfBirth = model.DateOfBirth,
                 CreatedBy = model.CreatedBy,
                 CreateDate = isNew ? DateTime.Now : model.CreateDate,
@@ -136,12 +118,6 @@ namespace Vet_Clinic.Web.Helpers
             {
                 Id = assistant.Id,
                 ImageUrl = assistant.ImageUrl,
-                LastName = assistant.LastName,
-                Name = assistant.Name,
-                TIN = assistant.TIN,
-                PhoneNumber = assistant.PhoneNumber,
-                Email = assistant.Email,
-                Address = assistant.Address,
                 DateOfBirth = assistant.DateOfBirth,
                 ModifiedBy = assistant.ModifiedBy,
                 UpdateDate = DateTime.Now

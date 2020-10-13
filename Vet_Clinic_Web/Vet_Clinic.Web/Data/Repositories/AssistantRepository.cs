@@ -29,7 +29,7 @@ namespace Vet_Clinic.Web.Data.Repositories
         {
             var list = _context.Assistants.Select(p => new SelectListItem
             {
-                Text = p.Name,
+                Text = p.User.FullName,
                 Value = p.Id.ToString()
 
             }).ToList();

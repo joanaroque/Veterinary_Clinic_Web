@@ -21,6 +21,17 @@ namespace Vet_Clinic.Web.Data.Repositories
         }
 
 
+        public async Task<List<Appointment>> GetAllByDateAsync()
+        {
+            return await _context.Appointments
+                .Include(a => a.CreatedBy)
+                .Include(a => a.Owner)
+                .ThenInclude(o => o.User)
+                .Include(a => a.Pet)
+                .Include(a => a.Doctor)
+                .Where(a => a.ScheduledDate >= DateTime.Today.ToUniversalTime()).ToListAsync();
+        }
+
         public IQueryable GetAllByDate()
         {
             return _context.Appointments
@@ -102,5 +113,18 @@ namespace Vet_Clinic.Web.Data.Repositories
 
             return appointments;
         }
+
+        public async Task<List<Appointment>> GetAppointmentsByDoctorEmailAsync(string userEmail)
+        {
+            var appointments = await _context.Appointments
+                .Include(a => a.Owner)
+                .ThenInclude(o => o.User)
+                .Include(a => a.Pet)
+                .Include(a => a.Doctor)
+                .Where(a => a.Doctor.User.Email.Equals(userEmail)).ToListAsync();
+
+            return appointments;
+        }
+
     }
 }
